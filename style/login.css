@@ -1,0 +1,16 @@
+.login-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-field {
+    display: flex;
+    justify-content: center;
+    align-self: center;
+    width: 352px;
+    height: 193px;
+    border-radius: 30px;
+    background-color: #ffffff;
+}
