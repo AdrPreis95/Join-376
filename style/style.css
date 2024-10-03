@@ -104,3 +104,11 @@ header {
 [type="checkbox"] + label {
     cursor: pointer; /* Make the label clickable */
 }
+
+[type="checkbox"]:hover {
+    background-image: url("../assets/icons/unchecked_hover_icon.png");
+}
+
+[type="checkbox"]:checked:hover {
+    background-image: url("../assets/icons/checked_hover_icon.png");
+}
