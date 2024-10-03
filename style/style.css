@@ -36,36 +36,41 @@ header {
     height: 120px;
 }
 
-.main-button-container {
+.main-links-container {
     width: 100%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
-.main-button {
+.main-links-container a {
+    width: 100%;
     display: flex;
     align-items: center;
-    width: 100%;
-    background-color: #2A3647;
-    border: none;
-    color: #CDCDCD;
     gap: 20px;
+}
+
+.main-link {
+    background-color: #2A3647;
+    color: #CDCDCD;
     margin: 8px 0px 8px;
 }
 
-.main-button img {
+.main-link img {
     width: 30px;
     height: 30px;
 }
 
-.legal-button-container {
-    padding-bottom: 20px;
-    width: 100%;
+.legal-links-container {
     display: flex;
     flex-direction: column;
+    padding-bottom: 20px;
+    width: 100%;
 }
 
-.legal-button {
+.legal-link {
+    text-align: center;
     width: 100%;
     color: #A8A8A8;
     background-color: #2A3647;
@@ -75,7 +80,7 @@ header {
 }
 
 .active_side {
-    padding: 8px;
+    padding: 8px 0px 8px 0px;
     background-color: #091931;
 }
 
