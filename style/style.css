@@ -78,3 +78,24 @@ header {
     padding: 8px;
     background-color: #091931;
 }
+
+[type="checkbox"] {
+    position: relative;
+    width: 24px; /* Ensure the checkbox size matches the custom icon */
+    height: 24px;
+    margin-right: 8px; /* Space between checkbox and label */
+    -webkit-appearance: none; /* Remove default checkbox styling */
+    appearance: none;
+    background-image: url("../assets/icons/unchecked_icon.png");
+    background-size: cover; /* Make sure the icon fills the checkbox */
+    background-repeat: no-repeat;
+    cursor: pointer; /* Make it look clickable */
+}
+
+[type="checkbox"]:checked {
+    background-image: url("../assets/icons/checked_icon.png");
+}
+
+[type="checkbox"] + label {
+    cursor: pointer; /* Make the label clickable */
+}
