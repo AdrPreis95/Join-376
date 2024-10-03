@@ -41,14 +41,19 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+}
+
+.main-links-container a {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
 .main-link {
-    width: 100%;
     background-color: #2A3647;
-    border: none;
     color: #CDCDCD;
-    gap: 20px;
     margin: 8px 0px 8px;
 }
 
