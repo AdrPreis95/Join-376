@@ -66,7 +66,7 @@
 
 .board-lists {
     display: flex;
-    justify-content: center;
+    margin: 0 48px 0 48px;
     gap: 26px;
 }
 
@@ -77,6 +77,7 @@
 .list-head {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .list-head h3 {
@@ -100,6 +101,7 @@
     border: 1px solid #A8A8A8;
     border-style: dashed;
     border-radius: 10px;
+    padding: 12px 64px 12px 64px;
 }
 
 .list-no-task p {
@@ -107,4 +109,48 @@
     font-size: 16px;
     font-weight: 400;
     font-family: 'Open Sans';
+}
+
+.task-card {
+    background-color: #FFFFFF;
+    border-radius: 24px;
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.category-user-story {
+    background-color: #0038FF;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.subtasks {
+    display: flex;
+    flex-direction: row;
+}
+
+.task-footer {
+    display: flex;
+    justify-content: space-between;
+}
+
+.assigned-task {
+    display: flex;
+}
+
+.assigned-user {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FF7A00;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 12px;
 }
