@@ -1,0 +1,11 @@
+@media (max-width: 500px) {
+    .textcontainer {
+        padding: 0px 16px 0px 16px;
+    }
+    .header-content {
+        margin: 0;
+    }
+    .main-content h1 {
+        padding-left: 16px;
+    }
+}
