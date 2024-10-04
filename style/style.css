@@ -6,14 +6,39 @@ header {
 }
 
 .header-content {
+    height: 96px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin: 0 48px 0 96px;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+}
+
+.header-icons img{
+    width: 32px;
+    height: 32px;
+}
+
+.user-icon {
+    border-radius: 50%;
+    border: 3px solid #2A3647;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #29ABE2;
 }
 
 .header-content p {
-    margin-left: 48px;
-    margin-top: 36px;
+    font-size: 20px;
+    font-weight: 400;
 }
 
 .sidebar {
