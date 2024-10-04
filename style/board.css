@@ -63,3 +63,48 @@
     border-radius: 10px;
     border: 1px solid;
 }
+
+.board-lists {
+    display: flex;
+    justify-content: center;
+    gap: 26px;
+}
+
+.list {
+    width: 244px;
+}
+
+.list-head {
+    display: flex;
+    justify-content: space-between;
+}
+
+.list-head h3 {
+    font-weight: 700;
+    font-size: 20px;
+    color: #42526E;
+}
+
+.list-head button {
+    border-radius: 8px;
+    border: 2px solid #2A3647;
+    color: #2A3647;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-no-task {
+    background-color: #E7E7E7;
+    border: 1px solid #A8A8A8;
+    border-style: dashed;
+    border-radius: 10px;
+}
+
+.list-no-task p {
+    color: #A8A8A8;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Open Sans';
+}
