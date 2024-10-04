@@ -1,47 +1,70 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Board</title>
 
-    <link rel="icon" href="./assets/img/join_logo_dark.png">
+    <link rel="icon" href="./assets/img/join_logo_dark.png" />
 
-    <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" href="style/standard.css">
-    <link rel="stylesheet" href="style/privacy_policy.css">
-    <link rel="stylesheet" href="style/legal_notice.css">
-    <link rel="stylesheet" href="style/contacts.css">
-    <link rel="stylesheet" href="style/board.css">
-    <link rel="stylesheet" href="style/add_task.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style/style.css" />
+    <link rel="stylesheet" href="style/standard.css" />
+    <link rel="stylesheet" href="style/privacy_policy.css" />
+    <link rel="stylesheet" href="style/legal_notice.css" />
+    <link rel="stylesheet" href="style/contacts.css" />
+    <link rel="stylesheet" href="style/board.css" />
+    <link rel="stylesheet" href="style/add_task.css" />
+  </head>
+  <body>
+    <div class="container">
     <aside class="sidebar">
-        <div class="sidebar-logo">
-            <img src="assets/img/join_logo.png" alt="Join-Logo">
-        </div>
-        <div class="main-links-container">
-            <a href="./summary.html" class="main-link">
-                <img src="./assets/icons/summary_icon.png" alt="summary_icon">
-                Summary
-            </a>
-            <a href="./add_task.html" class="main-link">
-                <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
-                Add Task
-            </a>
-            <a href="./board.html" class="main-link active_side">
-                <img src="./assets/icons/board_icon.png" alt="board_icon">
-                Board
-            </a>
-            <a href="./contacts.html" class="main-link">
-                <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
-                Contacts
-            </a>
-        </div>
-        <div class="legal-links-container">
-            <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
-            <a href="./legal_notice.html" class="legal-link">Legal notice</a>
-        </div>
+      <div class="sidebar-logo">
+        <img src="assets/img/join_logo.png" alt="Join-Logo" />
+      </div>
+      <div class="main-links-container">
+        <a href="./summary.html" class="main-link">
+          <img src="./assets/icons/summary_icon.png" alt="summary_icon" />
+          Summary
+        </a>
+        <a href="./add_task.html" class="main-link">
+          <img src="./assets/icons/add_task_icon.png" alt="addtask_icon" />
+          Add Task
+        </a>
+        <a href="./board.html" class="main-link active_side">
+          <img src="./assets/icons/board_icon.png" alt="board_icon" />
+          Board
+        </a>
+        <a href="./contacts.html" class="main-link">
+          <img src="./assets/icons/contacts_icon.png" alt="contact_icon" />
+          Contacts
+        </a>
+      </div>
+      <div class="legal-links-container">
+        <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
+        <a href="./legal_notice.html" class="legal-link">Legal notice</a>
+      </div>
     </aside>
-</body>
+      <main class="main-content">
+        <header>
+          <div class="header-content">
+            <p>Kanban Project Management Tool</p>
+          </div>
+        </header>
+        <div class="board-header">
+            <h1>Board</h1>
+            <div class="board-input-container">
+                <form>
+                    <div class="board-input-field">
+                        <input type="text" placeholder="Find Task" id="find-task">
+                        <img src="./assets/icons/search_line_icon.png" alt="">
+                        <button><img src="./assets/icons/search_icon.png" alt=""></button>
+                    </div>
+                </form>
+                <button class="add-task-button"><span>Add task</span><img src="./assets/icons/add.png" alt="add"></button>
+            </div>
+        </div>
+
+      </main>
+    </div>
+  </body>
 </html>
