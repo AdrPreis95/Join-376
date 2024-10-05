@@ -33,9 +33,9 @@ function getClearList(list) {
     `
 }
 
-function getSubtask() {
+function getSubtask(length, doneTasks, progressSubtasks) {
     return `
-    <div class="progress-border"><div id="subtask-progress" class="subtask-progress" style="width: 50%;"></div></div>
-    <p>1/2 Subtasks</p>
+    <div class="progress-border"><div id="subtask-progress" class="subtask-progress" style="width: ${progressSubtasks}%;"></div></div>
+    <p>${doneTasks}/${length} Subtasks</p>
     `
 }

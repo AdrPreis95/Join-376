@@ -21,7 +21,7 @@ function renderTasks(tasksJson) {
         let assignedTo = tasksJson[i].assignedTo;
         let firstLetterNames = findFirstNameLetter(assignedTo);
         let prioIcon = findPrio(tasksJson[i].prio);
-        document.getElementById(`${list}`).innerHTML += getTask(category, classCategory, title, description, firstLetterNames, prioIcon);        
+        document.getElementById(`${list}`).innerHTML += getTask(category, classCategory, title, description, firstLetterNames, prioIcon);
     }
     checkEmptyList();
 }
@@ -49,6 +49,19 @@ function checkCategory(category) {
     }
     return classCategory;
 }
+
+// function calcSubtask(subtaskJson) {
+//     let length = subtaskJson.length;
+//     let doneTasks = 0;
+//     if(subtaskJson[0].status == 'done') {
+//         doneTasks++;
+//     }
+//     if(subtaskJson[1].status == 'done') {
+//         doneTasks++;
+//     }
+//     let progressSubtasks = doneTasks / length * 100;
+//     return length, doneTasks, progressSubtasks;
+// }
 
 function findFirstNameLetter(assignedTo) {
     for (let i = 0; i < assignedTo.length; i++) {
