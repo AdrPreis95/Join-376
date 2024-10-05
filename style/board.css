@@ -115,6 +115,7 @@
     background-color: #FFFFFF;
     border-radius: 24px;
     padding: 16px;
+    margin-bottom: 16px;
     display: flex;
     flex-direction: column;
     gap: 24px;
@@ -122,6 +123,15 @@
 
 .category-user-story {
     background-color: #0038FF;
+    padding: 4px 16px 4px 16px;
+    border-radius: 8px;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.category-technical-task {
+    background-color: #1FD7C1;
     padding: 4px 16px 4px 16px;
     border-radius: 8px;
     color: #FFFFFF;
@@ -175,6 +185,7 @@
     font-weight: 400;
     font-size: 12px;
     margin-right: -6px;
+    border: 1px solid #FFFFFF;
 }
 
 .task-footer button {

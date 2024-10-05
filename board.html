@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Board</title>
     <script src="./scripts/template.js"></script>
+    <script src="./scripts/script.js"></script>
     <script src="./scripts/board.js"></script>
 
     <link rel="icon" href="./assets/img/join_logo_dark.png" />
@@ -18,7 +19,7 @@
     <link rel="stylesheet" href="style/add_task.css" />
     <link rel="stylesheet" href="style/responsive.css">
   </head>
-  <body>
+  <body onload="init()">
     <div class="container">
     <aside class="sidebar">
       <div class="sidebar-logo">
@@ -80,6 +81,7 @@
             </div>
         </div>
         <div class="board-lists">
+
             <div class="list" id="to-do">
                 <div class="list-head">
                     <h3>To do</h3>
@@ -89,44 +91,32 @@
                     <p>No tasks To do</p>
                 </div>
             </div>
-            <div class="list" id="in-progess">
+
+            <div class="list">
                 <div class="list-head">
                     <h3>In progress</h3>
                     <button>+</button>
                 </div>
-                <div class="task-card">
-                  <div>
-                    <label class="category-user-story">User Story</label>
-                  </div>
-                    <h4>Kochwelt Page & Recipe Recommender</h4>
-                    <p>Build start page wirht recipe recommendation...</p>
-                    <div class="subtasks" id="subtasks">
+                <div id="in-progress">
 
-                    </div>
-                    <div class="task-footer">
-                        <div class="assigned-task">
-                            <div class="assigned-user" style="background-color: #462F8A;">
-                                <p>AM</p>
-                            </div>
-                            <div class="assigned-user">
-                                <p>EM</p>
-                            </div>
-                        </div>
-                        <button onclick="toggleSubtask()"><img id="click-subtaks" src="./assets/icons/priority_open_down_icon.png" alt="open"></button>
-                    </div>
                 </div>
-            </div>
-            <div class="list" id="await-feedback">
+            </div>    
+            <div class="list">
                 <div class="list-head">
                     <h3>Await feedback</h3>
                     <button>+</button>
                 </div>
+                <div id="await-feedback">
+
+                </div>
             </div>
-            <div class="list" id="done">
+            <div class="list">
                 <div class="list-head">
                     <h3>Done</h3>
                 </div>
-                
+                <div id="done">
+
+                </div>
             </div>
         </div>
 
