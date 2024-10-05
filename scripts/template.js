@@ -1,5 +1,5 @@
 
-function getTask(category, classCategory, title, description, firstLetterNames) {
+function getTask(category, classCategory, title, description, firstLetterNames, prioIcon) {
     return `
     <div class="task-card">
         <div>
@@ -12,15 +12,23 @@ function getTask(category, classCategory, title, description, firstLetterNames) 
         </div>
         <div class="task-footer">
             <div class="assigned-task">
-                <div class="assigned-user" style="background-color: #462F8A;">
+                <div class="assigned-user"">
                 <p>${firstLetterNames}</p>
             </div>
             <div class="assigned-user">
                 <p>EM</p>
             </div>
         </div>
-        <button onclick="toggleSubtask()"><img id="click-subtaks" src="./assets/icons/priority_open_down_icon.png" alt="open"></button>
+        <button><img src=${prioIcon} alt="priority"></button>
         </div>
+    </div>
+    `
+}
+
+function getClearList(list) {
+    return `
+    <div class="list-no-task">
+        <p>No tasks ${list}</p>
     </div>
     `
 }

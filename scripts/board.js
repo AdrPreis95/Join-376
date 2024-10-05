@@ -4,19 +4,40 @@ let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabas
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
-    // document.getElementById('in-progress', 'await-feedback', 'done').innerHTML = "";
-    
+    document.getElementById('to-do').innerHTML = "";
+    document.getElementById('in-progress').innerHTML = "";
+    document.getElementById('await-feedback').innerHTML = "";
+    document.getElementById('done').innerHTML = "";
+    renderTasks(tasksJson);
+}
+
+function renderTasks(tasksJson) {
     for (let i = 0; i < tasksJson.length; i++) {
-        console.log(tasksJson[i]);
+        let list = tasksJson[i].list;
         let category = tasksJson[i].category;
         let classCategory = checkCategory(category);
         let title = tasksJson[i].title;
         let description = tasksJson[i].description;
-        let list = tasksJson[i].list;
         let assignedTo = tasksJson[i].assignedTo;
         let firstLetterNames = findFirstNameLetter(assignedTo);
-        console.log(assignedTo);
-        document.getElementById(`${list}`).innerHTML += getTask(category, classCategory, title, description, firstLetterNames);        
+        let prioIcon = findPrio(tasksJson[i].prio);
+        document.getElementById(`${list}`).innerHTML += getTask(category, classCategory, title, description, firstLetterNames, prioIcon);        
+    }
+    checkEmptyList();
+}
+
+function checkEmptyList() { 
+    let toDoRef = document.getElementById('to-do');
+    let inProgressRef = document.getElementById('in-progress');
+    let awaitFeedbackRef = document.getElementById('await-feedback');
+    let doneRef = document.getElementById('done');
+    let ref = [toDoRef, inProgressRef, awaitFeedbackRef, doneRef];
+    let listNames = ['To do', 'In progress', 'Await feedback', 'Done']
+
+    for (let i = 0; i < ref.length; i++) {
+        if(ref[i].innerHTML == '') {
+            ref[i].innerHTML = getClearList(listNames[i]);
+        }
     }
 }
 
@@ -42,15 +63,13 @@ function findFirstNameLetter(assignedTo) {
     }
 }
 
-function toggleSubtask() {
-    let refIcon = document.getElementById('click-subtaks');
-    let refSubtask = document.getElementById('subtasks');  
-
-    if(refIcon.getAttribute('src') == './assets/icons/priority_open_down_icon.png') {
-        refIcon.setAttribute('src', './assets/icons/urgent_icon.png');
-        refSubtask.innerHTML = getSubtask();
-    } else if(refIcon.getAttribute('src') == './assets/icons/urgent_icon.png') {
-        refIcon.setAttribute('src', './assets/icons/priority_open_down_icon.png');
-        refSubtask.innerHTML = "";
+function findPrio(priority) {
+    if(priority == 'Urgent') {
+        prioIcon = './assets/icons/urgent_icon.png';
+    } else if(priority == 'Low') {
+        prioIcon = './assets/icons/low_icon.png';
+    } else if(priority == 'Medium') {
+        prioIcon = './assets/icons/medium_icon.png';
     }
+    return prioIcon;
 }
