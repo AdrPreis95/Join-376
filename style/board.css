@@ -117,11 +117,12 @@
     padding: 16px;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 24px;
 }
 
 .category-user-story {
     background-color: #0038FF;
+    padding: 4px 16px 4px 16px;
     border-radius: 8px;
     color: #FFFFFF;
     font-weight: 400;
@@ -131,6 +132,26 @@
 .subtasks {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.subtasks p {
+    font-size: 12px;
+}
+
+.progress-border {
+    border-radius: 8px;
+    background-color: #F4F4F4;
+    width: 60%;
+    height: 8px;
+}
+
+.subtask-progress {
+    background-color: #4589FF;
+    border: none;
+    border-radius: 8px;
+    height: 8px;
 }
 
 .task-footer {
@@ -154,4 +175,9 @@
     font-weight: 400;
     font-size: 12px;
     margin-right: -6px;
+}
+
+.task-footer button {
+    border: none;
+    background-color: #FFFFFF;
 }

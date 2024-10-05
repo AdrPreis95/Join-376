@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Board</title>
-
+    <script src="./scripts/template.js"></script>
     <script src="./scripts/board.js"></script>
 
     <link rel="icon" href="./assets/img/join_logo_dark.png" />
@@ -95,23 +95,24 @@
                     <button>+</button>
                 </div>
                 <div class="task-card">
-                    <div class="category-user-story">User Story</div>
+                  <div>
+                    <label class="category-user-story">User Story</label>
+                  </div>
                     <h4>Kochwelt Page & Recipe Recommender</h4>
                     <p>Build start page wirht recipe recommendation...</p>
-                    <div class="subtasks">
-                        <div class="subtask-progress"></div>
-                        <p>1/2 Subtasks</p>
+                    <div class="subtasks" id="subtasks">
+
                     </div>
                     <div class="task-footer">
                         <div class="assigned-task">
-                            <div class="assigned-user" id="assigned1">
+                            <div class="assigned-user" style="background-color: #462F8A;">
                                 <p>AM</p>
                             </div>
-                            <div class="assigned-user" id="assigned2">
+                            <div class="assigned-user">
                                 <p>EM</p>
                             </div>
                         </div>
-                        <img src="./assets/icons/priority_open_icon.png" alt="open">
+                        <button onclick="toggleSubtask()"><img id="click-subtaks" src="./assets/icons/priority_open_down_icon.png" alt="open"></button>
                     </div>
                 </div>
             </div>
@@ -124,8 +125,8 @@
             <div class="list" id="done">
                 <div class="list-head">
                     <h3>Done</h3>
-                    <button>+</button>
                 </div>
+                
             </div>
         </div>
 
