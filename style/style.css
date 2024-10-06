@@ -143,6 +143,17 @@ header {
     background-image: url("../assets/icons/checked_hover_icon.png");
 }
 
+.btn-primary, .btn-secondary {
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 19.2px;
+    cursor: pointer;
+    border: 1px;
+    border-radius: 8px;
+    padding: 15px 24px 15px 24px;
+
+}
+
 .btn-primary {
     background-color: #2A3647;
     color: #FFFFFF;
