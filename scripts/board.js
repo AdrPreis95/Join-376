@@ -4,11 +4,15 @@ let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabas
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
+    clearLists();
+    renderTasks(tasksJson);
+}
+
+function clearLists() {
     document.getElementById('to-do').innerHTML = "";
     document.getElementById('in-progress').innerHTML = "";
     document.getElementById('await-feedback').innerHTML = "";
     document.getElementById('done').innerHTML = "";
-    renderTasks(tasksJson);
 }
 
 function renderTasks(tasksJson) {
@@ -21,6 +25,7 @@ function renderTasks(tasksJson) {
         let assignedTo = tasksJson[i].assignedTo;
         let firstLetterNames = findFirstNameLetter(assignedTo);
         let prioIcon = findPrio(tasksJson[i].prio);
+        console.log(i ,assignedTo);
         document.getElementById(`${list}`).innerHTML += getTask(category, classCategory, title, description, firstLetterNames, prioIcon);
     }
     checkEmptyList();
@@ -50,18 +55,6 @@ function checkCategory(category) {
     return classCategory;
 }
 
-// function calcSubtask(subtaskJson) {
-//     let length = subtaskJson.length;
-//     let doneTasks = 0;
-//     if(subtaskJson[0].status == 'done') {
-//         doneTasks++;
-//     }
-//     if(subtaskJson[1].status == 'done') {
-//         doneTasks++;
-//     }
-//     let progressSubtasks = doneTasks / length * 100;
-//     return length, doneTasks, progressSubtasks;
-// }
 
 function findFirstNameLetter(assignedTo) {
     for (let i = 0; i < assignedTo.length; i++) {
