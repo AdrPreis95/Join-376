@@ -5,6 +5,7 @@
 .headline-span {
     display: flex;
     align-items: center;
+    gap: 30px;
 }
 
 .main-content h1 {
@@ -12,10 +13,10 @@
     text-align: left;
     margin-bottom: 36px;
     padding-left: 60px;
-    font-size: 48px;
+    font-size: 73px;
 }
 
-h2 {
+.h-2 {
     font-size: 64px;
 }
 
@@ -26,12 +27,15 @@ h2 {
 }
 
 .key-metrics-span {
-    height: 32px;
+    font-size: 27px;
+    color: #2A3647;
+
 }
 
 .top {
     display: flex;
     justify-content: space-between;
+    
 }
 
 .summary-content-container {
@@ -48,7 +52,8 @@ h2 {
     height: 168px;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+    gap: 18px;
     text-align: center;
     border-radius: 30px;
     background-color: #FFFFFF;
@@ -59,7 +64,8 @@ h2 {
     height: 168px;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: center;
+    gap: 18px;
     text-align: center;
     border-radius: 30px;
     background-color: #FFFFFF;
@@ -79,6 +85,9 @@ h2 {
 .urgent-date-container {
     height: 168px;
     width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
     border-radius: 30px;
     background-color: #FFFFFF;
     filter: drop-shadow(0px 0px 0.5px #D1D1D1);
@@ -150,4 +159,42 @@ h2 {
 .center-info {
     display: flex;
     flex-direction: column;
+    text-align: center;
+}
+
+.seperator-urgent-date {
+    height: 102px;
+    width: 2px;
+    background-color: #D1D1D1;
+}
+
+.p-upcoming-deadline {
+    font-size: 16px;
+    font-weight: 400;
+    color: #2A3647;
+}
+
+.center-info-date {
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 12px;
+}
+
+.urgent-side {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.priorydate {
+    font-size: 21px;
+    color: #2A3647;
+}
+
+p {
+    color: #2A3647;
+    font-weight: 400;
 }
