@@ -1,0 +1,153 @@
+.overall-container {
+    background-color: #F6F7F8;
+}
+
+.headline-span {
+    display: flex;
+    align-items: center;
+}
+
+.main-content h1 {
+    margin-top: 36px;
+    text-align: left;
+    margin-bottom: 36px;
+    padding-left: 60px;
+    font-size: 48px;
+}
+
+h2 {
+    font-size: 64px;
+}
+
+.seperator-line {
+    height: 59px;
+    width: 2px;
+    background-color: #29ABE2;
+}
+
+.key-metrics-span {
+    height: 32px;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+}
+
+.summary-content-container {
+    width: 560px;
+    height: 562px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: transparent;
+}
+
+.todo-container {
+    width: 264px;
+    height: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+}
+
+.done-container {
+    width: 264px;
+    height: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+}
+
+.done-icon {
+    height: 69px;
+    width: 69px;
+}
+
+.todo-icon {
+    height: 69px;
+    width: 69px;
+}
+
+.urgent-date-container {
+    height: 168px;
+    width: 100%;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+}
+
+.tasks-board-container {
+    height: 168px;
+    width: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+}
+
+.task-progress-container {
+    height: 168px;
+    width: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+
+}
+
+.task-feeback-container {
+    height: 168px;
+    width: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    border-radius: 30px;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.greeting {
+    font-size: 47px;
+}
+
+.user {
+    font-size: 64px;
+    color: #29ABE2;
+    margin-top: 0px;
+    text-align: left;
+    margin-bottom: 0px;
+    padding-left: 0px;
+
+}
+
+.overall-content-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.center-info {
+    display: flex;
+    flex-direction: column;
+}
