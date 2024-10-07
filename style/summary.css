@@ -35,7 +35,7 @@
 .top {
     display: flex;
     justify-content: space-between;
-    
+
 }
 
 .summary-content-container {
@@ -57,6 +57,7 @@
     text-align: center;
     border-radius: 30px;
     background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
     cursor: pointer;
 }
 
@@ -200,7 +201,7 @@
     color: #2A3647;
 }
 
-p {
+.p-info {
     color: #2A3647;
     font-weight: 400;
 }
