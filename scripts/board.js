@@ -22,13 +22,20 @@ function renderTasks(tasksJson) {
         let classCategory = checkCategory(category);
         let title = tasksJson[i].title;
         let description = tasksJson[i].description;
-        let assignedTo = tasksJson[i].assignedTo;
-        let firstLetterNames = findFirstNameLetter(assignedTo);
+        renderFirstLetter(tasksJson[i].assignedTo);
         let prioIcon = findPrio(tasksJson[i].prio);
-        console.log(i ,assignedTo);
-        document.getElementById(`${list}`).innerHTML += getTask(category, classCategory, title, description, firstLetterNames, prioIcon);
+        document.getElementById(`${list}`).innerHTML += getTask(category, classCategory, title, description, prioIcon);
     }
     checkEmptyList();
+}
+
+function renderFirstLetter(user) {
+    for (let i = 0; i < user.length; i++) {
+        let firstName = user[i].firstName[0];
+        let lastName = user[i].lastName[0];
+        let firstLetter = firstName + lastName;
+        document.getElementById('assigned-user').innerHTML += getFirstLetterName(firstLetter);
+    }
 }
 
 function checkEmptyList() { 
@@ -53,20 +60,6 @@ function checkCategory(category) {
         classCategory = 'user-story';
     }
     return classCategory;
-}
-
-
-function findFirstNameLetter(assignedTo) {
-    for (let i = 0; i < assignedTo.length; i++) {
-        let firstName = assignedTo[i].firstName;
-        firstName = firstName[0];
-
-        let lastName = assignedTo[i].lastName;
-        lastName = lastName[0];
-
-        let firstLetterNames = firstName + lastName;
-        return firstLetterNames;
-    }
 }
 
 function findPrio(priority) {
