@@ -61,6 +61,38 @@
     cursor: pointer;
 }
 
+.todo-container:hover,
+.done-container:hover,
+.urgent-date-container:hover,
+.tasks-board-container:hover,
+.task-progress-container:hover,
+.task-feedback-container:hover {
+    background-color: #2A3647;
+    color: #FFFFFF;
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+}
+
+.todo-container:hover .p-info,
+.done-container:hover .p-info,
+.urgent-date-container:hover .p-info,
+.tasks-board-container:hover .p-info,
+.task-progress-container:hover .p-info,
+.urgent-date-container:hover .p-info,
+.urgent-date-container:hover .p-upcoming-deadline,
+.urgent-date-container:hover .priorydate,
+.task-feedback-container:hover .p-info {
+    color: #FFFFFF;
+}
+
+.todo-container:hover .todo-icon {
+    content: url('../assets/icons/hover-todo-white.png');
+}
+
+.done-container:hover .done-icon {
+    content: url(../assets/icons/done-hover-white.png);
+}
+
 .done-container {
     width: 264px;
     height: 168px;
@@ -74,6 +106,7 @@
     filter: drop-shadow(0px 0px 0.5px #D1D1D1);
     cursor: pointer;
 }
+
 
 .done-icon {
     height: 69px;
@@ -124,7 +157,7 @@
 
 }
 
-.task-feeback-container {
+.task-feedback-container {
     height: 168px;
     width: 168px;
     display: flex;
@@ -160,7 +193,8 @@
 .overall-content-container {
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    gap: 80px;
+    margin-left: 56px;
 }
 
 .center-info {
@@ -204,4 +238,8 @@
 .p-info {
     color: #2A3647;
     font-weight: 400;
+}
+
+.p-info:hover {
+    color: #FFFFFF;
 }
