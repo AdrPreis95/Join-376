@@ -1,18 +1,18 @@
 
-function getTask(category, classCategory, title, description, prioIcon) {
+function getTask(id, category, classCategory, title, description, prioIcon) {
     return `
-    <div class="task-card">
+    <div class="task-card" draggable="true" id="${classCategory}">
         <div>
             <label class="category-${classCategory}">${category}</label>
         </div>
         <h4>${title}</h4>
         <p>${description}</p>
-        <div class="subtasks" id="subtasks">
+        <div class="subtasks" id="subtask-${id}">
 
         </div>
         <div class="task-footer">
             <div class="assigned-task">
-            <div class="assigned-user" id="assigned-user">
+            <div id="assigned-user-${id}" class="assigned-user-container">
 
             </div>
         </div>
@@ -30,15 +30,18 @@ function getClearList(list) {
     `
 }
 
-function getSubtask() {
+function getSubtask(doneTasks, allSubtasks, progress) {
     return `
-    <div class="progress-border"><div id="subtask-progress" class="subtask-progress" style="width: {}%;"></div></div>
-    <p>{}/{} Subtasks</p>
+    <div class="progress-border"><div id="subtask-progress" class="subtask-progress" style="width: ${progress}%;"></div></div>
+    <p>${doneTasks}/${allSubtasks} Subtasks</p>
     `
 }
 
 function getFirstLetterName(firstLetters) {
     return `
-    <p>${firstLetters}</p>
+    <div class="assigned-user">
+        <p>${firstLetters}</p>
+    </div>
+
     `
 }

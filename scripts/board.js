@@ -17,25 +17,18 @@ function clearLists() {
 
 function renderTasks(tasksJson) {
     for (let i = 0; i < tasksJson.length; i++) {
+        let id = tasksJson[i].id;
         let list = tasksJson[i].list;
         let category = tasksJson[i].category;
         let classCategory = checkCategory(category);
         let title = tasksJson[i].title;
         let description = tasksJson[i].description;
-        renderFirstLetter(tasksJson[i].assignedTo);
         let prioIcon = findPrio(tasksJson[i].prio);
-        document.getElementById(`${list}`).innerHTML += getTask(category, classCategory, title, description, prioIcon);
+        document.getElementById(`${list}`).innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
+        calculateSubtaskProgress(tasksJson[i].subtasks, id);
+        renderFirstLetter(tasksJson[i].assignedTo, id);
     }
     checkEmptyList();
-}
-
-function renderFirstLetter(user) {
-    for (let i = 0; i < user.length; i++) {
-        let firstName = user[i].firstName[0];
-        let lastName = user[i].lastName[0];
-        let firstLetter = firstName + lastName;
-        document.getElementById('assigned-user').innerHTML += getFirstLetterName(firstLetter);
-    }
 }
 
 function checkEmptyList() { 
@@ -62,6 +55,37 @@ function checkCategory(category) {
     return classCategory;
 }
 
+function calculateSubtaskProgress(subtasks, id) {
+    let allSubtasks = subtasks.length
+    let doneTasks = 0;
+    let notDoneTasks = 0;
+
+    for (let i = 0; i < subtasks.length; i++) {
+        if(subtasks[i].status == 'done') {
+            doneTasks++;
+        } else if(subtasks[i].status == 'not done') {
+            notDoneTasks++;
+        }
+        
+    }
+    let progress = doneTasks / allSubtasks * 100;
+    document.getElementById('subtask-' + id).innerHTML = getSubtask(doneTasks, allSubtasks, progress)    
+}
+
+function renderFirstLetter(user, id) {
+    let firstLetters = [];
+
+    for (let i = 0; i < user.length; i++) {
+        let firstName = user[i].firstName[0];
+        let lastName = user[i].lastName[0];
+        let firstLetter = firstName + lastName;
+        firstLetters.push(firstLetter);
+    }
+    for (let j = 0; j < firstLetters.length; j++) {
+        document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j]);
+    }
+}
+
 function findPrio(priority) {
     if(priority == 'Urgent') {
         prioIcon = './assets/icons/urgent_icon.png';
@@ -72,3 +96,4 @@ function findPrio(priority) {
     }
     return prioIcon;
 }
+
