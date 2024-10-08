@@ -24,29 +24,46 @@
 </head>
 
 <body>
-    <div class="login-content">
-        <div class="login-field">
-            <div class="outer-login-span">
-                <span>Log in</span>
-                <div class="inner-login-span">&nbsp;</div>
+    <div class="login-page-content">
+        <div class="logo-login-signup">
+            <img id="join-logo" src="./assets/img/join_logo_dark.png" alt="Join Logo" width="101" height="122">
+            <div class="login-signup">
+                <span>
+                    Not a Join user?
+                </span>
+                <button class="btn-primary">Sign up</button>
             </div>
-            <form>
-                <input type="email" name="Email" placeholder="Email" id="login-email" required>
-                <div class="input-password">
-                    <input type="password" name="Password" placeholder="Password" class="password-login" id="login-password"  required>
-                    <img class="password-icon lock-icon">
-                </div>         
-            </form>
-            <div class="input-checkbox">
-                <input type="checkbox" value="false" class="checkbox-login" id="login-checkbox"> <label for="login-checkbox">Remember me</label>
-            </div>
-            <div class="login-btns">
-                <button class="btn-primary">Log in</button>
-                <button class="btn-secondary">Guest Log in</button>
-            </div>            
         </div>
+        <div class="login-content">
+            <div class="login-field">
+                <div class="outer-login-span">
+                    <span>Log in</span>
+                    <div class="inner-login-span">&nbsp;</div>
+                </div>
+                <form>
+                    <input type="email" name="Email" placeholder="Email" id="login-email" required>
+                    <div class="input-password">
+                        <input type="password" name="Password" placeholder="Password" class="password-login" id="login-password"  required>
+                        <img class="password-icon lock-icon">
+                    </div>         
+                </form>
+                <div class="input-checkbox">
+                    <input type="checkbox" value="false" class="checkbox-login" id="login-checkbox"> <label for="login-checkbox">Remember me</label>
+                </div>
+                <div class="login-btns">
+                    <button class="btn-primary">Log in</button>
+                    <button class="btn-secondary">Guest Log in</button>
+                </div>            
+            </div>
+        </div>
+        <footer class="privacy-legal">
+            <a href="./privacy_policy.html">Privacy Policy</a>
+            <a href="./legal_notice.html">Legal Notice</a>
+        </footer>
     </div>
-
+    <div class="intro-join">
+        <img class="big-logo" src="./assets/img/join_logo_dark_274_335.png" alt="Big Logo Join">
+    </div>
     <script src="./scripts/login.js"></script>
 </body>
 

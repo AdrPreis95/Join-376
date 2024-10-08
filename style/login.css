@@ -1,3 +1,35 @@
+.login-page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    max-width: 1440px;
+    max-height: 1024px;
+}
+
+.logo-login-signup {
+    display: flex;
+    justify-content: space-between;
+    padding: 67px 77px 0px 77px;
+}
+
+.logo-login-signup img {
+    padding-top: 10px;
+}
+
+.login-signup {
+    display: flex;
+    align-items: flex-start;
+    gap: 35px;
+}
+
+.login-signup span {
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+}
+
 .login-content {
     display: flex;
     justify-content: center;
@@ -96,4 +128,75 @@
 .login-btns {
     display: flex;
     gap: 36px;
+}
+
+.privacy-legal {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    padding-bottom: 75px;
+}
+
+.privacy-legal a {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19.2px;
+    color: #A8A8A8;
+}
+
+.intro-join {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    animation: introScreen 1.5s forwards;
+    animation-timing-function: ease-in-out;
+    background-color: #f6f7f8;
+}
+
+@keyframes introScreen {
+
+    from {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 1;
+    }
+    to {
+        display: none;
+        justify-content: flex-start;
+        align-items: flex-start;
+        opacity: 0;
+    }  
+}
+
+.big-logo {
+    position: absolute;
+    width: 274px;
+    height: 335px;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+    animation: BiglogoScreen 1.5s forwards;
+}
+
+@keyframes BiglogoScreen {
+
+    from {
+        top: 25%;
+        left: 33%;
+        width: 274px;
+        height: 335px;
+    }
+
+    to {
+        top: 77px;
+        left: 77px;
+        width: 101px;
+        height: 122px;
+    }     
 }
