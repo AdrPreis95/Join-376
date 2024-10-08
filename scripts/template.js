@@ -1,7 +1,7 @@
 
-function getTask(id, category, classCategory, title, description, prioIcon) {
+function getTask(id, category, classCategory, title, description, prioIcon, list) {
     return `
-    <div class="task-card" draggable="true" id="${classCategory}">
+    <div class="task-card" draggable="true" onclick="startDragging(${id}, '${list}')">
         <div>
             <label class="category-${classCategory}">${category}</label>
         </div>

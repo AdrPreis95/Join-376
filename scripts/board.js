@@ -1,5 +1,6 @@
 
 let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
+let currentDraggedElement;
 
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
@@ -24,7 +25,7 @@ function renderTasks(tasksJson) {
         let title = tasksJson[i].title;
         let description = tasksJson[i].description;
         let prioIcon = findPrio(tasksJson[i].prio);
-        document.getElementById(`${list}`).innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
+        document.getElementById(`${list}`).innerHTML += getTask(id, category, classCategory, title, description, prioIcon, list);
         calculateSubtaskProgress(tasksJson[i].subtasks, id);
         renderFirstLetter(tasksJson[i].assignedTo, id);
     }
@@ -97,3 +98,8 @@ function findPrio(priority) {
     return prioIcon;
 }
 
+function startDragging(id, list) {
+    currentDraggedElement = id;
+    let currentList = list;
+    console.log(currentList);
+}
