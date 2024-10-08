@@ -4,11 +4,15 @@ let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabas
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
+    clearLists();
+    renderTasks(tasksJson);
+}
+
+function clearLists() {
     document.getElementById('to-do').innerHTML = "";
     document.getElementById('in-progress').innerHTML = "";
     document.getElementById('await-feedback').innerHTML = "";
     document.getElementById('done').innerHTML = "";
-    renderTasks(tasksJson);
 }
 
 function renderTasks(tasksJson) {
@@ -18,12 +22,20 @@ function renderTasks(tasksJson) {
         let classCategory = checkCategory(category);
         let title = tasksJson[i].title;
         let description = tasksJson[i].description;
-        let assignedTo = tasksJson[i].assignedTo;
-        let firstLetterNames = findFirstNameLetter(assignedTo);
+        renderFirstLetter(tasksJson[i].assignedTo);
         let prioIcon = findPrio(tasksJson[i].prio);
-        document.getElementById(`${list}`).innerHTML += getTask(category, classCategory, title, description, firstLetterNames, prioIcon);
+        document.getElementById(`${list}`).innerHTML += getTask(category, classCategory, title, description, prioIcon);
     }
     checkEmptyList();
+}
+
+function renderFirstLetter(user) {
+    for (let i = 0; i < user.length; i++) {
+        let firstName = user[i].firstName[0];
+        let lastName = user[i].lastName[0];
+        let firstLetter = firstName + lastName;
+        document.getElementById('assigned-user').innerHTML += getFirstLetterName(firstLetter);
+    }
 }
 
 function checkEmptyList() { 
@@ -48,32 +60,6 @@ function checkCategory(category) {
         classCategory = 'user-story';
     }
     return classCategory;
-}
-
-// function calcSubtask(subtaskJson) {
-//     let length = subtaskJson.length;
-//     let doneTasks = 0;
-//     if(subtaskJson[0].status == 'done') {
-//         doneTasks++;
-//     }
-//     if(subtaskJson[1].status == 'done') {
-//         doneTasks++;
-//     }
-//     let progressSubtasks = doneTasks / length * 100;
-//     return length, doneTasks, progressSubtasks;
-// }
-
-function findFirstNameLetter(assignedTo) {
-    for (let i = 0; i < assignedTo.length; i++) {
-        let firstName = assignedTo[i].firstName;
-        firstName = firstName[0];
-
-        let lastName = assignedTo[i].lastName;
-        lastName = lastName[0];
-
-        let firstLetterNames = firstName + lastName;
-        return firstLetterNames;
-    }
 }
 
 function findPrio(priority) {

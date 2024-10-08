@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="style/board.css">
     <link rel="stylesheet" href="style/add_task.css">
     <link rel="stylesheet" href="style/responsive.css">
+    <link rel="stylesheet" href="style/summary.css">
 </head>
 
 <body>
@@ -73,39 +74,76 @@
                 <div class="headline"><b>Add Task</b></div>
                 <div class="content-container">
                     <section class="content-left">
-                        <label for="input-title"><b>
-                                Title
-                            </b></label>
+                        <h2><b>Title</b></h2>
                         <input class="input-title" type="text" placeholder="Enter a title">
-                        <label for="description"><b>Description</b></label>
+                        <h2><b>Description</b></h2>
                         <textarea name="textarea" id="description" placeholder="Enter a Description"></textarea>
-                        <label for="assignedToSelect"><b>Assigned to</b></label>
-                        <select id="assignedToSelect" name="assignedTo">
-                            <option value="" disabled selected hidden>Select contacts to assign</option>
-                            <option value="">Dino</option>
-                            <option value="">Henrik</option> /*!!!! Nur zum Test geadacht !!!!*/
-                            <option value="">Jonas</option>
-                            <option value="">Adrian</option>
-                        </select>
+                        <div class="dropdown">
+                            <div class="assigned-to-select"></div>
+                            <div class="user-list">
+                                <div class="user-container">
+                                    <div class="avatar-span-container">
+                                        <div class="avatar" style="background-color: #00C4CC;">SM</div>
+                                        <span class="user-name">Sofia Müller (You)</span>
+                                    </div>
+                                    <input type="checkbox">
+                                </div>
+
+
+                                <div class="user-container">
+                                    <div class="avatar-span-container">
+                                        <div class="avatar" style="background-color: #FF7300;">AM</div>
+                                        <span class="user-name">Anton Mayer</span>
+                                    </div>
+                                    <input type="checkbox">
+                                </div>
+
+
+                                <div class="user-container">
+                                    <div class="avatar-span-container">
+                                        <div class="avatar" style="background-color: #A64DFF;">AS</div>
+                                        <span class="user-name">Anja Schulz</span>
+                                    </div>
+                                    <input type="checkbox">
+                                </div>
+
+                                <div class="user-container">
+                                    <div class="avatar-span-container">
+                                        <div class="avatar" style="background-color: #7061FF;">BZ</div>
+                                        <span class="user-name">Benedikt Ziegler</span>
+                                    </div>
+                                    <input type="checkbox">
+                                </div>
+
+                                <div class="user-container">
+                                    <div class="avatar-span-container">
+                                        <div class="avatar" style="background-color: #FF73E6;">DE</div>
+                                        <span class="user-name">David Eisenberg</span>
+                                    </div>
+                                    <input type="checkbox">
+                                </div>
+
+                            </div>
+                        </div>
 
                     </section>
                     <div class="separating-line"></div>
                     <section class="content-right">
 
-                        <label for="date"><b>Due date</b></label>
+                        <h2><b>Due Date</b></h2>
                         <input class="date" type="date">
 
-                        <label for="prio"><b>Prio</b></label>
+                        <h2><b>Prio</b></h2>
                         <div class="prio-container">
                             <button class="prio-u"><b>Urgent</b><img src="assets/icons/urgent_icon.png" alt="PrioIcon">
                             </button>
-                            <button class="prio-m"> <b>Medium</b><img src="assets/icons/medium_icon.png"
-                                    alt="Medium"> </button>
+                            <button class="prio-m"> <b>Medium</b><img src="assets/icons/medium_icon.png" alt="Medium">
+                            </button>
                             <button class="prio-l"><b>Low</b><img src="assets/icons/low_icon.png"
                                     alt="LowIcon"></button>
                         </div>
 
-                        <label for="selectcategory"><b>Category</b></label>
+                        <h2><b>Category</b></h2>
                         <select id="selectcategory" name="category">
                             <option value="" disabled selected hidden>Select task category</option>
                             <option value="">Category1</option>
@@ -114,7 +152,7 @@
                             <option value="">Category4</option>
                         </select>
 
-                       
+
 
                 </div>
 

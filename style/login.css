@@ -34,7 +34,7 @@
 .login-field form {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 32px;
 }
 
 .login-field form input {
@@ -91,5 +91,9 @@
     align-items: center;
     align-self: normal;
     padding-left: 150px;
-    gap: 12px;
+}
+
+.login-btns {
+    display: flex;
+    gap: 36px;
 }
