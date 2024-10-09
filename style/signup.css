@@ -25,6 +25,7 @@
 }
 
 .signup-field {
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -35,6 +36,13 @@
     background-color: #ffffff;
     -webkit-box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.01); 
     box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.01);
+}
+
+.back-login {
+    position: absolute;
+    top: 55px;
+    left: 45px;
+    cursor: pointer;
 }
 
 .signup-field form {
