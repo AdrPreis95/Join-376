@@ -159,7 +159,8 @@
     top: 0;
     right: 0;
     left: 0;
-    animation: introScreen 1.5s forwards;
+    animation: introScreen 0.5s forwards;
+    animation-delay: 1s;
     animation-timing-function: ease-in-out;
     background-color: #f6f7f8;
 }
@@ -186,7 +187,8 @@
     height: 335px;
     animation-fill-mode: forwards;
     animation-timing-function: ease-in-out;
-    animation: BiglogoScreen 1.5s forwards;
+    animation: BiglogoScreen 0.5s forwards;
+    animation-delay: 1s;
 }
 
 @keyframes BiglogoScreen {
