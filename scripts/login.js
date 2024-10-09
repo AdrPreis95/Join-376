@@ -23,11 +23,13 @@ passwordIcon.addEventListener('click', function(){
             inputPassword.setAttribute('type','text'); 
             passwordIcon.classList.remove('eye-icon');
             passwordIcon.classList.add('eye-slash-icon');
+            inputPassword.focus();
         } else {
             // change the input type attribute from "text" to "password"
             inputPassword.setAttribute('type','password');
             passwordIcon.classList.remove('eye-slash-icon');
             passwordIcon.classList.add('eye-icon');
+            inputPassword.focus();
         }
         password = !password;   
     } else {

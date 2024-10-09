@@ -172,6 +172,10 @@
     display: flex;
 }
 
+.assigned-user-container {
+    display: flex;
+}
+
 .assigned-user {
     display: flex;
     justify-content: center;
