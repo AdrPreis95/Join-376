@@ -1,7 +1,7 @@
 
 function getTask(id, category, classCategory, title, description, prioIcon, list) {
     return `
-    <div class="task-card" draggable="true" onclick="startDragging(${id}, '${list}')">
+    <div class="task-card" draggable="true" ondragstart="startDragging(${id})">
         <div>
             <label class="category-${classCategory}">${category}</label>
         </div>
@@ -42,6 +42,5 @@ function getFirstLetterName(firstLetters) {
     <div class="assigned-user">
         <p>${firstLetters}</p>
     </div>
-
     `
 }
