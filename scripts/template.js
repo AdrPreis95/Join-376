@@ -1,7 +1,7 @@
 
 function getTask(id, category, classCategory, title, description, prioIcon, list) {
     return `
-    <div class="task-card" draggable="true" ondragstart="startDragging(${id})">
+    <div class="task-card" id="${id}" draggable="true" ondragstart="startDragging(${id})">
         <div>
             <label class="category-${classCategory}">${category}</label>
         </div>

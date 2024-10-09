@@ -99,6 +99,7 @@ function findPrio(priority) {
 
 function startDragging(id) {
     currentDraggedElement = id;
+    document.getElementById(currentDraggedElement).classList.add('drag-area-highlight');
 }
 
 function allowDrop(ev) {
