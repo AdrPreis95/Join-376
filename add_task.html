@@ -71,13 +71,17 @@
                 </div>
             </header>
             <div class="overall-container">
-                <div class="headline"><b>Add Task</b></div>
+                <div class="headline"><h1>Add Task</h1></div>
                 <div class="content-container">
                     <section class="content-left">
                         <h2><b>Title</b></h2>
                         <input class="input-title" type="text" placeholder="Enter a title">
                         <h2><b>Description</b></h2>
-                        <textarea name="textarea" id="description" placeholder="Enter a Description"></textarea>
+                        <div class="textarea">
+                            <input type="text" placeholder="Enter a Description">
+                            <img src="./assets/icons/description-icon.png" alt="logo">
+                          </div>
+                          
                         <div class="dropdown">
                             <div class="assigned-to-select"></div>
                             <div class="user-list">
@@ -131,7 +135,11 @@
                     <section class="content-right">
 
                         <h2><b>Due Date</b></h2>
-                        <input class="date" type="date">
+                        <div class="date-container">
+                            <input type="text" class="date-input" placeholder="dd/mm/yyyy">
+                            <img src="./assets/icons/date-logo.png" alt="calendar-icon">
+                          </div>
+                          
 
                         <h2><b>Prio</b></h2>
                         <div class="prio-container">
