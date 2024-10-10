@@ -17,7 +17,7 @@
 }
 
 .h-2 {
-    font-size: 64px;
+    font-size: 64px; display: flex; align-items: center; text-align: center; justify-content: center;
 }
 
 .seperator-line {
@@ -183,7 +183,7 @@
 .user {
     font-size: 64px;
     color: #29ABE2;
-    margin-top: 0px;
+    margin-top: 12px;
     text-align: left;
     margin-bottom: 0px;
     padding-left: 0px;
