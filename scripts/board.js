@@ -67,7 +67,6 @@ function calculateSubtaskProgress(subtasks, id) {
         } else if(subtasks[i].status == 'not done') {
             notDoneTasks++;
         }
-        
     }
     let progress = doneTasks / allSubtasks * 100;
     document.getElementById('subtask-' + id).innerHTML = getSubtask(doneTasks, allSubtasks, progress)    
@@ -98,8 +97,26 @@ function findPrio(priority) {
     return prioIcon;
 }
 
-function startDragging(id, list) {
+function startDragging(id) {
     currentDraggedElement = id;
-    let currentList = list;
-    console.log(currentList);
+    document.getElementById(currentDraggedElement).classList.add('drag-area-highlight');
+}
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+async function changeList(list) {
+    currentDraggedElement--;
+    let task = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json")
+    let taskJson = await task.json();
+    taskJson.list = list
+    let newList = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(taskJson)
+    });
+    loadTasks();
 }

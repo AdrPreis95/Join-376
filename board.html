@@ -83,7 +83,7 @@
         </div>
         <div class="board-lists">
 
-            <div class="list">
+            <div class="list" ondrop="changeList('to-do')" ondragover="allowDrop(event)">
                 <div class="list-head">
                     <h3>To do</h3>
                     <button>+</button>
@@ -93,7 +93,7 @@
                 </div>
             </div>
 
-            <div class="list">
+            <div class="list" ondrop="changeList('in-progress')" ondragover="allowDrop(event)">
                 <div class="list-head">
                     <h3>In progress</h3>
                     <button>+</button>
@@ -102,7 +102,7 @@
 
                 </div>
             </div>    
-            <div class="list">
+            <div class="list" ondrop="changeList('await-feedback')" ondragover="allowDrop(event)">
                 <div class="list-head">
                     <h3>Await feedback</h3>
                     <button>+</button>
@@ -111,7 +111,7 @@
 
                 </div>
             </div>
-            <div class="list">
+            <div class="list" ondrop="changeList('done')" ondragover="allowDrop(event)">
                 <div class="list-head">
                     <h3>Done</h3>
                 </div>
