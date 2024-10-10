@@ -152,4 +152,6 @@
     text-decoration: underline;
 }
 
-
+ .signup-field form input.wrong-input {
+    border: 0.5px solid #FF001F;
+}

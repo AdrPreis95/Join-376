@@ -207,3 +207,7 @@
         height: 122px;
     }     
 }
+
+.login-field form input.wrong-input {
+    border: 0.5px solid #FF001F;
+}
