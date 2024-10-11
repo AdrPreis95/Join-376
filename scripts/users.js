@@ -80,40 +80,73 @@ async function signUpUser() {
     let email = document.getElementById("signup-email").value;
     let password = document.getElementById("signup-password").value;
     let confirm = document.getElementById("confirm-password").value;
+    var privacyAccepted = document.getElementById("privacy-checkbox").value;
 
-    if (matchingPassword(password, confirm)) {
-        signedUser.name = name;
-        signedUser.email = email;
-        signedUser.password = password;
-        
-        console.log(signedUser);
+    if (privacyAccepted == 'true') {
 
-        // Load users data
-        let users = await loadData("users");
+        if (matchingPassword(password, confirm)) {
+            signedUser.name = name;
+            signedUser.email = email;
+            signedUser.password = password;
+            
+            console.log(signedUser);
 
-        // Ensure users is an object or array before processing
-        if (!users || typeof users !== 'object') {
-            console.error("Users data is not an object or is undefined:", users);
-            return false;
-        }
+            // Load users data
+            let users = await loadData("users");
 
-        // Use Object.values() to get an array of user objects.
-        const userArray = Object.values(users);
+            // Ensure users is an object or array before processing
+            if (!users || typeof users !== 'object') {
+                console.error("Users data is not an object or is undefined:", users);
+                return false;
+            }
 
-        // Use .find() to locate the user with the desired email.
-        const foundUser = userArray.find(u => u.email === email);
+            // Use Object.values() to get an array of user objects.
+            const userArray = Object.values(users);
+
+            // Use .find() to locate the user with the desired email.
+            const foundUser = userArray.find(u => u.email === email);
 
 
-        if (foundUser != undefined) {
-            //user exists already
-            console.log("user exists already!");
+            if (foundUser != undefined) {
+                //Email is already linked to an account
+                notificationPopUp("Email is already linked to an account!");
+            } else {
+                await patchData("users/" + editEmailToKey(email) , signedUser);
+                showSucessSignedUp();
+            }
+            
         } else {
-            await patchData("users/" + editEmailToKey(email) , signedUser);
-            console.log("You Signed Up successfully")
+            //passwords do not match
+            notificationPopUp("Passwords do not match!");
         }
-        
-    } else {
-        //passwords do not match
-        console.log("passwords do not match!");
+    }else {
+        //privacy policy must be accepted
+        notificationPopUp("Privacy policy must be accepted!");
     }
+}
+
+function showSucessSignedUp() {
+    // Show success message on successful sign-up
+    const successMessage = document.querySelector('.success-signed');
+    successMessage.style.display = 'flex';
+
+    // Hide the success message after a few seconds
+    setTimeout(() => {
+        successMessage.style.display = 'none';
+        window.location.href = "./index.html";
+    }, 2000); // Duration as needed
+}
+
+function notificationPopUp(msg = "") {
+    // Show notification
+    const notificationMessage = document.querySelector('.notification');
+    let spanMessage = document.getElementById("pop-up-notification");
+
+    spanMessage.innerHTML = msg;
+    notificationMessage.style.display = 'flex';
+
+    // Hide the notification after a few seconds
+    setTimeout(() => {
+        notificationMessage.style.display = 'none';
+    }, 1500); // Duration as needed
 }
