@@ -7,7 +7,6 @@
     <script src="./scripts/template.js"></script>
     <script src="./scripts/script.js"></script>
     <script src="./scripts/board.js"></script>
-    <script src="./scripts/users.js"></script>
 
     <link rel="icon" href="./assets/img/join_logo_dark.png" />
 
@@ -71,7 +70,7 @@
             <h1>Board</h1>
             <div class="board-input-container">
                 <form>
-                    <div class="board-input-field">
+                    <div class="board-input-field" onkeyup="searchTask()">
                         <input type="text" placeholder="Find Task" id="find-task">
                         <div>
                             <img src="./assets/icons/search_line_icon.png" alt="">
@@ -82,6 +81,7 @@
                 <button class="add-task-button"><span>Add task</span><img src="./assets/icons/add.png" alt="add"></button>
             </div>
         </div>
+
         <div class="board-lists">
 
             <div class="list" ondrop="changeList('to-do')" ondragover="allowDrop(event)">

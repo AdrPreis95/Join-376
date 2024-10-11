@@ -32,13 +32,35 @@ function renderTasks(tasksJson) {
     checkEmptyList();
 }
 
+async function saveTasksInArray() {
+    let [titles, descriptions, categorys] = [[], [], []];
+        let tasks = await fetch(BASE_URL + "/tasks.json")
+        let tasksJson = await tasks.json();
+        for (let i = 0; i < tasksJson.length; i++) {
+            let title = tasksJson[i].title
+            let description = tasksJson[i].description
+            let category = tasksJson[i].category
+            titles.push(title), descriptions.push(description), categorys.push(category);
+        }
+    return {titles, descriptions, categorys};
+}
+
+async function searchTask(titles, descriptions, categorys) {
+    let userInput = document.getElementById('find-task').value;
+    if(userInput.length > 3) {
+        let {titles, descriptions, categorys} = await saveTasksInArray();
+        let title = titles.filter((userInput) => titles);
+        console.log(title)
+    }
+}
+
 function checkEmptyList() { 
     let toDoRef = document.getElementById('to-do');
     let inProgressRef = document.getElementById('in-progress');
     let awaitFeedbackRef = document.getElementById('await-feedback');
     let doneRef = document.getElementById('done');
     let ref = [toDoRef, inProgressRef, awaitFeedbackRef, doneRef];
-    let listNames = ['To do', 'In progress', 'Await feedback', 'Done']
+    let listNames = ['to do', 'in progress', 'await feedback', 'done']
 
     for (let i = 0; i < ref.length; i++) {
         if(ref[i].innerHTML == '') {
@@ -119,4 +141,9 @@ async function changeList(list) {
         body: JSON.stringify(taskJson)
     });
     loadTasks();
+}
+
+function showOverlayDetailsTask(id) {
+    id--;
+    
 }

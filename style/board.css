@@ -110,6 +110,14 @@
     font-weight: 400;
 }
 
+.empty-list {
+    background-color: #E7E7E7;
+    border: 1px solid #A8A8A8;
+    border-style: dashed;
+    border-radius: 10px;
+    padding: 82px 64px 82px 64px;
+}
+
 .task-card {
     background-color: #FFFFFF;
     border-radius: 24px;
@@ -118,6 +126,10 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
+}
+
+.task-card:active {
+    transform: rotate(5deg);
 }
 
 .category-user-story {
@@ -197,6 +209,13 @@
 }
 
 .drag-area-highlight {
-    background-color: rgba(0, 0, 0, 0.05);
     transform: rotate(5deg);
+}
+
+.task-details {
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    background-color: #2a5bb8;
 }

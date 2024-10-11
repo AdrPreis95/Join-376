@@ -1,7 +1,7 @@
 
 function getTask(id, category, classCategory, title, description, prioIcon, list) {
     return `
-    <div class="task-card" id="${id}" draggable="true" ondragstart="startDragging(${id})">
+    <div class="task-card" id="${id}" draggable="true" ondragstart="startDragging(${id})" onclick="showOverlayDetailsTask(${id})">
         <div>
             <label class="category-${classCategory}">${category}</label>
         </div>
@@ -41,6 +41,38 @@ function getFirstLetterName(firstLetters) {
     return `
     <div class="assigned-user">
         <p>${firstLetters}</p>
+    </div>
+    `
+}
+
+function getOverlayDetails() {
+    return `
+    <div class="task-details">
+        <div>
+                <div>
+                    <label class="category-${classCategory}">${category}</label>
+                </div>
+            <h4>${title}</h4>
+            <p>${description}</p>
+        <div>
+            <p>Due date:</p>
+            <p>${dueDate}</p>
+        </div>
+        <div>
+            <p>Priority:</p>
+            <p>${prio}</p>
+            <img src="${prioIcon}" alt="prioIcon">
+        </div>
+                <h4>Assigned To:</h4>
+            <div>
+
+            </div>
+                <div>
+                    <h4>Subtasks</h4>
+                    <p>Task 1</p>
+                </div>
+        </div>
+
     </div>
     `
 }
