@@ -9,6 +9,7 @@
     <link rel="icon" href="./assets/img/join_logo_dark.png">
 
     <script src="./scripts/script.js"></script>
+    <script src="./scripts/users.js"></script>
 
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/standard.css">
@@ -31,7 +32,7 @@
                 <span>
                     Not a Join user?
                 </span>
-                <button class="btn-primary" onclick="window.location.href = './signup.html'">Sign up</button>
+                <button class="btn-primary btn-login-signup" onclick="window.location.href = './signup.html'">Sign up</button>
             </div>
         </div>
         <div class="login-content">
@@ -40,20 +41,20 @@
                     <span>Log in</span>
                     <div class="inner-login-span">&nbsp;</div>
                 </div>
-                <form>
+                <form onsubmit="loadUser(); return false;">
                     <input type="email" name="Email" placeholder="Email" id="login-email" required>
                     <div class="input-password">
                         <input type="password" name="Password" placeholder="Password" class="password-login" id="login-password"  required>
                         <img class="password-icon lock-icon">
-                    </div>         
-                </form>
-                <div class="input-checkbox">
-                    <input type="checkbox" value="false" class="checkbox-login" id="login-checkbox"> <label for="login-checkbox">Remember me</label>
-                </div>
-                <div class="login-btns">
-                    <button class="btn-primary">Log in</button>
-                    <button class="btn-secondary">Guest Log in</button>
-                </div>            
+                    </div>
+                    <div class="input-checkbox">
+                        <input type="checkbox" value="false" class="checkbox-login" id="login-checkbox"> <label for="login-checkbox">Remember me</label>
+                    </div>
+                    <div class="login-btns">
+                        <button class="btn-primary">Log in</button>
+                        <button class="btn-secondary" onclick="loadGuestUser(); return false;">Guest Log in</button>
+                    </div>            
+                </form>         
             </div>
         </div>
         <footer class="privacy-legal">

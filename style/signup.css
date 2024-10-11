@@ -51,7 +51,7 @@
     gap: 32px;
 }
 
-.signup-field form input {
+.signup-field form input[type=email], input[type=password], input[type=text] {
     width: 422px;
     height: 48px;
     border: 1px solid #D1D1D1;
@@ -127,6 +127,7 @@
 
 .input-checkbox {
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
