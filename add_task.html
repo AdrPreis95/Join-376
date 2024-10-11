@@ -17,6 +17,12 @@
     <link rel="stylesheet" href="style/add_task.css">
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
+
+    <script src="./scripts/add_task.js"></script>
+    <script src="./scripts/board.js"></script>
+    <script src="./scripts/contacts.js"></script>
+    <script src="./scripts/script.js"></script>
+    <script src="./scripts/template.js"></script>
 </head>
 
 <body>
@@ -84,9 +90,15 @@
                             <img src="./assets/icons/description-icon.png" alt="logo">
                           </div>
                           
-                        <div class="dropdown">
-                            <div class="assigned-to-select"></div>
-                            <div class="user-list">
+                          
+                          <div class="dropdown">
+                          <p style="margin-bottom: 10px; margin-top: 24px;">Assigned to</p>
+                          <div class="assigned-to-select">
+                                <input onclick="openDropdown()" type="text" id="dropdown-input" placeholder="Select contacts to assign" autocomplete="off">
+                                
+                                <img id="arrow" class="dropdown-arrow" src="./assets/icons/dropdown-arrow.png" alt="ArrowIcon">
+                            </div>
+                            <div id="dropdown-user" class="user-list">
                                 <div class="user-container">
                                     <div class="avatar-span-container">
                                         <div class="avatar" style="background-color: #00C4CC;">SM</div>
@@ -131,7 +143,7 @@
 
                             </div>
                         </div>
-
+                       
                     </section>
                     <div class="separating-line"></div>
                     <section class="content-right">
@@ -141,19 +153,25 @@
                           </p>
                           
                         <div class="date-container">
-                            <input type="date" class="date-input">
+                            <input type="text" placeholder="dd/mm/yyyy" class="date-input">
                             <img src="./assets/icons/date-logo.png" alt="calendar-icon">
                           </div>
                           
 
                         <p style="margin-bottom: 10px; margin-top: 24px;">Prio</p>
                         <div class="prio-container">
-                            <button class="prio-u"><b>Urgent</b><img src="assets/icons/urgent_icon.png" alt="PrioIcon">
+                            <button onclick="changeColor(this, '#ff3d00')" id="prio-red" class="prio-u">
+                                <b>Urgent</b><img src="assets/icons/urgent_icon.png" alt="PrioIcon">
                             </button>
-                            <button class="prio-m"> <b>Medium</b><img src="assets/icons/medium_icon.png" alt="Medium">
+                            <button onclick="changeColor(this, '#FFAC0B')" id="prio-orange" class="prio-m">
+                                <b>Medium</b><img src="assets/icons/medium_icon.png" alt="Medium">
                             </button>
-                            <button class="prio-l"><b>Low</b><img src="assets/icons/low_icon.png"
-                                    alt="LowIcon"></button>
+                            <button onclick="changeColor(this, '#7EE32F')" id="prio-green" class="prio-l">
+                                <b>Low</b><img src="assets/icons/low_icon.png" alt="LowIcon">
+                            </button>
+                            
+                            
+                            
                         </div>
 
                         <p style="margin-top: 24px; margin-bottom: 10px;">
