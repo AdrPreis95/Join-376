@@ -9,6 +9,7 @@
     <link rel="icon" href="./assets/img/join_logo_dark.png">
 
     <script src="./scripts/script.js"></script>
+    <script src="./scripts/users.js"></script>
 
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/standard.css">   
@@ -29,7 +30,7 @@
                     <span>Sign up</span>
                     <div class="inner-signup-span">&nbsp;</div>
                 </div>
-                <form>
+                <form onsubmit="signUpUser(); return false;">
                     <input type="text" name="Name" placeholder="Name" id="signup-name" required>
                     <input type="email" name="Email" placeholder="Email" id="signup-email" required>
                     <div class="input-password">
@@ -39,12 +40,12 @@
                     <div class="input-password">
                         <input type="password" name="Password" placeholder="Confirm Password" class="password-confirm" id="confirm-password"  required>
                         <img class="confirm-icon lock-icon">
-                    </div>          
-                </form>
-                <div class="input-checkbox">
-                    <input type="checkbox" value="false" class="checkbox-privacy" id="privacy-checkbox"> <label for="privacy-checkbox"> I accept the <a class="signup-privacy-link">Privacy policy</a></label>
-                </div>
-                <button class="btn-primary">Sign up</button>           
+                    </div>  
+                    <div class="input-checkbox">
+                        <input type="checkbox" value="false" class="checkbox-privacy" id="privacy-checkbox"> <label for="privacy-checkbox"> I accept the <a class="signup-privacy-link">Privacy policy</a></label>
+                    </div>
+                    <button class="btn-primary">Sign up</button>        
+                </form>           
             </div>
         </div>
         <footer class="privacy-legal">
