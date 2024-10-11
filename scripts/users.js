@@ -40,6 +40,8 @@ async function loadUser() {
                     
                     loggedUser = gettedUser;
 
+                    console.log("You are logged in");
+
                 } else {
                     //passwords do not match
                     console.log("passwords do not match");
@@ -107,6 +109,7 @@ async function signUpUser() {
             console.log("user exists already!");
         } else {
             await patchData("users/" + editEmailToKey(email) , signedUser);
+            console.log("You Signed Up successfully")
         }
         
     } else {
