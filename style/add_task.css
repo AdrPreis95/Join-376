@@ -364,3 +364,7 @@ select {
     display: flex;
     gap: 16px;
 }
+
+.subtask-button {
+    display: flex; position: absolute; border: none; top: 12px; right: 0px; background: none;
+}
