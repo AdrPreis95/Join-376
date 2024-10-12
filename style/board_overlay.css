@@ -1,0 +1,118 @@
+.task-details {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    height: 931px;
+    width: 525px;
+    border-radius: 30px;
+    padding: 48px 40px 48px 40px;
+}
+
+.content-overlay {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.content-overlay h3 {
+    font-size: 61px;
+    color: #000000;
+    font-weight: 700;
+}
+
+.content-overlay h4 {
+    font-size: 20px;
+    color: #2A3647;
+    font-weight: 400;
+}
+
+.content-overlay p {
+    font-size: 20px;
+    color: #000000;
+    font-weight: 400;
+}
+
+.header-overlay {
+    display: flex;
+    justify-content: space-between;
+}
+
+.due-date-overlay {
+    display: flex;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
+.priority-overlay {
+    display: flex;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
+.priority-container-overlay {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.username-overlay {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 7px 16px 7px 16px;
+}
+
+#assigned-user-overlay {
+    width: 42px;
+    height: 42px;
+    border: 2px solid #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FF7A00;
+    border-radius: 50%;
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+#assigned-user-overlay p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #FFFFFF;
+}
+
+#subtasks-overlay {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subtask-overlay {
+    display: flex;
+    gap: 16px;
+}
+
+.footer-overlay {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    color: #D1D1D1;
+    cursor: pointer;
+}
+
+.footer-link-overlay {
+    display: flex;
+    font-weight: 400;
+    font-size: 16px;
+    color: #2A3647;
+}
+
+.header-overlay-edit {
+    display: flex;
+    justify-content: flex-end;
+}

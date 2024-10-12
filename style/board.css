@@ -27,6 +27,10 @@
     padding: 8px;
 }
 
+.board-input-field:focus-within {
+    border: 1px solid #9747FF;
+}
+
 .board-input-field button {
     border: none;
     background-color: #FFFFFF;
@@ -210,18 +214,4 @@
 
 .drag-area-highlight {
     transform: rotate(5deg);
-}
-
-.task-details {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #FFFFFF;
-    height: 931px;
-    width: 525px;
-    border-radius: 30px;
-    padding: 48px 40px 48px 40px;
 }
