@@ -337,12 +337,14 @@ select {
     border-radius: 10px;
     border: 1px solid;
     gap: 12px;
+    cursor: pointer;
 }
 
 .confirm {
     display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
+    align-items: center;
+    justify-content: end;
+    margin-top: 36px;
 }
 
 .create-task-button {
@@ -358,6 +360,7 @@ select {
     border-radius: 10px;
     border: 1px solid;
     gap: 12px;
+    cursor: pointer;
 }
 
 .button-container {
@@ -366,5 +369,15 @@ select {
 }
 
 .subtask-button {
-    display: flex; position: absolute; border: none; top: 12px; right: 0px; background: none;
+    display: flex; position: absolute; border: none; top: 16px; right: 3px; background: none;
+}
+
+.select-minimal {
+  border: unset;    
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  appearance: none;
+  background-image: url("/assets/icons/dropdown-arrow.png");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
 }

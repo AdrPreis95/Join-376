@@ -165,20 +165,20 @@
 
                         <p style="margin-bottom: 10px; margin-top: 24px;">Prio</p>
                         <div class="prio-container">
-                            <button onclick="changeColor(this, '#ff3d00')" id="prio-red" class="prio-u">
+                            <button style="cursor: pointer;" onclick="changeColor(this, '#ff3d00')" id="prio-red" class="prio-u">
                                 <b>Urgent</b><img src="assets/icons/urgent_icon.png" alt="PrioIcon">
                             </button>
-                            <button onclick="changeColor(this, '#FFAC0B')" id="prio-orange" class="prio-m">
+                            <button style="cursor: pointer;" onclick="changeColor(this, '#FFAC0B')" id="prio-orange" class="prio-m">
                                 <b>Medium</b><img src="assets/icons/medium_icon.png" alt="Medium">
                             </button>
-                            <button onclick="changeColor(this, '#7EE32F')" id="prio-green" class="prio-l">
+                            <button style="cursor: pointer;" onclick="changeColor(this, '#7EE32F')" id="prio-green" class="prio-l">
                                 <b>Low</b><img src="assets/icons/low_icon.png" alt="LowIcon">
                             </button>
                         </div>
                         <p style="margin-top: 24px; margin-bottom: 10px;">
                             Category<span style="color: red;">*</span>
                         </p>
-                        <select id="selectcategory" name="category">
+                        <select class="select-minimal" id="selectcategory" name="category">
                             <option value="" disabled selected hidden>Select task category</option>
                             <option value="">Technical Task</option>
                             <option value="">User Story</option>
@@ -190,26 +190,28 @@
 
                         <div style="position: relative;">
                         <input id="addsubtasks" placeholder="Add new subtask">
-                            <button class="subtask-button"><img src="assets/icons/black_add.png" alt=""></button>
+                            <button class="subtask-button"><img style="height: 16px; cursor: pointer;" src="assets/icons/black_add.png" alt=""></button>
                         </input>
                     </div>
                         
-                        
+                    <section class="confirm">
+
+                        <div class="button-container">
+                            <button id="clear" class="clear-button">
+                                <span>Clear</span><img src="./assets/icons/clear-icon.png" alt="DeleteIcon">
+                            </button>
+                            <button id="create" class="create-task-button">
+                                <span>Create Task</span><img src="./assets/icons/create-task.png" alt="ConfirmIcon">
+                            </button>
+                        </div>
+                    </section>       
 
                 </div>
-                <section class="confirm">
-                    <p style="margin-top: 24px; margin-bottom: 10px;">
-                        This field is required<span style="color: red;">*</span>
-            
-                    <div class="button-container">
-                        <button id="clear" class="clear-button">
-                            <span>Clear</span><img src="./assets/icons/clear-icon.png" alt="DeleteIcon">
-                        </button>
-                        <button id="create" class="create-task-button">
-                            <span>Create Task</span><img src="./assets/icons/create-task.png" alt="ConfirmIcon">
-                        </button>
-                    </div>
-                </section>
+
+                <p style="margin-top: 24px; margin-bottom: 10px; padding-left: 60px;">
+                    <span style="color: red;">*</span>This field is required
+
+                
             </div>
                 
             </div>
