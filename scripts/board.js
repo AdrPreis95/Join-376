@@ -143,7 +143,29 @@ async function changeList(list) {
     loadTasks();
 }
 
-function showOverlayDetailsTask(id) {
+async function showOverlayDetailsTask(id) {
     id--;
-    
+    document.getElementById('all-content').style = 'filter: brightness(0.5);';
+    let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
+    let responseTaskJson = await responseTask.json();
+    renderOverlay(responseTaskJson);
+}
+
+function renderOverlay(responseTaskJson) {
+    let refOverlay = document.getElementById('task-details');
+    refOverlay.style = 'display: flex';
+    refOverlay.innerHTML = "";
+
+    let category = responseTaskJson.category;
+    let classCategory = checkCategory(category);
+    let title = responseTaskJson.title;
+    let description = responseTaskJson.description;
+
+
+    refOverlay.innerHTML = getOverlayDetails(category, classCategory, title, description);
+}
+
+function closeOverlay() {
+    document.getElementById('task-details').style = 'display: none;';
+    document.getElementById('all-content').style = 'filter: brightness(1);';
 }

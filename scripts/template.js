@@ -45,34 +45,33 @@ function getFirstLetterName(firstLetters) {
     `
 }
 
-function getOverlayDetails() {
+function getOverlayDetails(classCategory, category, title, description) {
     return `
-    <div class="task-details">
+    <div>
         <div>
-                <div>
-                    <label class="category-${classCategory}">${category}</label>
-                </div>
+            <div>
+                <label class="category-${classCategory}">${category}</label>
+                <button onclick="closeOverlay()"><img src="./assets/icons/close.png" alt="close"></button>
+            </div>
             <h4>${title}</h4>
             <p>${description}</p>
+        </div>
         <div>
             <p>Due date:</p>
-            <p>${dueDate}</p>
+            <p>{dueDate}</p>
         </div>
         <div>
             <p>Priority:</p>
-            <p>${prio}</p>
-            <img src="${prioIcon}" alt="prioIcon">
+            <p>{prio}</p>
+            <img src="{prioIcon}" alt="prioIcon">
         </div>
-                <h4>Assigned To:</h4>
-            <div>
-
-            </div>
-                <div>
-                    <h4>Subtasks</h4>
-                    <p>Task 1</p>
-                </div>
+        <div>
+            <h4>Assigned To:</h4>
         </div>
-
-    </div>
+        <div>
+            <h4>Subtasks</h4>
+            <p>Task 1</p>
+        </div>
+    </div>    
     `
 }

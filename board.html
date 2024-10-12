@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="style/summary.css">
   </head>
   <body onload="init()">
-    <div class="container">
+    <div class="container" id="all-content">
     <aside class="sidebar">
       <div class="sidebar-logo">
         <img src="assets/img/join_logo.png" alt="Join-Logo" />
@@ -81,7 +81,6 @@
                 <button class="add-task-button"><span>Add task</span><img src="./assets/icons/add.png" alt="add"></button>
             </div>
         </div>
-
         <div class="board-lists">
 
             <div class="list" ondrop="changeList('to-do')" ondragover="allowDrop(event)">
@@ -123,6 +122,9 @@
         </div>
 
       </main>
+    </div>
+    <div class="task-details" id="task-details">
+
     </div>
   </body>
 </html>

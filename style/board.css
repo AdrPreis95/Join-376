@@ -213,9 +213,15 @@
 }
 
 .task-details {
+    display: none;
     position: fixed;
     z-index: 1000;
     top: 50%;
     left: 50%;
-    background-color: #2a5bb8;
+    transform: translate(-50%, -50%);
+    background-color: #FFFFFF;
+    height: 931px;
+    width: 525px;
+    border-radius: 30px;
+    padding: 48px 40px 48px 40px;
 }
