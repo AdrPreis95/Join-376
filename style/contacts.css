@@ -1,0 +1,15 @@
+.contacts-section {
+    height: 100vh;
+    width: 400px;
+    background-color: white;
+    box-shadow: 3px 0 5px -3px #888; 
+    overflow-y: auto;
+}
+
+.add-header {
+    display: flex; align-items: center; justify-content: center; padding-top: 16px;
+}
+
+.addContact {
+    width: 80%; padding: 14px; background-color: #2a3647; border-radius: 8px; border: none;
+}
