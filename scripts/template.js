@@ -49,8 +49,8 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
     return `
     <div class="content-overlay">
         <div class="header-overlay">
-            <label class="category-${classCategory}">${category}</label>
-            <img onclick="closeOverlay()" src="./assets/icons/close.png" alt="close">
+            <label class="category-overlay category-${classCategory}">${category}</label>
+            <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.png" alt="close">
         </div>
         <h3>${title}</h3>
         <p>${description}</p>
@@ -92,19 +92,13 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
     `
 }
 
-function getFirstLetterOverlay(firstLetters) {
-    return `
-    <p>${firstLetters}</p>
-    `
-}
-
-function getUserNamesOverlay(userName) {
+function getUserNamesOverlay(firstLetter, userName) {
     return `
     <div class="username-overlay">
         <div id="assigned-user-overlay">
-
+            <p>${firstLetter}</p>
         </div>
-        <p>${userName}</p>
+        <p class="username">${userName}</p>
     </div>
     `
 }
@@ -118,33 +112,35 @@ function getSubtasksOverlay(title, status) {
     `
 }
 
-function getOverlayEdit(title, description, dueDate) {
+function getOverlayEdit(title, description) {
     return `
     <div class="content-overlay">
         <div class="header-overlay-edit">
-            <img onclick="closeOverlay()" src="./assets/icons/close.png" alt="close">
+            <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.png" alt="close">
         </div>
-        <div>
-            <div>
-                <label for="title">Title</label>
-                <input type="text" maxlength="20" placeholder="${title}">
+        <div class="overlay-edit-container">
+            <div class="overlay-edit-container">
+                <label class="edit-overlay-label"  for="title">Title</label>
+                <input class="overlay-input-field" type="text" maxlength="20" placeholder="${title}">
             </div>
-            <div>
-                <label for="description">Description</label>
-                <textarea type="text" maxlength="50" placeholder="${description}"></textarea>
+            <div class="overlay-edit-container">
+                <label class="edit-overlay-label" for="description">Description</label>
+                <textarea class="overlay-textarea" type="text" class="overlay-input-field" maxlength="50" placeholder="${description}"></textarea>
             </div>
-            <div>
-                <label for="due-date">Due date</label>
-                <input type="date" id="due-date-input">
+            <div class="overlay-edit-container">
+                <label class="edit-overlay-label" for="due-date">Due date</label>
+                <input class="overlay-input-field" type="date" id="due-date-input">
             </div>
-            <div>
+            <div class="overlay-priority-container">
                 <label for="priority">Priority</label>
-                <div><p>Urgent</p><img src="./assets/icons/urgent_icon.png" alt="urgent"></div>
-                <div><p>Medium</p><img src="./assets/icons/medium_icon.png" alt="medium"></div>
-                <div><p>Low</p><img src="./assets/icons/low_icon.png" alt="low"></div>
+                <div class="prio-label-container">
+                    <div class="prio-label"><p>Urgent</p><img src="./assets/icons/urgent_icon.png" alt="urgent"></div>
+                    <div class="prio-label"><p>Medium</p><img src="./assets/icons/medium_icon.png" alt="medium"></div>
+                    <div class="prio-label"><p>Low</p><img src="./assets/icons/low_icon.png" alt="low"></div>
+                </div>    
             </div>
-            <div>
-                <label for="assigned-to">Assigned to</label>
+            <div class="overlay-edit-container">
+                <label class="edit-overlay-label" for="assigned-to">Assigned to</label>
                 <select name="assigned-from" id="">
                     <option autofocus value="">Select contacts to assign</option>
                 </select>
