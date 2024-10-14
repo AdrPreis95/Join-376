@@ -21,3 +21,7 @@
     border: none;
     cursor: pointer;
 }
+
+.contact {
+    padding-left: 44px; padding-top: 48px; padding-bottom: 24px;
+}

@@ -17,6 +17,7 @@
 @media (max-width: 720px) {
     .textcontainer {
         padding: 0px 16px 0px 16px;
+        padding-bottom: 64px;
     }
     .header-content {
         margin: 0;

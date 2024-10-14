@@ -8,6 +8,7 @@
     <link rel="icon" href="./assets/img/join_logo_dark.png">
 
     <script src="./scripts/users.js"></script>
+    <script src="./scripts/contacts.js"></script>
 
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/standard.css">
@@ -19,7 +20,7 @@
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
 </head>
-<body>
+<body onload="fetchContacts()">
     <div class="container">
     <aside class="sidebar">
         <div class="sidebar-logo">
@@ -71,11 +72,21 @@
                         <div class="add-header">
                             <button class="addContact">
                                 <div style="color: white; font-size: 18px; display: flex; align-items: center; justify-content: center; position: relative; gap: 12px;"><b>Add new contact </b>
-                                    <img src="assets/icons/person_icon.png">
-                                    <img style="position: absolute; right: 43px; top: -2px; height: 20px;" src="assets/icons/add.png" alt="">
+                                    <img style="height: 36px;" src="assets/icons/person_add.png">
                                 </div>
                             </button>
                         </div>
+
+                    <contacts class="createdContacts">
+                        <template id="contact-template">
+                            <div class="contact">
+                                <p><strong>Name:</strong> <span class="contact-name"></span></p>
+                                <p><strong>Email:</strong> <span class="contact-email"></span></p>
+                            </div>
+                        </template>
+
+                    </contacts>    
+                        
                 </section>
 
                 <headersection style="padding-top: 72px; padding-left: 40px; display: flex; height: 164px; align-items: center; justify-content: center; gap: 30px;">
