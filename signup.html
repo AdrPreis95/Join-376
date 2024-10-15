@@ -40,9 +40,12 @@
                         <input type="password" name="Password" placeholder="Password" class="password-signup" id="signup-password"  required>
                         <img class="password-icon lock-icon">
                     </div>
-                    <div class="input-password">
-                        <input type="password" name="Password" placeholder="Confirm Password" class="password-confirm" id="confirm-password"  required>
-                        <img class="confirm-icon lock-icon">
+                    <div class="input-confirm">
+                        <div class="input-icon">
+                            <input type="password" name="Password" placeholder="Confirm Password" class="password-confirm" id="confirm-password"  required>
+                            <img class="confirm-icon lock-icon">
+                        </div>
+                        <span class="error-message" id="check-password"></span>
                     </div>  
                     <div class="input-checkbox">
                         <input type="checkbox" value="false" class="checkbox-privacy" id="privacy-checkbox"> <label for="privacy-checkbox"> I accept the <a class="signup-privacy-link">Privacy policy</a></label>

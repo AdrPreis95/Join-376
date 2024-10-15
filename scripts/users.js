@@ -88,20 +88,26 @@ function editEmailToKey (email = "") {
 }
 
 async function signUpUser() {
-    let name = document.getElementById("signup-name").value;
-    let email = document.getElementById("signup-email").value;
-    let password = document.getElementById("signup-password").value;
-    let confirm = document.getElementById("confirm-password").value;
-    var privacyAccepted = document.getElementById("privacy-checkbox").value;
+    let name = document.getElementById("signup-name");
+    let email = document.getElementById("signup-email");
+    let password = document.getElementById("signup-password");
+    let confirm = document.getElementById("confirm-password");
+    
+    const confirmPassword = document.querySelector(".password-confirm");
+    confirmPassword.classList.remove('wrong-input');
+    const inputCheckbox = document.querySelector(".input-checkbox");
+    inputCheckbox.classList.remove('unchecked-privacy');
+    
+    var privacyAccepted = document.getElementById("privacy-checkbox");
+    let errorMsg = document.getElementById("check-password");
+    errorMsg.innerHTML = "";
 
-    if (privacyAccepted == 'true') {
+    if (privacyAccepted.value == 'true') {
 
-        if (matchingPassword(password, confirm)) {
-            signedUser.name = name;
-            signedUser.email = email;
-            signedUser.password = password;
-            
-            console.log(signedUser);
+        if (matchingPassword(password.value, confirm.value)) {
+            signedUser.name = name.value;
+            signedUser.email = email.value;
+            signedUser.password = password.value;
 
             // Load users data
             let users = await loadData("users");
@@ -116,24 +122,37 @@ async function signUpUser() {
             const userArray = Object.values(users);
 
             // Use .find() to locate the user with the desired email.
-            const foundUser = userArray.find(u => u.email === email);
+            const foundUser = userArray.find(u => u.email === email.value);
 
 
             if (foundUser != undefined) {
                 //Email is already linked to an account
                 notificationPopUp("Email is already linked to an account!");
+                email.classList.add('wrong-input');
+                email.focus();
             } else {
-                await patchData("users/" + editEmailToKey(email) , signedUser);
+                await patchData("users/" + editEmailToKey(email.value) , signedUser);
+                email.classList.remove('wrong-input');
+
+                name.value = "";
+                email.value = "";
+                password.value = "";
+                confirm.value = "";
+
                 showSucessSignedUp();
             }
             
         } else {
             //passwords do not match
-            notificationPopUp("Passwords do not match!");
+            errorMsg.innerHTML = "Your passwords don't match. Please try again.";
+            confirmPassword.classList.add('wrong-input');
+            password.focus();
         }
     }else {
         //privacy policy must be accepted
         notificationPopUp("Privacy policy must be accepted!");
+        inputCheckbox.classList.add('unchecked-privacy');
+        privacyAccepted.focus();
     }
 }
 
