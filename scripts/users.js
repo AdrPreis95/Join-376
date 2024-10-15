@@ -26,6 +26,8 @@ async function patchData(path = "", data = {}) {
 async function loadUser() {
     let email = document.getElementById("login-email");
     let password = document.getElementById("login-password");
+    let errorMsg = document.getElementById("check-email-password");
+    errorMsg.innerHTML = "";
 
     if (email.value != "") {
         email.classList.remove("wrong-input");
@@ -39,16 +41,25 @@ async function loadUser() {
                 if (matchingPassword(gettedUser.password, password.value)){
                     
                     loggedUser = gettedUser;
+                    checkRememberMe(); //The user's email will be stored in a storage, if checkbox Remember me is checked 
+                    email.value = "";
+                    password.value = "";
 
                     console.log("You are logged in");
+                    console.log(loggedUser);
+                    rememberMe();
 
                 } else {
                     //passwords do not match
-                    console.log("passwords do not match");
+                    errorMsg.innerHTML = "Check your email and password. Please try again.";
+                    password.classList.add("wrong-input");
+                    email.classList.add("wrong-input");
                 }
             } else {
                 //user does not exist
-                console.log("user does not exist");
+                errorMsg.innerHTML = "Check your email and password. Please try again.";
+                password.classList.add("wrong-input");
+                email.classList.add("wrong-input");
             }
 
         } else {
@@ -63,6 +74,7 @@ async function loadUser() {
 
 async function loadGuestUser() {
     loggedUser = await loadData("users/guest");
+    console.log("You are logged in as guest");
     console.log(loggedUser);
 }
 
@@ -149,4 +161,22 @@ function notificationPopUp(msg = "") {
     setTimeout(() => {
         notificationMessage.style.display = 'none';
     }, 1500); // Duration as needed
+}
+
+function rememberMe(){
+    let savedEmail = localStorage.getItem("join-saved-email");
+    if(savedEmail != null){
+        document.getElementById("login-email").value = savedEmail;
+        document.querySelector(".checkbox-login").checked = true;
+    }
+}
+
+function checkRememberMe() {
+    const checkBox = document.querySelector(".checkbox-login");
+    if (checkBox.checked) {
+        const email = document.getElementById("login-email").value;
+        localStorage.setItem("join-saved-email", email);
+    } else {
+        localStorage.removeItem("join-saved-email");
+    }
 }

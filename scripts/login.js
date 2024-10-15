@@ -1,6 +1,17 @@
+const inputEmail = document.getElementById("login-email");
 const passwordIcon = document.querySelector(".password-icon");
 const inputPassword = document.querySelector(".password-login");
 const checkBox = document.querySelector(".checkbox-login");
+const errorMsg = document.querySelector(".error-message");
+
+inputEmail.addEventListener('keyup', function(){
+    if(inputEmail.value === "") {
+        inputEmail.classList.remove('wrong-input');
+        if(inputPassword.value === "") {
+            errorMsg.innerHTML = "";
+        }
+    }
+});
 
 inputPassword.addEventListener('keyup', function(){
     if(inputPassword.value !== "") {
@@ -8,9 +19,13 @@ inputPassword.addEventListener('keyup', function(){
         passwordIcon.classList.add('eye-slash-icon');
     }else {
         inputPassword.setAttribute('type','password');
+        inputPassword.classList.remove('wrong-input');
         passwordIcon.classList.remove('eye-slash-icon');
         passwordIcon.classList.remove('eye-icon');
         passwordIcon.classList.add('lock-icon');
+        if(inputEmail.value === "") {
+            errorMsg.innerHTML = "";
+        }
     }
 });
 
