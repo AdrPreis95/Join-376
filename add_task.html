@@ -61,6 +61,7 @@
             <header>
                 <div class="header-content">
                     <p>Kanban Project Management Tool</p>
+                    <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
                     <div class="header-icons">
                         <a href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
@@ -79,27 +80,32 @@
                 </div>
             </header>
             <div class="overall-container">
-                <div class="headline"><h1>Add Task</h1></div>
+                <div class="headline">
+                    <h1>Add Task</h1>
+                </div>
+                <div class="content-section-confirm">
                 <div class="content-container">
-                    <section class="content-left">
+                    <section id="cont-left" class="content-left">
                         <p style="margin-bottom: 10px;">
                             Title<span style="color: red;">*</span>
-                          </p>
+                        </p>
                         <input class="input-title" type="text" placeholder="Enter a title">
                         <p style="margin-bottom: 10px; margin-top: 24px;">Description</p>
                         <div class="textarea">
                             <input type="text" placeholder="Enter a Description">
                             <img src="./assets/icons/description-icon.png" alt="logo">
-                          </div>
-                          
-                          
-                          <div class="dropdown">
-                          <p style="margin-bottom: 10px; margin-top: 24px;">Assigned to</p>
-                          <div class="assigned-to-select">
-                                <input onclick="openDropdown()" type="text" id="dropdown-input" placeholder="Select contacts to assign" autocomplete="off">
-                                
-                                <img id="arrow" class="dropdown-arrow" src="./assets/icons/dropdown-arrow.png" alt="ArrowIcon">
+                        </div>
+
+
+                        <div class="dropdown">
+                            <p style="margin-bottom: 10px; margin-top: 24px;">Assigned to</p>
+                            <div class="assigned-to-select">
+                                <input class="input-dropdown" onclick="openDropdown()" type="text" id="dropdown-input"
+                                    placeholder="Select contacts to assign" autocomplete="off">
+                                <img id="arrow" class="dropdown-arrow" src="./assets/icons/dropdown-arrow.png"
+                                    alt="ArrowIcon">
                             </div>
+
                             <div id="dropdown-user" class="user-list">
                                 <div class="user-container">
                                     <div class="avatar-span-container">
@@ -109,15 +115,13 @@
                                     <input type="checkbox">
                                 </div>
 
-
                                 <div class="user-container">
                                     <div class="avatar-span-container">
                                         <div class="avatar" style="background-color: #FF7300;">AM</div>
                                         <span class="user-name">Anton Mayer</span>
                                     </div>
-                                    <input type="checkbox">
+                                    <input id="checked" type="checkbox">
                                 </div>
-
 
                                 <div class="user-container">
                                     <div class="avatar-span-container">
@@ -142,64 +146,102 @@
                                     </div>
                                     <input type="checkbox">
                                 </div>
-
                             </div>
-                        </div>
-                       
+
                     </section>
                     <div class="separating-line"></div>
                     <section class="content-right">
 
                         <p style="margin-bottom: 10px;">
                             Due Date<span style="color: red;">*</span>
-                          </p>
-                          
+                        </p>
+
                         <div class="date-container">
-                            <input type="text" placeholder="dd/mm/yyyy" class="date-input">
-                            <img src="./assets/icons/date-logo.png" alt="calendar-icon">
-                          </div>
-                          
+                            <input id="date" type="text" placeholder="dd/mm/yyyy" class="date-input"
+                                pattern="\d{2}/\d{2}/\d{4}" title="Please enter a date in the format dd/mm/yyyy">
+                            <img src="./assets/icons/date-logo.png" alt="DateIcon">
+                        </div>
+
+
 
                         <p style="margin-bottom: 10px; margin-top: 24px;">Prio</p>
                         <div class="prio-container">
-                            <button onclick="changeColor(this, '#ff3d00')" id="prio-red" class="prio-u">
+                            <button style="cursor: pointer;" onclick="changeColor(this, '#ff3d00')" id="prio-red" class="prio-u">
                                 <b>Urgent</b><img src="assets/icons/urgent_icon.png" alt="PrioIcon">
                             </button>
-                            <button onclick="changeColor(this, '#FFAC0B')" id="prio-orange" class="prio-m">
+                            <button style="cursor: pointer;" onclick="changeColor(this, '#FFAC0B')" id="prio-orange" class="prio-m">
                                 <b>Medium</b><img src="assets/icons/medium_icon.png" alt="Medium">
                             </button>
-                            <button onclick="changeColor(this, '#7EE32F')" id="prio-green" class="prio-l">
+                            <button style="cursor: pointer;" onclick="changeColor(this, '#7EE32F')" id="prio-green" class="prio-l">
                                 <b>Low</b><img src="assets/icons/low_icon.png" alt="LowIcon">
                             </button>
-                            
-                            
-                            
                         </div>
-
                         <p style="margin-top: 24px; margin-bottom: 10px;">
                             Category<span style="color: red;">*</span>
-                          </p>
-                          
-                        <select id="selectcategory" name="category">
+                        </p>
+                        <select class="select-minimal" id="selectcategory" name="category">
                             <option value="" disabled selected hidden>Select task category</option>
-                            <option value="">Category1</option>
-                            <option value="">Category2</option>
-                            <option value="">Category3</option>
-                            <option value="">Category4</option>
+                            <option value="">Technical Task</option>
+                            <option value="">User Story</option>
                         </select>
 
                         <p style="margin-top: 24px; margin-bottom: 10px;">
                             Subtasks
-                          </p>
-                          
+                        </p>
+
+                        <div style="position: relative;">
                         <input id="addsubtasks" placeholder="Add new subtask">
-                            
+                            <button class="subtask-button"><img style="height: 16px; cursor: pointer;" src="assets/icons/black_add.png" alt=""></button>
                         </input>
+                    </div>
+                        
+                    <section class="confirm">
+
+                        <div class="button-container">
+                            <button id="clear" class="clear-button">
+                                <span>Clear</span><img src="./assets/icons/clear-icon.png" alt="DeleteIcon">
+                            </button>
+                            <button id="create" class="create-task-button">
+                                <span>Create Task</span><img src="./assets/icons/create-task.png" alt="ConfirmIcon">
+                            </button>
+                        </div>
+                    </section>       
 
                 </div>
+
+                <p style="margin-top: 94px; margin-bottom: 10px; padding-left: 60px;">
+                    <span style="color: red;">*</span>This field is required
+
+                
             </div>
+                
+            </div>
+            
         </main>
+        
     </div>
+
+    <footer class="responsive-footer">
+        <div class="main-links-container-responsive">
+            <a href="./summary.html" class="main-link-responsive">
+                <img src="./assets/icons/summary_icon.png" alt="summary_icon">
+                Summary
+            </a>
+            <a href="./add_task.html" class="main-link-responsive">
+                <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
+                Add Task
+            </a>
+            <a href="./board.html" class="main-link-responsive">
+                <img src="./assets/icons/board_icon.png" alt="board_icon">
+                Board
+            </a>
+            <a href="./contacts.html" class="main-link-responsive active_side">
+                <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
+                Contacts
+            </a>
+        </div>
+    </footer>
+    
 </body>
 
 </html>

@@ -1,0 +1,72 @@
+.contacts-section {
+    height: 100vh;
+    width: 400px;
+    background-color: white;
+    box-shadow: 3px 0 5px -3px #888; 
+    overflow-y: auto;
+}
+
+.add-header {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    padding-top: 16px;
+}
+
+.addContact {
+    width: 80%; 
+    padding: 10px; 
+    background-color: #2a3647; 
+    border-radius: 12px; 
+    border: none;
+    cursor: pointer;
+}
+
+.contact {
+    padding-left: 60px; 
+    padding-bottom: 24px; 
+    display: flex; 
+    align-items: center; 
+    padding-top: 8px;
+}
+
+.contact-header {
+    font-size: 18px;
+    margin: 20px 0 10px 44px;
+    color: #333;
+    width: 78%; 
+    border-bottom: 0.5px solid lightgray;
+    padding-bottom: 18px;
+    padding-left: 30px;
+}
+
+.initials-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    margin-right: 24px;
+    font-size: 14px;
+}
+
+.contact-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.contacts-section::-webkit-scrollbar {
+    width: 8px;
+}
+
+.contacts-section::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+}
+
+.contacts-section::-webkit-scrollbar-track {
+    border-radius: 10px;
+}

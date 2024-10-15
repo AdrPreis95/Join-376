@@ -96,6 +96,13 @@ select {
     filter: drop-shadow(0px 0px 4px #D1D1D1);
 }
 
+.textarea:focus-within {
+    outline: none;
+    border-style: solid;
+    border-color: #29ABE2;
+
+}
+
 .input-title input {
     border: none;
     outline: none;
@@ -105,7 +112,9 @@ select {
 
 .input-title:focus {
     outline: none;
-    border-color: #D1D1D1;
+    border-style: solid;
+    border-color: #29ABE2;
+
 }
 
 
@@ -119,6 +128,13 @@ select {
     border-radius: 12px;
     border-style: none;
     filter: drop-shadow(0px 0px 4px #D1D1D1);
+}
+
+.date-container:focus-within {
+    outline: none;
+    border-style: solid;
+    border-color: #29ABE2;
+
 }
 
 .date-input {
@@ -226,10 +242,36 @@ select {
     border: 1px solid #FFFFFF;
 }
 
+.input-dropdown:focus {
+    outline: none;
+    border-style: solid;
+    border-color: #29ABE2;
+
+}
+
 .user-container {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+    padding: 6px;
+    cursor: pointer;
+}
+
+.user-container:hover {
+    background-color: #333;
+}
+
+.user-container input[type="checkbox"] {
+    cursor: pointer;
+}
+
+.user-container.checked {
+    background-color: #d3d3d3;
+}
+
+.user-container.checked .user-name,
+.user-container.checked .avatar {
+    color: white;
 }
 
 .avatar-span-container {
@@ -239,7 +281,7 @@ select {
 }
 
 .user-list {
-    height: 168px;
+    height: 140px;
     width: 100%;
     display: none;
     background-color: #FFFF;
@@ -280,4 +322,62 @@ select {
     filter: drop-shadow(0px 0px 4px #D1D1D1);
     padding: 12px;
     font-size: 14px;
+}
+
+.clear-button {
+    height: 56px;
+    font-size: 21px;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: transparent;
+    color: #2A3647;
+    padding: 8px 16px 8px 16px;
+    border-radius: 10px;
+    border: 1px solid;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.confirm {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    margin-top: 108px;
+}
+
+.create-task-button {
+    height: 56px;
+    font-size: 21px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #2A3647;
+    color: #FFFFFF;
+    padding: 8px 16px 8px 16px;
+    border-radius: 10px;
+    border: 1px solid;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.button-container {
+    display: flex;
+    gap: 16px;
+}
+
+.subtask-button {
+    display: flex; position: absolute; border: none; top: 16px; right: 3px; background: none;
+}
+
+.select-minimal {
+  border: unset;    
+  padding: 0.75rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  appearance: none;
+  background-image: url("/assets/icons/dropdown-arrow.png");
+  background-repeat: no-repeat;
+  background-position: right 6px center;
 }

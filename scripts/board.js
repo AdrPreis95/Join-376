@@ -1,12 +1,33 @@
 
 let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
 let currentDraggedElement;
+let titles = [];
+let description = [];
+let category = [];
 
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
+    saveInArray(tasksJson);
     clearLists();
     renderTasks(tasksJson);
+}
+
+function saveInArray(tasksJson) {
+    for (let i = 0; i < tasksJson.length; i++) {
+        titles.push(tasksJson[i].title);
+        description.push(tasksJson[i].description);
+        category.push(tasksJson[i].category);
+    }    
+}
+
+function searchTask(titles, description, category) {
+    let keyword = document.getElementById('find-task').value;
+    let matchingIndices = titles
+        .map((title, index) => title.toLowerCase().includes(keyword) ? index : -1)
+        .filter(index => index !== -1);
+
+    console.log(matchingIndices);
 }
 
 function clearLists() {
@@ -25,12 +46,14 @@ function renderTasks(tasksJson) {
         let title = tasksJson[i].title;
         let description = tasksJson[i].description;
         let prioIcon = findPrio(tasksJson[i].prio);
-        document.getElementById(`${list}`).innerHTML += getTask(id, category, classCategory, title, description, prioIcon, list);
+        document.getElementById(`${list}`).innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
         calculateSubtaskProgress(tasksJson[i].subtasks, id);
         renderFirstLetter(tasksJson[i].assignedTo, id);
     }
     checkEmptyList();
 }
+
+
 
 function checkEmptyList() { 
     let toDoRef = document.getElementById('to-do');
@@ -38,7 +61,7 @@ function checkEmptyList() {
     let awaitFeedbackRef = document.getElementById('await-feedback');
     let doneRef = document.getElementById('done');
     let ref = [toDoRef, inProgressRef, awaitFeedbackRef, doneRef];
-    let listNames = ['To do', 'In progress', 'Await feedback', 'Done']
+    let listNames = ['to do', 'in progress', 'await feedback', 'done']
 
     for (let i = 0; i < ref.length; i++) {
         if(ref[i].innerHTML == '') {
@@ -119,4 +142,77 @@ async function changeList(list) {
         body: JSON.stringify(taskJson)
     });
     loadTasks();
+}
+
+async function showOverlayDetailsTask(id) {
+    id--;
+    document.getElementById('all-content').style = 'filter: brightness(0.5);';
+    let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
+    let responseTaskJson = await responseTask.json();
+    renderOverlay(responseTaskJson);
+}
+
+function closeOverlay() {
+    document.getElementById('task-details').style = 'display: none;';
+    document.getElementById('all-content').style = 'filter: brightness(1);';
+}
+
+function renderOverlay(responseTaskJson) {
+    let refOverlay = document.getElementById('task-details');
+    refOverlay.style = 'display: flex';
+    refOverlay.innerHTML = "";
+
+    let classCategory = checkCategory(responseTaskJson.category);
+    let prioIcon = findPrio(responseTaskJson.prio)
+
+    refOverlay.innerHTML = getOverlayDetails(responseTaskJson.id, classCategory, responseTaskJson.category, responseTaskJson.title, responseTaskJson.description, responseTaskJson.dueDate, responseTaskJson.prio, prioIcon);
+    renderOverlayUser(responseTaskJson);
+    renderOverlaySubtasks(responseTaskJson);
+}
+
+function renderOverlayUser(responseTaskJson) {
+    let names = [];
+    let firstLetters = [];
+    for (let i = 0; i < responseTaskJson.assignedTo.length; i++) {
+        let name = responseTaskJson.assignedTo[i].firstName + " " + responseTaskJson.assignedTo[i].lastName;
+        let firstLetter = responseTaskJson.assignedTo[i].firstName[0] + responseTaskJson.assignedTo[i].lastName[0];
+        names.push(name);
+        firstLetters.push(firstLetter);
+    }
+    for (let i = 0; i < names.length; i++) {
+        document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i])        
+    }
+}
+
+function renderOverlaySubtasks(responseTaskJson) {
+    for (let i = 0; i < responseTaskJson.subtasks.length; i++) {
+        let title = responseTaskJson.subtasks[i].title;
+        let status = responseTaskJson.subtasks[i].status;
+        if(status == 'done') {
+            status = './assets/icons/checked_icon.png';
+        } else {
+            status = './assets/icons/unchecked_icon.png';
+        }
+        document.getElementById('subtasks-overlay').innerHTML += getSubtasksOverlay(title, status);
+    }
+}
+
+async function deleteTask(id) {
+    id--;
+    let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        }
+    });
+    closeOverlay();
+    loadTasks();
+}
+
+async function editTask(id, title, description, dueDate) {
+    id--;
+    let refOverlay = document.getElementById('task-details');
+    refOverlay.innerHTML = "";
+    refOverlay.innerHTML = getOverlayEdit(title, description);
+    document.getElementById('due-date-input').defaultValue = dueDate;
 }

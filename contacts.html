@@ -8,6 +8,7 @@
     <link rel="icon" href="./assets/img/join_logo_dark.png">
 
     <script src="./scripts/users.js"></script>
+    <script src="./scripts/contacts.js"></script>
 
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/standard.css">
@@ -19,7 +20,7 @@
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
 </head>
-<body>
+<body onload="fetchContacts()">
     <div class="container">
     <aside class="sidebar">
         <div class="sidebar-logo">
@@ -52,6 +53,7 @@
         <header>
           <div class="header-content">
             <p>Kanban Project Management Tool</p>
+            <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
             <div class="header-icons">
                 <a href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
@@ -65,8 +67,65 @@
             </div>
           </div>
         </header>
-        
+            <main style="display: flex;">
+                <section class="contacts-section">
+                        <div class="add-header">
+                            <button class="addContact">
+                                <div style="color: white; font-size: 18px; display: flex; align-items: center; justify-content: center; position: relative; gap: 12px;"><b>Add new contact </b>
+                                    <img style="height: 36px;" src="assets/icons/person_add.png">
+                                </div>
+                            </button>
+                        </div>
+
+                    <contacts class="createdContacts">
+                        <template id="contact-template">
+                            <div class="contact">
+                                <div class="initials-circle"></div>
+                                <div class="contact-details">
+                                    <p style="display: flex; align-items: center; font-size: 18px;"> <span class="contact-name"></span></p>
+                                    <p> <span class="contact-email"></span></p>
+                                </div>
+                                
+                            </div>
+                        </template>
+
+                    </contacts>    
+                        
+                </section>
+
+                <headersection style="padding-top: 72px; padding-left: 40px; display: flex; height: 164px; align-items: center; justify-content: center; gap: 30px;">
+                    <h2 style="font-size: 73px;">
+                        Contacts
+                    </h2>
+                    <div class="seperator-line"></div>
+                    <p style="color: black; font-style: normal; font-size: 22px;">
+                        Better with a team
+                    </p>                    
+                </headersection>
+
+            </main>
       </main>
     </div>
+
+    <footer class="responsive-footer">
+        <div class="main-links-container-responsive">
+            <a href="./summary.html" class="main-link-responsive">
+                <img src="./assets/icons/summary_icon.png" alt="summary_icon">
+                Summary
+            </a>
+            <a href="./add_task.html" class="main-link-responsive">
+                <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
+                Add Task
+            </a>
+            <a href="./board.html" class="main-link-responsive">
+                <img src="./assets/icons/board_icon.png" alt="board_icon">
+                Board
+            </a>
+            <a href="./contacts.html" class="main-link-responsive active_side">
+                <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
+                Contacts
+            </a>
+        </div>
+    </footer>
 </body>
 </html>

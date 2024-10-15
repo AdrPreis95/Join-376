@@ -7,7 +7,6 @@
     <script src="./scripts/template.js"></script>
     <script src="./scripts/script.js"></script>
     <script src="./scripts/board.js"></script>
-    <script src="./scripts/users.js"></script>
 
     <link rel="icon" href="./assets/img/join_logo_dark.png" />
 
@@ -17,12 +16,13 @@
     <link rel="stylesheet" href="style/legal_notice.css" />
     <link rel="stylesheet" href="style/contacts.css" />
     <link rel="stylesheet" href="style/board.css" />
+    <link rel="stylesheet" href="style/board_overlay.css">
     <link rel="stylesheet" href="style/add_task.css" />
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
   </head>
   <body onload="init()">
-    <div class="container">
+    <div class="container" id="all-content">
     <aside class="sidebar">
       <div class="sidebar-logo">
         <img src="assets/img/join_logo.png" alt="Join-Logo" />
@@ -54,6 +54,7 @@
         <header>
           <div class="header-content">
             <p>Kanban Project Management Tool</p>
+            <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
             <div class="header-icons">
                 <a href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
@@ -75,7 +76,7 @@
                         <input type="text" placeholder="Find Task" id="find-task">
                         <div>
                             <img src="./assets/icons/search_line_icon.png" alt="">
-                            <button><img src="./assets/icons/search_icon.png" alt=""></button>
+                            <button onclick="searchTask()"><img src="./assets/icons/search_icon.png" alt=""></button>
                         </div>
                     </div>
                 </form>
@@ -93,7 +94,6 @@
 
                 </div>
             </div>
-
             <div class="list" ondrop="changeList('in-progress')" ondragover="allowDrop(event)">
                 <div class="list-head">
                     <h3>In progress</h3>
@@ -124,5 +124,29 @@
 
       </main>
     </div>
+    <div class="task-details" id="task-details">
+
+    </div>
+
+    <footer class="responsive-footer">
+      <div class="main-links-container-responsive">
+          <a href="./summary.html" class="main-link-responsive">
+              <img src="./assets/icons/summary_icon.png" alt="summary_icon">
+              Summary
+          </a>
+          <a href="./add_task.html" class="main-link-responsive">
+              <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
+              Add Task
+          </a>
+          <a href="./board.html" class="main-link-responsive">
+              <img src="./assets/icons/board_icon.png" alt="board_icon">
+              Board
+          </a>
+          <a href="./contacts.html" class="main-link-responsive active_side">
+              <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
+              Contacts
+          </a>
+      </div>
+  </footer>
   </body>
 </html>
