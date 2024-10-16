@@ -1,63 +1,84 @@
-function openDropdown() {
+// let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
+let priority = '';
 
-    let dropdown = document.getElementById("dropdown-user");
-    dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-    document.getElementById('cont-left').style.height = "fit-content";
+function setPriority(prio) {
+    priority = prio;
 }
 
-window.onclick = function (event) {
+async function createTask() {
+    let title = document.getElementById('title').value;
+    let description = document.getElementById('description').value;
+    let dueDate = document.getElementById('date').value;
+    let category = document.getElementById('selectcategory').value;
 
-    let dropdown = document.getElementById("dropdown-user");
-    let inputField = document.getElementById("dropdown-input");
-    if (!inputField.contains(event.target) && !dropdown.contains(event.target)) {
-        dropdown.style.display = "none";
+    if (title === '') {
+        alert('Please enter a title');
+        return;
     }
+    if (description === '') {
+        alert('Please enter a description');
+        return;
+    }
+    if (dueDate === '') {
+        alert('Please enter a due date');
+        return;
+    }
+    if (priority === '') {
+        alert('Please select a priority');
+        return;
+    }
+
+    let newTask = {
+        title: title,
+        description: description,
+        dueDate: dueDate,
+        prio: priority,
+        category: category,
+    };
+
+    await fetch(BASE_URL + '/tasks.json', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newTask)
+    });
+
+    alert('Task successfully created!');
+}
+
+function resetPriorityButtons() {
+    let redButton = document.getElementById('prio-red');
+    redButton.style.backgroundColor = '';
+    redButton.style.color = '';
+    let redImg = redButton.querySelector('img');
+    redImg.style.filter = '';
+
+    let orangeButton = document.getElementById('prio-orange');
+    orangeButton.style.backgroundColor = '';
+    orangeButton.style.color = '';
+    let orangeImg = orangeButton.querySelector('img');
+    orangeImg.style.filter = '';
+
+    let greenButton = document.getElementById('prio-green');
+    greenButton.style.backgroundColor = '';
+    greenButton.style.color = '';
+    let greenImg = greenButton.querySelector('img');
+    greenImg.style.filter = '';
 }
 
 function changeColor(element, color) {
+    resetPriorityButtons();
+    element.style.backgroundColor = color;
+    element.style.color = '#FFFFFF';
+    let img = element.querySelector('img');
+    img.style.filter = 'brightness(0) invert(1)';
 
-    if (element.getAttribute('data-active') === 'true') {
-        element.style.backgroundColor = '';
-        element.style.color = '';
-        let img = element.querySelector('img');
-        img.style.filter = '';
-        element.setAttribute('data-active', 'false');
-    } else {
-        element.style.backgroundColor = color;
-        element.style.color = 'white';
-        let img = element.querySelector('img');
-        img.style.filter = 'brightness(0) invert(1)';
-        element.setAttribute('data-active', 'true');
+    if (element.id === 'prio-red') {
+        setPriority('Urgent');
+    } else if (element.id === 'prio-orange') {
+        setPriority('Medium');
+    } else if (element.id === 'prio-green') {
+        setPriority('Low');
     }
 }
-
-function dateContainer() {
-
-    document.getElementById('date').addEventListener('input', function () {
-        let value = this.value.replace(/[^0-9]/g, '');
-        let length = value.length;
-        if (length >= 2 && value[2] !== '/') {
-            value = value.slice(0, 2) + '/' + value.slice(2);
-        }
-        if (length >= 5 && value[5] !== '/') {
-            value = value.slice(0, 5) + '/' + value.slice(5);
-        }
-        this.value = value.slice(0, 10);
-    });
-    document.getElementById('date').addEventListener('keydown', function (event) {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            confirmDate(this.value);
-        }
-    });
-
-    function confirmDate(date) {
-        alert("Datum bestätigt: " + date);
-    }
-}
-
-window.onload = function () {
-    dateContainer();
-};
-
-
