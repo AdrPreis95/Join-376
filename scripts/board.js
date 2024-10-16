@@ -1,12 +1,33 @@
 
 let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
 let currentDraggedElement;
+let titles = [];
+let description = [];
+let category = [];
 
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
+    saveInArray(tasksJson);
     clearLists();
     renderTasks(tasksJson);
+}
+
+function saveInArray(tasksJson) {
+    for (let i = 0; i < tasksJson.length; i++) {
+        titles.push(tasksJson[i].title);
+        description.push(tasksJson[i].description);
+        category.push(tasksJson[i].category);
+    }    
+}
+
+function searchTask(titles, description, category) {
+    let keyword = document.getElementById('find-task').value;
+    let matchingIndices = titles
+        .map((title, index) => title.toLowerCase().includes(keyword) ? index : -1)
+        .filter(index => index !== -1);
+
+    console.log(matchingIndices);
 }
 
 function clearLists() {
@@ -32,27 +53,7 @@ function renderTasks(tasksJson) {
     checkEmptyList();
 }
 
-async function saveTasksInArray() {
-    let [titles, descriptions, categorys] = [[], [], []];
-        let tasks = await fetch(BASE_URL + "/tasks.json")
-        let tasksJson = await tasks.json();
-        for (let i = 0; i < tasksJson.length; i++) {
-            let title = tasksJson[i].title
-            let description = tasksJson[i].description
-            let category = tasksJson[i].category
-            titles.push(title), descriptions.push(description), categorys.push(category);
-        }
-    return {titles, descriptions, categorys};
-}
 
-async function searchTask(titles, descriptions, categorys) {
-    let userInput = document.getElementById('find-task').value;
-    if(userInput.length > 3) {
-        let {titles, descriptions, categorys} = await saveTasksInArray();
-        let title = titles.filter((userInput) => titles);
-        console.log(title)
-    }
-}
 
 function checkEmptyList() { 
     let toDoRef = document.getElementById('to-do');
@@ -170,11 +171,16 @@ function renderOverlay(responseTaskJson) {
 }
 
 function renderOverlayUser(responseTaskJson) {
+    let names = [];
+    let firstLetters = [];
     for (let i = 0; i < responseTaskJson.assignedTo.length; i++) {
         let name = responseTaskJson.assignedTo[i].firstName + " " + responseTaskJson.assignedTo[i].lastName;
-        document.getElementById('user-names-overlay'). innerHTML += getUserNamesOverlay(name);
-        let firstLetters = responseTaskJson.assignedTo[i].firstName[0] + responseTaskJson.assignedTo[i].lastName[0];
-        document.getElementById('assigned-user-overlay').innerHTML = getFirstLetterOverlay(firstLetters);
+        let firstLetter = responseTaskJson.assignedTo[i].firstName[0] + responseTaskJson.assignedTo[i].lastName[0];
+        names.push(name);
+        firstLetters.push(firstLetter);
+    }
+    for (let i = 0; i < names.length; i++) {
+        document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i])        
     }
 }
 

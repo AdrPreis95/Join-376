@@ -102,11 +102,18 @@ input[type=text] {
     align-items: center;
 }
 
-.input-password input {
+.input-confirm {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-password input, .input-confirm input {
     position: relative;
 }
 
-.input-password img {
+.input-password img, .input-confirm img {
     position: absolute;
     right: 4%;
 }
@@ -146,6 +153,10 @@ input[type=text] {
     font-size: 16px;
     line-height: 19.2px;
     color: #A8A8A8;
+}
+
+.unchecked-privacy {
+    color: #FF8190;
 }
 
 .signup-privacy-link {

@@ -54,6 +54,7 @@
         <header>
           <div class="header-content">
             <p>Kanban Project Management Tool</p>
+            <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
             <div class="header-icons">
                 <a href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
@@ -71,11 +72,11 @@
             <h1>Board</h1>
             <div class="board-input-container">
                 <form>
-                    <div class="board-input-field" onkeyup="searchTask()">
+                    <div class="board-input-field">
                         <input type="text" placeholder="Find Task" id="find-task">
                         <div>
                             <img src="./assets/icons/search_line_icon.png" alt="">
-                            <button><img src="./assets/icons/search_icon.png" alt=""></button>
+                            <button onclick="searchTask()"><img src="./assets/icons/search_icon.png" alt=""></button>
                         </div>
                     </div>
                 </form>
@@ -126,5 +127,26 @@
     <div class="task-details" id="task-details">
 
     </div>
+
+    <footer class="responsive-footer">
+      <div class="main-links-container-responsive">
+          <a href="./summary.html" class="main-link-responsive">
+              <img src="./assets/icons/summary_icon.png" alt="summary_icon">
+              Summary
+          </a>
+          <a href="./add_task.html" class="main-link-responsive">
+              <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
+              Add Task
+          </a>
+          <a href="./board.html" class="main-link-responsive">
+              <img src="./assets/icons/board_icon.png" alt="board_icon">
+              Board
+          </a>
+          <a href="./contacts.html" class="main-link-responsive active_side">
+              <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
+              Contacts
+          </a>
+      </div>
+  </footer>
   </body>
 </html>

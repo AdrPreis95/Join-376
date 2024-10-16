@@ -1,3 +1,9 @@
+
+.close-icon {
+    width: 32px;
+    height: 32px;
+}
+
 .task-details {
     display: none;
     position: fixed;
@@ -41,6 +47,12 @@
     justify-content: space-between;
 }
 
+.category-overlay {
+    font-weight: 400;
+    font-size: 23px;
+    color: #FFFFFF;
+}
+
 .due-date-overlay {
     display: flex;
     justify-content: flex-start;
@@ -75,15 +87,19 @@
     align-items: center;
     background-color: #FF7A00;
     border-radius: 50%;
-    color: #FFFFFF;
-    font-weight: 400;
-    font-size: 12px;
 }
 
 #assigned-user-overlay p {
     font-size: 12px;
     font-weight: 400;
     color: #FFFFFF;
+}
+
+.username {
+    font-size: 19px;
+    font-weight: 400;
+    color: #000000;
+    font-family: 'Open Sans';
 }
 
 #subtasks-overlay {
@@ -115,4 +131,70 @@
 .header-overlay-edit {
     display: flex;
     justify-content: flex-end;
+}
+
+.edit-overlay-label {
+    font-size: 20px;
+    font-weight: 400;
+    color: #2A3647;
+}
+
+.overlay-edit-container {
+    display: flex;
+    flex-direction: column;
+    width: 445px;
+    gap: 24px;
+}
+
+.overlay-input-field {
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    padding: 12px 21px 12px 21px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.overlay-input-field::placeholder {
+    color: #000000;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.overlay-textarea {
+    min-height: 120px;
+    max-width: 445px;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    padding: 18px 16px 18px 16px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.overlay-textarea::placeholder {
+    color: #000000;
+    font-size: 21px;
+    font-weight: 400;
+    font-family: 'Open Sans';
+}
+
+.overlay-priority-container label {
+    color: #42526E;
+    font-size: 19px;
+    font-weight: 700;
+    font-family: 'Open Sans';
+}
+
+.prio-label-container {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.prio-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 10px;
+    filter: blur(4);
+    padding: 16px 10px 16px 10px;
 }

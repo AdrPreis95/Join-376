@@ -1,8 +1,17 @@
+const inputEmail = document.getElementById("signup-email");
 const passwordIcon = document.querySelector(".password-icon");
 const confirmIcon = document.querySelector(".confirm-icon");
 const inputPassword = document.querySelector(".password-signup");
 const confirmPassword = document.querySelector(".password-confirm");
 const checkBox = document.querySelector(".checkbox-privacy");
+const inputCheckbox = document.querySelector(".input-checkbox");
+const errorMsg = document.querySelector(".error-message");
+
+inputEmail.addEventListener('keyup', function(){
+    if(inputEmail.value === "") {
+        inputEmail.classList.remove('wrong-input');
+    }
+});
 
 inputPassword.addEventListener('keyup', function(){
     if(inputPassword.value !== "") {
@@ -13,6 +22,10 @@ inputPassword.addEventListener('keyup', function(){
         passwordIcon.classList.remove('eye-slash-icon');
         passwordIcon.classList.remove('eye-icon');
         passwordIcon.classList.add('lock-icon');
+        if(confirmPassword.value == ""){
+            confirmPassword.classList.remove('wrong-input');
+            errorMsg.innerHTML = "";
+        }
     }
 });
 
@@ -25,6 +38,10 @@ confirmPassword.addEventListener('keyup', function(){
         confirmIcon.classList.remove('eye-slash-icon');
         confirmIcon.classList.remove('eye-icon');
         confirmIcon.classList.add('lock-icon');
+        if(inputPassword.value == ""){
+            confirmPassword.classList.remove('wrong-input');
+            errorMsg.innerHTML = "";
+        }
     }
 });
 
@@ -77,6 +94,7 @@ confirmIcon.addEventListener('click', function(){
 checkBox.addEventListener('change', function(){
     if (checkBox.checked){
         checkBox.value = true;
+        inputCheckbox.classList.remove('unchecked-privacy');
     }else{
         checkBox.value = false;
     }
