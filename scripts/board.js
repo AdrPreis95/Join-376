@@ -3,7 +3,6 @@ let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabas
 let currentDraggedElement;
 let titles = [];
 let description = [];
-let category = [];
 
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
@@ -17,17 +16,16 @@ function saveInArray(tasksJson) {
     for (let i = 0; i < tasksJson.length; i++) {
         titles.push(tasksJson[i].title);
         description.push(tasksJson[i].description);
-        category.push(tasksJson[i].category);
     }    
 }
 
-function searchTask(titles, description, category) {
-    let keyword = document.getElementById('find-task').value;
-    let matchingIndices = titles
-        .map((title, index) => title.toLowerCase().includes(keyword) ? index : -1)
-        .filter(index => index !== -1);
+function searchTask(titles, description) {
+    let refSearchBar = document.getElementById('find-task');
+    let keyword = refSearchBar.value;
+    let searchResult = titles.filter(titles => titles.toLowerCase().includes(keyword.toLowerCase()));
+    console.log(searchResult);
+    refSearchBar.value = "";
 
-    console.log(matchingIndices);
 }
 
 function clearLists() {
@@ -52,8 +50,6 @@ function renderTasks(tasksJson) {
     }
     checkEmptyList();
 }
-
-
 
 function checkEmptyList() { 
     let toDoRef = document.getElementById('to-do');
@@ -209,10 +205,18 @@ async function deleteTask(id) {
     loadTasks();
 }
 
-async function editTask(id, title, description, dueDate) {
+async function editTask(id, title, description, dueDate, priority) {
     id--;
     let refOverlay = document.getElementById('task-details');
     refOverlay.innerHTML = "";
     refOverlay.innerHTML = getOverlayEdit(title, description);
     document.getElementById('due-date-input').defaultValue = dueDate;
+    if(priority == 'Urgent') {
+        document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
+        document.getElementById('urgent-text').style = 'color: #FFFFFF;';
+    } else if(priority == 'Medium') {
+        document.getElementById('medium-label').style.backgroundColor = '#FFA800';
+    } else if(priority == 'Low') {
+        document.getElementById('low-label').style.backgroundColor = '#7AE229';
+    }
 }

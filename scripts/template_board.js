@@ -84,7 +84,7 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
             <div>
                 <span>|</span>
             </div>
-            <div class="footer-link-overlay" onclick="editTask(${id}, '${title}', '${description}', '${dueDate}')">
+            <div class="footer-link-overlay" onclick="editTask(${id}, '${title}', '${description}', '${dueDate}', '${priority}')">
                 <img src="./assets/icons/edit_icon.png" alt="edit"><p>Edit</p>
             </div>
         </div
@@ -129,14 +129,17 @@ function getOverlayEdit(title, description) {
             </div>
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="due-date">Due date</label>
-                <input class="overlay-input-field" type="date" id="due-date-input">
+                <div class="overlay-input-field-date">
+                    <input type="date" id="due-date-input">
+                    <img src="./assets/icons/date_icon.svg" alt ="calender">
+                </div>
             </div>
             <div class="overlay-priority-container">
                 <label for="priority">Priority</label>
                 <div class="prio-label-container">
-                    <div class="prio-label"><p>Urgent</p><img src="./assets/icons/urgent_icon.png" alt="urgent"></div>
-                    <div class="prio-label"><p>Medium</p><img src="./assets/icons/medium_icon.png" alt="medium"></div>
-                    <div class="prio-label"><p>Low</p><img src="./assets/icons/low_icon.png" alt="low"></div>
+                    <div id="urgent-label" class="prio-label"><p id="urgent-text">Urgent</p><img src="./assets/icons/urgent_icon.png" alt="urgent"></div>
+                    <div id="medium-label" class="prio-label"><p>Medium</p><img src="./assets/icons/medium_icon.png" alt="medium"></div>
+                    <div id="low-label" class="prio-label"><p>Low</p><img src="./assets/icons/low_icon.png" alt="low"></div>
                 </div>    
             </div>
             <div class="overlay-edit-container">

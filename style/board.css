@@ -41,6 +41,7 @@
 #find-task {
     height: 32px;
     border: none;
+    color: #000000;
 }
 
 #find-task:focus {
