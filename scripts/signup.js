@@ -24,7 +24,7 @@ inputPassword.addEventListener('keyup', function(){
         passwordIcon.classList.add('lock-icon');
         if(confirmPassword.value == ""){
             confirmPassword.classList.remove('wrong-input');
-            errorMsg.innerHTML = "";
+            errorMsg.classList.add('hidden');
         }
     }
 });
@@ -40,7 +40,7 @@ confirmPassword.addEventListener('keyup', function(){
         confirmIcon.classList.add('lock-icon');
         if(inputPassword.value == ""){
             confirmPassword.classList.remove('wrong-input');
-            errorMsg.innerHTML = "";
+            errorMsg.classList.add('hidden');
         }
     }
 });

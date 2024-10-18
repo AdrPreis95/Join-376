@@ -2,9 +2,11 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    justify-items: center;
     width: 100%;
-    max-width: 1440px;
-    max-height: 1024px;
+    max-width: 1920px;
+    max-height: 1080px;
+    gap: 32px;
 }
 
 .logo-login-signup {
@@ -31,7 +33,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 0 0 56px 0;
+    margin: 0 0 40px 0;
 }
 
 .login-field {
@@ -156,10 +158,9 @@
     align-items: center;
     width: 100%;
     height: 100%;
+    max-width: 1920px;
+    max-height: 1080px;
     position: fixed;
-    top: 0;
-    right: 0;
-    left: 0;
     animation: introScreen 0.5s forwards;
     animation-delay: 1s;
     animation-timing-function: ease-in-out;
@@ -211,4 +212,152 @@
 
 .login-field form input.wrong-input {
     border: 0.5px solid #FF001F;
+}
+
+.signup-mobile {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 40px 0;
+}
+
+.signup-desktop {
+    display: block;
+}
+
+@media (min-height: 1080px) {
+    .privacy-legal {
+        padding-bottom: 0;
+    }
+}
+
+@media (max-width: 670px) {
+    .login-page-content {
+        gap: 24px;
+    }
+
+    .signup-desktop {
+        display: none;
+    }
+
+    .signup-mobile {
+        display: flex;
+    }
+
+    .login-field {
+        width: 530.6px;
+    }
+
+    .privacy-legal {
+        padding-bottom: 32px;
+    }
+}
+
+@media (max-width: 500px) {
+    .logo-login-signup img {
+        content: url('../assets/img/join_logo_dark_64_78.png');
+    }
+
+    .logo-login-signup {
+        padding: 27px 38px 0px 38px;
+    }
+
+    .intro-join {
+        background-color: #2A3647;
+    }
+
+    .big-logo {
+        content: url('../assets/img/join_logo.png');
+        width: 101px;
+        height: 121px;
+    }
+    
+    @keyframes BiglogoScreen {
+
+        from {
+            top: 25%;
+            left: 33%;
+            width: 101px;
+            height: 121px;
+        }
+    
+        to {
+            top: 37px;
+            left: 38px;
+            width: 64px;
+            height: 78px;
+        }     
+    }
+
+    .signup-desktop {
+        display: none;
+    }
+
+    .signup-mobile {
+        display: flex;
+    }
+
+    .login-page-content {
+        gap: 40px;
+    }
+
+    .login-content {
+        margin: 0;
+    }
+
+    .login-field {
+        width: 396px;
+        height: 515px;
+    }
+
+
+    .outer-login-span span {
+        font-size: 47px;
+        line-height: 56.4px;
+    }
+
+    .login-field form input[type=email], input[type=password], input[type=text] {
+        width: 364px;
+    }
+
+    .login-btns {
+        display: grid;
+        gap: 21px;
+    }
+
+    .privacy-legal {
+        padding-bottom: 32px;
+    }
+}
+
+@media (max-width: 414px) {
+    .login-field {
+        width: 320px;
+        height: 416px;
+    }
+
+    .login-field form input[type=email], input[type=password], input[type=text] {
+        width: 288px;
+    }
+
+    .login-signup span {
+        margin-right: 15px;
+    }
+
+    .error-message {
+        max-width: 288px;
+    }
+
+    .outer-login-span span {
+        font-size: 37.9px;
+        line-height: 45.5px;
+    }
+
+    .login-field form {
+        gap: 8px;
+    }
+
+    .login-btns { 
+        gap: 4px;
+    }
 }

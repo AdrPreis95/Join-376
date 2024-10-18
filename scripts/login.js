@@ -8,7 +8,7 @@ inputEmail.addEventListener('keyup', function(){
     if(inputEmail.value === "") {
         inputEmail.classList.remove('wrong-input');
         if(inputPassword.value === "") {
-            errorMsg.innerHTML = "";
+            errorMsg.classList.add('hidden');
         }
     }
 });
@@ -24,7 +24,7 @@ inputPassword.addEventListener('keyup', function(){
         passwordIcon.classList.remove('eye-icon');
         passwordIcon.classList.add('lock-icon');
         if(inputEmail.value === "") {
-            errorMsg.innerHTML = "";
+            errorMsg.classList.add('hidden');
         }
     }
 });

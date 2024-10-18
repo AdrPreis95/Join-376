@@ -27,8 +27,8 @@
 <body onload="rememberMe()">
     <div class="login-page-content">
         <div class="logo-login-signup">
-            <img id="join-logo" src="./assets/img/join_logo_dark.png" alt="Join Logo" width="101" height="122">
-            <div class="login-signup">
+            <img id="join-logo" src="./assets/img/join_logo_dark.png" alt="Join Logo">
+            <div class="login-signup signup-desktop">
                 <span>
                     Not a Join user?
                 </span>
@@ -48,7 +48,7 @@
                             <input type="password" name="Password" placeholder="Password" class="password-login" id="login-password"  required>
                             <img class="password-icon lock-icon">
                         </div>
-                        <span class="error-message" id="check-email-password"></span>
+                        <span class="error-message hidden" id="check-email-password">Error</span>
                     </div>
                     <div class="input-checkbox">
                         <input type="checkbox" value="false" class="checkbox-login" id="login-checkbox"> <label for="login-checkbox">Remember me</label>
@@ -59,6 +59,12 @@
                     </div>            
                 </form>         
             </div>
+        </div>
+        <div class="login-signup signup-mobile">
+            <span>
+                Not a Join user?
+            </span>
+            <button class="btn-primary btn-login-signup" onclick="window.location.href = './signup.html'">Sign up</button>
         </div>
         <footer class="privacy-legal">
             <a href="./privacy_policy.html">Privacy Policy</a>

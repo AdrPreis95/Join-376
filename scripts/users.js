@@ -27,7 +27,7 @@ async function loadUser() {
     let email = document.getElementById("login-email");
     let password = document.getElementById("login-password");
     let errorMsg = document.getElementById("check-email-password");
-    errorMsg.innerHTML = "";
+    errorMsg.classList.add('hidden');
 
     if (email.value != "") {
         email.classList.remove("wrong-input");
@@ -52,12 +52,14 @@ async function loadUser() {
                 } else {
                     //passwords do not match
                     errorMsg.innerHTML = "Check your email and password. Please try again.";
+                    errorMsg.classList.remove('hidden');
                     password.classList.add("wrong-input");
                     email.classList.add("wrong-input");
                 }
             } else {
                 //user does not exist
                 errorMsg.innerHTML = "Check your email and password. Please try again.";
+                errorMsg.classList.remove('hidden');
                 password.classList.add("wrong-input");
                 email.classList.add("wrong-input");
             }
@@ -100,7 +102,7 @@ async function signUpUser() {
     
     var privacyAccepted = document.getElementById("privacy-checkbox");
     let errorMsg = document.getElementById("check-password");
-    errorMsg.innerHTML = "";
+    errorMsg.classList.add('hidden');
 
     if (privacyAccepted.value == 'true') {
 
@@ -145,6 +147,7 @@ async function signUpUser() {
         } else {
             //passwords do not match
             errorMsg.innerHTML = "Your passwords don't match. Please try again.";
+            errorMsg.classList.remove('hidden');
             confirmPassword.classList.add('wrong-input');
             password.focus();
         }
