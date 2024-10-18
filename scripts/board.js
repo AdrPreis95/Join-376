@@ -209,8 +209,9 @@ async function editTask(id, title, description, dueDate, priority) {
     id--;
     let refOverlay = document.getElementById('task-details');
     refOverlay.innerHTML = "";
-    refOverlay.innerHTML = getOverlayEdit(title, description);
+    refOverlay.innerHTML = getOverlayEdit(id, title, description);
     document.getElementById('due-date-input').defaultValue = dueDate;
+    loadContacts()
     if(priority == 'Urgent') {
         document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
         document.getElementById('urgent-text').style = 'color: #FFFFFF;';
@@ -219,4 +220,34 @@ async function editTask(id, title, description, dueDate, priority) {
     } else if(priority == 'Low') {
         document.getElementById('low-label').style.backgroundColor = '#7AE229';
     }
+}
+
+async function saveEdit(id) {
+
+    let changeTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
+    let changeTaskJson = await changeTask.json();
+    changeTaskJson.title = document.getElementById('overlay-title').value;
+    changeTaskJson.description = document.getElementById('overlay-description').value;
+    changeTaskJson.dueDate = document.getElementById('due-date-input').value;
+    let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(changeTaskJson)
+    });
+    closeOverlay();
+    loadTasks();
+}
+
+async function loadContacts() {
+    let response = await fetch(BASE_URL + "/contacts.json");
+    let responseJson = await response.json();
+    for (let i = 0; i < responseJson.length; i++) {
+        document.getElementById('assigned-to').innerHTML += getContactName(responseJson[i].name);        
+    }
+}
+
+function test(title) {
+    console.log(title);
 }

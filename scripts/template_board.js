@@ -50,7 +50,7 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
     <div class="content-overlay">
         <div class="header-overlay">
             <label class="category-overlay category-${classCategory}">${category}</label>
-            <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.png" alt="close">
+            <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.svg" alt="close">
         </div>
         <h3>${title}</h3>
         <p>${description}</p>
@@ -79,13 +79,13 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
         </div>
         <div class="footer-overlay">
             <div class="footer-link-overlay" onclick="deleteTask(${id})">
-                <img src="./assets/icons/delete_icon.png" alt="delete"><p>Delete</p>
+                <img src="./assets/icons/delete.svg" alt="delete"><p>Delete</p>
             </div>
             <div>
                 <span>|</span>
             </div>
             <div class="footer-link-overlay" onclick="editTask(${id}, '${title}', '${description}', '${dueDate}', '${priority}')">
-                <img src="./assets/icons/edit_icon.png" alt="edit"><p>Edit</p>
+                <img src="./assets/icons/edit.svg" alt="edit"><p>Edit</p>
             </div>
         </div
     </div>    
@@ -106,26 +106,26 @@ function getUserNamesOverlay(firstLetter, userName) {
 function getSubtasksOverlay(title, status) {
     return `
     <div class="subtask-overlay">
-        <a><img src="${status}" alt="status"></img></a>
+        <a onclick="test('${title}')"><img src="${status}" alt="status"></img></a>
         <p>${title}</p>
     </div>    
     `
 }
 
-function getOverlayEdit(title, description) {
+function getOverlayEdit(id, title, description) {
     return `
     <div class="content-overlay">
         <div class="header-overlay-edit">
-            <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.png" alt="close">
+            <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.svg" alt="close">
         </div>
         <div class="overlay-edit-container">
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label"  for="title">Title</label>
-                <input class="overlay-input-field" type="text" maxlength="20" placeholder="${title}">
+                <input class="overlay-input-field" type="text" maxlength="20" placeholder="${title}" id="overlay-title">
             </div>
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="description">Description</label>
-                <textarea class="overlay-textarea" type="text" class="overlay-input-field" maxlength="50" placeholder="${description}"></textarea>
+                <textarea class="overlay-textarea" type="text" class="overlay-input-field" maxlength="50" placeholder="${description}" id="overlay-description"></textarea>
             </div>
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="due-date">Due date</label>
@@ -144,11 +144,20 @@ function getOverlayEdit(title, description) {
             </div>
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="assigned-to">Assigned to</label>
-                <select name="assigned-from" id="">
+                <select name="assigned-from" id="assigned-to">
                     <option autofocus value="">Select contacts to assign</option>
                 </select>
             </div>
+            <div class="button-ok-container">
+                <button class="button-ok" onclick="saveEdit(${id})"><p>Ok</p><img src="./assets/icons/check.svg" alt=""></button>
+            </div>
         </div>
     </div>    
+    `
+}
+
+function getContactName(name) {
+    return `
+    <option value="${name}">${name}</option>
     `
 }
