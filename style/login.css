@@ -320,6 +320,10 @@
         width: 364px;
     }
 
+    .input-checkbox {
+        padding-left: 20px;
+    }
+
     .login-btns {
         display: grid;
         gap: 21px;
