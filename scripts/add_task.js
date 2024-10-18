@@ -1,6 +1,32 @@
 let priority = '';
 let subtasksArray = [];
 
+async function getAllTaskIDs() {
+    try {
+        
+        let response = await fetch(`${BASE_URL}/tasks.json`);
+        let tasksData = await response.json();
+        
+        if (tasksData) {
+           
+            let ids = Object.keys(tasksData).map(key => tasksData[key].id);
+            return ids;
+        } else {
+            return [];
+        }
+    } catch (error) {
+        console.error("cannot get the id from Tasks:", error);
+        return [];
+    }
+}
+
+async function generateNewID() {
+    let existingIDs = await getAllTaskIDs();
+    let newID = Math.max(...existingIDs, 0) + 1;
+    return newID;
+}
+
+
 function setPriority(prio) {
     priority = prio;
 }
@@ -24,9 +50,10 @@ async function createTask() {
         alert('Please enter a due date');
         return;
     }
-
+    let newID = await generateNewID();
 
     let newTask = {
+        id: newID,
         title: title,
         description: description,
         dueDate: dueDate,
