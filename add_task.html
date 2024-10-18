@@ -8,8 +8,6 @@
 
     <link rel="icon" href="./assets/img/join_logo_dark.png">
 
-    <script src="./scripts/users.js"></script>
-
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/standard.css">
     <link rel="stylesheet" href="style/privacy_policy.css">
@@ -19,7 +17,6 @@
     <link rel="stylesheet" href="style/add_task.css">
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
-
 
     <script src="scripts/base_url.js"></script>
     <script src="./scripts/add_task.js"></script>
@@ -160,12 +157,18 @@
                                 Subtasks
                             </p>
 
-                            <div style="position: relative;">
+                            <div class="input-container">
                                 <input id="addsubtasks" placeholder="Add new subtask">
-                                <button class="subtask-button"><img style="height: 16px; cursor: pointer;"
-                                        src="assets/icons/black_add.png" alt=""></button>
-                                </input>
+                                <img onclick="addSubtask()" id="add-subtask" class="input-icon" src="assets/icons/add_subtask.png" alt="AddSubtaskIcon">
+                                <div class="center-subtask-icons" id="show-icons" style="display: none;">
+                                    <img onclick="clearSubtaskInput()" id="clear-subtask" class="input-icon-after" src="./assets/icons/close.png" alt="ClearTaskInputIcon">
+                                    <div class="task-buttons-seperator"></div>
+                                    <img onclick="confirmSubtask()" id="confirm-subtask" class="input-icon-after" src="./assets/icons/create-task.png" alt="ConfirmTaskIcon">
+                                </div>
                             </div>
+                            
+                            <ul id="subtask-list"></ul>
+                            
 
                             <section class="confirm">
 
@@ -213,9 +216,9 @@
                 Contacts
             </a>
         </div>
-        </footer>
+    </footer>
 
-       
+
 </body>
 
 </html>

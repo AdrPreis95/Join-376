@@ -10,6 +10,7 @@ async function createTask() {
     let description = document.getElementById('description').value;
     let dueDate = document.getElementById('date').value;
     let category = document.getElementById('selectcategory').value;
+    let subtask = document.getElementById('addsubtasks').value;
 
     if (title === '') {
         alert('Please enter a title');
@@ -23,10 +24,7 @@ async function createTask() {
         alert('Please enter a due date');
         return;
     }
-    if (priority === '') {
-        alert('Please select a priority');
-        return;
-    }
+
 
     let newTask = {
         title: title,
@@ -34,6 +32,8 @@ async function createTask() {
         dueDate: dueDate,
         prio: priority,
         category: category,
+        subtasks: subtask,
+
     };
 
     await fetch(BASE_URL + '/tasks.json', {
@@ -81,4 +81,66 @@ function changeColor(element, color) {
     } else if (element.id === 'prio-green') {
         setPriority('Low');
     }
+}
+
+function addSubtask() {
+    let showIcons = document.getElementById('show-icons');
+    let addSubtaskButton = document.getElementById('add-subtask');
+
+    if (showIcons) {
+        showIcons.style.display = "flex";
+    }
+
+    if (addSubtaskButton) {
+        addSubtaskButton.style.display = "none";
+    }
+}
+
+function clearSubtaskInput() {
+    let subtaskInput = document.getElementById('addsubtasks');
+
+    if (subtaskInput) {
+        subtaskInput.value = '';
+    }
+}
+
+function confirmSubtask() {
+    let subtaskValue = document.getElementById('addsubtasks').value;
+
+    if (subtaskValue === '') {
+        alert("Please enter a subtask.");
+        return;
+    }
+
+    let li = document.createElement('li');
+    li.innerHTML = `
+        <span class="subtask-text">${subtaskValue}</span>
+        <div class="icons">
+            <button class="icon-btn" onclick="editSubtask(this)">
+                <img src="./assets/icons/subtask_edit_icon.png" alt="EditIcon" style="width:20px;">
+            </button>
+            <div class="ul-icons-seperator"></div>
+            <button class="icon-btn" onclick="deleteSubtask(this)">
+                <img src="./assets/icons/subtask_delete_icon.png" alt="DeleteIcon" style="width:20px;">
+            </button>
+        </div>
+    `;
+
+    document.getElementById('subtask-list').appendChild(li);
+    document.getElementById('addsubtasks').value = '';
+    document.getElementById('show-icons').style.display = "none";
+    document.getElementById('add-subtask').style.display = "inline-block";
+}
+
+function editSubtask(editBtn) {
+    let subtaskText = editBtn.parentElement.previousElementSibling;
+    let newSubtask = prompt("Edit subtask:", subtaskText.textContent);
+    if (newSubtask !== null && newSubtask !== '') {
+        subtaskText.textContent = newSubtask;
+    }
+}
+
+function deleteSubtask(deleteBtn) {
+    let subtaskToDelete = deleteBtn.parentElement.parentElement;
+    subtaskToDelete.remove();
 }
