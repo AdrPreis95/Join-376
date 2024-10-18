@@ -1,5 +1,5 @@
-
 let priority = '';
+let subtasksArray = [];
 
 function setPriority(prio) {
     priority = prio;
@@ -32,7 +32,7 @@ async function createTask() {
         dueDate: dueDate,
         prio: priority,
         category: category,
-        subtasks: subtask,
+        subtasks: subtasksArray
 
     };
 
@@ -45,6 +45,8 @@ async function createTask() {
     });
 
     alert('Task successfully created!');
+    subtasksArray = [];
+    document.getElementById('subtask-list').innerHTML = '';
 }
 
 function resetPriorityButtons() {
@@ -105,6 +107,14 @@ function clearSubtaskInput() {
 }
 
 function confirmSubtask() {
+    let subtaskList = document.getElementById('subtask-list');
+    let subtaskCount = subtaskList.getElementsByTagName('li').length;
+
+    if (subtaskCount >= 2) {
+        alert("You can only add2 subtasks.");
+        return;
+    }
+
     let subtaskValue = document.getElementById('addsubtasks').value;
 
     if (subtaskValue === '') {
@@ -113,20 +123,25 @@ function confirmSubtask() {
     }
 
     let li = document.createElement('li');
-    li.innerHTML = `
-        <span class="subtask-text">${subtaskValue}</span>
+    li.innerHTML = `<div>
+    <span class="dot">•</span>
+    <span class="subtask-text">${subtaskValue}</span>
+        </div>
         <div class="icons">
             <button class="icon-btn" onclick="editSubtask(this)">
-                <img src="./assets/icons/subtask_edit_icon.png" alt="EditIcon" style="width:20px;">
+                <img src="./assets/icons/edit_icon.png" alt="EditIcon" style="height:20px;">
             </button>
             <div class="ul-icons-seperator"></div>
             <button class="icon-btn" onclick="deleteSubtask(this)">
-                <img src="./assets/icons/subtask_delete_icon.png" alt="DeleteIcon" style="width:20px;">
+                <img src="./assets/icons/delete_icon.png" alt="DeleteIcon" style="height:20px;">
             </button>
         </div>
     `;
 
-    document.getElementById('subtask-list').appendChild(li);
+    subtaskList.appendChild(li);
+
+    subtasksArray.push({ title: subtaskValue });
+
     document.getElementById('addsubtasks').value = '';
     document.getElementById('show-icons').style.display = "none";
     document.getElementById('add-subtask').style.display = "inline-block";
