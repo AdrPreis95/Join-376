@@ -186,3 +186,64 @@ function deleteSubtask(deleteBtn) {
     let subtaskToDelete = deleteBtn.parentElement.parentElement;
     subtaskToDelete.remove();
 }
+
+function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+async function loadContacts() {
+    try {
+        let response = await fetch(`${BASE_URL}/contacts.json`);
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        let contacts = await response.json();
+
+        let dropdown = document.getElementById('dropdown-user');
+        dropdown.innerHTML = '';
+
+        for (const key in contacts) {
+            let contact = contacts[key];
+            let userContainer = document.createElement('div');
+            userContainer.classList.add('user-container');
+
+            let avatarSpanContainer = document.createElement('div');
+            avatarSpanContainer.classList.add('avatar-span-container');
+
+            let avatar = document.createElement('div');
+            avatar.classList.add('avatar');
+            avatar.style.backgroundColor = getRandomColor();
+            avatar.innerText = contact.name[0];
+
+            let userName = document.createElement('span');
+            userName.classList.add('user-name');
+            userName.innerText = contact.name;
+
+            let checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+
+            avatarSpanContainer.appendChild(avatar);
+            avatarSpanContainer.appendChild(userName);
+            userContainer.appendChild(avatarSpanContainer);
+            userContainer.appendChild(checkbox);
+            dropdown.appendChild(userContainer);
+        }
+    } catch (error) {
+        console.error('Fehler beim Laden der Kontakte:', error);
+    }
+}
+
+function openDropdown() {
+    let dropdown = document.getElementById('dropdown-user');
+    if (dropdown.style.display === "block") {
+        dropdown.style.display = "none";
+    } else {
+        dropdown.style.display = "block";
+        loadContacts();  
+    }
+}
