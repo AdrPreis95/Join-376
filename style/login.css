@@ -225,12 +225,6 @@
     display: block;
 }
 
-@media (min-height: 1080px) {
-    .privacy-legal {
-        padding-bottom: 0;
-    }
-}
-
 @media (max-width: 670px) {
     .login-page-content {
         gap: 24px;
@@ -246,10 +240,6 @@
 
     .login-field {
         width: 530.6px;
-    }
-
-    .privacy-legal {
-        padding-bottom: 32px;
     }
 }
 
@@ -336,12 +326,12 @@
 
 @media (max-width: 414px) {
     .login-field {
-        width: 320px;
-        height: 416px;
+        width: 350px;
+        height: 515px;
     }
 
     .login-field form input[type=email], input[type=password], input[type=text] {
-        width: 288px;
+        width: 298px;
     }
 
     .login-signup span {
@@ -349,7 +339,7 @@
     }
 
     .error-message {
-        max-width: 288px;
+        max-width: 298px;
     }
 
     .outer-login-span span {
@@ -358,10 +348,10 @@
     }
 
     .login-field form {
-        gap: 8px;
+        gap: 24px;
     }
 
     .login-btns { 
-        gap: 4px;
+        gap: 18px;
     }
 }
