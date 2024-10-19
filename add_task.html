@@ -18,8 +18,13 @@
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
 
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="scripts/base_url.js"></script>
-    <script src="./scripts/add_task.js"></script>
+    <script src="scripts/add_task.js"></script>
+    
+
 
 
 </head>
@@ -97,8 +102,9 @@
                             <div class="dropdown">
                                 <p style="margin-bottom: 10px; margin-top: 24px;">Assigned to</p>
                                 <div class="assigned-to-select">
-                                    <input class="input-dropdown" onclick="openDropdown()" type="text"
-                                        id="dropdown-input" placeholder="Select contacts to assign" autocomplete="off">
+                                    <input class="input-dropdown" id="dropdown-input" name="dropdown-input"
+                                        oninput="filterContacts()" onclick="openDropdown()" type="text"
+                                        placeholder="Select contacts to assign" autocomplete="off">
                                     <img id="arrow" class="dropdown-arrow" src="./assets/icons/dropdown-arrow.png"
                                         alt="ArrowIcon">
                                 </div>
@@ -109,7 +115,7 @@
                                             <div class="avatar" style="background-color: #00C4CC;">SM</div>
                                             <span class="user-name">Sofia Müller (You)</span>
                                         </div>
-                                        <input type="checkbox">
+                                        <input type="checkbox" id="user-checkbox-1" name="user-checkbox">
                                     </div>
 
 
@@ -122,7 +128,7 @@
                             </p>
 
                             <div class="date-container">
-                                <input id="date" type="text" placeholder="dd/mm/yyyy" class="date-input"
+                                <input id="date" name="date" type="text" placeholder="dd/mm/yyyy" class="date-input"
                                     pattern="\d{2}/\d{2}/\d{4}" title="Please enter a date in the format dd/mm/yyyy">
                                 <img src="./assets/icons/date-logo.png" alt="DateIcon">
                             </div>
@@ -158,17 +164,20 @@
                             </p>
 
                             <div class="input-container">
-                                <input id="addsubtasks" placeholder="Add new subtask">
-                                <img onclick="addSubtask()" id="add-subtask" class="input-icon" src="assets/icons/add_subtask.png" alt="AddSubtaskIcon">
+                                <input id="addsubtasks" name="addsubtasks" placeholder="Add new subtask">
+                                <img onclick="addSubtask()" id="add-subtask" class="input-icon"
+                                    src="assets/icons/add_subtask.png" alt="AddSubtaskIcon">
                                 <div class="center-subtask-icons" id="show-icons" style="display: none;">
-                                    <img onclick="clearSubtaskInput()" id="clear-subtask" class="input-icon-after" src="./assets/icons/close.png" alt="ClearTaskInputIcon">
+                                    <img onclick="clearSubtaskInput()" id="clear-subtask" class="input-icon-after"
+                                        src="./assets/icons/close.png" alt="ClearTaskInputIcon">
                                     <div class="task-buttons-seperator"></div>
-                                    <img onclick="confirmSubtask()" id="confirm-subtask" class="input-icon-after" src="./assets/icons/create-task.png" alt="ConfirmTaskIcon">
+                                    <img onclick="confirmSubtask()" id="confirm-subtask" class="input-icon-after"
+                                        src="./assets/icons/create-task.png" alt="ConfirmTaskIcon">
                                 </div>
                             </div>
-                            
+
                             <ul id="subtask-list"></ul>
-                            
+
 
                             <section class="confirm">
 
