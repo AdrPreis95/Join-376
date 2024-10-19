@@ -62,7 +62,7 @@
 .priority-overlay {
     display: flex;
     justify-content: flex-start;
-    gap: 25px;
+    gap: 43px;
 }
 
 .priority-container-overlay {
@@ -113,6 +113,11 @@
     gap: 16px;
 }
 
+.subtask-overlay:hover {
+    border-radius: 10px;
+    background-color: #F1F1F1;
+}
+
 .footer-overlay {
     display: flex;
     justify-content: flex-end;
@@ -126,6 +131,10 @@
     font-weight: 400;
     font-size: 16px;
     color: #2A3647;
+}
+
+.footer-overlay-link p:hover {
+    color: #29ABE2 !important;
 }
 
 .header-overlay-edit {
