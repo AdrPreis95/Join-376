@@ -133,8 +133,32 @@
     color: #2A3647;
 }
 
-.footer-overlay-link p:hover {
-    color: #29ABE2 !important;
+#footer-delete {
+    color: #2A3647;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#footer-edit {
+    color: #2A3647;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#delete-icon:hover {
+    background-image: url(../assets/icons/delete_icon_hover.svg);
+}
+
+#edit-icon:hover {
+    background-image: url(../assets/icons/edit_icon_hover.svg);
+}
+
+#footer-delete:hover {
+    color: #29ABE2;
+}
+
+#footer-edit:hover {
+    color: #29ABE2;
 }
 
 .header-overlay-edit {

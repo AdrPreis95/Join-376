@@ -79,13 +79,13 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
         </div>
         <div class="footer-overlay">
             <div class="footer-link-overlay" onclick="deleteTask(${id})">
-                <img src="./assets/icons/delete.svg" alt="delete"><p>Delete</p>
+                <img id="delete-icon" src="./assets/icons/delete.svg" alt="delete"><p id="footer-delete">Delete</p>
             </div>
             <div>
                 <span>|</span>
             </div>
             <div class="footer-link-overlay" onclick="editTask(${id}, '${title}', '${description}', '${dueDate}', '${priority}')">
-                <img src="./assets/icons/edit.svg" alt="edit"><p>Edit</p>
+                <img id="edit-icon" src="./assets/icons/edit.svg" alt="edit"><p id="footer-edit">Edit</p>
             </div>
         </div
     </div>    
