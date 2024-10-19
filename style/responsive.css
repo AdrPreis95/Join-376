@@ -61,3 +61,15 @@
     visibility: hidden;
 }
 
+
+@media (min-height: 1080px) {
+    .privacy-legal {
+        padding-bottom: 0;
+    }
+}
+
+@media (max-width: 670px) {
+    .privacy-legal {
+        padding-bottom: 32px;
+    }
+}

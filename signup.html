@@ -21,7 +21,7 @@
 <body>
     <div class="signup-page-content">
         <div class="logo-signup">
-            <img id="join-logo" src="./assets/img/join_logo_dark.png" alt="Join Logo" width="101" height="122">
+            <img id="join-logo" src="./assets/img/join_logo_dark.png" alt="Join Logo">
         </div>
         <div class="signup-content">
             <div class="signup-field">
@@ -45,12 +45,12 @@
                             <input type="password" name="Password" placeholder="Confirm Password" class="password-confirm" id="confirm-password"  required>
                             <img class="confirm-icon lock-icon">
                         </div>
-                        <span class="error-message" id="check-password"></span>
+                        <span class="error-message hidden" id="check-password">Your passwords don't match. Please try again.</span>
                     </div>  
                     <div class="input-checkbox">
                         <input type="checkbox" value="false" class="checkbox-privacy" id="privacy-checkbox"> <label for="privacy-checkbox"> I accept the <a class="signup-privacy-link">Privacy policy</a></label>
                     </div>
-                    <button class="btn-primary">Sign up</button>        
+                    <button class="btn-primary signup-btn">Sign up</button>    
                 </form>           
             </div>
         </div>

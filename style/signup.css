@@ -5,6 +5,7 @@
     width: 100%;
     max-width: 1920px;
     max-height: 1080px;
+    gap: 40px;
 }
 
 .logo-signup {
@@ -255,5 +256,92 @@ input[type=text] {
     100% {
         -webkit-transform: translateY(50px);
         transform: translateY(50px);
+    }
+}
+
+@media (max-width: 670px) {
+    .signup-page-content {
+        gap: 24px;
+    }
+
+    .signup-field {
+        width: 530.6px;
+    }
+}
+
+@media (max-width: 500px) {
+    .logo-signup img {
+        content: url('../assets/img/join_logo_dark_64_78.png');
+    }
+
+    .logo-signup {
+        padding: 27px 38px 0px 38px;
+    }
+
+    .back-login {
+        top: 45px;
+    }
+
+    .sign-page-content {
+        gap: 32px;
+    }
+
+    .signup-content {
+        margin: 0;
+    }
+
+    .signup-field {
+        width: 396px;
+        height: 595px;
+    }
+
+
+    .outer-signup-span span {
+        font-size: 47px;
+        line-height: 56.4px;
+    }
+
+    .signup-field form input[type=email], input[type=password], input[type=text] {
+        width: 364px;
+    }
+
+    .signup-btn {
+        width: 180px;
+    }
+
+    .privacy-legal {
+        padding-bottom: 32px;
+    }
+}
+
+@media (max-width: 414px) {
+    .signup-field {
+        width: 350px;
+        height: 595px;
+    }
+
+    .signup-field form input[type=email], input[type=password], input[type=text] {
+        width: 298px;
+    }
+
+    .back-login {
+        top: 55px;
+    }
+
+    .error-message {
+        max-width: 298px;
+    }
+
+    .outer-signup-span span {
+        font-size: 37.9px;
+        line-height: 45.5px;
+    }
+
+    .signup-field form {
+        gap: 24px;
+    }
+
+    .signup-btn {
+        width: 180px;
     }
 }
