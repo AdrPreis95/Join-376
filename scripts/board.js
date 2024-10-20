@@ -151,6 +151,7 @@ async function showOverlayDetailsTask(id) {
 function closeOverlay() {
     document.getElementById('task-details').style = 'display: none;';
     document.getElementById('all-content').style = 'filter: brightness(1);';
+    loadTasks();
 }
 
 function renderOverlay(responseTaskJson) {

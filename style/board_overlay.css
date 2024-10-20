@@ -129,9 +129,19 @@
 
 .footer-link-overlay {
     display: flex;
+}
+
+.footer-overlay p {
     font-weight: 400;
     font-size: 16px;
     color: #2A3647;
+}
+
+#delete-container:hover {
+    color: #29ABE2;
+    font-size: 16px;
+    font-weight: 400;
+    fill: #29ABE2; 
 }
 
 #footer-delete {
@@ -146,12 +156,8 @@
     font-weight: 400;
 }
 
-#delete-icon:hover {
-    background-image: url(../assets/icons/delete_icon_hover.svg);
-}
-
-#edit-icon:hover {
-    background-image: url(../assets/icons/edit_icon_hover.svg);
+#edit-icon path:hover {
+    fill: #29ABE2;
 }
 
 #footer-delete:hover {
