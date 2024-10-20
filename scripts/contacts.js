@@ -34,7 +34,12 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
 
 function loadContactDetails(contactWrapper, contact, initials, bgColor) {
     const detailsSection = document.getElementById('selectedContactDetails');
-    detailsSection.style.display = 'flex';
+
+    detailsSection.classList.add('visible');
+    setTimeout(() => {
+        detailsSection.classList.add('active');
+    }, 10);
+
     document.getElementById('detailsInitials').textContent = initials;
     document.getElementById('detailsInitials').style.backgroundColor = bgColor;
     document.getElementById('detailsName').textContent = contact.name;
@@ -42,8 +47,18 @@ function loadContactDetails(contactWrapper, contact, initials, bgColor) {
         ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
         : 'No email available';
     document.getElementById('detailsPhone').textContent = contact.phone ? contact.phone : 'No phone available';
+
     document.querySelectorAll('.contactWrapper').forEach(wrapper => wrapper.classList.remove('activeSideContacts'));
     contactWrapper.classList.add('activeSideContacts');
+}
+
+function hideContactDetails() {
+    const detailsSection = document.getElementById('selectedContactDetails');
+    detailsSection.classList.remove('active');
+    
+    setTimeout(() => {
+        detailsSection.classList.remove('visible');
+    }, 700); 
 }
 
 function displayContacts(contacts) {

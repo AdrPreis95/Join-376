@@ -76,12 +76,23 @@
 }
 
 .selectedContactDetails {
-    display: none;
+    display: none; 
     margin-top: 36px;
     border-radius: 8px;
     width: 100%;
     flex-direction: column;
+    transform: translateX(100%); /* Start off-screen to the right */
+    transition: transform 0.7s ease; 
 }
+
+.selectedContactDetails.visible {
+    display: flex; /* Show when active */
+}
+
+.selectedContactDetails.active {
+    transform: translateX(0); /* Slide into place */
+}
+
 
 .detailsInitialsCircle {
     width: 120px;
