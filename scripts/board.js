@@ -181,15 +181,18 @@ function renderOverlayUser(responseTaskJson) {
 }
 
 function renderOverlaySubtasks(responseTaskJson) {
+    let id = responseTaskJson.id
     for (let i = 0; i < responseTaskJson.subtasks.length; i++) {
+        let subtaskId = [i];
         let title = responseTaskJson.subtasks[i].title;
         let status = responseTaskJson.subtasks[i].status;
-        if(status == 'done') {
-            status = './assets/icons/checked_icon.png';
+        let statusIcon = responseTaskJson.subtasks[i].status;
+        if(statusIcon == 'done') {
+            statusIcon = './assets/icons/checked_icon.png';
         } else {
-            status = './assets/icons/unchecked_icon.png';
+            statusIcon = './assets/icons/unchecked_icon.png';
         }
-        document.getElementById('subtasks-overlay').innerHTML += getSubtasksOverlay(title, status);
+        document.getElementById('subtasks-overlay').innerHTML += getSubtasksOverlay(id, subtaskId, status, title, statusIcon);
     }
 }
 
@@ -223,7 +226,6 @@ async function editTask(id, title, description, dueDate, priority) {
 }
 
 async function saveEdit(id) {
-
     let changeTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
     let changeTaskJson = await changeTask.json();
     changeTaskJson.title = document.getElementById('overlay-title').value;
@@ -248,6 +250,22 @@ async function loadContacts() {
     }
 }
 
-function test(title) {
-    console.log(title);
+async function changeStatusSubtask(id, subtaskId, status) {
+    id--;
+    let response = await fetch(BASE_URL + "/tasks/" + id + ".json");
+    let responseJson = await response.json();
+    if(status == 'done') {
+        responseJson.subtasks[subtaskId].status = 'not done'
+    } else if(status == 'not done') {
+        responseJson.subtasks[subtaskId].status = 'done';
+    }
+    await fetch(BASE_URL + "/tasks/" + id + ".json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(responseJson)
+    });
+    document.getElementById('subtasks-overlay').innerHTML = "";
+    renderOverlaySubtasks(responseJson);
 }

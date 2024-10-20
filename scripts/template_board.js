@@ -103,10 +103,10 @@ function getUserNamesOverlay(firstLetter, userName) {
     `
 }
 
-function getSubtasksOverlay(title, status) {
+function getSubtasksOverlay(id, subtaskId, status, title, statusIcon) {
     return `
     <div class="subtask-overlay">
-        <a onclick="test('${title}')"><img src="${status}" alt="status"></img></a>
+        <a onclick="changeStatusSubtask('${id}', '${subtaskId}', '${status}')"><img src="${statusIcon}" alt="status"></a>
         <p>${title}</p>
     </div>    
     `
