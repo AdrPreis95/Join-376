@@ -144,6 +144,7 @@ header {
 .active_side {
     padding: 8px 0px 8px 0px;
     background-color: #091931;
+    color: white;
 }
 
 [type="checkbox"] {

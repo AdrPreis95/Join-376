@@ -1,4 +1,4 @@
-.contacts-section {
+.contactsSection {
     height: 100vh;
     width: 400px;
     background-color: white;
@@ -6,7 +6,7 @@
     overflow-y: auto;
 }
 
-.add-header {
+.addHeader {
     display: flex; 
     align-items: center; 
     justify-content: center; 
@@ -22,12 +22,10 @@
     cursor: pointer;
 }
 
-.contact {
-    padding-left: 60px; 
-    padding-bottom: 24px; 
+.contactItem {
     display: flex; 
-    align-items: center; 
-    padding-top: 8px;
+    align-items: center;
+    justify-content: center;
 }
 
 .contact-header {
@@ -40,7 +38,7 @@
     padding-left: 30px;
 }
 
-.initials-circle {
+.initialsCircle {
     width: 40px;
     height: 40px;
     border-radius: 50%;
@@ -52,21 +50,103 @@
     font-size: 14px;
 }
 
-.contact-details {
+.contactDetails {
     display: flex;
     flex-direction: column;
     gap: 4px;
 }
 
-.contacts-section::-webkit-scrollbar {
+.contactsSection::-webkit-scrollbar {
     width: 8px;
 }
 
-.contacts-section::-webkit-scrollbar-thumb {
+.contactsSection::-webkit-scrollbar-thumb {
     background-color: #888;
     border-radius: 10px;
 }
 
-.contacts-section::-webkit-scrollbar-track {
+.contactsSection::-webkit-scrollbar-track {
     border-radius: 10px;
+}
+
+.separatorLine {
+    height: 59px;
+    width: 2px;
+    background-color: #29ABE2;
+}
+
+.selectedContactDetails {
+    display: none;
+    margin-top: 36px;
+    border-radius: 8px;
+    width: 100%;
+    flex-direction: column;
+}
+
+.detailsInitialsCircle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 47px;
+    color: white;
+    margin-bottom: 15px;
+    border: 3px solid #FFFFFF
+}
+
+#detailsName {
+    font-size: 47px;
+    font-style: normal; font-weight: 500;
+}
+
+#detailsEmail, #detailsPhone {
+    font-size: 16px;
+    margin: 5px 0;
+}
+
+.selectedContactHeader {
+    display: flex;
+    gap: 52px;
+    align-items: center;
+}
+
+.editContactDetails {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    padding: 0;
+}
+
+.deleteContactDetails {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 14px;
+    padding: 0;
+}
+
+.contactButtons {
+    display: flex;
+    margin-top: 6px;
+    gap: 16px;
+}
+
+.contactWrapper {
+    padding: 15px 24px 15px 24px;
+    border-radius: 10px 10px 10px 10px;
+    opacity: 0px;
+}
+
+.activeSideContacts {
+    background-color: #2a3647;
+    color: white;
 }
