@@ -55,8 +55,16 @@
                   <p>Kanban Project Management Tool</p>
                   <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
                   <div class="header-icons">
-                    <div class="user-icon">
+                    <div class="user-icon" onclick="toggleSubmenu()">
                         <b id="user-initials"></b>
+                        <div class="submenu d-none">
+                            <div class="submenu-content closed">
+                                <a class="submenu-help" href="help.html">Help</a>
+                                <a href="legal_notice.html">Legal Notice</a>
+                                <a href="privacy_policy.html">Privacy Policy</a>
+                                <a onclick="logOut()">Log out</a>
+                            </div>
+                        </div> 
                     </div>
                   </div>
                 </div>
