@@ -1,8 +1,3 @@
-let loggedUser = {};
-if (sessionStorage.loggedUser != undefined){
-    loggedUser = JSON.parse(sessionStorage.loggedUser);
-}
-
 function onLoadFunc() {
     updateGreeting(); 
     setUserInitials();
@@ -61,26 +56,4 @@ function getTimeOfDay() {
     }
 
     return currentTime.greet;
-}
-
-function setUserInitials() {
-    const userInitiials = document.getElementById('user-initials');
-    userInitiials.innerHTML = getUserInitials(loggedUser.name);
-}
-
-function getUserInitials(name) {
-    // Remove whitespaces
-    name = name.trim();
-    
-    // Get names
-    const words = name.split(' ');
-
-    // Get first char from First and Last name
-    let initials = '';
-    initials += words[0].charAt(0).toUpperCase();
-    if (words.length > 1) {
-        initials += words[words.length - 1].charAt(0).toUpperCase();
-    } 
-
-    return initials;
 }

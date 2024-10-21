@@ -9,6 +9,7 @@
     <link rel="icon" href="./assets/img/join_logo_dark.png">
 
     <script src="./scripts/summary.js"></script>
+    <script src="./scripts/script.js"></script>
 
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/standard.css">
@@ -56,7 +57,7 @@
                     <p>Kanban Project Management Tool</p>
                     <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
                     <div class="header-icons">
-                        <a href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                        <a class="help-link" href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
                                     y="0" width="32" height="32">
@@ -68,8 +69,16 @@
                                         fill="#A8A8A8" />
                                 </g>
                             </svg></a>
-                        <div class="user-icon">
-                            <b id="user-initials">SM</b>
+                        <div class="user-icon" onclick="toggleSubmenu()">
+                            <b id="user-initials"></b>
+                            <div class="submenu d-none">
+                                <div class="submenu-content closed">
+                                    <a class="submenu-help" href="index.html">Help</a>
+                                    <a href="recipe.html">Legal Notice</a>
+                                    <a href="contact.html">Privacy Policy</a>
+                                    <a href="impressum.html">Log out</a>
+                                </div>
+                            </div> 
                         </div>
                     </div>
                 </div>
@@ -153,8 +162,8 @@
                         </section>
                     </div>
                     <div class="greeting-user">
-                        <p class="greeting">Good morning,</p>
-                        <h3 class="user" id="greet-user">User Test</h1>
+                        <p class="greeting"></p>
+                        <h3 class="user" id="greet-user"></h1>
                     </div>
                 </div>
             </div>

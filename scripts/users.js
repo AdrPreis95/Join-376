@@ -8,6 +8,7 @@ let signedUser = {
     "name": "",
     "password": ""
 };
+
 const BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
 
 async function loadData(path = "") {

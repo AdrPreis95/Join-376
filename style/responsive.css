@@ -20,7 +20,7 @@
         padding-bottom: 64px;
     }
     .header-content {
-        margin: 0;
+        margin: 0 16px 0 8px;
     }
     .main-content h1 {
         padding-left: 16px !important; font-size: 44px !important;
@@ -54,6 +54,78 @@
     .active_side {
         padding: 8px 12px 8px 12px;
         border-radius: 16px;
+    }
+
+    .help-link {
+        display: none;
+    }
+
+    .submenu-help {
+        display: block;
+    }
+    
+    .submenu-content a:first-child {
+        border-radius: 20px 0 0 0;
+    }
+
+    .submenu-content a:nth-child(2) {
+        border-radius: 0;
+    }
+
+    .submenu-content {
+        top: 28px;
+        transform: translateX(100%);
+        -webkit-transform: translateX(100%);
+    }
+    
+    .opened {
+        animation: slide-in 0.5s forwards;
+        -webkit-animation: slide-in 0.5s forwards;
+    }
+    
+    .closed {
+        animation: slide-out 0.5s forwards;
+        -webkit-animation: slide-out 0.5s forwards;
+    }
+    
+    @keyframes slide-in {
+        0% {
+            -webkit-transform: translateX(100%);
+        }
+    
+        100% {
+            -webkit-transform: translateX(0%);
+        }
+    }
+    
+    @-webkit-keyframes slide-in {
+        0% {
+            transform: translateX(100%);
+        }
+    
+        100% {
+            transform: translateX(0%);
+        }
+    }
+    
+    @keyframes slide-out {
+        0% {
+            transform: translateX(0%);
+        }
+    
+        100% {
+            transform: translateX(100%);
+        }
+    }
+    
+    @-webkit-keyframes slide-out {
+        0% {
+            -webkit-transform: translateX(0%);
+        }
+    
+        100% {
+            -webkit-transform: translateX(100%);
+        }
     }
 }
 

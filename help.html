@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hilfeseite</title>
 
     <link rel="icon" href="./assets/img/join_logo_dark.png">
+
+    <script src="./scripts/script.js"></script>
 
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/standard.css">
@@ -18,9 +19,7 @@
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
 </head>
-
-<body>
-
+<body onload="setUserInitials()">
     <div class="container">
         <aside class="sidebar">
             <div class="sidebar-logo">
@@ -56,8 +55,9 @@
                   <p>Kanban Project Management Tool</p>
                   <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
                   <div class="header-icons">
-      
-                      <div class="user-icon"><b>SM</b></div>
+                    <div class="user-icon">
+                        <b id="user-initials"></b>
+                    </div>
                   </div>
                 </div>
               </header>
@@ -176,9 +176,5 @@
                 </a>
             </div>
         </footer>
-
 </body>
-
-
-
 </html>
