@@ -20,37 +20,54 @@
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
 </head>
+<<<<<<< HEAD
 <body onload="fetchContacts(); setUserInitials()">
+=======
+<body onload="fetchContacts()">
+
+
+>>>>>>> 6838e1a4f505147103538fb88f538931c9bb0830
     <div class="container">
     <aside class="sidebar">
+
         <div class="sidebar-logo">
             <img src="assets/img/join_logo.png" alt="Join-Logo">
         </div>
+
         <div class="main-links-container">
             <a href="./summary.html" class="main-link">
                 <img src="./assets/icons/summary_icon.png" alt="summary_icon">
                 Summary
             </a>
+
             <a href="./add_task.html" class="main-link">
                 <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
                 Add Task
             </a>
+
             <a href="./board.html" class="main-link">
                 <img src="./assets/icons/board_icon.png" alt="board_icon">
                 Board
             </a>
+
             <a href="./contacts.html" class="main-link active_side">
                 <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
                 Contacts
             </a>
+
         </div>
+
         <div class="legal-links-container">
             <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
             <a href="./legal_notice.html" class="legal-link">Legal notice</a>
         </div>
+
     </aside>
+
     <main class="main-content">
+
         <header>
+
           <div class="header-content">
             <p>Kanban Project Management Tool</p>
             <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
@@ -69,66 +86,94 @@
                 </div>
             </div>
           </div>
+
         </header>
-            <main style="display: flex;">
-                <section class="contacts-section">
-                        <div class="add-header">
-                            <button class="addContact">
-                                <div style="color: white; font-size: 18px; display: flex; align-items: center; justify-content: center; position: relative; gap: 12px;"><b>Add new contact </b>
-                                    <img style="height: 36px;" src="assets/icons/person_add.png">
-                                </div>
-                            </button>
+
+        <main style="display: flex;">
+            <section class="contactsSection">
+                <div class="addHeader">
+                    <button class="addContact">
+                        <div style="color: white; font-size: 18px; display: flex; align-items: center; justify-content: center; position: relative; gap: 12px;">
+                            <b>Add new contact </b>
+                            <img style="height: 36px;" src="assets/icons/person_add.png">
                         </div>
-
-                    <contacts class="createdContacts">
-                        <template id="contact-template">
-                            <div class="contact">
-                                <div class="initials-circle"></div>
-                                <div class="contact-details">
-                                    <p style="display: flex; align-items: center; font-size: 18px;"> <span class="contact-name"></span></p>
-                                    <p> <span class="contact-email"></span></p>
+                    </button>
+                </div>
+        
+                <contacts class="createdContacts">
+                    <template id="contactTemplate">
+                        <div class="contactItem">
+                            <div class="contactWrapper" style="width: 80%; display: flex; align-items: center;">
+                                <div class="initialsCircle"></div>
+                                <div class="contactDetails">
+                                    <p style="display: flex; align-items: center; font-size: 18px;">
+                                        <span class="contactName"></span>
+                                    </p>
+                                    <p><span class="contactEmail"></span></p>
                                 </div>
-                                
                             </div>
-                        </template>
+                        </div>
+                    </template>
+                </contacts>
+                
+            </section>
+        
+            <div class="detailsContainer" style="padding-left: 60px;">
+                <div class="headerSection" style="padding-top: 72px; display: flex; height: 164px; align-items: center; gap: 30px;">
+                    <h2 style="font-size: 73px;">Contacts</h2>
+                    <div class="separatorLine"></div>
+                    <p style="color: black; font-style: normal; font-size: 22px;">Better with a team</p>
+                </div>
+        
+                <div class="selectedContactDetails" id="selectedContactDetails">
+                    <div class="selectedContactHeader">
+                        <div class="detailsInitialsCircle" id="detailsInitials"></div>
+                        <div>
+                            <p id="detailsName"></p>
+                            <div class="contactButtons">
+                            <button class="editContactDetails" id="editContactDetails"><img src="assets/icons/edit_icon.png" alt="Edit"> Edit</button>
+                            <button class="deleteContactDetails" id="deleteContactDetails"><img src="assets/icons/delete_icon.png" alt="Delete"> Delete</button>
+                            </div>
+                            
+                        </div>
+                    </div>
 
-                    </contacts>    
-                        
-                </section>
+                    <p style="font-size: 20px; margin-top: 42px; margin-bottom: 42px;">Contact Information</p>
+                    
+                    <div>
+                        <p style="margin-bottom: 14px;"> <b>Email</b></p>
+                        <p id="detailsEmail"></p>
+                    </div>
+                    
+                    <div>
+                        <p style="margin-top: 14px; margin-bottom: 14px;"> <b>Phone</b></p>
+                        <p id="detailsPhone"></p>
+                    </div>
+                    
+                </div>
+            </div>
+        </main>
+        
+        
+        <footer class="responsive-footer">
+            <div class="main-links-container-responsive">
+                <a href="./summary.html" class="main-link-responsive">
+                    <img src="./assets/icons/summary_icon.png" alt="summary_icon">Summary
+                </a>
 
-                <headersection style="padding-top: 72px; padding-left: 40px; display: flex; height: 164px; align-items: center; justify-content: center; gap: 30px;">
-                    <h2 style="font-size: 73px;">
-                        Contacts
-                    </h2>
-                    <div class="seperator-line"></div>
-                    <p style="color: black; font-style: normal; font-size: 22px;">
-                        Better with a team
-                    </p>                    
-                </headersection>
+                <a href="./add_task.html" class="main-link-responsive">
+                    <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">Add Task
+                </a>
 
-            </main>
-      </main>
-    </div>
+                <a href="./board.html" class="main-link-responsive">
+                    <img src="./assets/icons/board_icon.png" alt="board_icon">Board
+                </a>
 
-    <footer class="responsive-footer">
-        <div class="main-links-container-responsive">
-            <a href="./summary.html" class="main-link-responsive">
-                <img src="./assets/icons/summary_icon.png" alt="summary_icon">
-                Summary
-            </a>
-            <a href="./add_task.html" class="main-link-responsive">
-                <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
-                Add Task
-            </a>
-            <a href="./board.html" class="main-link-responsive">
-                <img src="./assets/icons/board_icon.png" alt="board_icon">
-                Board
-            </a>
-            <a href="./contacts.html" class="main-link-responsive active_side">
-                <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
-                Contacts
-            </a>
-        </div>
-    </footer>
-</body>
-</html>
+                <a href="./contacts.html" class="main-link-responsive active_side">
+                    <img src="./assets/icons/contacts_icon.png" alt="contact_icon">Contacts
+                </a>
+
+            </div>
+        </footer>
+    </body>
+    </html>

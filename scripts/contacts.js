@@ -19,23 +19,53 @@ function addLetterHeader(container, letter) {
 }
 
 function addContactToContainer(container, contact, initials, bgColor, template) {
+    if (!template || !template.content) return;
     const clone = template.content.cloneNode(true);
-    clone.querySelector('.initials-circle').textContent = initials;
-    clone.querySelector('.initials-circle').style.backgroundColor = bgColor;
-    clone.querySelector('.contact-name').textContent = contact.name;
-    clone.querySelector('.contact-email').innerHTML = contact.email 
-        ? `<a style="color: #007cee;"href="mailto:${contact.email}">${contact.email}</a>` 
+    const contactWrapper = clone.querySelector('.contactWrapper');
+    clone.querySelector('.initialsCircle').textContent = initials;
+    clone.querySelector('.initialsCircle').style.backgroundColor = bgColor;
+    clone.querySelector('.contactName').textContent = contact.name;
+    clone.querySelector('.contactEmail').innerHTML = contact.email 
+        ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
         : 'No email available';
+    contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}')`);
     container.appendChild(clone);
 }
 
+function loadContactDetails(contactWrapper, contact, initials, bgColor) {
+    const detailsSection = document.getElementById('selectedContactDetails');
+
+    detailsSection.classList.add('visible');
+    setTimeout(() => {
+        detailsSection.classList.add('active');
+    }, 10);
+
+    document.getElementById('detailsInitials').textContent = initials;
+    document.getElementById('detailsInitials').style.backgroundColor = bgColor;
+    document.getElementById('detailsName').textContent = contact.name;
+    document.getElementById('detailsEmail').innerHTML = contact.email 
+        ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
+        : 'No email available';
+    document.getElementById('detailsPhone').textContent = contact.phone ? contact.phone : 'No phone available';
+
+    document.querySelectorAll('.contactWrapper').forEach(wrapper => wrapper.classList.remove('activeSideContacts'));
+    contactWrapper.classList.add('activeSideContacts');
+}
+
+function hideContactDetails() {
+    const detailsSection = document.getElementById('selectedContactDetails');
+    detailsSection.classList.remove('active');
+    
+    setTimeout(() => {
+        detailsSection.classList.remove('visible');
+    }, 700); 
+}
 
 function displayContacts(contacts) {
     const container = document.querySelector('.createdContacts');
-    const template = document.getElementById('contact-template');
+    const template = document.getElementById('contactTemplate');
     let currentLetter = '';
     container.innerHTML = '';
-
     contacts.forEach(contact => {
         const firstLetter = contact.name.charAt(0).toUpperCase();
         if (firstLetter !== currentLetter) {

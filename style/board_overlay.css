@@ -2,6 +2,7 @@
 .close-icon {
     width: 32px;
     height: 32px;
+    cursor: pointer;
 }
 
 .task-details {
@@ -128,9 +129,19 @@
 
 .footer-link-overlay {
     display: flex;
+}
+
+.footer-overlay p {
     font-weight: 400;
     font-size: 16px;
     color: #2A3647;
+}
+
+#delete-container:hover {
+    color: #29ABE2;
+    font-size: 16px;
+    font-weight: 400;
+    fill: #29ABE2; 
 }
 
 #footer-delete {
@@ -145,12 +156,8 @@
     font-weight: 400;
 }
 
-#delete-icon:hover {
-    background-image: url(../assets/icons/delete_icon_hover.svg);
-}
-
-#edit-icon:hover {
-    background-image: url(../assets/icons/edit_icon_hover.svg);
+#edit-icon path:hover {
+    fill: #29ABE2;
 }
 
 #footer-delete:hover {
@@ -278,6 +285,12 @@
         0px 0px 1.7px rgba(0, 0, 0, 0.029),
         0px 0px 2.2px rgba(0, 0, 0, 0.036),
         0px 0px 4px rgba(0, 0, 0, 0.1);
+}
+
+#assigned-to {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
 }
 
 .button-ok-container {
