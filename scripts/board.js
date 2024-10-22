@@ -53,7 +53,6 @@ function renderTasks(tasksJson) {
         let prioIcon = findPrio(tasksJson[i].prio);
         document.getElementById(`${list}`).innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
         if(tasksJson[i].subtasks != undefined) {
-            console.log(tasksJson[i].subtasks)
             calculateSubtaskProgress(tasksJson[i].subtasks, id);
         }
         renderFirstLetter(tasksJson[i].assignedTo, id);
@@ -229,23 +228,41 @@ async function editTask(id, title, description, dueDate, priority) {
     refOverlay.innerHTML = "";
     refOverlay.innerHTML = getOverlayEdit(id, title, description);
     document.getElementById('due-date-input').defaultValue = dueDate;
-    loadContacts()
+    checkActivePriority(priority);
+    loadContacts();
+}
+
+function checkActivePriority(priority) {
     if(priority == 'Urgent') {
         document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
         document.getElementById('urgent-text').style = 'color: #FFFFFF;';
+        document.getElementById('urgent-icon').setAttribute("src", './assets/icons/urgent_icon_active.png');
     } else if(priority == 'Medium') {
         document.getElementById('medium-label').style.backgroundColor = '#FFA800';
+        document.getElementById('medium-text').style = 'color: #FFFFFF;';
+        document.getElementById('medium-icon').setAttribute("src", './assets/icons/medium_icon_active.png');
     } else if(priority == 'Low') {
         document.getElementById('low-label').style.backgroundColor = '#7AE229';
+        document.getElementById('low-text').style = 'color: #FFFFFF;';
+        document.getElementById('low-icon').setAttribute("src", './assets/icons/low_icon_active.png');
     }
+}
+
+function changePriority(newPriority) {
+    let prioArr = ['urgent', 'medium', 'low'];
+    for (let i = 0; i < prioArr.length; i++) {
+        document.getElementById(prioArr[i] +  '-label').style.backgroundColor = '#FFFFFF';
+        document.getElementById(prioArr[i] + '-text').style = 'color: #000000;';
+        let pictureUrl = './assets/icons/' + prioArr[i] + '_icon.png'
+        document.getElementById(prioArr[i] + '-icon').setAttribute("src", pictureUrl);        
+    }
+    checkActivePriority(newPriority);
 }
 
 async function saveEdit(id) {
     let changeTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
     let changeTaskJson = await changeTask.json();
-    changeTaskJson.title = document.getElementById('overlay-title').value;
-    changeTaskJson.description = document.getElementById('overlay-description').value;
-    changeTaskJson.dueDate = document.getElementById('due-date-input').value;
+    changeTaskJson = generateChangeTask(changeTaskJson);
     let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
         method: "PUT",
         headers: {
@@ -255,6 +272,23 @@ async function saveEdit(id) {
     });
     closeOverlay();
     loadTasks();
+}
+
+function generateChangeTask(changeTaskJson) {
+    let title = document.getElementById('overlay-title').value;
+    let description = document.getElementById('overlay-description').value;
+    let dueDate = document.getElementById('due-date-input').value;
+
+    if(title != "") {
+        changeTaskJson.title = title;
+    }
+    if(description != "") {
+        changeTaskJson.description = description;
+    }
+    if(dueDate != "") {
+        changeTaskJson.dueDate = dueDate;
+    }
+    return changeTaskJson;
 }
 
 async function loadContacts() {
