@@ -71,7 +71,7 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
 
             </div>
         </div>
-        <h4>Subtasks</h4>
+        <h4 id="subtask-headline-overlay">Subtasks</h4>
         <div>
             <div id="subtasks-overlay">
 

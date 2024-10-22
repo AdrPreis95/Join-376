@@ -19,14 +19,21 @@ function saveInArray(tasksJson) {
     }    
 }
 
-function searchTask(titles, description) {
-    let refSearchBar = document.getElementById('find-task');
-    let keyword = refSearchBar.value;
-    let searchResult = titles.filter(titles => titles.toLowerCase().includes(keyword.toLowerCase()));
-    console.log(searchResult);
-    refSearchBar.value = "";
+// function searchTask() {
+//     let refSearchBarInput = document.getElementById('find-task');
+//     let keyword = refSearchBarInput.value;
+//     let searchResultTitleId = titles.findIndex(title => title.toLowerCase().includes(keyword));
+//     refSearchBarInput.value = "";
+//     loadSearchResults(searchResultTitleId);
+// }
 
-}
+// async function loadSearchResults(searchResultTitleId) {
+//     clearLists();
+//     let resultTask = await fetch(BASE_URL + "/tasks/" + searchResultTitleId + ".json");
+//     let resultTaskJson = await resultTask.json();
+//     console.log(resultTaskJson);
+//     renderTasks(resultTaskJson);
+// }
 
 function clearLists() {
     document.getElementById('to-do').innerHTML = "";
@@ -45,7 +52,10 @@ function renderTasks(tasksJson) {
         let description = tasksJson[i].description;
         let prioIcon = findPrio(tasksJson[i].prio);
         document.getElementById(`${list}`).innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
-        calculateSubtaskProgress(tasksJson[i].subtasks, id);
+        if(tasksJson[i].subtasks != undefined) {
+            console.log(tasksJson[i].subtasks)
+            calculateSubtaskProgress(tasksJson[i].subtasks, id);
+        }
         renderFirstLetter(tasksJson[i].assignedTo, id);
     }
     checkEmptyList();
@@ -164,7 +174,11 @@ function renderOverlay(responseTaskJson) {
 
     refOverlay.innerHTML = getOverlayDetails(responseTaskJson.id, classCategory, responseTaskJson.category, responseTaskJson.title, responseTaskJson.description, responseTaskJson.dueDate, responseTaskJson.prio, prioIcon);
     renderOverlayUser(responseTaskJson);
-    renderOverlaySubtasks(responseTaskJson);
+    if(responseTaskJson.subtasks != undefined) {
+        renderOverlaySubtasks(responseTaskJson);
+    } else {
+        document.getElementById('subtask-headline-overlay').style = 'display: none';
+    }
 }
 
 function renderOverlayUser(responseTaskJson) {
