@@ -59,6 +59,43 @@
     </aside>
 
     <main class="main-content">
+
+        <div id="editContactForm">
+            <div>
+                <div class="leftContactOverlay">
+                    <img class="editContactLogo" src="assets/img/join_logo.png" alt="Join-Logo">
+                    <p class="editContactHeadline" id="editContactHeadline">Edit contact</p>
+                    <div class="editContactseparatorLine"></div>
+                </div>
+
+                <div style="width: 759px; position: relative;">
+                    <div class="editContactContainer">
+                        <img style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close">
+                        <div style="position: relative;">
+                            <input required class="editName" type="text" id="editName" placeholder="Name"/>
+                            <img style="position: absolute; top: 7px; right: 16px; height: 24px; width: 24px;" src="assets/icons/person_icon.png" alt="Person">
+                        </div>
+                        
+                        <div style="position: relative;">
+                            <input required class="editEmail" type="email" id="editEmail" placeholder="Email" />
+                            <img style="position: absolute; top: 7px; right: 16px; height: 24px; width: 24px;" src="assets/icons/mail_icon.png" alt="Email">
+                        </div>
+                        
+                        <div style="position: relative;">
+                            <input required class="editPhone" type="tel" id="editPhone" placeholder="Phone" />
+                            <img style="position: absolute; top: 7px; right: 16px; height: 24px; width: 24px;" src="assets/icons/phone_icon.png" alt="Phone">
+                        </div>
+                        
+                    </div>
+                    
+                    <button id="saveContactChanges">Save</button>
+                </div>
+                
+            </div>
+            
+        </div>
+
+
         <header>
             <div class="header-content">
                 <p>Kanban Project Management Tool</p>
@@ -127,6 +164,7 @@
                 </div>
         
                 <div class="selectedContactDetails" id="selectedContactDetails">
+
                     <div class="selectedContactHeader">
                         <div class="detailsInitialsCircle" id="detailsInitials"></div>
                         <div>
@@ -135,7 +173,7 @@
                             <button class="editContactDetails" id="editContactDetails"><img src="assets/icons/edit_icon.png" alt="Edit"> Edit</button>
                             <button class="deleteContactDetails" id="deleteContactDetails"><img src="assets/icons/delete_icon.png" alt="Delete"> Delete</button>
                             </div>
-                            
+
                         </div>
                     </div>
 
