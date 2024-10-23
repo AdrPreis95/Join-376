@@ -43,19 +43,20 @@ function clearLists() {
 }
 
 function renderTasks(tasksJson) {
-    for (let i = 0; i < tasksJson.length; i++) {
-        let id = tasksJson[i].id;
-        let list = tasksJson[i].list;
-        let category = tasksJson[i].category;
+    for (let i = 0; i < Object.keys(tasksJson).length; i++) {
+        let tasksArray = Object.values(tasksJson);
+        let id = tasksArray[i].id;
+        let list = tasksArray[i].list;
+        let category = tasksArray[i].category;
         let classCategory = checkCategory(category);
-        let title = tasksJson[i].title;
-        let description = tasksJson[i].description;
-        let prioIcon = findPrio(tasksJson[i].prio);
+        let title = tasksArray[i].title;
+        let description = tasksArray[i].description;
+        let prioIcon = findPrio(tasksArray[i].prio);
         document.getElementById(`${list}`).innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
-        if(tasksJson[i].subtasks != undefined) {
-            calculateSubtaskProgress(tasksJson[i].subtasks, id);
+        if(tasksArray[i].subtasks != undefined) {
+            calculateSubtaskProgress(tasksArray[i].subtasks, id);
         }
-        renderFirstLetter(tasksJson[i].assignedTo, id);
+        renderFirstLetter(tasksArray[i].assignedTo, id);
     }
     checkEmptyList();
 }
@@ -150,10 +151,13 @@ async function changeList(list) {
 }
 
 async function showOverlayDetailsTask(id) {
-    id--;
+    id--
     document.getElementById('all-content').style = 'filter: brightness(0.5);';
-    let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
+    let responseTask = await fetch(BASE_URL + "/tasks.json");
     let responseTaskJson = await responseTask.json();
+    responseTaskJson = responseTaskJson[id];
+    console.log(id);
+    console.log(responseTaskJson);
     renderOverlay(responseTaskJson);
 }
 
