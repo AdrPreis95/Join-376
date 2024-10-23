@@ -34,33 +34,31 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
 
 function loadContactDetails(contactWrapper, contact, initials, bgColor) {
     const detailsSection = document.getElementById('selectedContactDetails');
-
     detailsSection.classList.add('visible');
     setTimeout(() => {
         detailsSection.classList.add('active');
     }, 10);
-
     const detailsInitials = document.getElementById('detailsInitials');
     detailsInitials.textContent = initials;
     detailsInitials.style.backgroundColor = bgColor;
-
     document.getElementById('detailsName').textContent = contact.name;
     document.getElementById('detailsEmail').innerHTML = contact.email 
         ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
         : 'No email available';
     document.getElementById('detailsPhone').textContent = contact.phone ? contact.phone : 'No phone available';
-
     document.querySelectorAll('.contactWrapper').forEach(wrapper => wrapper.classList.remove('activeSideContacts'));
     contactWrapper.classList.add('activeSideContacts');
-
-    // Update the edit contact form initials with the same background color
     updateEditContactFormInitials(initials, bgColor);
+    document.getElementById('editName').value = contact.name;
+    document.getElementById('editEmail').value = contact.email || '';
+    document.getElementById('editPhone').value = contact.phone || '';
 }
+
 
 function updateEditContactFormInitials(initials, bgColor) {
     const editInitialsCircle = document.getElementById('editDetailsInitials');
-    editInitialsCircle.textContent = initials; // Set the initials for editing
-    editInitialsCircle.style.backgroundColor = bgColor; // Set the same background color as the details section
+    editInitialsCircle.textContent = initials;
+    editInitialsCircle.style.backgroundColor = bgColor;
 }
 
 function hideContactDetails() {
@@ -138,5 +136,23 @@ function openEditContactForm() {
     }, 10);
 }
 
+function closeAddContactForm() {
+    const addContactForm = document.getElementById('addContactForm');
+    addContactForm.style.opacity = '0';
+
+    setTimeout(() => {
+        addContactForm.classList.remove('visible');
+        addContactForm.style.display = 'none'; 
+    }, 700);
+}
+
+function openAddContactForm() {
+    const addContactForm = document.getElementById('addContactForm');
+    addContactForm.style.display = 'flex';
+    setTimeout(() => {
+        addContactForm.classList.add('visible');
+        addContactForm.style.opacity = '1'; 
+    }, 10);
+}
 
 fetchContacts().then(displayContacts);
