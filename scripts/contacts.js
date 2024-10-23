@@ -40,8 +40,10 @@ function loadContactDetails(contactWrapper, contact, initials, bgColor) {
         detailsSection.classList.add('active');
     }, 10);
 
-    document.getElementById('detailsInitials').textContent = initials;
-    document.getElementById('detailsInitials').style.backgroundColor = bgColor;
+    const detailsInitials = document.getElementById('detailsInitials');
+    detailsInitials.textContent = initials;
+    detailsInitials.style.backgroundColor = bgColor;
+
     document.getElementById('detailsName').textContent = contact.name;
     document.getElementById('detailsEmail').innerHTML = contact.email 
         ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
@@ -50,6 +52,15 @@ function loadContactDetails(contactWrapper, contact, initials, bgColor) {
 
     document.querySelectorAll('.contactWrapper').forEach(wrapper => wrapper.classList.remove('activeSideContacts'));
     contactWrapper.classList.add('activeSideContacts');
+
+    // Update the edit contact form initials with the same background color
+    updateEditContactFormInitials(initials, bgColor);
+}
+
+function updateEditContactFormInitials(initials, bgColor) {
+    const editInitialsCircle = document.getElementById('editDetailsInitials');
+    editInitialsCircle.textContent = initials; // Set the initials for editing
+    editInitialsCircle.style.backgroundColor = bgColor; // Set the same background color as the details section
 }
 
 function hideContactDetails() {
@@ -75,5 +86,57 @@ function displayContacts(contacts) {
         addContactToContainer(container, contact, getInitials(contact.name), getRandomColor(), template);
     });
 }
+
+function formatPhoneInput() {
+    let phoneInput = document.getElementById('editPhone');
+    let cleanedValue = phoneInput.value.replace(/[^\d+]/g, '');
+    if (!cleanedValue.startsWith('+')) {
+        cleanedValue = '+' + cleanedValue;
+    }
+    let formattedValue = cleanedValue.replace('+', '');
+    if (formattedValue.startsWith('49')) {
+        formattedValue = formattedValue.replace(/^(\d{2})(\d{4})(\d{3})(\d*)$/, '+$1 $2 $3 $4');
+    } else {
+        formattedValue = '+' + formattedValue;
+    }
+    phoneInput.value = formattedValue.trim();
+    if (phoneInput.value.length > 20) {
+        phoneInput.value = phoneInput.value.slice(0, 20);
+    }
+}
+
+function validateEmailInput() {
+    let emailInput = document.getElementById('editEmail');
+    let value = emailInput.value;
+    let atSymbolCount = (value.match(/@/g) || []).length;
+    if (atSymbolCount > 1) {
+        emailInput.value = value.slice(0, -1);
+        return;
+    }
+    if (value.startsWith('@') || value.endsWith('@')) {
+        emailInput.value = value.slice(0, -1);
+    }
+    emailInput.value = value.replace(/\s+/g, '');
+}
+
+function closeEditContactForm() {
+    const editContactForm = document.getElementById('editContactForm');
+    editContactForm.style.opacity = '0';
+
+    setTimeout(() => {
+        editContactForm.classList.remove('visible');
+        editContactForm.style.display = 'none'; 
+    }, 700);
+}
+
+function openEditContactForm() {
+    const editContactForm = document.getElementById('editContactForm');
+    editContactForm.style.display = 'flex';
+    setTimeout(() => {
+        editContactForm.classList.add('visible');
+        editContactForm.style.opacity = '1'; 
+    }, 10);
+}
+
 
 fetchContacts().then(displayContacts);
