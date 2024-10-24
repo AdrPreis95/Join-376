@@ -8,7 +8,8 @@
 
     <link rel="icon" href="./assets/img/join_logo_dark.png">
 
-    <script src="./scripts/users.js"></script>
+    <script src="scripts/base_url.js"></script>
+    <script src="scripts/summary.js"></script>
 
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/standard.css">
@@ -93,7 +94,7 @@
                                 <div class="todo-container">
                                     <img class="todo-icon" src="assets/icons/todo-logo.png" alt="TodoIcon">
                                     <div class="center-info">
-                                        <h2 class="h-2">1</h2>
+                                        <h2 id="show-todos" class="h-2">1</h2>
                                         <p class="p-info">To-do</p>
                                     </div>
                                 </div>
@@ -102,7 +103,7 @@
                             <div class="done-container">
                                 <img class="done-icon" src="assets/icons/done-logo.png" alt="DoneIcon">
                                 <div class="center-info">
-                                    <h2 class="h-2">1</h2>
+                                    <h2 id="show-done" class="h-2">1</h2>
                                     <p class="p-info">Done</p>
                                 </div>
                             </div>
@@ -113,14 +114,14 @@
                                 <div class="urgent-side">
                                     <img src="assets/icons/summary-prio.png" alt="UrgentIcon">
                                     <div class="center-info">
-                                        <h2 class="h-2">1</h2>
+                                        <h2 id="show-urgent" class="h-2">1</h2>
                                         <p class="p-info">Urgent</p>
                                     </div>
                                 </div>
                                 <div class="seperator-urgent-date"></div>
                                 <div class="center-info-date">
-                                <h3 class="priorydate" id="priory-date">October 16, 2024</h3>
-                                <p class="p-upcoming-deadline">Upcoming Deadline</p>
+                                    <h3 id="priory-date" class="priorydate">October 16, 2024</h3>
+                                    <p class="p-upcoming-deadline">Upcoming Deadline</p>
                                 </div>
                             </div>
                         </section>
@@ -130,14 +131,14 @@
                             <div class="tasks-board-container">
 
                                 <div class="center-info">
-                                    <h2 class="h-2">1</h2>
+                                    <h2 id="show-tasks-board" class="h-2">1</h2>
                                     <p class="p-info">Tasks in<br>Board</p>
                                 </div>
                             </div>
 
                             <div class="task-progress-container">
                                 <div class="center-info">
-                                    <h2 class="h-2">1</h2>
+                                    <h2 id="show-tasks-progress" class="h-2">1</h2>
                                     <p class="p-info">Tasks in<br>Progress</p>
                                 </div>
                             </div>

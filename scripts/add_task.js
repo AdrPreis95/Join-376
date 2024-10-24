@@ -50,6 +50,8 @@ async function createTask() {
     }
 
     let newID = await generateNewID();
+    let user = firebase.auth().currentUser;  // Prüfe, ob der Benutzer eingeloggt ist
+    let creator = user ? user.uid : "anonymous";
 
     let newTask = {
         id: newID,
@@ -59,7 +61,9 @@ async function createTask() {
         prio: priority,
         category: category,
         subtasks: subtasksArray,
-        assignedTo: selectedContacts
+        assignedTo: selectedContacts,
+        creator: creator,  // Hinzufügen des Erstellers
+        created_at: firebase.firestore.FieldValue.serverTimestamp() 
     };
 
     await fetch(BASE_URL + '/tasks.json', {
