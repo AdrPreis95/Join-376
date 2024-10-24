@@ -43,3 +43,9 @@ function toggleSubmenu() {
     
     userIcon.classList.toggle('user-icon-activated');
 }
+
+function logOut() {
+    loggedUser = {};
+    sessionStorage.removeItem("loggedUser");
+    window.location.href = "./index.html";
+}
