@@ -71,7 +71,7 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
 
             </div>
         </div>
-        <h4>Subtasks</h4>
+        <h4 id="subtask-headline-overlay">Subtasks</h4>
         <div>
             <div id="subtasks-overlay">
 
@@ -148,9 +148,9 @@ function getOverlayEdit(id, title, description) {
             <div class="overlay-priority-container">
                 <label for="priority">Priority</label>
                 <div class="prio-label-container">
-                    <div id="urgent-label" class="prio-label"><p id="urgent-text">Urgent</p><img src="./assets/icons/urgent_icon.png" alt="urgent"></div>
-                    <div id="medium-label" class="prio-label"><p>Medium</p><img src="./assets/icons/medium_icon.png" alt="medium"></div>
-                    <div id="low-label" class="prio-label"><p>Low</p><img src="./assets/icons/low_icon.png" alt="low"></div>
+                    <div onclick="changePriority('Urgent')" id="urgent-label" class="prio-label"><p id="urgent-text">Urgent</p><img id="urgent-icon" src="./assets/icons/urgent_icon.png" alt="urgent"></div>
+                    <div onclick="changePriority('Medium')" id="medium-label" class="prio-label"><p id="medium-text">Medium</p><img id="medium-icon"src="./assets/icons/medium_icon.png" alt="medium"></div>
+                    <div onclick="changePriority('Low')" id="low-label" class="prio-label"><p id="low-text">Low</p><img id="low-icon" src="./assets/icons/low_icon.png" alt="low"></div>
                 </div>    
             </div>
             <div class="overlay-edit-container">

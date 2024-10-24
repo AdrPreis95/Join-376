@@ -19,7 +19,10 @@
     <link rel="stylesheet" href="style/add_task.css">
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
+    <link rel="stylesheet" href="style/contacts_overlay.css">
+
 </head>
+
 <body onload="fetchContacts(); setUserInitials()">
     <div class="container">
     <aside class="sidebar">
@@ -59,9 +62,118 @@
     </aside>
 
     <main class="main-content">
+
+        <div id="addContactForm">
+            <div>
+                <div class="leftContactOverlay">
+                    <img class="addContactLogo" src="assets/img/join_logo.png" alt="Join-Logo">
+                    <div class="leftContactText">
+                        <p class="addContactHeadline" id="addContactHeadline">Add contact</p>
+                        <p class="addContactSubText" id="addContactSubText">Tasks are better with a team!</p>
+                    </div>
+                    
+                    <div class="addContactSeparatorLine"></div>
+                </div>
+        
+                <div style="width: 759px; position: relative; background-color: #f6f7f8; border-top-right-radius: 24px; border-bottom-right-radius: 24px;">
+        
+                    <div style="position: absolute; height: 90%; display: flex; align-items: center; justify-content: center; left: 14%;">
+                        <div class="addDetailsInitialsCircle" id="addDetailsInitials">
+                            <img style="height: 42px; width: 42px;" src="assets/icons/contacts_personicon.png" alt="Contact">
+                        </div>
+                    </div>
+        
+                    <div class="addContactContainer">
+        
+                        <img style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeAddContactForm()">
+        
+                        <div style="position: relative;">
+                            <input required class="addName" type="text" id="addName" placeholder="Name" />
+                            <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/person_icon.png" alt="Person">
+                        </div>
+        
+                        <div style="position: relative;">
+                            <input required class="addEmail" type="email" id="addEmail" placeholder="Email" oninput="validateEmailInput()" />
+                            <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/mail_icon.png" alt="Email">
+                        </div>
+        
+                        <div style="position: relative;">
+                            <input required class="addPhone" type="tel" id="addPhone" placeholder="Phone" maxlength="20" oninput="formatPhoneInput()" />
+                            <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/phone_icon.png" alt="Phone">
+                        </div>
+        
+                        <div class="addContactButtons">
+                            <button id="cancelContactAdd">Cancel
+                                <img src="assets/icons/clear-icon.png" alt="Cancel">
+                            </button>
+                            <button id="saveContactAdd">
+                                Create contact
+                                <img src="assets/icons/create-task.png" alt="Save">
+                            </button>
+                        </div>
+        
+                    </div>
+        
+                </div>
+        
+            </div>
+        </div>
+        
+
+        <div id="editContactForm">
+            <div>
+                <div class="leftContactOverlay">
+                    <img class="editContactLogo" src="assets/img/join_logo.png" alt="Join-Logo">
+                    <p class="editContactHeadline" id="editContactHeadline">Edit contact</p>
+                    <div class="editContactseparatorLine"></div>
+                </div>
+
+                <div style="width: 759px; position: relative; background-color: #f6f7f8; border-top-right-radius: 24px; border-bottom-right-radius: 24px;">
+
+                    <div style="position: absolute; height: 90%; display: flex; align-items: center; justify-content: center; left: 14%;">
+                        <div class="editDetailsInitialsCircle" id="editDetailsInitials"></div>
+                    </div>
+
+                    <div class="editContactContainer">
+
+                        <img style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeEditContactForm()">
+
+                        <div style="position: relative;">
+                            <input required class="editName" type="text" id="editName" placeholder="Name"/>
+                            <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/person_icon.png" alt="Person">
+                        </div>
+                        
+                        <div style="position: relative;">
+                            <input required class="editEmail" type="email" id="editEmail" placeholder="Email" oninput="validateEmailInput()" />
+                            <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/mail_icon.png" alt="Email">
+                        </div>
+                        
+                        <div style="position: relative;">
+                            <input required class="editPhone" type="tel" id="editPhone" placeholder="Phone" maxlength="20" oninput="formatPhoneInput()" />
+                            <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/phone_icon.png" alt="Phone">
+                        </div>
+
+                        <div class="editContactButtons">
+                            <button id="deleteContactChanges">Delete</button>
+                            <button id="saveContactChanges">
+                                Save
+                                <img src="assets/icons/create-task.png" alt="Save">
+                            </button>
+                        </div>  
+                        
+                    </div>
+                
+                </div>
+                
+            </div>
+            
+        </div>
+
         <header>
             <div class="header-content">
+
                 <p>Kanban Project Management Tool</p>
+
                 <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
                 <div class="header-icons">
                     <a class="help-link" href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"
@@ -93,9 +205,9 @@
         <main style="display: flex;">
             <section class="contactsSection">
                 <div class="addHeader">
-                    <button class="addContact">
+                    <button onclick="openAddContactForm()" class="addContact">
                         <div style="color: white; font-size: 18px; display: flex; align-items: center; justify-content: center; position: relative; gap: 12px;">
-                            <b>Add new contact </b>
+                            <b>Add new contact</b>
                             <img style="height: 36px;" src="assets/icons/person_add.png">
                         </div>
                     </button>
@@ -127,15 +239,16 @@
                 </div>
         
                 <div class="selectedContactDetails" id="selectedContactDetails">
+
                     <div class="selectedContactHeader">
                         <div class="detailsInitialsCircle" id="detailsInitials"></div>
                         <div>
                             <p id="detailsName"></p>
                             <div class="contactButtons">
-                            <button class="editContactDetails" id="editContactDetails"><img src="assets/icons/edit_icon.png" alt="Edit"> Edit</button>
-                            <button class="deleteContactDetails" id="deleteContactDetails"><img src="assets/icons/delete_icon.png" alt="Delete"> Delete</button>
+                            <button class="editContactDetails" id="editContactDetails" onclick="openEditContactForm()"><img src="assets/icons/edit_icon.png" alt="Edit">Edit</button>
+                            <button class="deleteContactDetails" id="deleteContactDetails"><img src="assets/icons/delete_icon.png" alt="Delete">Delete</button>
                             </div>
-                            
+
                         </div>
                     </div>
 

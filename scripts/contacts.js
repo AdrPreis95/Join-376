@@ -34,22 +34,31 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
 
 function loadContactDetails(contactWrapper, contact, initials, bgColor) {
     const detailsSection = document.getElementById('selectedContactDetails');
-
     detailsSection.classList.add('visible');
     setTimeout(() => {
         detailsSection.classList.add('active');
     }, 10);
-
-    document.getElementById('detailsInitials').textContent = initials;
-    document.getElementById('detailsInitials').style.backgroundColor = bgColor;
+    const detailsInitials = document.getElementById('detailsInitials');
+    detailsInitials.textContent = initials;
+    detailsInitials.style.backgroundColor = bgColor;
     document.getElementById('detailsName').textContent = contact.name;
     document.getElementById('detailsEmail').innerHTML = contact.email 
         ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
         : 'No email available';
     document.getElementById('detailsPhone').textContent = contact.phone ? contact.phone : 'No phone available';
-
     document.querySelectorAll('.contactWrapper').forEach(wrapper => wrapper.classList.remove('activeSideContacts'));
     contactWrapper.classList.add('activeSideContacts');
+    updateEditContactFormInitials(initials, bgColor);
+    document.getElementById('editName').value = contact.name;
+    document.getElementById('editEmail').value = contact.email || '';
+    document.getElementById('editPhone').value = contact.phone || '';
+}
+
+
+function updateEditContactFormInitials(initials, bgColor) {
+    const editInitialsCircle = document.getElementById('editDetailsInitials');
+    editInitialsCircle.textContent = initials;
+    editInitialsCircle.style.backgroundColor = bgColor;
 }
 
 function hideContactDetails() {
@@ -74,6 +83,76 @@ function displayContacts(contacts) {
         }
         addContactToContainer(container, contact, getInitials(contact.name), getRandomColor(), template);
     });
+}
+
+function formatPhoneInput() {
+    let phoneInput = document.getElementById('editPhone');
+    let cleanedValue = phoneInput.value.replace(/[^\d+]/g, '');
+    if (!cleanedValue.startsWith('+')) {
+        cleanedValue = '+' + cleanedValue;
+    }
+    let formattedValue = cleanedValue.replace('+', '');
+    if (formattedValue.startsWith('49')) {
+        formattedValue = formattedValue.replace(/^(\d{2})(\d{4})(\d{3})(\d*)$/, '+$1 $2 $3 $4');
+    } else {
+        formattedValue = '+' + formattedValue;
+    }
+    phoneInput.value = formattedValue.trim();
+    if (phoneInput.value.length > 20) {
+        phoneInput.value = phoneInput.value.slice(0, 20);
+    }
+}
+
+function validateEmailInput() {
+    let emailInput = document.getElementById('editEmail');
+    let value = emailInput.value;
+    let atSymbolCount = (value.match(/@/g) || []).length;
+    if (atSymbolCount > 1) {
+        emailInput.value = value.slice(0, -1);
+        return;
+    }
+    if (value.startsWith('@') || value.endsWith('@')) {
+        emailInput.value = value.slice(0, -1);
+    }
+    emailInput.value = value.replace(/\s+/g, '');
+}
+
+function closeEditContactForm() {
+    const editContactForm = document.getElementById('editContactForm');
+    editContactForm.style.opacity = '0';
+
+    setTimeout(() => {
+        editContactForm.classList.remove('visible');
+        editContactForm.style.display = 'none'; 
+    }, 700);
+}
+
+function openEditContactForm() {
+    const editContactForm = document.getElementById('editContactForm');
+    editContactForm.style.display = 'flex';
+    setTimeout(() => {
+        editContactForm.classList.add('visible');
+        editContactForm.style.opacity = '1'; 
+    }, 10);
+}
+
+function closeAddContactForm() {
+    const addContactForm = document.getElementById('addContactForm');
+    addContactForm.style.opacity = '0';
+
+    setTimeout(() => {
+        addContactForm.classList.remove('visible');
+        addContactForm.style.display = 'none'; 
+    }, 700);
+}
+
+function openAddContactForm() {
+    const addContactForm = document.getElementById('addContactForm');
+    addContactForm.style.display = 'flex';
+    setTimeout(() => {
+        addContactForm.classList.add('visible');
+        addContactForm.style.opacity = '1'; 
+    }, 10);
 }
 
 fetchContacts().then(displayContacts);
