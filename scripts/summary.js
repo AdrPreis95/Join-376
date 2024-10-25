@@ -1,3 +1,11 @@
+function showTodos(){
+
+}
+
+function showDone(){
+
+}
+
 function onLoadFunc() {
     updateGreeting(); 
     setUserInitials();

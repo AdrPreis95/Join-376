@@ -51,6 +51,14 @@
       </div>
     </aside>
       <main class="main-content">
+        <div class="submenu d-none">
+          <div class="submenu-content closed">
+              <a class="submenu-help" href="help.html">Help</a>
+              <a href="legal_notice.html">Legal Notice</a>
+              <a href="privacy_policy.html">Privacy Policy</a>
+              <a onclick="logOut()">Log out</a>
+          </div>
+      </div> 
         <header>
           <div class="header-content">
               <p>Kanban Project Management Tool</p>
@@ -70,14 +78,7 @@
                       </svg></a>
                   <div class="user-icon" onclick="toggleSubmenu()">
                       <b id="user-initials"></b>
-                      <div class="submenu d-none">
-                          <div class="submenu-content closed">
-                              <a class="submenu-help" href="help.html">Help</a>
-                              <a href="legal_notice.html">Legal Notice</a>
-                              <a href="privacy_policy.html">Privacy Policy</a>
-                              <a onclick="logOut()">Log out</a>
-                          </div>
-                      </div> 
+                    
                   </div>
               </div>
           </div>

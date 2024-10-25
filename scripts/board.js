@@ -155,10 +155,9 @@ async function showOverlayDetailsTask(id) {
     document.getElementById('all-content').style = 'filter: brightness(0.5);';
     let responseTask = await fetch(BASE_URL + "/tasks.json");
     let responseTaskJson = await responseTask.json();
-    responseTaskJson = responseTaskJson[id];
-    console.log(id);
-    console.log(responseTaskJson);
-    renderOverlay(responseTaskJson);
+    let tasksArray = Object.values(responseTaskJson);
+    tasksArray = tasksArray[id];
+    renderOverlay(tasksArray);
 }
 
 function closeOverlay() {

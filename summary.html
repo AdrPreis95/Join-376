@@ -8,6 +8,8 @@
 
     <link rel="icon" href="./assets/img/join_logo_dark.png">
 
+    <script src="scripts/base_url.js"></script>
+    <script src="scripts/summary.js"></script>
     <script src="./scripts/summary.js"></script>
     <script src="./scripts/script.js"></script>
 
@@ -52,13 +54,23 @@
             </div>
         </aside>
         <main class="main-content">
+            <div class="submenu d-none">
+                <div class="submenu-content closed">
+                    <a class="submenu-help" href="help.html">Help</a>
+                    <a href="legal_notice.html">Legal Notice</a>
+                    <a href="privacy_policy.html">Privacy Policy</a>
+                    <a onclick="logOut()">Log out</a>
+                </div>
+            </div>
+
             <header>
+
                 <div class="header-content">
                     <p>Kanban Project Management Tool</p>
                     <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
                     <div class="header-icons">
-                        <a class="help-link" href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                        <a class="help-link" href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
                                     y="0" width="32" height="32">
                                     <rect width="32" height="32" fill="#D9D9D9" />
@@ -69,19 +81,13 @@
                                         fill="#A8A8A8" />
                                 </g>
                             </svg></a>
-                        <div class="user-icon" onclick="toggleSubmenu()">
-                            <b id="user-initials"></b>
-                            <div class="submenu d-none">
-                                <div class="submenu-content closed">
-                                    <a class="submenu-help" href="help.html">Help</a>
-                                    <a href="legal_notice.html">Legal Notice</a>
-                                    <a href="privacy_policy.html">Privacy Policy</a>
-                                    <a onclick="logOut()">Log out</a>
-                                </div>
-                            </div> 
-                        </div>
+
+                    </div>
+                    <div class="user-icon" onclick="toggleSubmenu()">
+                        <b id="user-initials"></b>
                     </div>
                 </div>
+
             </header>
             <div class="overall-container">
 
@@ -104,7 +110,7 @@
                                 <div class="todo-container">
                                     <img class="todo-icon" src="assets/icons/todo-logo.png" alt="TodoIcon">
                                     <div class="center-info">
-                                        <h2 class="h-2">1</h2>
+                                        <h2 id="show-todos" class="h-2">1</h2>
                                         <p class="p-info">To-do</p>
                                     </div>
                                 </div>
@@ -113,7 +119,7 @@
                             <div class="done-container">
                                 <img class="done-icon" src="assets/icons/done-logo.png" alt="DoneIcon">
                                 <div class="center-info">
-                                    <h2 class="h-2">1</h2>
+                                    <h2 id="show-done" class="h-2">1</h2>
                                     <p class="p-info">Done</p>
                                 </div>
                             </div>
@@ -124,14 +130,14 @@
                                 <div class="urgent-side">
                                     <img src="assets/icons/summary-prio.png" alt="UrgentIcon">
                                     <div class="center-info">
-                                        <h2 class="h-2">1</h2>
+                                        <h2 id="show-urgent" class="h-2">1</h2>
                                         <p class="p-info">Urgent</p>
                                     </div>
                                 </div>
                                 <div class="seperator-urgent-date"></div>
                                 <div class="center-info-date">
-                                <h3 class="priorydate" id="priory-date">October 16, 2024</h3>
-                                <p class="p-upcoming-deadline">Upcoming Deadline</p>
+                                    <h3 id="priory-date" class="priorydate">October 16, 2024</h3>
+                                    <p class="p-upcoming-deadline">Upcoming Deadline</p>
                                 </div>
                             </div>
                         </section>
@@ -141,14 +147,14 @@
                             <div class="tasks-board-container">
 
                                 <div class="center-info">
-                                    <h2 class="h-2">1</h2>
+                                    <h2 id="show-tasks-board" class="h-2">1</h2>
                                     <p class="p-info">Tasks in<br>Board</p>
                                 </div>
                             </div>
 
                             <div class="task-progress-container">
                                 <div class="center-info">
-                                    <h2 class="h-2">1</h2>
+                                    <h2 id="show-tasks-progress" class="h-2">1</h2>
                                     <p class="p-info">Tasks in<br>Progress</p>
                                 </div>
                             </div>
@@ -163,7 +169,8 @@
                     </div>
                     <div class="greeting-user">
                         <p class="greeting"></p>
-                        <h3 class="user" id="greet-user"></h1>
+                        <h3 class="user" id="greet-user">
+                            </h1>
                     </div>
                 </div>
             </div>
