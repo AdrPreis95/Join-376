@@ -1,7 +1,10 @@
 function fetchContacts() {
     return fetch('https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
         .then(response => response.json())
-        .then(data => Object.values(data).slice(0, 10).sort((a, b) => a.name.localeCompare(b.name)));
+        .then(data => {
+            const contacts = Object.values(data).filter(contact => contact && contact.name);
+            return contacts.sort((a, b) => a.name.localeCompare(b.name));
+        });
 }
 
 function getInitials(name) {
@@ -38,22 +41,31 @@ function loadContactDetails(contactWrapper, contact, initials, bgColor) {
     setTimeout(() => {
         detailsSection.classList.add('active');
     }, 10);
+    updateContactDetails(contact, initials, bgColor);
+    document.querySelectorAll('.contactWrapper').forEach(wrapper => wrapper.classList.remove('activeSideContacts'));
+    contactWrapper.classList.add('activeSideContacts');
+    updateEditContactForm(contact, initials, bgColor);
+}
+
+function updateContactDetails(contact, initials, bgColor) {
     const detailsInitials = document.getElementById('detailsInitials');
     detailsInitials.textContent = initials;
     detailsInitials.style.backgroundColor = bgColor;
+    
     document.getElementById('detailsName').textContent = contact.name;
     document.getElementById('detailsEmail').innerHTML = contact.email 
         ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
         : 'No email available';
+    
     document.getElementById('detailsPhone').textContent = contact.phone ? contact.phone : 'No phone available';
-    document.querySelectorAll('.contactWrapper').forEach(wrapper => wrapper.classList.remove('activeSideContacts'));
-    contactWrapper.classList.add('activeSideContacts');
-    updateEditContactFormInitials(initials, bgColor);
+}
+
+function updateEditContactForm(contact, initials, bgColor) {
     document.getElementById('editName').value = contact.name;
     document.getElementById('editEmail').value = contact.email || '';
     document.getElementById('editPhone').value = contact.phone || '';
+    updateEditContactFormInitials(initials, bgColor);
 }
-
 
 function updateEditContactFormInitials(initials, bgColor) {
     const editInitialsCircle = document.getElementById('editDetailsInitials');
@@ -116,6 +128,51 @@ function validateEmailInput() {
     }
     emailInput.value = value.replace(/\s+/g, '');
 }
+
+function createContact() {
+    const newContact = {
+        name: document.getElementById('addName').value,
+        email: document.getElementById('addEmail').value,
+        phone: document.getElementById('addPhone').value,
+    };
+
+    // Fetch existing contacts to find the next ID
+    fetch('https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
+        .then(response => response.json())
+        .then(data => {
+            // Ensure that data is an object and contains valid contacts
+            if (data) {
+                // Map existing IDs correctly
+                const existingIds = Object.values(data)
+                    .filter(contact => contact && contact.id) // Ensure contact and id are defined
+                    .map(contact => contact.id);
+                
+                // Generate new ID
+                const newId = existingIds.length ? Math.max(...existingIds) + 1 : 1; // Increment ID logic
+
+                // Add the new contact with the new ID
+                return fetch(`https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts/${newId}.json`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ ...newContact, id: newId })
+                });
+            } else {
+                // Handle case where no contacts exist
+                return fetch(`https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts/1.json`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ ...newContact, id: 1 })
+                });
+            }
+        })
+        .then(() => {
+            // Close the form and refresh the contact list
+            closeAddContactForm();
+            fetchContacts().then(displayContacts);
+        })
+        .catch(error => {
+            console.error('Error adding contact:', error);
+        });
+}
+
 
 function closeEditContactForm() {
     const editContactForm = document.getElementById('editContactForm');
