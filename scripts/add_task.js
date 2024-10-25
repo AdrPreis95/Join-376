@@ -60,6 +60,7 @@ async function createTask() {
         dueDate: dueDate,
         prio: priority,
         category: category,
+        list: "to-do",
         subtasks: subtasksArray,
         assignedTo: selectedContacts,
         creator: creator,  // Hinzufügen des Erstellers
@@ -71,7 +72,7 @@ async function createTask() {
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(newTask)
+        body: JSON.stringify(newTask),
     });
 
     alert('Task successfully created!');

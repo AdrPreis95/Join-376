@@ -10,6 +10,8 @@
 
     <script src="scripts/base_url.js"></script>
     <script src="scripts/summary.js"></script>
+    <script src="./scripts/summary.js"></script>
+    <script src="./scripts/script.js"></script>
 
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="style/standard.css">
@@ -22,7 +24,7 @@
     <link rel="stylesheet" href="style/summary.css">
 </head>
 
-<body>
+<body onload="onLoadFunc()">
     <div class="container">
         <aside class="sidebar">
             <div class="sidebar-logo">
@@ -52,13 +54,23 @@
             </div>
         </aside>
         <main class="main-content">
+            <div class="submenu d-none">
+                <div class="submenu-content closed">
+                    <a class="submenu-help" href="help.html">Help</a>
+                    <a href="legal_notice.html">Legal Notice</a>
+                    <a href="privacy_policy.html">Privacy Policy</a>
+                    <a onclick="logOut()">Log out</a>
+                </div>
+            </div>
+
             <header>
+
                 <div class="header-content">
                     <p>Kanban Project Management Tool</p>
                     <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
                     <div class="header-icons">
-                        <a href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                                xmlns="http://www.w3.org/2000/svg">
+                        <a class="help-link" href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
                                 <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
                                     y="0" width="32" height="32">
                                     <rect width="32" height="32" fill="#D9D9D9" />
@@ -69,9 +81,13 @@
                                         fill="#A8A8A8" />
                                 </g>
                             </svg></a>
-                        <div class="user-icon"><b>SM</b></div>
+
+                    </div>
+                    <div class="user-icon" onclick="toggleSubmenu()">
+                        <b id="user-initials"></b>
                     </div>
                 </div>
+
             </header>
             <div class="overall-container">
 
@@ -152,8 +168,9 @@
                         </section>
                     </div>
                     <div class="greeting-user">
-                        <p class="greeting">Good morning,</p>
-                        <h3 class="user" id="greet-user">User Test</h1>
+                        <p class="greeting"></p>
+                        <h3 class="user" id="greet-user">
+                            </h1>
                     </div>
                 </div>
             </div>
@@ -167,7 +184,7 @@
 
     <footer class="responsive-footer">
         <div class="main-links-container-responsive">
-            <a href="./summary.html" class="main-link-responsive">
+            <a href="./summary.html" class="main-link-responsive active_side">
                 <img src="./assets/icons/summary_icon.png" alt="summary_icon">
                 Summary
             </a>
@@ -179,7 +196,7 @@
                 <img src="./assets/icons/board_icon.png" alt="board_icon">
                 Board
             </a>
-            <a href="./contacts.html" class="main-link-responsive active_side">
+            <a href="./contacts.html" class="main-link-responsive">
                 <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
                 Contacts
             </a>

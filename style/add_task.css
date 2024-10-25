@@ -430,7 +430,7 @@ select {
 
 .center-subtask-icons {
     position: absolute;
-    right: 0px;
+    right: 8px;
     display: flex;
     gap: 4px;
     align-items: center;

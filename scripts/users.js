@@ -1,9 +1,14 @@
 let loggedUser = {};
+if (sessionStorage.loggedUser != undefined){
+    window.location.href = "./summary.html";
+}
+
 let signedUser = { 
     "email": "",
     "name": "",
     "password": ""
 };
+
 const BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
 
 async function loadData(path = "") {
@@ -41,13 +46,12 @@ async function loadUser() {
                 if (matchingPassword(gettedUser.password, password.value)){
                     
                     loggedUser = gettedUser;
+                    sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
                     checkRememberMe(); //The user's email will be stored in a storage, if checkbox Remember me is checked 
                     email.value = "";
                     password.value = "";
-
-                    console.log("You are logged in");
-                    console.log(loggedUser);
                     rememberMe();
+                    window.location.href = "./summary.html";
 
                 } else {
                     //passwords do not match
@@ -55,6 +59,7 @@ async function loadUser() {
                     errorMsg.classList.remove('hidden');
                     password.classList.add("wrong-input");
                     email.classList.add("wrong-input");
+                    sessionStorage.removeItem("loggedUser");
                 }
             } else {
                 //user does not exist
@@ -62,6 +67,7 @@ async function loadUser() {
                 errorMsg.classList.remove('hidden');
                 password.classList.add("wrong-input");
                 email.classList.add("wrong-input");
+                sessionStorage.removeItem("loggedUser");
             }
 
         } else {
@@ -76,8 +82,8 @@ async function loadUser() {
 
 async function loadGuestUser() {
     loggedUser = await loadData("users/guest");
-    console.log("You are logged in as guest");
-    console.log(loggedUser);
+    sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+    window.location.href = "./summary.html";    
 }
 
 function matchingPassword (firstPassword = "", secondPassword = "") {

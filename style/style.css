@@ -21,7 +21,7 @@ header {
     gap: 16px;
 }
 
-.header-icons img{
+.header-icons img {
     width: 32px;
     height: 32px;
 }
@@ -35,6 +35,56 @@ header {
     justify-content: center;
     align-items: center;
     color: #29ABE2;
+    cursor: pointer;
+}
+
+.submenu {
+    position: relative;
+}
+
+.submenu-content {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 96px;
+    right: 6px;
+    background-color: #2A3647;
+    min-width: 157px;
+    -webkit-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 20px 0 20px 20px;
+    padding: 10px;
+    gap: 8px;
+    z-index: 999;
+}
+
+.submenu-content a {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19.2px;
+    color: #CDCDCD;
+    padding: 8px 16px 8px 16px;
+    text-decoration: none;
+}
+
+.submenu-content a:hover {
+    background-color: #2A3D59;
+}
+
+.submenu-help {
+    display: none;
+}
+
+.submenu-content a:nth-child(2) {
+    border-radius: 20px 0 0 0;
+}
+
+.submenu-content a:last-child {
+    border-radius: 0 0 20px 20px;
+}
+
+.user-icon-activated {
+    background-color: #0c2e621f;
 }
 
 .header-content p {
@@ -59,11 +109,13 @@ header {
 
 .sidebar-logo img {
     width: 100px;
-    height: 120px; transition: 0.3s ease-in-out;
+    height: 120px;
+    transition: 0.3s ease-in-out;
 }
 
 .sidebar-logo img:hover {
-    transform: scale(1.1); transition: 0.3s ease-in-out;
+    transform: scale(1.1);
+    transition: 0.3s ease-in-out;
 }
 
 .main-content {
@@ -105,12 +157,12 @@ header {
 }
 
 .main-links-container a {
-        width: 100%;
-        text-align: center;
-        display: inline-flex;
-        align-items: center;
-        gap: 20px;
-        padding: 10px 50px;
+    width: 100%;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 50px;
 }
 
 .main-link {
@@ -144,6 +196,7 @@ header {
 .active_side {
     padding: 8px 0px 8px 0px;
     background-color: #091931;
+    color: white;
 }
 
 [type="checkbox"] {
@@ -163,7 +216,7 @@ header {
     background-image: url("../assets/icons/checked_icon.png");
 }
 
-[type="checkbox"] + label {
+[type="checkbox"]+label {
     cursor: pointer;
 }
 
@@ -175,7 +228,8 @@ header {
     background-image: url("../assets/icons/checked_hover_icon.png");
 }
 
-.btn-primary, .btn-secondary {
+.btn-primary,
+.btn-secondary {
     font-weight: 700;
     font-size: 20px;
     line-height: 19.2px;
@@ -194,14 +248,14 @@ header {
 
 .btn-primary:hover {
     background-color: #29ABE2;
-    -webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.25); 
-    box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.25);
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
 }
 
 .btn-primary:active {
     background-color: #091931;
-    -webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.25); 
-    box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.25);
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
 }
 
 .btn-secondary {
@@ -215,8 +269,8 @@ header {
     border: 1px solid #29ABE2;
     outline: 1px solid #29ABE2;
     color: #29ABE2;
-    -webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.25); 
-    box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.25);
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
 }
 
 .btn-secondary:active {
@@ -224,8 +278,8 @@ header {
     border: 1px solid #091931;
     outline: 0;
     color: #091931;
-    -webkit-box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.25); 
-    box-shadow: 0px 4px 5px 0px rgba(0,0,0,0.25);
+    -webkit-box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 4px 5px 0px rgba(0, 0, 0, 0.25);
 }
 
 .error-message {

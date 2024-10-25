@@ -19,14 +19,21 @@ function saveInArray(tasksJson) {
     }    
 }
 
-function searchTask(titles, description) {
-    let refSearchBar = document.getElementById('find-task');
-    let keyword = refSearchBar.value;
-    let searchResult = titles.filter(titles => titles.toLowerCase().includes(keyword.toLowerCase()));
-    console.log(searchResult);
-    refSearchBar.value = "";
+// function searchTask() {
+//     let refSearchBarInput = document.getElementById('find-task');
+//     let keyword = refSearchBarInput.value;
+//     let searchResultTitleId = titles.findIndex(title => title.toLowerCase().includes(keyword));
+//     refSearchBarInput.value = "";
+//     loadSearchResults(searchResultTitleId);
+// }
 
-}
+// async function loadSearchResults(searchResultTitleId) {
+//     clearLists();
+//     let resultTask = await fetch(BASE_URL + "/tasks/" + searchResultTitleId + ".json");
+//     let resultTaskJson = await resultTask.json();
+//     console.log(resultTaskJson);
+//     renderTasks(resultTaskJson);
+// }
 
 function clearLists() {
     document.getElementById('to-do').innerHTML = "";
@@ -36,17 +43,20 @@ function clearLists() {
 }
 
 function renderTasks(tasksJson) {
-    for (let i = 0; i < tasksJson.length; i++) {
-        let id = tasksJson[i].id;
-        let list = tasksJson[i].list;
-        let category = tasksJson[i].category;
+    for (let i = 0; i < Object.keys(tasksJson).length; i++) {
+        let tasksArray = Object.values(tasksJson);
+        let id = tasksArray[i].id;
+        let list = tasksArray[i].list;
+        let category = tasksArray[i].category;
         let classCategory = checkCategory(category);
-        let title = tasksJson[i].title;
-        let description = tasksJson[i].description;
-        let prioIcon = findPrio(tasksJson[i].prio);
+        let title = tasksArray[i].title;
+        let description = tasksArray[i].description;
+        let prioIcon = findPrio(tasksArray[i].prio);
         document.getElementById(`${list}`).innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
-        calculateSubtaskProgress(tasksJson[i].subtasks, id);
-        renderFirstLetter(tasksJson[i].assignedTo, id);
+        if(tasksArray[i].subtasks != undefined) {
+            calculateSubtaskProgress(tasksArray[i].subtasks, id);
+        }
+        renderFirstLetter(tasksArray[i].assignedTo, id);
     }
     checkEmptyList();
 }
@@ -141,16 +151,19 @@ async function changeList(list) {
 }
 
 async function showOverlayDetailsTask(id) {
-    id--;
+    id--
     document.getElementById('all-content').style = 'filter: brightness(0.5);';
-    let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
+    let responseTask = await fetch(BASE_URL + "/tasks.json");
     let responseTaskJson = await responseTask.json();
-    renderOverlay(responseTaskJson);
+    let tasksArray = Object.values(responseTaskJson);
+    tasksArray = tasksArray[id];
+    renderOverlay(tasksArray);
 }
 
 function closeOverlay() {
     document.getElementById('task-details').style = 'display: none;';
     document.getElementById('all-content').style = 'filter: brightness(1);';
+    loadTasks();
 }
 
 function renderOverlay(responseTaskJson) {
@@ -163,7 +176,11 @@ function renderOverlay(responseTaskJson) {
 
     refOverlay.innerHTML = getOverlayDetails(responseTaskJson.id, classCategory, responseTaskJson.category, responseTaskJson.title, responseTaskJson.description, responseTaskJson.dueDate, responseTaskJson.prio, prioIcon);
     renderOverlayUser(responseTaskJson);
-    renderOverlaySubtasks(responseTaskJson);
+    if(responseTaskJson.subtasks != undefined) {
+        renderOverlaySubtasks(responseTaskJson);
+    } else {
+        document.getElementById('subtask-headline-overlay').style = 'display: none';
+    }
 }
 
 function renderOverlayUser(responseTaskJson) {
@@ -181,15 +198,18 @@ function renderOverlayUser(responseTaskJson) {
 }
 
 function renderOverlaySubtasks(responseTaskJson) {
+    let id = responseTaskJson.id
     for (let i = 0; i < responseTaskJson.subtasks.length; i++) {
+        let subtaskId = [i];
         let title = responseTaskJson.subtasks[i].title;
         let status = responseTaskJson.subtasks[i].status;
-        if(status == 'done') {
-            status = './assets/icons/checked_icon.png';
+        let statusIcon = responseTaskJson.subtasks[i].status;
+        if(statusIcon == 'done') {
+            statusIcon = './assets/icons/checked_icon.png';
         } else {
-            status = './assets/icons/unchecked_icon.png';
+            statusIcon = './assets/icons/unchecked_icon.png';
         }
-        document.getElementById('subtasks-overlay').innerHTML += getSubtasksOverlay(title, status);
+        document.getElementById('subtasks-overlay').innerHTML += getSubtasksOverlay(id, subtaskId, status, title, statusIcon);
     }
 }
 
@@ -211,24 +231,41 @@ async function editTask(id, title, description, dueDate, priority) {
     refOverlay.innerHTML = "";
     refOverlay.innerHTML = getOverlayEdit(id, title, description);
     document.getElementById('due-date-input').defaultValue = dueDate;
-    loadContacts()
+    checkActivePriority(priority);
+    loadContacts();
+}
+
+function checkActivePriority(priority) {
     if(priority == 'Urgent') {
         document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
         document.getElementById('urgent-text').style = 'color: #FFFFFF;';
+        document.getElementById('urgent-icon').setAttribute("src", './assets/icons/urgent_icon_active.png');
     } else if(priority == 'Medium') {
         document.getElementById('medium-label').style.backgroundColor = '#FFA800';
+        document.getElementById('medium-text').style = 'color: #FFFFFF;';
+        document.getElementById('medium-icon').setAttribute("src", './assets/icons/medium_icon_active.png');
     } else if(priority == 'Low') {
         document.getElementById('low-label').style.backgroundColor = '#7AE229';
+        document.getElementById('low-text').style = 'color: #FFFFFF;';
+        document.getElementById('low-icon').setAttribute("src", './assets/icons/low_icon_active.png');
     }
 }
 
-async function saveEdit(id) {
+function changePriority(newPriority) {
+    let prioArr = ['urgent', 'medium', 'low'];
+    for (let i = 0; i < prioArr.length; i++) {
+        document.getElementById(prioArr[i] +  '-label').style.backgroundColor = '#FFFFFF';
+        document.getElementById(prioArr[i] + '-text').style = 'color: #000000;';
+        let pictureUrl = './assets/icons/' + prioArr[i] + '_icon.png'
+        document.getElementById(prioArr[i] + '-icon').setAttribute("src", pictureUrl);        
+    }
+    checkActivePriority(newPriority);
+}
 
+async function saveEdit(id) {
     let changeTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
     let changeTaskJson = await changeTask.json();
-    changeTaskJson.title = document.getElementById('overlay-title').value;
-    changeTaskJson.description = document.getElementById('overlay-description').value;
-    changeTaskJson.dueDate = document.getElementById('due-date-input').value;
+    changeTaskJson = generateChangeTask(changeTaskJson);
     let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
         method: "PUT",
         headers: {
@@ -240,6 +277,23 @@ async function saveEdit(id) {
     loadTasks();
 }
 
+function generateChangeTask(changeTaskJson) {
+    let title = document.getElementById('overlay-title').value;
+    let description = document.getElementById('overlay-description').value;
+    let dueDate = document.getElementById('due-date-input').value;
+
+    if(title != "") {
+        changeTaskJson.title = title;
+    }
+    if(description != "") {
+        changeTaskJson.description = description;
+    }
+    if(dueDate != "") {
+        changeTaskJson.dueDate = dueDate;
+    }
+    return changeTaskJson;
+}
+
 async function loadContacts() {
     let response = await fetch(BASE_URL + "/contacts.json");
     let responseJson = await response.json();
@@ -248,6 +302,22 @@ async function loadContacts() {
     }
 }
 
-function test(title) {
-    console.log(title);
+async function changeStatusSubtask(id, subtaskId, status) {
+    id--;
+    let response = await fetch(BASE_URL + "/tasks/" + id + ".json");
+    let responseJson = await response.json();
+    if(status == 'done') {
+        responseJson.subtasks[subtaskId].status = 'not done'
+    } else if(status == 'not done') {
+        responseJson.subtasks[subtaskId].status = 'done';
+    }
+    await fetch(BASE_URL + "/tasks/" + id + ".json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(responseJson)
+    });
+    document.getElementById('subtasks-overlay').innerHTML = "";
+    renderOverlaySubtasks(responseJson);
 }

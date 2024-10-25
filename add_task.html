@@ -23,13 +23,11 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
     <script src="scripts/base_url.js"></script>
     <script src="scripts/add_task.js"></script>
+    <script src="./scripts/script.js"></script>
     
-
-
-
 </head>
 
-<body>
+<body onload="setUserInitials()">
     <div class="container">
         <aside class="sidebar">
             <div class="sidebar-logo">
@@ -60,12 +58,20 @@
         </aside>
 
         <main class="main-content">
+            <div class="submenu d-none">
+                <div class="submenu-content closed">
+                    <a class="submenu-help" href="help.html">Help</a>
+                    <a href="legal_notice.html">Legal Notice</a>
+                    <a href="privacy_policy.html">Privacy Policy</a>
+                    <a onclick="logOut()">Log out</a>
+                </div>
+            </div> 
             <header>
                 <div class="header-content">
                     <p>Kanban Project Management Tool</p>
                     <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
                     <div class="header-icons">
-                        <a href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                        <a class="help-link" href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
                                     y="0" width="32" height="32">
@@ -77,7 +83,10 @@
                                         fill="#A8A8A8" />
                                 </g>
                             </svg></a>
-                        <div class="user-icon"><b>SM</b></div>
+                        <div class="user-icon" onclick="toggleSubmenu()">
+                            <b id="user-initials"></b>
+                           
+                        </div>
                     </div>
                 </div>
             </header>
