@@ -8,7 +8,7 @@ let description = [];
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
-    saveInArray(tasksJson);
+    // saveInArray(tasksJson);
     clearLists();
     renderTasks(tasksJson);
 }
@@ -87,7 +87,7 @@ function checkCategory(category) {
 }
 
 function calculateSubtaskProgress(subtasks, id) {
-    let allSubtasks = subtasks.length
+    let allSubtasks = subtasks.length;
     let doneTasks = 0;
     let notDoneTasks = 0;
 
@@ -140,9 +140,10 @@ function allowDrop(ev) {
 
 async function changeList(list) {
     currentDraggedElement--;
+    currentDraggedElement = await findKey(currentDraggedElement);
     let task = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json")
     let taskJson = await task.json();
-    taskJson.list = list
+    taskJson.list = list;
     let newList = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json", {
         method: "PUT",
         headers: {
@@ -203,7 +204,7 @@ function renderOverlayUser(responseTaskJson) {
     }
 }
 
-function renderOverlaySubtasks(responseTaskJson) {
+async function renderOverlaySubtasks(responseTaskJson) {
     let id = responseTaskJson.id
     for (let i = 0; i < responseTaskJson.subtasks.length; i++) {
         let subtaskId = [i];
@@ -289,6 +290,7 @@ function changePriority(newPriority) {
 }
 
 async function saveEdit(id) {
+    id = await findKey(id);
     let changeTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
     let changeTaskJson = await changeTask.json();
     changeTaskJson = generateChangeTask(changeTaskJson);
@@ -340,6 +342,7 @@ async function loadContacts() {
 
 async function changeStatusSubtask(id, subtaskId, status) {
     id--;
+    id = await findKey(id);
     let response = await fetch(BASE_URL + "/tasks/" + id + ".json");
     let responseJson = await response.json();
     if (status == 'done') {

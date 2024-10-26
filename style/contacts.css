@@ -4,6 +4,7 @@
     background-color: white;
     box-shadow: 3px 0 5px -3px #888; 
     overflow-y: auto;
+    padding-bottom: 12px;
 }
 
 .addHeader {
@@ -81,8 +82,8 @@
     border-radius: 8px;
     width: 100%;
     flex-direction: column;
-    transform: translateX(100%);
-    transition: transform 0.7s ease; 
+    transform: translateX(75%);
+    transition: transform 1.0s ease; 
 }
 
 .selectedContactDetails.visible {
@@ -90,7 +91,7 @@
 }
 
 .selectedContactDetails.active {
-    transform: translateX(0);
+    transform: translateX(0px);
 }
 
 .detailsInitialsCircle {

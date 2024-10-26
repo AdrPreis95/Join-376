@@ -1,7 +1,17 @@
+let contacts = [];
+
+
 function fetchContacts() {
     return fetch('https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
         .then(response => response.json())
-        .then(data => Object.values(data).slice(0, 10).sort((a, b) => a.name.localeCompare(b.name)));
+        .then(data => {
+            contacts = Object.values(data).filter(contact => contact && contact.name);
+            return contacts;
+        });
+}
+
+function sortContacts() {
+    contacts.sort((a, b) => a.name.localeCompare(b.name));
 }
 
 function getInitials(name) {
@@ -38,24 +48,30 @@ function loadContactDetails(contactWrapper, contact, initials, bgColor) {
     setTimeout(() => {
         detailsSection.classList.add('active');
     }, 10);
+    updateContactDetails(contact, initials, bgColor);
+    document.querySelectorAll('.contactWrapper').forEach(wrapper => wrapper.classList.remove('activeSideContacts'));
+    contactWrapper.classList.add('activeSideContacts');
+    updateEditContactForm(contact, initials, bgColor);
+}
+
+function updateContactDetails(contact, initials, bgColor) {
     const detailsInitials = document.getElementById('detailsInitials');
     detailsInitials.textContent = initials;
     detailsInitials.style.backgroundColor = bgColor;
+    
     document.getElementById('detailsName').textContent = contact.name;
     document.getElementById('detailsEmail').innerHTML = contact.email 
         ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
         : 'No email available';
+    
     document.getElementById('detailsPhone').textContent = contact.phone ? contact.phone : 'No phone available';
-    document.querySelectorAll('.contactWrapper').forEach(wrapper => wrapper.classList.remove('activeSideContacts'));
-    contactWrapper.classList.add('activeSideContacts');
-    updateEditContactFormInitials(initials, bgColor);
+}
+
+function updateEditContactForm(contact, initials, bgColor) {
     document.getElementById('editName').value = contact.name;
     document.getElementById('editEmail').value = contact.email || '';
     document.getElementById('editPhone').value = contact.phone || '';
-}
-
-
-function updateEditContactFormInitials(initials, bgColor) {
+    
     const editInitialsCircle = document.getElementById('editDetailsInitials');
     editInitialsCircle.textContent = initials;
     editInitialsCircle.style.backgroundColor = bgColor;
@@ -117,6 +133,41 @@ function validateEmailInput() {
     emailInput.value = value.replace(/\s+/g, '');
 }
 
+function createContact() {
+    const newContact = {
+        name: document.getElementById('addName').value,
+        email: document.getElementById('addEmail').value,
+        phone: document.getElementById('addPhone').value,
+    };
+
+    getNewContactId().then(newId => {
+        return fetch(`https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts/${newId}.json`, {
+            method: 'PUT',
+            body: JSON.stringify({ ...newContact, id: newId })
+        }).then(() => {
+            newContact.id = newId;
+            contacts.push(newContact);
+            displayContacts(contacts);
+            closeAddContactForm();
+        });
+    });
+}
+
+function getNewContactId() {
+    return fetch('https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
+        .then(response => response.json())
+        .then(data => {
+            if (data) {
+                const existingIds = Object.values(data)
+                    .filter(contact => contact && contact.id)
+                    .map(contact => contact.id);
+                return existingIds.length ? Math.max(...existingIds) + 1 : 1;
+            } else {
+                return 1;
+            }
+        });
+}
+
 function closeEditContactForm() {
     const editContactForm = document.getElementById('editContactForm');
     editContactForm.style.opacity = '0';
@@ -155,4 +206,7 @@ function openAddContactForm() {
     }, 10);
 }
 
-fetchContacts().then(displayContacts);
+fetchContacts().then(() => {
+    sortContacts();
+    displayContacts(contacts);
+});
