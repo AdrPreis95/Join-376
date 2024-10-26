@@ -55,7 +55,7 @@ async function createTask() {
         id: newID,
         title: title,
         description: description,
-        dueDate: dueDate,
+        dueDate: convertDateFormat(dueDate),
         prio: priority,
         category: category,
         list: "to-do",

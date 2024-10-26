@@ -317,7 +317,7 @@ function generateChangeTask(changeTaskJson) {
         changeTaskJson.description = description;
     }
     if (dueDate != "") {
-        changeTaskJson.dueDate = dueDate;
+        changeTaskJson.dueDate = convertDateFormat(dueDate);
     }
 
     changeTaskJson.prio = activePriority;
