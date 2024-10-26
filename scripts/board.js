@@ -206,7 +206,7 @@ function renderOverlayUser(responseTaskJson) {
     }
 }
 
-function renderOverlaySubtasks(responseTaskJson) {
+async function renderOverlaySubtasks(responseTaskJson) {
     let id = responseTaskJson.id
     for (let i = 0; i < responseTaskJson.subtasks.length; i++) {
         let subtaskId = [i];
