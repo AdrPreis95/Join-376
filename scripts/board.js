@@ -8,7 +8,7 @@ let description = [];
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
-    // saveInArray(tasksJson);
+    saveInArray(tasksJson);
     clearLists();
     renderTasks(tasksJson);
 }
