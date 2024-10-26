@@ -113,7 +113,7 @@ async function signUpUser() {
     if (privacyAccepted.value == 'true') {
 
         if (matchingPassword(password.value, confirm.value)) {
-            signedUser.name = name.value;
+            signedUser.name = capitalizeNames(name.value);
             signedUser.email = email.value;
             signedUser.password = password.value;
 
@@ -163,6 +163,10 @@ async function signUpUser() {
         inputCheckbox.classList.add('unchecked-privacy');
         privacyAccepted.focus();
     }
+}
+
+function capitalizeNames(name) {
+    return name.split(' ').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
 }
 
 function showSucessSignedUp() {

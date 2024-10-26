@@ -1,3 +1,4 @@
+//Check if the user is logged in 
 let loggedUser = {};
 if (sessionStorage.loggedUser != undefined){
     loggedUser = JSON.parse(sessionStorage.loggedUser);

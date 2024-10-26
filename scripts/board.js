@@ -1,6 +1,7 @@
 
 let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
 let currentDraggedElement;
+let activePriority = '';
 let titles = [];
 let description = [];
 
@@ -16,7 +17,7 @@ function saveInArray(tasksJson) {
     for (let i = 0; i < tasksJson.length; i++) {
         titles.push(tasksJson[i].title);
         description.push(tasksJson[i].description);
-    }    
+    }
 }
 
 // function searchTask() {
@@ -53,7 +54,7 @@ function renderTasks(tasksJson) {
         let description = tasksArray[i].description;
         let prioIcon = findPrio(tasksArray[i].prio);
         document.getElementById(`${list}`).innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
-        if(tasksArray[i].subtasks != undefined) {
+        if (tasksArray[i].subtasks != undefined) {
             calculateSubtaskProgress(tasksArray[i].subtasks, id);
         }
         renderFirstLetter(tasksArray[i].assignedTo, id);
@@ -61,7 +62,7 @@ function renderTasks(tasksJson) {
     checkEmptyList();
 }
 
-function checkEmptyList() { 
+function checkEmptyList() {
     let toDoRef = document.getElementById('to-do');
     let inProgressRef = document.getElementById('in-progress');
     let awaitFeedbackRef = document.getElementById('await-feedback');
@@ -70,14 +71,14 @@ function checkEmptyList() {
     let listNames = ['to do', 'in progress', 'await feedback', 'done']
 
     for (let i = 0; i < ref.length; i++) {
-        if(ref[i].innerHTML == '') {
+        if (ref[i].innerHTML == '') {
             ref[i].innerHTML = getClearList(listNames[i]);
         }
     }
 }
 
 function checkCategory(category) {
-    if(category == 'Technical Task') {
+    if (category == 'Technical Task') {
         classCategory = 'technical-task';
     } else {
         classCategory = 'user-story';
@@ -91,36 +92,38 @@ function calculateSubtaskProgress(subtasks, id) {
     let notDoneTasks = 0;
 
     for (let i = 0; i < subtasks.length; i++) {
-        if(subtasks[i].status == 'done') {
+        if (subtasks[i].status == 'done') {
             doneTasks++;
-        } else if(subtasks[i].status == 'not done') {
+        } else if (subtasks[i].status == 'not done') {
             notDoneTasks++;
         }
     }
     let progress = doneTasks / allSubtasks * 100;
-    document.getElementById('subtask-' + id).innerHTML = getSubtask(doneTasks, allSubtasks, progress)    
+    document.getElementById('subtask-' + id).innerHTML = getSubtask(doneTasks, allSubtasks, progress)
 }
 
 function renderFirstLetter(user, id) {
     let firstLetters = [];
-
-    for (let i = 0; i < user.length; i++) {
-        let firstName = user[i].firstName[0];
-        let lastName = user[i].lastName[0];
-        let firstLetter = firstName + lastName;
-        firstLetters.push(firstLetter);
+    if (user != undefined) {
+        for (let i = 0; i < user.length; i++) {
+            let firstName = user[i].firstName[0];
+            let lastName = user[i].lastName[0];
+            let firstLetter = firstName + lastName;
+            firstLetters.push(firstLetter.replace("(", ""));
+        }
     }
+    
     for (let j = 0; j < firstLetters.length; j++) {
         document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j]);
     }
 }
 
 function findPrio(priority) {
-    if(priority == 'Urgent') {
+    if (priority == 'Urgent') {
         prioIcon = './assets/icons/urgent_icon.png';
-    } else if(priority == 'Low') {
+    } else if (priority == 'Low') {
         prioIcon = './assets/icons/low_icon.png';
-    } else if(priority == 'Medium') {
+    } else if (priority == 'Medium') {
         prioIcon = './assets/icons/medium_icon.png';
     }
     return prioIcon;
@@ -176,7 +179,7 @@ function renderOverlay(responseTaskJson) {
 
     refOverlay.innerHTML = getOverlayDetails(responseTaskJson.id, classCategory, responseTaskJson.category, responseTaskJson.title, responseTaskJson.description, responseTaskJson.dueDate, responseTaskJson.prio, prioIcon);
     renderOverlayUser(responseTaskJson);
-    if(responseTaskJson.subtasks != undefined) {
+    if (responseTaskJson.subtasks != undefined) {
         renderOverlaySubtasks(responseTaskJson);
     } else {
         document.getElementById('subtask-headline-overlay').style = 'display: none';
@@ -186,14 +189,17 @@ function renderOverlay(responseTaskJson) {
 function renderOverlayUser(responseTaskJson) {
     let names = [];
     let firstLetters = [];
-    for (let i = 0; i < responseTaskJson.assignedTo.length; i++) {
-        let name = responseTaskJson.assignedTo[i].firstName + " " + responseTaskJson.assignedTo[i].lastName;
-        let firstLetter = responseTaskJson.assignedTo[i].firstName[0] + responseTaskJson.assignedTo[i].lastName[0];
-        names.push(name);
-        firstLetters.push(firstLetter);
+    if (responseTaskJson.assignedTo != undefined) {
+        for (let i = 0; i < responseTaskJson.assignedTo.length; i++) {
+            let name = responseTaskJson.assignedTo[i].firstName + " " + responseTaskJson.assignedTo[i].lastName;
+            let firstLetter = responseTaskJson.assignedTo[i].firstName[0] + responseTaskJson.assignedTo[i].lastName[0];
+            names.push(name);
+            firstLetters.push(firstLetter.replace("(", ""));
+        }
     }
+    
     for (let i = 0; i < names.length; i++) {
-        document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i])        
+        document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i])
     }
 }
 
@@ -204,7 +210,7 @@ function renderOverlaySubtasks(responseTaskJson) {
         let title = responseTaskJson.subtasks[i].title;
         let status = responseTaskJson.subtasks[i].status;
         let statusIcon = responseTaskJson.subtasks[i].status;
-        if(statusIcon == 'done') {
+        if (statusIcon == 'done') {
             statusIcon = './assets/icons/checked_icon.png';
         } else {
             statusIcon = './assets/icons/unchecked_icon.png';
@@ -214,12 +220,31 @@ function renderOverlaySubtasks(responseTaskJson) {
 }
 
 async function deleteTask(id) {
-    id--;
-    let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
-        method: "DELETE",
+    let tasks = await fetch(BASE_URL + "/tasks.json");
+    let tasksJson = await tasks.json();
+
+    // If tasksJson is an object, convert it to an array
+    tasksJson = Array.isArray(tasksJson) ? tasksJson : Object.values(tasksJson);
+
+    /* Takes a list of tasks, and an ID to remove */
+    const removeTaskById = (tasksJson, id) =>
+    tasksJson.filter(task => task.id !== id);
+
+    let updatedTasks = removeTaskById(tasksJson, id);
+
+    /* Updating ID's */
+    var newId = 1;
+    for (var i in updatedTasks) {
+        updatedTasks[i].id = newId;
+        newId++;
+    }
+
+    let responseTask = await fetch(BASE_URL + "/tasks.json", {
+        method: "PUT",
         headers: {
             "Content-Type": "application/json",
-        }
+        },
+        body: JSON.stringify(updatedTasks)
     });
     closeOverlay();
     loadTasks();
@@ -236,28 +261,29 @@ async function editTask(id, title, description, dueDate, priority) {
 }
 
 function checkActivePriority(priority) {
-    if(priority == 'Urgent') {
+    if (priority == 'Urgent') {
         document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
         document.getElementById('urgent-text').style = 'color: #FFFFFF;';
         document.getElementById('urgent-icon').setAttribute("src", './assets/icons/urgent_icon_active.png');
-    } else if(priority == 'Medium') {
+    } else if (priority == 'Medium') {
         document.getElementById('medium-label').style.backgroundColor = '#FFA800';
         document.getElementById('medium-text').style = 'color: #FFFFFF;';
         document.getElementById('medium-icon').setAttribute("src", './assets/icons/medium_icon_active.png');
-    } else if(priority == 'Low') {
+    } else if (priority == 'Low') {
         document.getElementById('low-label').style.backgroundColor = '#7AE229';
         document.getElementById('low-text').style = 'color: #FFFFFF;';
         document.getElementById('low-icon').setAttribute("src", './assets/icons/low_icon_active.png');
     }
+    activePriority = priority;
 }
 
 function changePriority(newPriority) {
     let prioArr = ['urgent', 'medium', 'low'];
     for (let i = 0; i < prioArr.length; i++) {
-        document.getElementById(prioArr[i] +  '-label').style.backgroundColor = '#FFFFFF';
+        document.getElementById(prioArr[i] + '-label').style.backgroundColor = '#FFFFFF';
         document.getElementById(prioArr[i] + '-text').style = 'color: #000000;';
         let pictureUrl = './assets/icons/' + prioArr[i] + '_icon.png'
-        document.getElementById(prioArr[i] + '-icon').setAttribute("src", pictureUrl);        
+        document.getElementById(prioArr[i] + '-icon').setAttribute("src", pictureUrl);
     }
     checkActivePriority(newPriority);
 }
@@ -282,23 +308,33 @@ function generateChangeTask(changeTaskJson) {
     let description = document.getElementById('overlay-description').value;
     let dueDate = document.getElementById('due-date-input').value;
 
-    if(title != "") {
+    if (title != "") {
         changeTaskJson.title = title;
     }
-    if(description != "") {
+    if (description != "") {
         changeTaskJson.description = description;
     }
-    if(dueDate != "") {
+    if (dueDate != "") {
         changeTaskJson.dueDate = dueDate;
     }
+
+    changeTaskJson.prio = activePriority;
+
     return changeTaskJson;
 }
 
 async function loadContacts() {
+    let userAsContact = {
+        email: loggedUser.email, 
+        id: 0, 
+        name: loggedUser.name + " (You)", 
+        phone: '000000'
+    }
     let response = await fetch(BASE_URL + "/contacts.json");
     let responseJson = await response.json();
+    responseJson.unshift(userAsContact);
     for (let i = 0; i < responseJson.length; i++) {
-        document.getElementById('assigned-to').innerHTML += getContactName(responseJson[i].name);        
+        document.getElementById('assigned-to').innerHTML += getContactName(responseJson[i].name);
     }
 }
 
@@ -306,9 +342,9 @@ async function changeStatusSubtask(id, subtaskId, status) {
     id--;
     let response = await fetch(BASE_URL + "/tasks/" + id + ".json");
     let responseJson = await response.json();
-    if(status == 'done') {
+    if (status == 'done') {
         responseJson.subtasks[subtaskId].status = 'not done'
-    } else if(status == 'not done') {
+    } else if (status == 'not done') {
         responseJson.subtasks[subtaskId].status = 'done';
     }
     await fetch(BASE_URL + "/tasks/" + id + ".json", {

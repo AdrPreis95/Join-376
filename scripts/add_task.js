@@ -50,8 +50,6 @@ async function createTask() {
     }
 
     let newID = await generateNewID();
-    let user = firebase.auth().currentUser;  // Prüfe, ob der Benutzer eingeloggt ist
-    let creator = user ? user.uid : "anonymous";
 
     let newTask = {
         id: newID,
@@ -62,13 +60,11 @@ async function createTask() {
         category: category,
         list: "to-do",
         subtasks: subtasksArray,
-        assignedTo: selectedContacts,
-        creator: creator,  // Hinzufügen des Erstellers
-        created_at: firebase.firestore.FieldValue.serverTimestamp() 
+        assignedTo: selectedContacts
     };
 
-    await fetch(BASE_URL + '/tasks.json', {
-        method: 'POST',
+    await fetch(BASE_URL + '/tasks/'+ (newID - 1) +'.json', {
+        method: 'PATCH',
         headers: {
             'Content-Type': 'application/json'
         },
@@ -202,6 +198,13 @@ function getRandomColor() {
 }
 
 async function loadContacts() {
+    let userAsContact = {
+        email: loggedUser.email, 
+        id: 0, 
+        name: loggedUser.name + " (You)", 
+        phone: '000000'
+    }
+
     try {
         let response = await fetch(`${BASE_URL}/contacts.json`);
         if (!response.ok) {
@@ -209,6 +212,9 @@ async function loadContacts() {
         }
         let contacts = await response.json();
         allContacts = contacts;
+
+        allContacts.unshift(userAsContact);
+
         displayContacts(allContacts);
     } catch (error) {
         console.error('Fehler beim Laden der Kontakte:', error);
