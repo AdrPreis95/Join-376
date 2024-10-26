@@ -7,17 +7,25 @@ let description = [];
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
-    saveInArray(tasksJson);
+    // saveInArray(tasksJson);
     clearLists();
     renderTasks(tasksJson);
 }
 
-function saveInArray(tasksJson) {
-    for (let i = 0; i < tasksJson.length; i++) {
-        titles.push(tasksJson[i].title);
-        description.push(tasksJson[i].description);
-    }    
+async function findKey(id) {
+    let response = await fetch(BASE_URL + "/tasks.json");
+    let responseJson = await response.json();
+    let keys = Object.keys(responseJson);
+    let key = keys[id];
+    return key;
 }
+
+// function saveInArray(tasksJson) {
+//     for (let i = 0; i < tasksJson.length; i++) {
+//         titles.push(tasksJson[i].title);
+//         description.push(tasksJson[i].description);
+//     }    
+// }
 
 // function searchTask() {
 //     let refSearchBarInput = document.getElementById('find-task');
@@ -86,7 +94,7 @@ function checkCategory(category) {
 }
 
 function calculateSubtaskProgress(subtasks, id) {
-    let allSubtasks = subtasks.length
+    let allSubtasks = subtasks.length;
     let doneTasks = 0;
     let notDoneTasks = 0;
 
@@ -137,9 +145,10 @@ function allowDrop(ev) {
 
 async function changeList(list) {
     currentDraggedElement--;
+    currentDraggedElement = await findKey(currentDraggedElement);
     let task = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json")
     let taskJson = await task.json();
-    taskJson.list = list
+    taskJson.list = list;
     let newList = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json", {
         method: "PUT",
         headers: {
@@ -215,7 +224,8 @@ function renderOverlaySubtasks(responseTaskJson) {
 
 async function deleteTask(id) {
     id--;
-    let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
+    let key = await findKey(id);
+    let responseTask = await fetch(BASE_URL + "/tasks/" + key + ".json", {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json",
@@ -263,6 +273,7 @@ function changePriority(newPriority) {
 }
 
 async function saveEdit(id) {
+    id = await findKey(id);
     let changeTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
     let changeTaskJson = await changeTask.json();
     changeTaskJson = generateChangeTask(changeTaskJson);
@@ -304,6 +315,7 @@ async function loadContacts() {
 
 async function changeStatusSubtask(id, subtaskId, status) {
     id--;
+    id = await findKey(id);
     let response = await fetch(BASE_URL + "/tasks/" + id + ".json");
     let responseJson = await response.json();
     if(status == 'done') {
