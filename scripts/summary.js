@@ -120,3 +120,7 @@ async function showTasksOnList() {
     document.getElementById("show-tasks-progress").innerHTML = inProgressTasks.length;
     document.getElementById("show-tasks-await-feedback").innerHTML = awaitFeedbackTasks.length;
 }
+
+function redirectToBoard() {
+    window.location.href = "./board.html";
+}
