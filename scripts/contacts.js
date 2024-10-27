@@ -90,7 +90,7 @@ function createContact() {
             newContact.id = newId;
             contacts.push(newContact);
             updateContactDisplay();
-            closeAddContactForm();
+            closeAddContactForm(true);
         });
     });
 }
@@ -112,7 +112,6 @@ function updateContactDisplay() {
         addContactToContainer(container, contact, initials, bgColor, template);
     });
 }
-
 
 function getNewContactId() {
     return fetch('https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
@@ -148,21 +147,22 @@ function openEditContactForm() {
     }, 10);
 }
 
-function closeAddContactForm() {
+function closeAddContactForm(contactCreated = false) {
     const form = document.getElementById('addContactForm');
     const overlay = document.getElementById('successfullycreatedContactOverlay');
-    overlay.style.display = 'flex';
-    overlay.style.opacity = '1';
+    if (contactCreated) {
+        overlay.style.display = 'flex';
+        overlay.style.opacity = '1';
+        setTimeout(() => overlay.style.display = 'none', 1000);
+    }
+    form.style.opacity = '0';
     setTimeout(() => {
-        overlay.style.display = 'none';
-        form.style.opacity = '0';
-        setTimeout(() => {
-            form.classList.remove('visible');
-            form.style.display = 'none';
-            ['addName', 'addPhone', 'addEmail'].forEach(id => document.getElementById(id).value = '');
-        }, 700);
+        form.classList.remove('visible');
+        form.style.display = 'none';
+        ['addName', 'addPhone', 'addEmail'].forEach(id => document.getElementById(id).value = '');
     }, 1000);
 }
+
 
 function openAddContactForm() {
     const addContactForm = document.getElementById('addContactForm');
