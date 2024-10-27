@@ -56,3 +56,7 @@ let colorsUser = ['#6E52FF', '#FF7A00', '#FF5EB3', '#9327FF', '#00BEE8', '#1FD7C
 function convertDateFormat(date) {
     return date.split("/").reverse().join("-");
 }
+
+function dateFormatter(date){
+    return date.split("-").reverse().join("/");
+}

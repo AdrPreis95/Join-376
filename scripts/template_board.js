@@ -56,7 +56,7 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
         <p>${description}</p>
         <div class="due-date-overlay">
             <h4>Due date:</h4>
-            <p>${dueDate}</p>
+            <p>${dateFormatter(dueDate)}</p>
         </div>
         <div class="priority-overlay">
             <h4>Priority:</h4>
