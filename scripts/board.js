@@ -3,7 +3,7 @@ let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabas
 let currentDraggedElement;
 let activePriority = '';
 let titles = [];
-let description = [];
+let descriptions = [];
 
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
@@ -13,28 +13,34 @@ async function loadTasks() {
     renderTasks(tasksJson);
 }
 
+async function findKey(id) {
+    let response = await fetch(BASE_URL + "/tasks.json");
+    let responseJson = await response.json();
+    let keys = Object.keys(responseJson);
+    let key = keys[id];
+    return key;
+}
+
 function saveInArray(tasksJson) {
     for (let i = 0; i < tasksJson.length; i++) {
         titles.push(tasksJson[i].title);
-        description.push(tasksJson[i].description);
+        descriptions.push(tasksJson[i].description);
     }
 }
 
-// function searchTask() {
-//     let refSearchBarInput = document.getElementById('find-task');
-//     let keyword = refSearchBarInput.value;
-//     let searchResultTitleId = titles.findIndex(title => title.toLowerCase().includes(keyword));
-//     refSearchBarInput.value = "";
-//     loadSearchResults(searchResultTitleId);
-// }
-
-// async function loadSearchResults(searchResultTitleId) {
-//     clearLists();
-//     let resultTask = await fetch(BASE_URL + "/tasks/" + searchResultTitleId + ".json");
-//     let resultTaskJson = await resultTask.json();
-//     console.log(resultTaskJson);
-//     renderTasks(resultTaskJson);
-// }
+function searchTask() {
+    let keyword = document.getElementById('find-task').value;
+    keyword = keyword.toLowerCase();
+    let matchingIndices = [];
+    titles.forEach((title, index) => {
+        if (title.toLowerCase().includes(keyword) || descriptions[index].toLowerCase().includes(keyword)) {
+            matchingIndices.push(index);
+        }
+    });
+    console.log(matchingIndices);
+    console.log(titles[matchingIndices]);
+    console.log(descriptions[matchingIndices]);
+}
 
 function clearLists() {
     document.getElementById('to-do').innerHTML = "";
@@ -205,7 +211,7 @@ function renderOverlayUser(responseTaskJson) {
 }
 
 async function renderOverlaySubtasks(responseTaskJson) {
-    let id = responseTaskJson.id
+    let id = responseTaskJson.id;
     for (let i = 0; i < responseTaskJson.subtasks.length; i++) {
         let subtaskId = [i];
         let title = responseTaskJson.subtasks[i].title;
@@ -216,9 +222,23 @@ async function renderOverlaySubtasks(responseTaskJson) {
         } else {
             statusIcon = './assets/icons/unchecked_icon.png';
         }
+        console.log(id, subtaskId, status, title, statusIcon);
         document.getElementById('subtasks-overlay').innerHTML += getSubtasksOverlay(id, subtaskId, status, title, statusIcon);
     }
 }
+
+// async function deleteTask(id) {
+//     id--;
+//     let key = await findKey(id);
+//     let responseTask = await fetch(BASE_URL + "/tasks/" + key + ".json", {
+//         method: "DELETE",
+//         headers: {
+//             "Content-Type": "application/json",
+//         }
+//     });
+//     closeOverlay();
+//     loadTasks();
+// }
 
 async function deleteTask(id) {
     let tasks = await fetch(BASE_URL + "/tasks.json");
