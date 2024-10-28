@@ -98,8 +98,8 @@ function createContact() {
 function updateContactDisplay() {
     sortContacts();
     const container = document.querySelector('.createdContacts');
+    container.innerHTML = getTemplateContacts();
     const template = document.getElementById('contactTemplate');
-    container.innerHTML = '';
     let currentLetter = '';
     contacts.forEach(contact => {
         const firstLetter = contact.name.charAt(0).toUpperCase();
