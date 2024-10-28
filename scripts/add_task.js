@@ -301,3 +301,15 @@ function openDropdown() {
         loadContacts();
     }
 }
+
+function clearTask() {
+    document.getElementById("title").value = '';
+    document.getElementById("description").value = '';
+    selectedContacts = [];
+    filterContacts();
+    document.getElementById("date").value = '';
+    resetPriorityButtons();
+    document.getElementById("selectcategory").value = '';
+    document.getElementById("subtask-list").innerHTML = '';
+    subtasksArray = [];
+}

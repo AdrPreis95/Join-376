@@ -21,6 +21,15 @@ async function findKey(id) {
     return key;
 }
 
+
+async function findKey(id) {
+    let response = await fetch(BASE_URL + "/tasks.json");
+    let responseJson = await response.json();
+    let keys = Object.keys(responseJson);
+    let key = keys[id];
+    return key;
+}
+
 function saveInArray(tasksJson) {
     for (let i = 0; i < tasksJson.length; i++) {
         titles.push(tasksJson[i].title);
@@ -276,7 +285,7 @@ async function editTask(id, title, description, dueDate, priority) {
     let refOverlay = document.getElementById('task-details');
     refOverlay.innerHTML = "";
     refOverlay.innerHTML = getOverlayEdit(id, title, description);
-    document.getElementById('due-date-input').defaultValue = dueDate;
+    document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
     checkActivePriority(priority);
     loadContacts();
 }

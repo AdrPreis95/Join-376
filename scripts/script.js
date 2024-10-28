@@ -60,3 +60,21 @@ function convertDateFormat(date) {
 function dateFormatter(date){
     return date.split("-").reverse().join("/");
 }
+
+function formatDueDate(e) {
+    let date = document.getElementById("due-date-input");
+
+    var keynum;
+
+    if(window) { // IE                  
+        keynum = e.keyCode;
+    } else if(e.which){ // Netscape/Firefox/Opera                 
+        keynum = e.which;
+    }
+
+    let lastChar = String.fromCharCode(keynum);
+
+    if(lastChar != "/" && (date.value.length == 2|| date.value.length == 5)){
+        date.value += '/';
+    }
+}
