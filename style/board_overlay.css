@@ -4,24 +4,39 @@
     cursor: pointer;
 }
 
+.close-icon:hover {
+    background-color: #D1D1D1;
+}
+
 .task-details {
     display: none;
     position: fixed;
     z-index: 1000;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(100%, -50%);
     background-color: #FFFFFF;
     height: 931px;
     width: 525px;
     border-radius: 30px;
     padding: 48px 40px 48px 40px;
+    animation: slideIn 0.5s forwards;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translate(100%, -50%);
+    }
+    to {
+        transform: translate(-50%, -50%);
+    }
 }
 
 .content-overlay {
     display: flex;
     flex-direction: column;
     gap: 24px;
+    width: 525px;
 }
 
 .content-overlay h3 {
@@ -278,13 +293,7 @@
     gap: 8px;
     border-radius: 10px;
     padding: 16px 10px 16px 10px;
-    box-shadow:
-        0px 0px 0.7px rgba(0, 0, 0, 0.024),
-        0px 0px 1.1px rgba(0, 0, 0, 0.036),
-        0px 0px 1.4px rgba(0, 0, 0, 0.033),
-        0px 0px 1.7px rgba(0, 0, 0, 0.029),
-        0px 0px 2.2px rgba(0, 0, 0, 0.036),
-        0px 0px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 4px 0px #0000001A;
 }
 
 #assigned-to {

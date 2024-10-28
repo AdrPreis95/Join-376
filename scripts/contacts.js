@@ -1,6 +1,5 @@
 let contacts = [];
 
-
 function fetchContacts() {
     return fetch('https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
         .then(response => response.json())
@@ -14,18 +13,18 @@ function sortContacts() {
     contacts.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-function getInitials(name) {
-    const nameParts = name.split(' ');
-    return nameParts[0][0].toUpperCase() + (nameParts[1] ? nameParts[1][0].toUpperCase() : '');
-}
-
-function getRandomColor() {
-    const colors = ['#ff7a00', '#9327ff', '#6e52ff', '#fc71ff', '#ffbb2b', '#1fd7c1', '#462f8a', '#ff4646', '#00bee8'];
-    return colors[Math.floor(Math.random() * colors.length)];
-}
-
-function addLetterHeader(container, letter) {
-    container.innerHTML += `<div class="contact-header">${letter}</div>`;
+function displayContacts(contacts) {
+    const container = document.querySelector('.createdContacts');
+    const template = document.getElementById('contactTemplate');
+    let currentLetter = '';
+    contacts.forEach(contact => {
+        const firstLetter = contact.name.charAt(0).toUpperCase();
+        if (firstLetter !== currentLetter) {
+            currentLetter = firstLetter;
+            addLetterHeader(container, currentLetter);
+        }
+        addContactToContainer(container, contact, getInitials(contact.name), getRandomColor(), template);
+    });
 }
 
 function addContactToContainer(container, contact, initials, bgColor, template) {
@@ -77,79 +76,40 @@ function updateEditContactForm(contact, initials, bgColor) {
     editInitialsCircle.style.backgroundColor = bgColor;
 }
 
-function hideContactDetails() {
-    const detailsSection = document.getElementById('selectedContactDetails');
-    detailsSection.classList.remove('active');
-    
-    setTimeout(() => {
-        detailsSection.classList.remove('visible');
-    }, 700); 
-}
-
-function displayContacts(contacts) {
-    const container = document.querySelector('.createdContacts');
-    const template = document.getElementById('contactTemplate');
-    let currentLetter = '';
-    container.innerHTML = '';
-    contacts.forEach(contact => {
-        const firstLetter = contact.name.charAt(0).toUpperCase();
-        if (firstLetter !== currentLetter) {
-            currentLetter = firstLetter;
-            addLetterHeader(container, currentLetter);
-        }
-        addContactToContainer(container, contact, getInitials(contact.name), getRandomColor(), template);
-    });
-}
-
-function formatPhoneInput() {
-    let phoneInput = document.getElementById('editPhone');
-    let cleanedValue = phoneInput.value.replace(/[^\d+]/g, '');
-    if (!cleanedValue.startsWith('+')) {
-        cleanedValue = '+' + cleanedValue;
-    }
-    let formattedValue = cleanedValue.replace('+', '');
-    if (formattedValue.startsWith('49')) {
-        formattedValue = formattedValue.replace(/^(\d{2})(\d{4})(\d{3})(\d*)$/, '+$1 $2 $3 $4');
-    } else {
-        formattedValue = '+' + formattedValue;
-    }
-    phoneInput.value = formattedValue.trim();
-    if (phoneInput.value.length > 20) {
-        phoneInput.value = phoneInput.value.slice(0, 20);
-    }
-}
-
-function validateEmailInput() {
-    let emailInput = document.getElementById('editEmail');
-    let value = emailInput.value;
-    let atSymbolCount = (value.match(/@/g) || []).length;
-    if (atSymbolCount > 1) {
-        emailInput.value = value.slice(0, -1);
-        return;
-    }
-    if (value.startsWith('@') || value.endsWith('@')) {
-        emailInput.value = value.slice(0, -1);
-    }
-    emailInput.value = value.replace(/\s+/g, '');
-}
-
 function createContact() {
     const newContact = {
         name: document.getElementById('addName').value,
         email: document.getElementById('addEmail').value,
         phone: document.getElementById('addPhone').value,
     };
-
     getNewContactId().then(newId => {
-        return fetch(`https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts/${newId}.json`, {
+        fetch(`https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts/${newId}.json`, {
             method: 'PUT',
             body: JSON.stringify({ ...newContact, id: newId })
         }).then(() => {
             newContact.id = newId;
             contacts.push(newContact);
-            displayContacts(contacts);
-            closeAddContactForm();
+            updateContactDisplay();
+            closeAddContactForm(true);
         });
+    });
+}
+
+function updateContactDisplay() {
+    sortContacts();
+    const container = document.querySelector('.createdContacts');
+    const template = document.getElementById('contactTemplate');
+    container.innerHTML = '';
+    let currentLetter = '';
+    contacts.forEach(contact => {
+        const firstLetter = contact.name.charAt(0).toUpperCase();
+        if (firstLetter !== currentLetter) {
+            currentLetter = firstLetter;
+            addLetterHeader(container, currentLetter);
+        }
+        const initials = getInitials(contact.name);
+        const bgColor = getRandomColor();
+        addContactToContainer(container, contact, initials, bgColor, template);
     });
 }
 
@@ -187,15 +147,22 @@ function openEditContactForm() {
     }, 10);
 }
 
-function closeAddContactForm() {
-    const addContactForm = document.getElementById('addContactForm');
-    addContactForm.style.opacity = '0';
-
+function closeAddContactForm(contactCreated = false) {
+    const form = document.getElementById('addContactForm');
+    const overlay = document.getElementById('successfullycreatedContactOverlay');
+    if (contactCreated) {
+        overlay.style.display = 'flex';
+        overlay.style.opacity = '1';
+        setTimeout(() => overlay.style.display = 'none', 1000);
+    }
+    form.style.opacity = '0';
     setTimeout(() => {
-        addContactForm.classList.remove('visible');
-        addContactForm.style.display = 'none'; 
-    }, 700);
+        form.classList.remove('visible');
+        form.style.display = 'none';
+        ['addName', 'addPhone', 'addEmail'].forEach(id => document.getElementById(id).value = '');
+    }, 1000);
 }
+
 
 function openAddContactForm() {
     const addContactForm = document.getElementById('addContactForm');
@@ -205,6 +172,21 @@ function openAddContactForm() {
         addContactForm.style.opacity = '1'; 
     }, 10);
 }
+
+function addLetterHeader(container, letter) {
+    container.innerHTML += `<div class="contact-header">${letter}</div>`;
+}
+
+function getInitials(name) {
+    const nameParts = name.split(' ');
+    return nameParts[0][0].toUpperCase() + (nameParts[1] ? nameParts[1][0].toUpperCase() : '');
+}
+
+function getRandomColor() {
+    const colors = ['#ff7a00', '#9327ff', '#6e52ff', '#fc71ff', '#ffbb2b', '#1fd7c1', '#462f8a', '#ff4646', '#00bee8'];
+    return colors[Math.floor(Math.random() * colors.length)];
+}
+
 
 fetchContacts().then(() => {
     sortContacts();
