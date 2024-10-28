@@ -13,6 +13,15 @@ async function loadTasks() {
     renderTasks(tasksJson);
 }
 
+async function findKey(id) {
+    let response = await fetch(BASE_URL + "/tasks.json");
+    let responseJson = await response.json();
+    let keys = Object.keys(responseJson);
+    let key = keys[id];
+    return key;
+}
+
+
 function saveInArray(tasksJson) {
     for (let i = 0; i < tasksJson.length; i++) {
         titles.push(tasksJson[i].title);
