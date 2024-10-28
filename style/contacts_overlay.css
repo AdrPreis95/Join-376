@@ -241,5 +241,4 @@
     font-weight: 400;
     position: absolute; left: 2%; bottom: 29px;
     opacity: 0;
-    transition: opacity 1s ease;
 }
