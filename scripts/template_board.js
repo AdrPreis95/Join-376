@@ -141,7 +141,7 @@ function getOverlayEdit(id, title, description) {
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="due-date">Due date</label>
                 <div class="overlay-input-field-date">
-                    <input type="date" id="due-date-input">
+                    <input input type="text" pattern="\d{2}/\d{2}/\d{4}" name="date" onkeypress="formatDueDate(event)" id="due-date-input" placeholder="dd/mm/yyyy" maxlength="10"/>
                     <img src="./assets/icons/date_icon.svg" alt ="calender">
                 </div>
             </div>

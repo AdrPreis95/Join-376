@@ -285,7 +285,7 @@ async function editTask(id, title, description, dueDate, priority) {
     let refOverlay = document.getElementById('task-details');
     refOverlay.innerHTML = "";
     refOverlay.innerHTML = getOverlayEdit(id, title, description);
-    document.getElementById('due-date-input').defaultValue = dueDate;
+    document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
     checkActivePriority(priority);
     loadContacts();
 }

@@ -35,7 +35,7 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
     clone.querySelector('.initialsCircle').style.backgroundColor = bgColor;
     clone.querySelector('.contactName').textContent = contact.name;
     clone.querySelector('.contactEmail').innerHTML = contact.email 
-        ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
+        ? `<a style="color: #007cee;" href="#">${contact.email}</a>` 
         : 'No email available';
     contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}')`);
     container.appendChild(clone);
@@ -98,8 +98,8 @@ function createContact() {
 function updateContactDisplay() {
     sortContacts();
     const container = document.querySelector('.createdContacts');
+    container.innerHTML = getTemplateContacts();
     const template = document.getElementById('contactTemplate');
-    container.innerHTML = '';
     let currentLetter = '';
     contacts.forEach(contact => {
         const firstLetter = contact.name.charAt(0).toUpperCase();
