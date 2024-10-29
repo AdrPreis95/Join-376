@@ -58,6 +58,7 @@ function updateContactDetails(contact, initials, bgColor) {
     detailsInitials.textContent = initials;
     detailsInitials.style.backgroundColor = bgColor;
     
+    document.getElementById('contactId').innerHTML = contact.id;
     document.getElementById('detailsName').textContent = contact.name;
     document.getElementById('detailsEmail').innerHTML = contact.email 
         ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
@@ -192,3 +193,34 @@ fetchContacts().then(() => {
     sortContacts();
     displayContacts(contacts);
 });
+
+async function deleteContact() {
+    let id = + document.getElementById('contactId').innerHTML;
+
+    contacts.splice((id - 1), 1 );
+
+    // Updating ID's 
+    var newId = 1;
+    for (var i in contacts) {
+        contacts[i].id = newId;
+        newId++;
+    }
+
+    let responseTask = await fetch('https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts.json', {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contacts)
+    });
+
+    
+    updateContactDisplay();
+    closeContactDetails();
+}
+
+function closeContactDetails(){
+    const detailsSection = document.getElementById('selectedContactDetails');
+    detailsSection.classList.remove('visible');
+    detailsSection.classList.remove('active');
+}

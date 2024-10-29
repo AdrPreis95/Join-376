@@ -7,6 +7,10 @@
     padding-bottom: 12px;
 }
 
+#contactId {
+    display: none;
+}
+
 .addHeader {
     display: flex; 
     align-items: center; 
