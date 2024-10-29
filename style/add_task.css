@@ -138,7 +138,14 @@ select {
 
 .date-container:focus-within {
     outline: none;
-    border-style: solid;
+    border: 2px solid;
+    border-color: #29ABE2;
+
+}
+
+.select-minimal:focus-within {
+    
+    border: 2px solid;
     border-color: #29ABE2;
 
 }
@@ -342,9 +349,20 @@ select {
     color: #2A3647;
     padding: 8px 16px 8px 16px;
     border-radius: 10px;
-    border: 1px solid;
+    border: 2px solid;
     gap: 12px;
     cursor: pointer;
+}
+
+.clear-button:hover {
+    border-color: #29ABE2;
+    color: #29ABE2;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 2px 3px #2A3647);
+}
+
+.clear-image {
+    fill: #29abe2;
 }
 
 .confirm {
@@ -366,8 +384,14 @@ select {
     padding: 8px 16px 8px 16px;
     border-radius: 10px;
     border: 1px solid;
-    gap: 12px;
+    gap: 8px;
     cursor: pointer;
+}
+
+.create-task-button:hover {
+    border-color: #29ABE2;
+    background-color: #29abe2;
+    filter: drop-shadow(0px 2px 3px #2A3647);
 }
 
 .button-container {
@@ -488,4 +512,9 @@ select {
     height: 18px;
     width: 1px;
     background-color: #454F5E;
+}
+.picked-user-avatar{
+    background-color: #2A3647;
+    height: auto;
+    width: 100%;
 }
