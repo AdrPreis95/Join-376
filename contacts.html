@@ -7,6 +7,8 @@
 
     <link rel="icon" href="./assets/img/join_logo_dark.png">
 
+    
+    <script src="./scripts/base_url.js"></script>
     <script src="./scripts/contacts.js"></script>
     <script src="./scripts/template_contacts.js"></script>
     <script src="./scripts/script.js"></script>
@@ -161,8 +163,8 @@
                         </div>
 
                         <div class="editContactButtons">
-                            <button id="deleteContactChanges">Delete</button>
-                            <button id="saveContactChanges">
+                            <button id="deleteContactChanges" onclick="deleteContact('editForm')">Delete</button>
+                            <button id="saveContactChanges" onclick="saveEditChanges()">
                                 Save
                                 <img src="assets/icons/create-task.png" alt="Save">
                             </button>
@@ -251,10 +253,11 @@
                     <div class="selectedContactHeader">
                         <div class="detailsInitialsCircle" id="detailsInitials"></div>
                         <div>
+                            <p id="contactId"></p>
                             <p id="detailsName"></p>
                             <div class="contactButtons">
                             <button class="editContactDetails" id="editContactDetails" onclick="openEditContactForm()"><img src="assets/icons/edit_icon.png" alt="Edit">Edit</button>
-                            <button class="deleteContactDetails" id="deleteContactDetails"><img src="assets/icons/delete_icon.png" alt="Delete">Delete</button>
+                            <button class="deleteContactDetails" id="deleteContactDetails" onclick="deleteContact('contactDetails')"><img src="assets/icons/delete_icon.png" alt="Delete">Delete</button>
                             </div>
 
                         </div>

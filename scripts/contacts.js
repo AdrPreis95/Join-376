@@ -1,7 +1,7 @@
 let contacts = [];
 
 function fetchContacts() {
-    return fetch('https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
+    return fetch(BASE_URL + 'contacts.json')
         .then(response => response.json())
         .then(data => {
             contacts = Object.values(data).filter(contact => contact && contact.name);
@@ -21,7 +21,8 @@ function displayContacts(contacts) {
         const firstLetter = contact.name.charAt(0).toUpperCase();
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
-            addLetterHeader(container, currentLetter);
+            if (container)
+                addLetterHeader(container, currentLetter);
         }
         addContactToContainer(container, contact, getInitials(contact.name), getRandomColor(), template);
     });
@@ -58,6 +59,7 @@ function updateContactDetails(contact, initials, bgColor) {
     detailsInitials.textContent = initials;
     detailsInitials.style.backgroundColor = bgColor;
     
+    document.getElementById('contactId').innerHTML = contact.id;
     document.getElementById('detailsName').textContent = contact.name;
     document.getElementById('detailsEmail').innerHTML = contact.email 
         ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
@@ -83,7 +85,7 @@ function createContact() {
         phone: document.getElementById('addPhone').value,
     };
     getNewContactId().then(newId => {
-        fetch(`https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts/${newId}.json`, {
+        fetch(BASE_URL + `contacts/${newId}.json`, {
             method: 'PUT',
             body: JSON.stringify({ ...newContact, id: newId })
         }).then(() => {
@@ -105,7 +107,8 @@ function updateContactDisplay() {
         const firstLetter = contact.name.charAt(0).toUpperCase();
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
-            addLetterHeader(container, currentLetter);
+            if(container)
+                addLetterHeader(container, currentLetter);
         }
         const initials = getInitials(contact.name);
         const bgColor = getRandomColor();
@@ -114,7 +117,7 @@ function updateContactDisplay() {
 }
 
 function getNewContactId() {
-    return fetch('https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/contacts.json')
+    return fetch(BASE_URL + 'contacts.json')
         .then(response => response.json())
         .then(data => {
             if (data) {
@@ -196,3 +199,64 @@ fetchContacts().then(() => {
     sortContacts();
     displayContacts(contacts);
 });
+
+async function deleteContact(del) {
+    let id = + document.getElementById('contactId').innerHTML;
+    id--;
+    contacts.splice(id, 1 );
+
+    // Updating ID's 
+    var newId = 1;
+    for (var i in contacts) {
+        contacts[i].id = newId;
+        newId++;
+    }
+
+    let responseContact = await fetch(BASE_URL + 'contacts.json', {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contacts)
+    });
+
+    
+    updateContactDisplay();
+    closeContactDetails();
+    if(del == "editForm") {
+        closeEditContactForm();
+    }
+}
+
+function closeContactDetails(){
+    const detailsSection = document.getElementById('selectedContactDetails');
+    detailsSection.classList.remove('visible');
+    detailsSection.classList.remove('active');
+}
+
+async function saveEditChanges() {
+    let id = + document.getElementById('contactId').innerHTML;
+    id--;
+    const editName = document.getElementById('editName').value;
+    const editEmail = document.getElementById('editEmail').value;
+    const editPhone = document.getElementById('editPhone').value;
+
+    contacts[id].name = editName;
+    contacts[id].email = editEmail;
+    contacts[id].phone = editPhone;
+
+    let responseContact = await fetch(BASE_URL + `contacts/${id}.json`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(contacts[id])
+    });
+
+    const initials = getInitials(contacts[id].name);
+    const bgColor = getRandomColor();
+
+    updateContactDetails(contacts[id], initials, bgColor);
+    closeEditContactForm();
+    updateContactDisplay();
+}

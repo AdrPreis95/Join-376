@@ -1,3 +1,4 @@
+
 let priority = '';
 let subtasksArray = [];
 let allContacts = [];
@@ -31,31 +32,32 @@ function setPriority(prio) {
 }
 
 async function createTask() {
-    let title = document.getElementById('title').value;
-    let description = document.getElementById('description').value;
-    let dueDate = document.getElementById('date').value;
-    let category = document.getElementById('selectcategory').value;
+    let titleInput = document.getElementById('title');
+    let descriptionInput = document.getElementById('description');
+    let dateInput = document.getElementById('due-date-input') || document.getElementById('date-div');
+    let categoryInput = document.getElementById('selectcategory');
 
-    if (title === '') {
-        alert('Please enter a title');
+    if (!titleInput || !descriptionInput || !dateInput || !categoryInput) {
+        console.error('Ein oder mehrere erforderliche Eingabefelder fehlen.');
         return;
     }
-    if (description === '') {
-        alert('Please enter a description');
-        return;
-    }
-    if (dueDate === '') {
-        alert('Please enter a due date');
+
+    let title = titleInput.value;
+    let description = descriptionInput.value;
+    let dueDate = dateInput.value || dateInput.textContent; // Nutzt entweder `input`- oder `div`-Wert
+    let category = categoryInput.value;
+
+    if (!title || !description || !dueDate) {
+        alert('Bitte füllen Sie alle erforderlichen Felder aus.');
         return;
     }
 
     let newID = await generateNewID();
-
     let newTask = {
         id: newID,
         title: title,
         description: description,
-        dueDate: convertDateFormat(dueDate),
+        dueDate: dueDate,
         prio: priority,
         category: category,
         list: "to-do",
@@ -63,19 +65,78 @@ async function createTask() {
         assignedTo: selectedContacts
     };
 
-    await fetch(BASE_URL + '/tasks/'+ (newID - 1) +'.json', {
+    await fetch(`${BASE_URL}/tasks/${newID - 1}.json`, {
         method: 'PATCH',
-        headers: {
-            'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask),
     });
 
-    alert('Task successfully created!');
-    subtasksArray = [];
-    document.getElementById('subtask-list').innerHTML = '';
-    selectedContacts = [];
+    alert('Task erfolgreich erstellt!');
+   
 }
+
+function fillCurrentDate() {
+    let dateInput = document.getElementById('due-date-input');
+    dateInput.value = getFormattedTodayDate();
+}
+
+function getFormattedTodayDate() {
+    let today = new Date();
+    let day = String(today.getDate()).padStart(2, '0');
+    let month = String(today.getMonth() + 1).padStart(2, '0');
+    let year = today.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+
+function handleDateInput(event) {
+    let value = formatDateInput(event.target.value);
+    event.target.value = value;
+
+    if (value.length === 10 && validateDate(value)) {
+        preventPastDate(value);
+    } else if (value.length === 10 && !validateDate(value)) {
+        event.target.value = '';
+        alert("Bitte geben Sie ein gültiges Datum ein.");
+    }
+}
+
+function formatDateInput(value) {
+    value = value.replace(/\D/g, '');
+    if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2);
+    if (value.length > 5) value = value.slice(0, 5) + '/' + value.slice(5, 9);
+    return value;
+}
+
+function validateDate(value) {
+    let inputDateParts = value.split('/');
+    if (inputDateParts.length !== 3) return false;
+
+    let day = parseInt(inputDateParts[0], 10);
+    let month = parseInt(inputDateParts[1], 10);
+    return day >= 1 && day <= 31 && month >= 1 && month <= 12;
+}
+
+function preventPastDate(value) {
+    let today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    let inputDateParts = value.split('/');
+    if (inputDateParts[2].length === 4) {
+        let enteredDate = new Date(`${inputDateParts[2]}-${inputDateParts[1]}-${inputDateParts[0]}`);
+        enteredDate.setHours(0, 0, 0, 0);
+
+        if (enteredDate < today) {
+            fillCurrentDate();
+            alert("Bitte wählen Sie ein Datum, das nicht in der Vergangenheit liegt.");
+        }
+    }
+}
+
+document.getElementById('due-date-input').addEventListener('input', handleDateInput);
+
+
+
+
 
 function resetPriorityButtons() {
     let redButton = document.getElementById('prio-red');
@@ -225,18 +286,20 @@ function displayContacts(contacts) {
     let dropdown = document.getElementById('dropdown-user');
     dropdown.innerHTML = '';
 
-    for (const key in contacts) {
-        let contact = contacts[key];
+    contacts.forEach(contact => {
+        if (!contact) return; 
         let fullName = '';
+
         if (contact.firstName && contact.lastName) {
             fullName = `${contact.firstName} ${contact.lastName}`;
         } else if (contact.name) {
             fullName = contact.name;
         } else {
-            console.warn(`Kontakt mit Key ${key} hat keinen firstName, lastName oder name`);
-            continue;
+            console.warn(`Kontakt mit fehlenden Daten wird übersprungen: ${JSON.stringify(contact)}`);
+            return; 
         }
 
+        
         let userContainer = document.createElement('div');
         userContainer.classList.add('user-container');
 
@@ -254,9 +317,6 @@ function displayContacts(contacts) {
 
         let checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
-        checkbox.id = `user-checkbox-${key}`;
-        checkbox.name = `user-checkbox-${key}`;
-
         checkbox.addEventListener('change', function () {
             if (this.checked) {
                 selectedContacts.push({
@@ -276,8 +336,9 @@ function displayContacts(contacts) {
         userContainer.appendChild(avatarSpanContainer);
         userContainer.appendChild(checkbox);
         dropdown.appendChild(userContainer);
-    }
+    });
 }
+
 
 function filterContacts() {
     let input = document.getElementById('dropdown-input').value.toLowerCase();
@@ -305,11 +366,12 @@ function openDropdown() {
 function clearTask() {
     document.getElementById("title").value = '';
     document.getElementById("description").value = '';
-    selectedContacts = [];
-    filterContacts();
-    document.getElementById("date").value = '';
-    resetPriorityButtons();
+    document.getElementById("due-date-input").value = '';
     document.getElementById("selectcategory").value = '';
     document.getElementById("subtask-list").innerHTML = '';
     subtasksArray = [];
+    selectedContacts = [];
+    displayContacts(allContacts);
+    resetPriorityButtons();
 }
+

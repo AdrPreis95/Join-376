@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de" onmouseup="drop(event)" ontouchend="drop(event)">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -98,40 +98,40 @@
                 <button class="add-task-button"><span>Add task</span><img src="./assets/icons/add.png" alt="add"></button>
             </div>
         </div>
-        <div class="board-lists">
+        <div class="board-lists" onmousemove="move(event)" ontouchmove="move(event)">
 
-            <div class="list" ondrop="changeList('to-do')" ondragover="allowDrop(event)">
+            <div class="list" ondrop="changeList('to-do')" ondragover="allowDrop(event)" onmouseup="drop(event)" ontouchend="drop(event)">
                 <div class="list-head">
                     <h3>To do</h3>
                     <button>+</button>
                 </div>
-                <div id="to-do">
+                <div class="to-do" id="to-do">
 
                 </div>
             </div>
-            <div class="list" ondrop="changeList('in-progress')" ondragover="allowDrop(event)">
+            <div class="list" ondrop="changeList('in-progress')" ondragover="allowDrop(event)" onmouseup="drop(event)" ontouchend="drop(event)">
                 <div class="list-head">
                     <h3>In progress</h3>
                     <button>+</button>
                 </div>
-                <div id="in-progress">
+                <div class="in-progress" id="in-progress" >
 
                 </div>
             </div>    
-            <div class="list" ondrop="changeList('await-feedback')" ondragover="allowDrop(event)">
+            <div class="list" ondrop="changeList('await-feedback')" ondragover="allowDrop(event)" onmouseup="drop(event)" ontouchend="drop(event)">
                 <div class="list-head">
                     <h3>Await feedback</h3>
                     <button>+</button>
                 </div>
-                <div id="await-feedback">
+                <div class="await-feedback" id="await-feedback">
 
                 </div>
             </div>
-            <div class="list" ondrop="changeList('done')" ondragover="allowDrop(event)">
+            <div class="list" ondrop="changeList('done')" ondragover="allowDrop(event)" onmouseup="drop(event)" ontouchend="drop(event)">
                 <div class="list-head">
                     <h3>Done</h3>
                 </div>
-                <div id="done">
+                <div class="done" id="done">
 
                 </div>
             </div>
@@ -163,5 +163,6 @@
           </a>
       </div>
   </footer>
+  <script src="./scripts/drag_drop.js"></script>
   </body>
 </html>
