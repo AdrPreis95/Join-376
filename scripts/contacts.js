@@ -174,8 +174,13 @@ function openAddContactForm() {
 }
 
 function addLetterHeader(container, letter) {
-    container.innerHTML += `<div class="contact-header">${letter}</div>`;
+    container.innerHTML += `
+        <div class="contactHeaderWrapper">
+            <div class="contactHeader">${letter}</div>
+        </div>
+    `;
 }
+
 
 function getInitials(name) {
     const nameParts = name.split(' ');

@@ -1,0 +1,79 @@
+@media (max-width: 1250px) {
+    .responsiveLogo {
+        display: block;
+        height: 56px;
+        padding-left: 16px;
+    }
+
+    .main-link-responsive {
+        color: #CDCDCD;
+    }
+
+    .sidebar {
+        display: none;
+    }
+    
+    .help-link {
+        display: none;
+    }
+
+    .header-content p {
+        display: none;
+    }
+
+    .header-content {
+        margin: 0px 8px 0px 8px;
+    }
+
+    .detailsContainer {
+        display: none;
+    }
+
+    .contactsSection {
+        width: 100%;
+    }
+    
+    .addHeader {
+        display: none;
+    }
+
+    .active_side {
+        padding: 8px 12px 8px 12px;
+        border-radius: 16px;
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        padding-bottom: 72px;
+}
+
+    .responsive-footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 30px;
+        background-color: #2A3647;
+        z-index: 1000;
+}
+
+}
+
+@media (max-width: 450px) {
+    .contactWrapper {
+        width: 97%;
+        padding: 14px 24px 15px 0px;
+    }
+    .initialsCircle {
+        margin-right: 12px; margin-left: 12px;
+    }
+
+    .contactHeader {
+        width: 90%;
+        padding: 20px 24px 15px 10px;
+    }
+}
