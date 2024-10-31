@@ -132,12 +132,27 @@ function generateChangeTask(changeTaskJson) {
     if (dueDate != "") {
         changeTaskJson.dueDate = convertDateFormat(dueDate);
     }
-
-    changeTaskJson.prio = activePriority;
-
+    changeTaskJson.prio = activePriorityButton();
     return changeTaskJson;
 }
 
+function activePriorityButton() {
+    let lowLabel = window.getComputedStyle(document.getElementById('low-label')).getPropertyValue("background-color");
+    let mediumLabel = window.getComputedStyle(document.getElementById('medium-label')).getPropertyValue("background-color");
+    let urgentLabel = window.getComputedStyle(document.getElementById('urgent-label')).getPropertyValue("background-color");
+    let activeElement;
+
+    if (lowLabel == "rgb(122, 226, 41)") {
+        activeElement = "Low";
+    }
+    if (mediumLabel == "rgb(255, 168, 0)") {
+        activeElement = "Medium";
+    }
+    if (urgentLabel == "rgb(255, 61, 0)") {
+        activeElement = "Urgent";
+    }
+    return activeElement;
+}
 async function loadContacts() {
     let userAsContact = {
         email: loggedUser.email, 
