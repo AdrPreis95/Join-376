@@ -42,7 +42,6 @@ function renderOverlayUser(responseTaskJson) {
             firstLetters.push(firstLetter.replace("(", ""));
         }
     }
-    
     for (let i = 0; i < names.length; i++) {
         document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i])
     }

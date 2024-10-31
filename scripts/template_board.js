@@ -51,7 +51,9 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
     <div class="content-overlay">
         <div class="header-overlay">
             <label class="category-overlay category-${classCategory}">${category}</label>
-            <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.svg" alt="close">
+            <div class="close-overlay">
+                <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.svg" alt="close">
+            </div>    
         </div>
         <h3>${title}</h3>
         <p>${description}</p>
@@ -128,7 +130,9 @@ function getOverlayEdit(id, title, description) {
     return `
     <div class="content-overlay">
         <div class="header-overlay-edit">
-            <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.svg" alt="close">
+            <div class ="close-overlay">
+                <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.svg" alt="close">
+            </div>    
         </div>
         <div class="overlay-edit-container">
             <div class="overlay-edit-container">

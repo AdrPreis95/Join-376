@@ -131,12 +131,15 @@ function calculateSubtaskProgress(subtasks, id) {
  */
 function renderFirstLetter(user, id) {
     let firstLetters = [];
+    let colors = [];
 
     for (let i = 0; i < user.length; i++) {
         let firstName = user[i].firstName[0];
         let lastName = user[i].lastName[0];
+        let color = user[i].color;
         let firstLetter = firstName + lastName;
         firstLetters.push(firstLetter);
+        colors.push(color);
     }
     for (let j = 0; j < firstLetters.length; j++) {
         document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j]);
@@ -204,17 +207,14 @@ async function deleteTask(id) {
     let tasks = await fetch(BASE_URL + "/tasks.json");
     let tasksJson = await tasks.json();
     tasksJson = Array.isArray(tasksJson) ? tasksJson : Object.values(tasksJson);
-
     const removeTaskById = (tasksJson, id) =>
     tasksJson.filter(task => task.id !== id);
-
     let updatedTasks = removeTaskById(tasksJson, id);
     var newId = 1;
     for (var i in updatedTasks) {
         updatedTasks[i].id = newId;
         newId++;
     }
-
     let responseTask = await fetch(BASE_URL + "/tasks.json", {
         method: "PUT",
         headers: {
