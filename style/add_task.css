@@ -143,8 +143,14 @@ select {
 
 }
 
-.select-minimal:focus-within {
-    
+#selectcategory:focus {
+
+    border: 2px solid;
+    border-color: #29ABE2;
+
+}
+
+#addsubtasks:focus {
     border: 2px solid;
     border-color: #29ABE2;
 
@@ -409,9 +415,10 @@ select {
 }
 
 .select-minimal {
+    border: none;
+    outline: none;
     border: unset;
     padding: 0.75rem;
-    border: 1px solid rgba(0, 0, 0, 0.1);
     appearance: none;
     background-image: url("/assets/icons/dropdown-arrow.png");
     background-repeat: no-repeat;
@@ -438,6 +445,8 @@ select {
     width: 100%;
     padding-right: 80px;
     box-sizing: border-box;
+    border: none;
+    outline: none;
 }
 
 .input-icon {
@@ -513,8 +522,18 @@ select {
     width: 1px;
     background-color: #454F5E;
 }
-.picked-user-avatar{
-    background-color: #2A3647;
+
+.picked-user-avatar {
+    display: flex;
+    padding-top: 8px;
+    gap: 4px;
+    overflow: auto;
+    background-color: transparent;
     height: auto;
     width: 100%;
+}
+
+.error-border {
+    border-style: solid !important;
+    border-color: red !important;
 }

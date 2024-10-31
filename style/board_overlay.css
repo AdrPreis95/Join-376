@@ -1,11 +1,15 @@
 .close-icon {
-    width: 32px;
-    height: 32px;
+    width: 24px !important;
+    height: 24px !important;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.close-icon:hover {
+.close-overlay:hover {
     background-color: #D1D1D1;
+    border-radius: 50%;
 }
 
 .task-details {

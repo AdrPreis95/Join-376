@@ -127,9 +127,11 @@ function preventPastDate(value) {
 
         if (enteredDate < today) {
             fillCurrentDate();
-            alert("Bitte wählen Sie ein Datum, das nicht in der Vergangenheit liegt.");
+            dateInput.classList.add('error-border'); 
+        } else {
+            dateInput.classList.remove('error-border'); 
         }
-    }
+}
 }
 
 document.getElementById('due-date-input').addEventListener('input', handleDateInput);
@@ -282,24 +284,15 @@ async function loadContacts() {
     }
 }
 
+
 function displayContacts(contacts) {
     let dropdown = document.getElementById('dropdown-user');
     dropdown.innerHTML = '';
 
     contacts.forEach(contact => {
-        if (!contact) return; 
-        let fullName = '';
+        if (!contact) return;
+        let fullName = contact.firstName && contact.lastName ? `${contact.firstName} ${contact.lastName}` : contact.name;
 
-        if (contact.firstName && contact.lastName) {
-            fullName = `${contact.firstName} ${contact.lastName}`;
-        } else if (contact.name) {
-            fullName = contact.name;
-        } else {
-            console.warn(`Kontakt mit fehlenden Daten wird übersprungen: ${JSON.stringify(contact)}`);
-            return; 
-        }
-
-        
         let userContainer = document.createElement('div');
         userContainer.classList.add('user-container');
 
@@ -319,16 +312,11 @@ function displayContacts(contacts) {
         checkbox.type = 'checkbox';
         checkbox.addEventListener('change', function () {
             if (this.checked) {
-                selectedContacts.push({
-                    firstName: contact.firstName || fullName.split(' ')[0],
-                    lastName: contact.lastName || fullName.split(' ')[1] || ''
-                });
+                selectedContacts.push(contact);
             } else {
-                selectedContacts = selectedContacts.filter(
-                    c => c.firstName !== (contact.firstName || fullName.split(' ')[0]) &&
-                         c.lastName !== (contact.lastName || fullName.split(' ')[1] || '')
-                );
+                selectedContacts = selectedContacts.filter(c => c !== contact);
             }
+            updatePickedUserAvatars(); // Aufruf zum Aktualisieren des separaten Containers
         });
 
         avatarSpanContainer.appendChild(avatar);
@@ -336,6 +324,37 @@ function displayContacts(contacts) {
         userContainer.appendChild(avatarSpanContainer);
         userContainer.appendChild(checkbox);
         dropdown.appendChild(userContainer);
+    });
+}
+
+function updatePickedUserAvatars() {
+    let pickedUserAvatarContainer = document.getElementById('picked-user-avatar');
+    pickedUserAvatarContainer.innerHTML = ''; // Leert den Container
+
+    selectedContacts.forEach(contact => {
+        let avatarDiv = document.createElement('div');
+        avatarDiv.classList.add('avatar');
+        avatarDiv.style.backgroundColor = getRandomColor();
+        
+        // Initialen generieren: erster Buchstabe des Vor- und Nachnamens
+        let initials = '';
+        if (contact.firstName) initials += contact.firstName[0];
+        if (contact.lastName) initials += contact.lastName[0];
+        if (!initials && contact.name) initials = contact.name[0]; // Falls `firstName` und `lastName` fehlen
+        avatarDiv.innerText = initials.toUpperCase();
+
+        // Namen-Span hinzufügen
+        let nameSpan = document.createElement('span');
+        nameSpan.classList.add('picked-user-name');
+        nameSpan.innerText = `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
+
+        // Avatar und Name in einen Container einfügen
+        let userInfoContainer = document.createElement('div');
+        userInfoContainer.classList.add('picked-user-info');
+        userInfoContainer.appendChild(avatarDiv);
+        userInfoContainer.appendChild(nameSpan);
+
+        pickedUserAvatarContainer.appendChild(userInfoContainer);
     });
 }
 
