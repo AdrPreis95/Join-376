@@ -38,7 +38,7 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
     clone.querySelector('.contactEmail').innerHTML = contact.email 
         ? `<a style="color: #007cee;" href="#">${contact.email}</a>` 
         : 'No email available';
-    contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}')`);
+        contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}'); toggleDetails();`);
     container.appendChild(clone);
 }
 
@@ -96,7 +96,6 @@ function createContact() {
         closeAddContactForm(true);
     });
 }
-
 
 function updateContactDisplay() {
     sortContacts();
@@ -176,7 +175,6 @@ function addLetterHeader(container, letter) {
     `;
 }
 
-
 function getInitials(name) {
     const nameParts = name.split(' ');
     return nameParts[0][0].toUpperCase() + (nameParts[1] ? nameParts[1][0].toUpperCase() : '');
@@ -191,6 +189,34 @@ fetchContacts().then(() => {
     sortContacts();
     displayContacts(contacts);
 });
+
+function toggleDetails() {
+    if (window.innerWidth < 1250) {
+        const detailsContainer = document.querySelector('.detailsContainer');
+        const contactsContainer = document.querySelector('.contactsSection');
+        const backArrow = document.querySelector('.backArrow');
+
+        detailsContainer.classList.toggle('show-details');
+        contactsContainer.classList.toggle('hide-contacts');
+
+        if (detailsContainer.classList.contains('show-details')) {
+            backArrow.classList.add('show-details');
+        } else {
+            backArrow.classList.remove('show-details');
+        }
+    }
+}
+
+function hideDetails() {
+    const detailsContainer = document.querySelector('.detailsContainer');
+    const contactsContainer = document.querySelector('.contactsSection');
+    const backArrow = document.querySelector('.backArrow');
+
+    detailsContainer.classList.remove('show-details');
+    contactsContainer.classList.remove('hide-contacts');
+
+    backArrow.classList.add('show-details');
+}
 
 async function deleteContact(del) {
     let id = + document.getElementById('contactId').innerHTML;

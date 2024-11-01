@@ -352,3 +352,11 @@
 .responsiveDetailsContainer {
     display: none;
 }
+
+.contactsHeaderText {
+    font-size: 73px;
+}
+
+.contactsUnderText {
+    color: black; font-style: normal; font-size: 22px;
+}
