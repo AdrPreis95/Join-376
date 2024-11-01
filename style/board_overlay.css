@@ -320,6 +320,16 @@
     border: 1px solid #D1D1D1;
 }
 
+.assigned-menu-overlay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px 12px 16px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+}
+
 .button-ok-container {
     display: flex;
     justify-content: flex-end;

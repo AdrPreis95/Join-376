@@ -8,10 +8,10 @@ function pickup(event) {
         return;
     moving = event.target;
 
-    moving.style.height = moving.clientHeight;
-    moving.style.width = moving.clientWidth;
+    moving.style.height = moving.clientHeight + 'px';
+    moving.style.width = moving.clientWidth + 'px';
     moving.style.position = 'fixed';
-    moving.style.zIndex = '-10';
+    moving.style.zIndex = '10'; // Bringt das Element in den Vordergrund
 }
 
 function move(event) {

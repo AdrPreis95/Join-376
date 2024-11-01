@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact</title>
+    <title>Contacts</title>
 
     <link rel="icon" href="./assets/img/join_logo_dark.png">
 
-    
     <script src="./scripts/base_url.js"></script>
     <script src="./scripts/contacts.js"></script>
     <script src="./scripts/template_contacts.js"></script>
@@ -18,11 +17,9 @@
     <link rel="stylesheet" href="style/privacy_policy.css">
     <link rel="stylesheet" href="style/legal_notice.css">
     <link rel="stylesheet" href="style/contacts.css">
-    <link rel="stylesheet" href="style/board.css">
-    <link rel="stylesheet" href="style/add_task.css">
     <link rel="stylesheet" href="style/responsive.css">
-    <link rel="stylesheet" href="style/summary.css">
     <link rel="stylesheet" href="style/contacts_overlay.css">
+    <link rel="stylesheet" href="style/contacts_responsive.css">
 
 </head>
 
@@ -31,32 +28,27 @@
     <aside class="sidebar">
 
         <div class="sidebar-logo">
-            <img src="assets/img/join_logo.png" alt="Join-Logo">
+            <img src="assets/img/join_logo.png" alt="Join Logo">
         </div>
-
+        
         <div class="main-links-container">
-            <a href="./summary.html" class="main-link">
-                <img src="./assets/icons/summary_icon.png" alt="summary_icon">
-                Summary
+            <a href="summary.html" class="main-link">
+                <img src="assets/icons/summary_icon.png" alt="Summary Icon"> Summary
             </a>
-
-            <a href="./add_task.html" class="main-link">
-                <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
-                Add Task
+        
+            <a href="add_task.html" class="main-link">
+                <img src="assets/icons/add_task_icon.png" alt="Add Task Icon"> Add Task
             </a>
-
-            <a href="./board.html" class="main-link">
-                <img src="./assets/icons/board_icon.png" alt="board_icon">
-                Board
+        
+            <a href="board.html" class="main-link">
+                <img src="assets/icons/board_icon.png" alt="Board Icon"> Board
             </a>
-
-            <a href="./contacts.html" class="main-link active_side">
-                <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
-                Contacts
+        
+            <a href="contacts.html" class="main-link active_side">
+                <img src="assets/icons/contacts_icon.png" alt="Contacts Icon"> Contacts
             </a>
-
         </div>
-
+        
         <div class="legal-links-container">
             <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
             <a href="./legal_notice.html" class="legal-link">Legal notice</a>
@@ -91,19 +83,16 @@
                         
                         <div style="position: relative;">
                             <input required class="addName" type="text" id="addName" placeholder="Name" />
-                            <span id="nameError" class="error-message" style="color: red;"></span>
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/person_icon.png" alt="Person">
                         </div>
                     
                         <div style="position: relative;">
                             <input required class="addEmail" type="email" id="addEmail" placeholder="Email" />
-                            <span id="emailError" class="error-message" style="color: red;"></span>
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/mail_icon.png" alt="Email">
                         </div>
                     
                         <div style="position: relative;">
                             <input required class="addPhone" type="tel" id="addPhone" placeholder="Phone" maxlength="20" />
-                            <span id="phoneError" class="error-message" style="color: red;"></span>
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/phone_icon.png" alt="Phone">
                         </div>
                     
@@ -225,7 +214,7 @@
                 <contacts class="createdContacts" id="createdContacts">
                     <template id="contactTemplate">
                         <div class="contactItem">
-                            <div class="contactWrapper" style="width: 80%; display: flex; align-items: center;">
+                            <div class="contactWrapper">
                                 <div class="initialsCircle"></div>
                                 <div class="contactDetails">
                                     <p style="display: flex; align-items: center; font-size: 18px;">
@@ -240,8 +229,8 @@
                 
             </section>
         
-            <div class="detailsContainer" style="padding-left: 60px;">
-                <div class="headerSection" style="padding-top: 72px; display: flex; height: 164px; align-items: center; gap: 30px;">
+            <div class="detailsContainer">
+                <div class="headerSection">
                     <h2 style="font-size: 73px;">Contacts</h2>
                     <div class="separatorLine"></div>
                     <p style="color: black; font-style: normal; font-size: 22px;">Better with a team</p>

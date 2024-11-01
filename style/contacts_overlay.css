@@ -23,7 +23,7 @@
     border-radius: 26px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     height: 592px;
-    width: 1212px;
+    width: 1155px;
     display: flex;
 }
 
@@ -241,5 +241,4 @@
     font-weight: 400;
     position: absolute; left: 2%; bottom: 29px;
     opacity: 0;
-    transition: opacity 1s ease;
 }
