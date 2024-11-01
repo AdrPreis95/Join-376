@@ -258,7 +258,7 @@ select {
     color: #FFFFFF;
     font-weight: 400;
     font-size: 12px;
-    border: 1px solid #FFFFFF;
+    border: 2px solid #FFFFFF;
 }
 
 .input-dropdown:focus {
@@ -523,14 +523,26 @@ select {
     background-color: #454F5E;
 }
 
+.picked-user-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
 .picked-user-avatar {
     display: flex;
     padding-top: 8px;
-    gap: 4px;
+    gap: 14px;
     overflow: auto;
     background-color: transparent;
     height: auto;
     width: 100%;
+}
+
+.picked-user-name {
+    font-size: 14px;
+    text-align: center;
 }
 
 .error-border {

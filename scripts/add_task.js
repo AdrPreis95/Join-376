@@ -1,4 +1,3 @@
-
 let priority = '';
 let subtasksArray = [];
 let allContacts = [];
@@ -36,12 +35,10 @@ async function createTask() {
         ...subtask,
         status: subtask.status || 'not done'
     }));
-
-    let assignedContacts = selectedContacts.map(contact => ({
-        firstname: contact.firstName || '',
-        lastname: contact.lastName || ''
+    selectedContacts = selectedContacts.map(contact => ({
+        firstName: contact.firstName ? contact.firstName : '',
+        lastName: contact.lastName ? contact.lastName : ''
     }));
-
 
     let titleInput = document.getElementById('title');
     let descriptionInput = document.getElementById('description');
@@ -55,7 +52,7 @@ async function createTask() {
 
     let title = titleInput.value;
     let description = descriptionInput.value;
-    let dueDate = dateInput.value || dateInput.textContent; 
+    let dueDate = dateInput.value || dateInput.textContent;
     let category = categoryInput.value;
 
     if (!title || !description || !dueDate) {
@@ -75,15 +72,12 @@ async function createTask() {
         subtasks: subtasksArray,
         assignedTo: selectedContacts
     };
-
     await fetch(`${BASE_URL}/tasks/${newID - 1}.json`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask),
     });
-
     alert('Task erfolgreich erstellt!');
-
 }
 
 function fillCurrentDate() {
@@ -270,9 +264,10 @@ async function loadContacts() {
     let userAsContact = {
         email: loggedUser.email,
         id: 0,
-        name: loggedUser.name + " (You)",
+        firstName: loggedUser.name.split(' ')[0],
+        lastName: loggedUser.name.split(' ').slice(1).join(' ') || '(You)',
         phone: '000000'
-    }
+    };
 
     try {
         let response = await fetch(`${BASE_URL}/contacts.json`);
@@ -280,7 +275,26 @@ async function loadContacts() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         let contacts = await response.json();
-        allContacts = contacts;
+
+        allContacts = contacts.map(contact => {
+            let firstName = '';
+            let lastName = '';
+
+            if (contact.name) {
+                const nameParts = contact.name.split(' ');
+                firstName = nameParts[0];
+                lastName = nameParts.slice(1).join(' ');
+            } else {
+                firstName = contact.firstName || '';
+                lastName = contact.lastName || '';
+            }
+
+            return {
+                ...contact,
+                firstName: firstName,
+                lastName: lastName
+            };
+        });
 
         allContacts.unshift(userAsContact);
 
@@ -296,7 +310,14 @@ function displayContacts(contacts) {
 
     contacts.forEach(contact => {
         if (!contact) return;
-        let fullName = contact.firstName && contact.lastName ? `${contact.firstName} ${contact.lastName}` : contact.name;
+
+        let initials = '';
+        if (contact.firstName) initials += contact.firstName.charAt(0);
+        if (contact.lastName) initials += contact.lastName.charAt(0);
+
+        if (!initials && contact.name) {
+            initials = contact.name.charAt(0);
+        }
 
         let userContainer = document.createElement('div');
         userContainer.classList.add('user-container');
@@ -307,8 +328,9 @@ function displayContacts(contacts) {
         let avatar = document.createElement('div');
         avatar.classList.add('avatar');
         avatar.style.backgroundColor = getRandomColor();
-        avatar.innerText = fullName[0];
+        avatar.innerText = initials.toUpperCase();
 
+        let fullName = contact.firstName && contact.lastName ? `${contact.firstName} ${contact.lastName}` : contact.name;
         let userName = document.createElement('span');
         userName.classList.add('user-name');
         userName.innerText = fullName;
@@ -321,7 +343,7 @@ function displayContacts(contacts) {
             } else {
                 selectedContacts = selectedContacts.filter(c => c !== contact);
             }
-            updatePickedUserAvatars(); 
+            updatePickedUserAvatars();
         });
 
         avatarSpanContainer.appendChild(avatar);
@@ -334,26 +356,24 @@ function displayContacts(contacts) {
 
 function updatePickedUserAvatars() {
     let pickedUserAvatarContainer = document.getElementById('picked-user-avatar');
-    pickedUserAvatarContainer.innerHTML = ''; 
+    pickedUserAvatarContainer.innerHTML = '';
 
     selectedContacts.forEach(contact => {
         let avatarDiv = document.createElement('div');
         avatarDiv.classList.add('avatar');
         avatarDiv.style.backgroundColor = getRandomColor();
 
-        
         let initials = '';
-        if (contact.firstName) initials += contact.firstName[0];
-        if (contact.lastName) initials += contact.lastName[0];
-        if (!initials && contact.name) initials = contact.name[0]; 
+        if (contact.firstName) initials += contact.firstName.charAt(0);
+        if (contact.lastName) initials += contact.lastName.charAt(0);
+        if (!initials && contact.name) initials = contact.name.charAt(0);
+
         avatarDiv.innerText = initials.toUpperCase();
 
-        
         let nameSpan = document.createElement('span');
         nameSpan.classList.add('picked-user-name');
         nameSpan.innerText = `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
 
-        
         let userInfoContainer = document.createElement('div');
         userInfoContainer.classList.add('picked-user-info');
         userInfoContainer.appendChild(avatarDiv);
@@ -397,4 +417,3 @@ function clearTask() {
     displayContacts(allContacts);
     resetPriorityButtons();
 }
-
