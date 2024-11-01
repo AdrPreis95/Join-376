@@ -210,7 +210,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #FF7A00;
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -219,6 +218,11 @@
     font-size: 12px;
     margin-right: -6px;
     border: 1px solid #FFFFFF;
+}
+
+.more-user {
+    margin: 6px 6px 6px 12px;
+    font-weight: 400;
 }
 
 .task-footer button {

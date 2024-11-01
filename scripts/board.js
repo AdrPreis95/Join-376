@@ -141,8 +141,15 @@ function renderFirstLetter(user, id) {
         firstLetters.push(firstLetter);
         colors.push(color);
     }
-    for (let j = 0; j < firstLetters.length; j++) {
-        document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j]);
+    if (firstLetters.length <= 5) {
+        for (let j = 0; j < firstLetters.length; j++) {
+            document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);
+        }
+    } else {
+        for (let j = 0; j < 5; j++) {
+            document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j]);
+        }
+        document.getElementById('more-user-' + id).innerHTML = getMoreUser(firstLetters.length - 5);
     }
 }
 

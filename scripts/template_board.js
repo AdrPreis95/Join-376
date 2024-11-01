@@ -16,6 +16,9 @@ function getTask(id, category, classCategory, title, description, prioIcon) {
             <div id="assigned-user-${id}" class="assigned-user-container">
 
             </div>
+            <div class="more-user" id="more-user-${id}">
+
+            </div>
         </div>
         <button><img src=${prioIcon} alt="priority"></button>
         </div>
@@ -38,11 +41,17 @@ function getSubtask(doneTasks, allSubtasks, progress) {
     `
 }
 
-function getFirstLetterName(firstLetters) {
+function getFirstLetterName(firstLetters, color) {
     return `
-    <div class="assigned-user">
+    <div style="background-color: ${color};" class="assigned-user">
         <p>${firstLetters}</p>
     </div>
+    `
+}
+
+function getMoreUser(quantity) {
+    return `
+    <p>+ ${quantity}</p>
     `
 }
 
@@ -71,6 +80,9 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
         <div>
             <h4>Assigned To:</h4>
             <div id="user-names-overlay">
+
+            </div>
+            <div id="more-user-overlay">
 
             </div>
         </div>
@@ -106,14 +118,20 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
     `
 }
 
-function getUserNamesOverlay(firstLetter, userName) {
+function getUserNamesOverlay(firstLetter, userName, color) {
     return `
     <div class="username-overlay">
-        <div id="assigned-user-overlay">
+        <div style="background-color: ${color};" id="assigned-user-overlay">
             <p>${firstLetter}</p>
         </div>
         <p class="username">${userName}</p>
     </div>
+    `
+}
+
+function getMoreUserOverlay(quantity) {
+    return `
+    <p>... ${quantity} weitere.</p>
     `
 }
 

@@ -32,6 +32,17 @@ function setPriority(prio) {
 }
 
 async function createTask() {
+    subtasksArray = subtasksArray.map(subtask => ({
+        ...subtask,
+        status: subtask.status || 'not done'
+    }));
+
+    let assignedContacts = selectedContacts.map(contact => ({
+        firstname: contact.firstName || '',
+        lastname: contact.lastName || ''
+    }));
+
+
     let titleInput = document.getElementById('title');
     let descriptionInput = document.getElementById('description');
     let dateInput = document.getElementById('due-date-input') || document.getElementById('date-div');
@@ -44,7 +55,7 @@ async function createTask() {
 
     let title = titleInput.value;
     let description = descriptionInput.value;
-    let dueDate = dateInput.value || dateInput.textContent; // Nutzt entweder `input`- oder `div`-Wert
+    let dueDate = dateInput.value || dateInput.textContent; 
     let category = categoryInput.value;
 
     if (!title || !description || !dueDate) {
@@ -72,7 +83,7 @@ async function createTask() {
     });
 
     alert('Task erfolgreich erstellt!');
-   
+
 }
 
 function fillCurrentDate() {
@@ -127,18 +138,13 @@ function preventPastDate(value) {
 
         if (enteredDate < today) {
             fillCurrentDate();
-            dateInput.classList.add('error-border'); 
+            dateInput.classList.add('error-border');
         } else {
-            dateInput.classList.remove('error-border'); 
+            dateInput.classList.remove('error-border');
         }
+    }
 }
-}
-
 document.getElementById('due-date-input').addEventListener('input', handleDateInput);
-
-
-
-
 
 function resetPriorityButtons() {
     let redButton = document.getElementById('prio-red');
@@ -262,9 +268,9 @@ function getRandomColor() {
 
 async function loadContacts() {
     let userAsContact = {
-        email: loggedUser.email, 
-        id: 0, 
-        name: loggedUser.name + " (You)", 
+        email: loggedUser.email,
+        id: 0,
+        name: loggedUser.name + " (You)",
         phone: '000000'
     }
 
@@ -283,7 +289,6 @@ async function loadContacts() {
         console.error('Fehler beim Laden der Kontakte:', error);
     }
 }
-
 
 function displayContacts(contacts) {
     let dropdown = document.getElementById('dropdown-user');
@@ -316,7 +321,7 @@ function displayContacts(contacts) {
             } else {
                 selectedContacts = selectedContacts.filter(c => c !== contact);
             }
-            updatePickedUserAvatars(); // Aufruf zum Aktualisieren des separaten Containers
+            updatePickedUserAvatars(); 
         });
 
         avatarSpanContainer.appendChild(avatar);
@@ -329,26 +334,26 @@ function displayContacts(contacts) {
 
 function updatePickedUserAvatars() {
     let pickedUserAvatarContainer = document.getElementById('picked-user-avatar');
-    pickedUserAvatarContainer.innerHTML = ''; // Leert den Container
+    pickedUserAvatarContainer.innerHTML = ''; 
 
     selectedContacts.forEach(contact => {
         let avatarDiv = document.createElement('div');
         avatarDiv.classList.add('avatar');
         avatarDiv.style.backgroundColor = getRandomColor();
+
         
-        // Initialen generieren: erster Buchstabe des Vor- und Nachnamens
         let initials = '';
         if (contact.firstName) initials += contact.firstName[0];
         if (contact.lastName) initials += contact.lastName[0];
-        if (!initials && contact.name) initials = contact.name[0]; // Falls `firstName` und `lastName` fehlen
+        if (!initials && contact.name) initials = contact.name[0]; 
         avatarDiv.innerText = initials.toUpperCase();
 
-        // Namen-Span hinzufügen
+        
         let nameSpan = document.createElement('span');
         nameSpan.classList.add('picked-user-name');
         nameSpan.innerText = `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
 
-        // Avatar und Name in einen Container einfügen
+        
         let userInfoContainer = document.createElement('div');
         userInfoContainer.classList.add('picked-user-info');
         userInfoContainer.appendChild(avatarDiv);
@@ -357,7 +362,6 @@ function updatePickedUserAvatars() {
         pickedUserAvatarContainer.appendChild(userInfoContainer);
     });
 }
-
 
 function filterContacts() {
     let input = document.getElementById('dropdown-input').value.toLowerCase();
