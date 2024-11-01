@@ -42,8 +42,15 @@ function renderOverlayUser(responseTaskJson) {
             firstLetters.push(firstLetter.replace("(", ""));
         }
     }
-    for (let i = 0; i < names.length; i++) {
-        document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i])
+    if (names.length <= 4) {
+        for (let i = 0; i < names.length; i++) {
+            document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i]); 
+        } 
+    } else {
+        for (let i = 0; i < 4; i++) {
+            document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i]);
+        }
+        document.getElementById('more-user-overlay').innerHTML += getMoreUserOverlay(names.length - 4);
     }
 }
 

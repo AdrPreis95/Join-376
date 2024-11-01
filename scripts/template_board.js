@@ -73,6 +73,9 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
             <div id="user-names-overlay">
 
             </div>
+            <div id="more-user-overlay">
+
+            </div>
         </div>
         <h4 id="subtask-headline-overlay">Subtasks</h4>
         <div>
@@ -114,6 +117,12 @@ function getUserNamesOverlay(firstLetter, userName) {
         </div>
         <p class="username">${userName}</p>
     </div>
+    `
+}
+
+function getMoreUserOverlay(quantity) {
+    return `
+    <p>... ${quantity} weitere.</p>
     `
 }
 
