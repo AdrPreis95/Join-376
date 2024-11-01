@@ -84,18 +84,19 @@ function createContact() {
         email: document.getElementById('addEmail').value,
         phone: document.getElementById('addPhone').value,
     };
-    getNewContactId().then(newId => {
-        fetch(BASE_URL + `contacts/${newId}.json`, {
-            method: 'PUT',
-            body: JSON.stringify({ ...newContact, id: newId })
-        }).then(() => {
-            newContact.id = newId;
-            contacts.push(newContact);
-            updateContactDisplay();
-            closeAddContactForm(true);
-        });
+    const newId = getNewContactId();
+    fetch(BASE_URL + `contacts/${newId}.json`, {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...newContact, id: newId })
+    }).then(() => {
+        newContact.id = newId;
+        contacts.push(newContact);
+        updateContactDisplay();
+        closeAddContactForm(true);
     });
 }
+
 
 function updateContactDisplay() {
     sortContacts();
@@ -117,18 +118,9 @@ function updateContactDisplay() {
 }
 
 function getNewContactId() {
-    return fetch(BASE_URL + 'contacts.json')
-        .then(response => response.json())
-        .then(data => {
-            if (data) {
-                const existingIds = Object.values(data)
-                    .filter(contact => contact && contact.id)
-                    .map(contact => contact.id);
-                return existingIds.length ? Math.max(...existingIds) + 1 : 1;
-            } else {
-                return 1;
-            }
-        });
+    if (contacts.length === 0) return 1;
+    const existingIds = contacts.map(contact => contact.id);
+    return Math.max(...existingIds) + 1;
 }
 
 function closeEditContactForm() {
@@ -204,14 +196,11 @@ async function deleteContact(del) {
     let id = + document.getElementById('contactId').innerHTML;
     id--;
     contacts.splice(id, 1 );
-
-    // Updating ID's 
     var newId = 1;
     for (var i in contacts) {
         contacts[i].id = newId;
         newId++;
     }
-
     let responseContact = await fetch(BASE_URL + 'contacts.json', {
         method: "PUT",
         headers: {
@@ -219,8 +208,6 @@ async function deleteContact(del) {
         },
         body: JSON.stringify(contacts)
     });
-
-    
     updateContactDisplay();
     closeContactDetails();
     if(del == "editForm") {
