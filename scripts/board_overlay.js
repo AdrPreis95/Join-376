@@ -34,21 +34,24 @@ function renderOverlay(responseTaskJson) {
 function renderOverlayUser(responseTaskJson) {
     let names = [];
     let firstLetters = [];
+    let colors = [];
     if (responseTaskJson.assignedTo != undefined) {
         for (let i = 0; i < responseTaskJson.assignedTo.length; i++) {
             let name = responseTaskJson.assignedTo[i].firstName + " " + responseTaskJson.assignedTo[i].lastName;
             let firstLetter = responseTaskJson.assignedTo[i].firstName[0] + responseTaskJson.assignedTo[i].lastName[0];
+            let color = responseTaskJson.assignedTo[i].color;
             names.push(name);
             firstLetters.push(firstLetter.replace("(", ""));
+            colors.push(color);
         }
     }
     if (names.length <= 4) {
         for (let i = 0; i < names.length; i++) {
-            document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i]); 
+            document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i], colors[i]); 
         } 
     } else {
         for (let i = 0; i < 4; i++) {
-            document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i]);
+            document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i], colors[i]);
         }
         document.getElementById('more-user-overlay').innerHTML += getMoreUserOverlay(names.length - 4);
     }
