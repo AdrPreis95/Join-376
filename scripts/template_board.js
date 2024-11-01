@@ -178,9 +178,10 @@ function getOverlayEdit(id, title, description) {
             </div>
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="assigned-to">Assigned to</label>
-                <select name="assigned-from" id="assigned-to">
-                    <option autofocus value="">Select contacts to assign</option>
-                </select>
+                <div class="assigned-menu-overlay">
+                    <p>Select contacts to assign</p>
+                    <img src="./assets/icons/dropdown-arrow.png"
+                </div>
             </div>
             <div class="button-ok-container">
                 <button class="button-ok" onclick="saveEdit(${id})"><p>Ok</p><img src="./assets/icons/check.svg" alt=""></button>
