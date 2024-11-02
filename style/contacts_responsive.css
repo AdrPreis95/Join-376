@@ -112,6 +112,87 @@
         font-size: 34px;
     }
 
+    .leftContactOverlay {
+        width: 100%; border-top-left-radius: 24px; border-bottom-left-radius: 0px;
+        height: 100%; border-top-right-radius: 24px;
+    }
+
+    .rightContactOverlay {
+        width: 100%; height: 100%; border-bottom-left-radius: 24px;
+    }
+
+    #addContactForm > * {
+        width: 100%; height: 100%; flex-direction: column;
+    }
+
+    #editContactForm > * {
+        width: 100%; height: 100%; flex-direction: column;
+    }
+
+    .addDetailsContainer {
+         height: 100%; display: flex; align-items: center; justify-content: center; width: 100%; left: 0%; top: -50%;
+    }
+
+    .leftContactText {
+        align-items: baseline; margin-left: 24px;
+    }
+
+    .addContactLogo {
+        display: none;
+    }
+
+    .addContactSeparatorLine {
+        top: 63%; left: 28.5px; width: 104px;
+    }
+
+    .addContactContainer {
+        width: 100%; position: relative; gap: 16px; right: 0;
+    }
+
+    .editContactContainer {
+        width: 100%; position: relative; gap: 16px; right: 0;
+    }
+
+    .addContactButtons {
+        justify-content: center; text-align: left;
+    }
+
+    .editContactButtons {
+        justify-content: center; text-align: left;
+    }
+
+    #cancelContactAdd {
+        display: none;
+    }
+
+    .addContactClose {
+    display: none;
+    }
+
+    .editContactLogo {
+        display: none;
+    }
+
+    #editContactHeadline {
+        align-items: center; justify-content: left; font-size: 47px; margin-left: 24px;
+    }
+
+    .editContactseparatorLine {
+        width: 88px; left: 24.5px; 
+    }
+
+    .addContactCloseButton {
+        display: flex; position: absolute; top: 24px; right: 12px; width: 24px; height: 24px; cursor: pointer;
+    }
+
+    #addContactHeadline {
+        font-size: 47px;
+    }
+
+    .addContactSubText {
+        font-size: 20px;
+    }
+
 }
 
 @media (max-width: 450px) {
@@ -127,6 +208,36 @@
         width: 90%;
         padding: 20px 24px 15px 10px;
     }
+
+    .addName,
+    .addPhone,
+    .addEmail {
+    width: 294px;
+    border: 1px solid #D1D1D1;
+    padding: 13px 21px;
+    border-radius: 8px;
+    height: 48px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    transition: border-color 0.3s;
+}
+
+    .editName,
+    .editPhone,
+    .editEmail {
+    width: 294px;
+    border: 1px solid #D1D1D1;
+    padding: 13px 21px;
+    border-radius: 8px;
+    height: 48px;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: left;
+    transition: border-color 0.3s;
+}
 }
 
 .show-details {

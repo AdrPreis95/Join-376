@@ -360,3 +360,15 @@
 .contactsUnderText {
     color: black; font-style: normal; font-size: 22px;
 }
+
+.addDetailsContainer {
+    position: absolute; height: 90%; display: flex; align-items: center; justify-content: center; left: 14%;
+}
+
+.rightContactOverlay {
+    width: 759px; position: relative; background-color: #f6f7f8; border-top-right-radius: 24px; border-bottom-right-radius: 24px;
+}
+
+.addContactCloseButton {
+    display: none;    
+}   

@@ -65,21 +65,22 @@
                     <div class="leftContactText">
                         <p class="addContactHeadline" id="addContactHeadline">Add contact</p>
                         <p class="addContactSubText" id="addContactSubText">Tasks are better with a team!</p>
+                        <img onclick="closeAddContactForm()" class="addContactCloseButton editContactCloseButton" src="assets/icons/white_close.png" alt="Close">
                     </div>
                     
                     <div class="addContactSeparatorLine"></div>
                 </div>
         
-                <div style="width: 759px; position: relative; background-color: #f6f7f8; border-top-right-radius: 24px; border-bottom-right-radius: 24px;">
+                <div class="rightContactOverlay">
         
-                    <div style="position: absolute; height: 90%; display: flex; align-items: center; justify-content: center; left: 14%;">
+                    <div class="addDetailsContainer">
                         <div class="addDetailsInitialsCircle" id="addDetailsInitials">
                             <img style="height: 42px; width: 42px;" src="assets/icons/contacts_personicon.png" alt="Contact">
                         </div>
                     </div>
         
                     <div class="addContactContainer">
-                        <img style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeAddContactForm()">
+                        <img class="addContactClose" style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeAddContactForm()">
                         
                         <div style="position: relative;">
                             <input required class="addName" type="text" id="addName" placeholder="Name" />
@@ -122,18 +123,19 @@
                 <div class="leftContactOverlay">
                     <img class="editContactLogo" src="assets/img/join_logo.png" alt="Join-Logo">
                     <p class="editContactHeadline" id="editContactHeadline">Edit contact</p>
+                    <img onclick="closeEditContactForm()" class="addContactCloseButton editContactCloseButton" src="assets/icons/white_close.png" alt="Close">
                     <div class="editContactseparatorLine"></div>
                 </div>
 
-                <div style="width: 759px; position: relative; background-color: #f6f7f8; border-top-right-radius: 24px; border-bottom-right-radius: 24px;">
+                <div class="rightContactOverlay">
 
-                    <div style="position: absolute; height: 90%; display: flex; align-items: center; justify-content: center; left: 14%;">
+                    <div class="addDetailsContainer">
                         <div class="editDetailsInitialsCircle" id="editDetailsInitials"></div>
                     </div>
 
                     <div class="editContactContainer">
 
-                        <img style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeEditContactForm()">
+                        <img class="addContactClose" style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeEditContactForm()">
 
                         <div style="position: relative;">
                             <input required class="editName" type="text" id="editName" placeholder="Name"/>
