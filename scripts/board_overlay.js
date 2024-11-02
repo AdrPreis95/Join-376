@@ -197,3 +197,17 @@ async function changeStatusSubtask(id, subtaskId, status) {
     document.getElementById('subtasks-overlay').innerHTML = "";
     renderOverlaySubtasks(responseJson);
 }
+
+function openDropdownAssigned() {
+    let dropdownRef = document.getElementById('selected-user-dropdown');
+    let arrowRef = document.getElementById('arrow-dropdown');
+    if(dropdownRef.className == 'd-none') {
+        dropdownRef.classList.remove('d-none');
+        dropdownRef.classList.add('d_block');
+        arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down_top.png");
+    } else {
+        dropdownRef.classList.add('d-none');
+        dropdownRef.classList.remove('d_block');
+        arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down.png");
+    }
+}
