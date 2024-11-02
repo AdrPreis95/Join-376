@@ -346,6 +346,42 @@
     filter: drop-shadow(0px 0px 0.5px #D1D1D1);
 }
 
+.contact-container-overlay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 16px 7px 16px;
+}
+
+.contact-container-overlay img {
+    width: 24px;
+    height: 24px;
+}
+
+.user-name-overlay {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-initials-overlay {
+    margin-left: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #2A3647;
+    border: 1px solid #FFFFFF;
+}
+
+.user-initials-overlay p {
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 12px;
+}
+
 .button-ok-container {
     display: flex;
     justify-content: flex-end;

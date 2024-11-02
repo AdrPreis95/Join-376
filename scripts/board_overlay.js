@@ -23,7 +23,7 @@ function renderOverlay(responseTaskJson) {
     let prioIcon = findPrio(responseTaskJson.prio)
 
     refOverlay.innerHTML = getOverlayDetails(responseTaskJson.id, classCategory, responseTaskJson.category, responseTaskJson.title, responseTaskJson.description, responseTaskJson.dueDate, responseTaskJson.prio, prioIcon);
-    renderOverlayUser(responseTaskJson);
+    renderOverlayUser(responseTaskJson);    
     if (responseTaskJson.subtasks != undefined) {
         renderOverlaySubtasks(responseTaskJson);
     } else {
@@ -35,6 +35,20 @@ function renderOverlayUser(responseTaskJson) {
     let names = [];
     let firstLetters = [];
     let colors = [];
+    determineUserInfo(responseTaskJson, names, firstLetters, colors);
+    if (names.length <= 4) {
+        for (let i = 0; i < names.length; i++) {
+            document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i], colors[i]);
+        } 
+    } else {
+        for (let i = 0; i < 4; i++) {
+        document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i], colors[i]);
+        }
+        document.getElementById('more-user-overlay').innerHTML += getMoreUserOverlay(names.length - 4);
+    }
+}
+
+function determineUserInfo(responseTaskJson, names, firstLetters, colors) {
     if (responseTaskJson.assignedTo != undefined) {
         for (let i = 0; i < responseTaskJson.assignedTo.length; i++) {
             let name = responseTaskJson.assignedTo[i].firstName + " " + responseTaskJson.assignedTo[i].lastName;
@@ -45,16 +59,7 @@ function renderOverlayUser(responseTaskJson) {
             colors.push(color);
         }
     }
-    if (names.length <= 4) {
-        for (let i = 0; i < names.length; i++) {
-            document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i], colors[i]); 
-        } 
-    } else {
-        for (let i = 0; i < 4; i++) {
-            document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i], colors[i]);
-        }
-        document.getElementById('more-user-overlay').innerHTML += getMoreUserOverlay(names.length - 4);
-    }
+    return names, firstLetters, colors;
 }
 
 async function renderOverlaySubtasks(responseTaskJson) {
@@ -73,13 +78,15 @@ async function renderOverlaySubtasks(responseTaskJson) {
     }
 }
 
-async function editTask(id, title, description, dueDate, priority) {
+async function editTask(id, title, description, dueDate, priority, assignedTo) {
     id--;
     let refOverlay = document.getElementById('task-details');
     refOverlay.innerHTML = "";
-    refOverlay.innerHTML = getOverlayEdit(id, title, description);
+    refOverlay.innerHTML = getOverlayEdit(id, title, description, assignedTo);
     document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
     checkActivePriority(priority);
+    console.log(assignedTo);
+    
     loadContacts();
 }
 
@@ -173,7 +180,7 @@ async function loadContacts() {
     let responseJson = await response.json();
     responseJson.unshift(userAsContact);
     for (let i = 0; i < responseJson.length; i++) {
-        document.getElementById('assigned-to').innerHTML += getContactName(responseJson[i].name);
+        document.getElementById('user-dropdown').innerHTML += getContactName(responseJson[i].name);
     }
 }
 
@@ -201,13 +208,16 @@ async function changeStatusSubtask(id, subtaskId, status) {
 function openDropdownAssigned() {
     let dropdownRef = document.getElementById('selected-user-dropdown');
     let arrowRef = document.getElementById('arrow-dropdown');
+    let assignedUserRef = document.getElementById('user-names-edit-overlay');
     if(dropdownRef.className == 'd-none') {
         dropdownRef.classList.remove('d-none');
         dropdownRef.classList.add('d_block');
         arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down_top.png");
+        assignedUserRef.classList.add('d-none');
     } else {
         dropdownRef.classList.add('d-none');
         dropdownRef.classList.remove('d_block');
         arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down.png");
+        assignedUserRef.classList.remove('d-none');
     }
 }

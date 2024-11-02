@@ -184,13 +184,15 @@ function getOverlayEdit(id, title, description) {
                 </div>
             </div>
             <div>
-                <div id="user-names-overlay">
-
+                <div id="user-names-edit-overlay">
+                    <div style="background-color: #FFC701;" class="assigned-user">
+                        <p>MB</p>
+                    </div
                 </div>
             </div>
             <div class="d-none" id="selected-user-dropdown">
-                <div class="dropdown-container">
-                    <p>Test</p>
+                <div class="dropdown-container" id="user-dropdown">
+                    
                 </div>
             </div>
             <div class="button-ok-container">
@@ -203,6 +205,14 @@ function getOverlayEdit(id, title, description) {
 
 function getContactName(name) {
     return `
-    <option value="${name}">${name}</option>
+    <div class="contact-container-overlay">
+        <div class="user-edit-overlay">
+            <div class="user-name-overlay">
+                <div class="user-initials-overlay"><p>MB</p></div>
+                <p>${name}</p>
+            </div>
+        </div>
+        <img src="./assets/icons/unchecked_icon.png"
+    </div>
     `
 }
