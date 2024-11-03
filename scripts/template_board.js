@@ -1,7 +1,7 @@
 
 function getTask(id, category, classCategory, title, description, prioIcon) {
     return `
-    <div class="task-card" id="${id}" draggable="true" ondragstart="startDragging(${id})" onmousedown="onTouch(event, ${id});" onmouseup="cancel()" onmousemove="cancel()"
+    <div class="task-card" id="${id}" draggable="true" ondragstart="startDragging(${id})"
      ontouchstart="onTouch(event, ${id});" ontouchend="cancel()" ontouchmove="cancel()" onclick="showOverlayDetailsTask(${id}); event.stopPropagation()">
         <div>
             <label class="category-${classCategory}">${category}</label>

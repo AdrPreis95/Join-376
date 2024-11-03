@@ -28,10 +28,15 @@ function pickup(event) {
         moving = event.target;
     }
 
-    moving.style.maxHeight = moving.clientHeight;
-    moving.style.maxWidth = moving.clientWidth;
+    // Save the original width and height as custom properties on the element
+    moving.dataset.originalHeight = moving.clientHeight + "px";
+    moving.dataset.originalWidth = moving.clientWidth + "px";
+
+    // Set the width and height to fixed values based on the element's current size
+    moving.style.height = moving.clientHeight + "px";
+    moving.style.width = moving.clientWidth + "px";
     moving.style.position = 'fixed';
-    moving.style.zIndex = '10'; // Bringt das Element in den Vordergrund
+    moving.style.zIndex = '10'; 
 }
 
 function move(event) {
@@ -61,7 +66,12 @@ function drop(event) {
                 target = document.elementsFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
             }
 
-            let targetList = (target[0].className == "task-card") ? target[1] : target.at('div.list').children.item(1);
+            let targetList = '';
+
+            if (target[0].className != undefined) {
+                targetList = (target[0].className == "task-card") ? target[1] : target.at('div.list').children.item(1);
+            }
+
             if (targetList) {
                 if (!targetList.contains(moving)) {
                     let list = targetList.className;
@@ -76,8 +86,8 @@ function drop(event) {
         if (moving.style) {
             moving.style.left = '';
             moving.style.top = '';
-            moving.style.maxHeight = '';
-            moving.style.maxWidth = '';
+            moving.style.height = '';
+            moving.style.width = '';
             moving.style.position = '';
             moving.style.zIndex = '';
         }
