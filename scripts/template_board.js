@@ -179,7 +179,7 @@ function getOverlayEdit(id, title, description) {
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="assigned-to">Assigned to</label>
                 <div onclick="openDropdownAssigned()" class="assigned-menu-overlay">
-                    <p>Select contacts to assign</p>
+                    <input type="text" placeholder="Select contacts to assign"></input>
                     <img id="arrow-dropdown" src="./assets/icons/arrow_drop_down.png">
                 </div>
             </div>

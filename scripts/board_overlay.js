@@ -123,15 +123,15 @@ async function saveEdit(id) {
     let changeTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
     let changeTaskJson = await changeTask.json();
     changeTaskJson = generateChangeTask(changeTaskJson);
-    let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(changeTaskJson)
-    });
-    closeOverlay();
-    loadTasks();
+        let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(changeTaskJson)
+        });
+        closeOverlay();
+        loadTasks();
 }
 
 function generateChangeTask(changeTaskJson) {

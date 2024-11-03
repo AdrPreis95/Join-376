@@ -40,6 +40,15 @@ function saveInArray(tasksJson) {
     }
 }
 
+async function searchTask() {
+    let keyword = document.getElementById('find-task').value;
+    let titleIndex = titles.findIndex(element => element.toLowerCase().includes(keyword.toLowerCase()));
+    let descriptionIndex = descriptions.findIndex(element => element.toLowerCase().includes(keyword.toLowerCase()));
+    if(titleIndex != -1) {
+        
+    }
+}
+
 /**
  * This function initially empties all lists.
  */

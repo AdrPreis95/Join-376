@@ -332,6 +332,24 @@
     border-radius: 10px;
 }
 
+.assigned-menu-overlay input {
+    width: 100%;
+    border: none;
+    color: #000000;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.assigned-menu-overlay input::placeholder {
+    color: #000000;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.assigned-menu-overlay input:focus {
+    outline: none;
+}
+
 .dropdown-container {
     height: 140px;
     width: 100%;
