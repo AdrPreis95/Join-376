@@ -549,3 +549,49 @@ select {
     border-style: solid !important;
     border-color: red !important;
 }
+
+.picked-user-info {
+    position: relative;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 10px;
+}
+
+.avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    position: relative; 
+}
+
+.delete-user-button {
+    position: absolute;
+    top: -5px; 
+    right: -5px; 
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: #2A3647;
+    color: white;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border: 2px solid white;
+    z-index: 1;
+    padding: 0;
+    margin: 0;
+}
+
+.delete-user-button:hover {
+    background-color: #29ABE2;
+    cursor: pointer;
+}

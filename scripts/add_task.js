@@ -358,7 +358,8 @@ function updatePickedUserAvatars() {
     let pickedUserAvatarContainer = document.getElementById('picked-user-avatar');
     pickedUserAvatarContainer.innerHTML = '';
 
-    selectedContacts.forEach(contact => {
+    selectedContacts.forEach((contact, index) => {
+        // Create avatar div with initials
         let avatarDiv = document.createElement('div');
         avatarDiv.classList.add('avatar');
         avatarDiv.style.backgroundColor = getRandomColor();
@@ -370,18 +371,34 @@ function updatePickedUserAvatars() {
 
         avatarDiv.innerText = initials.toUpperCase();
 
+        // Create name span
         let nameSpan = document.createElement('span');
         nameSpan.classList.add('picked-user-name');
         nameSpan.innerText = `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
 
+        // Create delete button
+        let deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-user-button');
+        deleteButton.innerHTML = '&times;'; // Cross symbol
+        deleteButton.title = 'Remove User';
+        deleteButton.addEventListener('click', () => {
+            selectedContacts.splice(index, 1); // Remove user from array
+            updatePickedUserAvatars(); // Refresh avatars
+        });
+
+        // Create user info container
         let userInfoContainer = document.createElement('div');
         userInfoContainer.classList.add('picked-user-info');
-        userInfoContainer.appendChild(avatarDiv);
-        userInfoContainer.appendChild(nameSpan);
+        userInfoContainer.appendChild(deleteButton); // Add delete button first
+        userInfoContainer.appendChild(avatarDiv);    // Then avatar
+        userInfoContainer.appendChild(nameSpan);     // Then name
 
+        // Add user info container to the main container
         pickedUserAvatarContainer.appendChild(userInfoContainer);
     });
 }
+
+
 
 function filterContacts() {
     let input = document.getElementById('dropdown-input').value.toLowerCase();
