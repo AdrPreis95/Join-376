@@ -149,6 +149,10 @@ function startDragging(id) {
     document.getElementById(currentDraggedElement).classList.add('drag-area-highlight');
 }
 
+function removeDragging(id) {
+    document.getElementById(id).classList.remove('drag-area-highlight');
+}
+
 function allowDrop(ev) {
     ev.preventDefault();
 }

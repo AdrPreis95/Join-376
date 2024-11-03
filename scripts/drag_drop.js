@@ -3,13 +3,33 @@ let moving = null;
 let listNames = ['to-do', 'in-progress', 'await-feedback', 'done'];
 
 
-function pickup(event) {
-    if (!event.target.classList.contains('task-card'))
-        return;
-    moving = event.target;
+let timer = null;
 
-    moving.style.height = moving.clientHeight;
-    moving.style.width = moving.clientWidth;
+function cancel() {
+    clearTimeout(timer);
+    timer = null;
+}
+
+function onTouch(event, id) {
+    timer = setTimeout(() => longPressed(event, id), 500);
+}
+
+function longPressed(event, id) {
+    pickup(event);
+    startDragging(id);
+    removeDragging(id);
+}
+
+
+function pickup(event) {
+    if (!event.target.classList.contains('task-card')) {
+        moving = event.target.parentElement;
+    } else {
+        moving = event.target;
+    }
+
+    moving.style.maxHeight = moving.clientHeight;
+    moving.style.maxWidth = moving.clientWidth;
     moving.style.position = 'fixed';
     moving.style.zIndex = '-10';
 }
@@ -21,12 +41,12 @@ function move(event) {
         event.stopImmediatePropagation();
         if (event.clientX) {
             // mousemove
-            moving.style.left = event.clientX - moving.clientWidth/2;
-            moving.style.top = event.clientY - moving.clientHeight/2;
+            moving.style.left = event.clientX - moving.clientWidth / 2;
+            moving.style.top = event.clientY - moving.clientHeight / 2;
         } else {
             // touchmove - assuming a single touchpoint
-            moving.style.left = event.changedTouches[0].clientX - moving.clientWidth/2;
-            moving.style.top = event.changedTouches[0].clientY - moving.clientHeight/2;
+            moving.style.left = event.changedTouches[0].clientX - moving.clientWidth / 2;
+            moving.style.top = event.changedTouches[0].clientY - moving.clientHeight / 2;
         }
     }
 }
@@ -39,29 +59,29 @@ function drop(event) {
                 target = document.elementsFromPoint(event.clientX, event.clientY);
             } else {
                 target = document.elementsFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
-            }  
+            }
 
-            let targetList = (target[0].className == "task-card")?  target[1] : target.at('div.list').children.item(1);
-            if (targetList){
+            let targetList = (target[0].className == "task-card") ? target[1] : target.at('div.list').children.item(1);
+            if (targetList) {
                 if (!targetList.contains(moving)) {
                     let list = targetList.className;
-                    if (listNames.includes(list)){
+                    if (listNames.includes(list)) {
                         changeList(list);
-                    } 
+                    }
                 }
             }
         }
 
         // reset our element
-        moving.style.left = '';
-        moving.style.top = '';
-        moving.style.height = '';
-        moving.style.width = '';
-        moving.style.position = '';
-        moving.style.zIndex = '';
+        if (moving.style) {
+            moving.style.left = '';
+            moving.style.top = '';
+            moving.style.maxHeight = '';
+            moving.style.maxWidth = '';
+            moving.style.position = '';
+            moving.style.zIndex = '';
+        }
 
         moving = null;
     }
-
-    
 }
