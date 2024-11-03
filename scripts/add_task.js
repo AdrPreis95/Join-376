@@ -1,4 +1,3 @@
-
 let priority = '';
 let subtasksArray = [];
 let allContacts = [];
@@ -32,6 +31,15 @@ function setPriority(prio) {
 }
 
 async function createTask() {
+    subtasksArray = subtasksArray.map(subtask => ({
+        ...subtask,
+        status: subtask.status || 'not done'
+    }));
+    selectedContacts = selectedContacts.map(contact => ({
+        firstName: contact.firstName ? contact.firstName : '',
+        lastName: contact.lastName ? contact.lastName : ''
+    }));
+
     let titleInput = document.getElementById('title');
     let descriptionInput = document.getElementById('description');
     let dateInput = document.getElementById('due-date-input') || document.getElementById('date-div');
@@ -44,7 +52,7 @@ async function createTask() {
 
     let title = titleInput.value;
     let description = descriptionInput.value;
-    let dueDate = dateInput.value || dateInput.textContent; // Nutzt entweder `input`- oder `div`-Wert
+    let dueDate = dateInput.value || dateInput.textContent;
     let category = categoryInput.value;
 
     if (!title || !description || !dueDate) {
@@ -64,15 +72,12 @@ async function createTask() {
         subtasks: subtasksArray,
         assignedTo: selectedContacts
     };
-
     await fetch(`${BASE_URL}/tasks/${newID - 1}.json`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask),
     });
-
     alert('Task erfolgreich erstellt!');
-   
 }
 
 function fillCurrentDate() {
@@ -127,16 +132,13 @@ function preventPastDate(value) {
 
         if (enteredDate < today) {
             fillCurrentDate();
-            alert("Bitte wählen Sie ein Datum, das nicht in der Vergangenheit liegt.");
+            dateInput.classList.add('error-border');
+        } else {
+            dateInput.classList.remove('error-border');
         }
     }
 }
-
 document.getElementById('due-date-input').addEventListener('input', handleDateInput);
-
-
-
-
 
 function resetPriorityButtons() {
     let redButton = document.getElementById('prio-red');
@@ -260,11 +262,12 @@ function getRandomColor() {
 
 async function loadContacts() {
     let userAsContact = {
-        email: loggedUser.email, 
-        id: 0, 
-        name: loggedUser.name + " (You)", 
+        email: loggedUser.email,
+        id: 0,
+        firstName: loggedUser.name.split(' ')[0],
+        lastName: loggedUser.name.split(' ').slice(1).join(' ') || '(You)',
         phone: '000000'
-    }
+    };
 
     try {
         let response = await fetch(`${BASE_URL}/contacts.json`);
@@ -272,7 +275,26 @@ async function loadContacts() {
             throw new Error(`HTTP error! status: ${response.status}`);
         }
         let contacts = await response.json();
-        allContacts = contacts;
+
+        allContacts = contacts.map(contact => {
+            let firstName = '';
+            let lastName = '';
+
+            if (contact.name) {
+                const nameParts = contact.name.split(' ');
+                firstName = nameParts[0];
+                lastName = nameParts.slice(1).join(' ');
+            } else {
+                firstName = contact.firstName || '';
+                lastName = contact.lastName || '';
+            }
+
+            return {
+                ...contact,
+                firstName: firstName,
+                lastName: lastName
+            };
+        });
 
         allContacts.unshift(userAsContact);
 
@@ -287,19 +309,16 @@ function displayContacts(contacts) {
     dropdown.innerHTML = '';
 
     contacts.forEach(contact => {
-        if (!contact) return; 
-        let fullName = '';
+        if (!contact) return;
 
-        if (contact.firstName && contact.lastName) {
-            fullName = `${contact.firstName} ${contact.lastName}`;
-        } else if (contact.name) {
-            fullName = contact.name;
-        } else {
-            console.warn(`Kontakt mit fehlenden Daten wird übersprungen: ${JSON.stringify(contact)}`);
-            return; 
+        let initials = '';
+        if (contact.firstName) initials += contact.firstName.charAt(0);
+        if (contact.lastName) initials += contact.lastName.charAt(0);
+
+        if (!initials && contact.name) {
+            initials = contact.name.charAt(0);
         }
 
-        
         let userContainer = document.createElement('div');
         userContainer.classList.add('user-container');
 
@@ -309,8 +328,9 @@ function displayContacts(contacts) {
         let avatar = document.createElement('div');
         avatar.classList.add('avatar');
         avatar.style.backgroundColor = getRandomColor();
-        avatar.innerText = fullName[0];
+        avatar.innerText = initials.toUpperCase();
 
+        let fullName = contact.firstName && contact.lastName ? `${contact.firstName} ${contact.lastName}` : contact.name;
         let userName = document.createElement('span');
         userName.classList.add('user-name');
         userName.innerText = fullName;
@@ -319,16 +339,11 @@ function displayContacts(contacts) {
         checkbox.type = 'checkbox';
         checkbox.addEventListener('change', function () {
             if (this.checked) {
-                selectedContacts.push({
-                    firstName: contact.firstName || fullName.split(' ')[0],
-                    lastName: contact.lastName || fullName.split(' ')[1] || ''
-                });
+                selectedContacts.push(contact);
             } else {
-                selectedContacts = selectedContacts.filter(
-                    c => c.firstName !== (contact.firstName || fullName.split(' ')[0]) &&
-                         c.lastName !== (contact.lastName || fullName.split(' ')[1] || '')
-                );
+                selectedContacts = selectedContacts.filter(c => c !== contact);
             }
+            updatePickedUserAvatars();
         });
 
         avatarSpanContainer.appendChild(avatar);
@@ -338,6 +353,51 @@ function displayContacts(contacts) {
         dropdown.appendChild(userContainer);
     });
 }
+
+function updatePickedUserAvatars() {
+    let pickedUserAvatarContainer = document.getElementById('picked-user-avatar');
+    pickedUserAvatarContainer.innerHTML = '';
+
+    selectedContacts.forEach((contact, index) => {
+        // Create avatar div with initials
+        let avatarDiv = document.createElement('div');
+        avatarDiv.classList.add('avatar');
+        avatarDiv.style.backgroundColor = getRandomColor();
+
+        let initials = '';
+        if (contact.firstName) initials += contact.firstName.charAt(0);
+        if (contact.lastName) initials += contact.lastName.charAt(0);
+        if (!initials && contact.name) initials = contact.name.charAt(0);
+
+        avatarDiv.innerText = initials.toUpperCase();
+
+        // Create name span
+        let nameSpan = document.createElement('span');
+        nameSpan.classList.add('picked-user-name');
+        nameSpan.innerText = `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
+
+        // Create delete button
+        let deleteButton = document.createElement('button');
+        deleteButton.classList.add('delete-user-button');
+        deleteButton.innerHTML = '&times;'; // Cross symbol
+        deleteButton.title = 'Remove User';
+        deleteButton.addEventListener('click', () => {
+            selectedContacts.splice(index, 1); // Remove user from array
+            updatePickedUserAvatars(); // Refresh avatars
+        });
+
+        // Create user info container
+        let userInfoContainer = document.createElement('div');
+        userInfoContainer.classList.add('picked-user-info');
+        userInfoContainer.appendChild(deleteButton); // Add delete button first
+        userInfoContainer.appendChild(avatarDiv);    // Then avatar
+        userInfoContainer.appendChild(nameSpan);     // Then name
+
+        // Add user info container to the main container
+        pickedUserAvatarContainer.appendChild(userInfoContainer);
+    });
+}
+
 
 
 function filterContacts() {
@@ -374,4 +434,3 @@ function clearTask() {
     displayContacts(allContacts);
     resetPriorityButtons();
 }
-

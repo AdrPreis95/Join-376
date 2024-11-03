@@ -31,7 +31,7 @@ function pickup(event) {
     moving.style.maxHeight = moving.clientHeight;
     moving.style.maxWidth = moving.clientWidth;
     moving.style.position = 'fixed';
-    moving.style.zIndex = '-10';
+    moving.style.zIndex = '10'; // Bringt das Element in den Vordergrund
 }
 
 function move(event) {

@@ -16,6 +16,9 @@ function getTask(id, category, classCategory, title, description, prioIcon) {
             <div id="assigned-user-${id}" class="assigned-user-container">
 
             </div>
+            <div class="more-user" id="more-user-${id}">
+
+            </div>
         </div>
         <button><img src=${prioIcon} alt="priority"></button>
         </div>
@@ -38,11 +41,17 @@ function getSubtask(doneTasks, allSubtasks, progress) {
     `
 }
 
-function getFirstLetterName(firstLetters) {
+function getFirstLetterName(firstLetters, color) {
     return `
-    <div class="assigned-user">
+    <div style="background-color: ${color};" class="assigned-user">
         <p>${firstLetters}</p>
     </div>
+    `
+}
+
+function getMoreUser(quantity) {
+    return `
+    <p>+ ${quantity}</p>
     `
 }
 
@@ -51,7 +60,9 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
     <div class="content-overlay">
         <div class="header-overlay">
             <label class="category-overlay category-${classCategory}">${category}</label>
-            <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.svg" alt="close">
+            <div class="close-overlay">
+                <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.svg" alt="close">
+            </div>    
         </div>
         <h3>${title}</h3>
         <p>${description}</p>
@@ -69,6 +80,9 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
         <div>
             <h4>Assigned To:</h4>
             <div id="user-names-overlay">
+
+            </div>
+            <div id="more-user-overlay">
 
             </div>
         </div>
@@ -104,14 +118,20 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
     `
 }
 
-function getUserNamesOverlay(firstLetter, userName) {
+function getUserNamesOverlay(firstLetter, userName, color) {
     return `
     <div class="username-overlay">
-        <div id="assigned-user-overlay">
+        <div style="background-color: ${color};" id="assigned-user-overlay">
             <p>${firstLetter}</p>
         </div>
         <p class="username">${userName}</p>
     </div>
+    `
+}
+
+function getMoreUserOverlay(quantity) {
+    return `
+    <p>... ${quantity} weitere.</p>
     `
 }
 
@@ -128,7 +148,9 @@ function getOverlayEdit(id, title, description) {
     return `
     <div class="content-overlay">
         <div class="header-overlay-edit">
-            <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.svg" alt="close">
+            <div class ="close-overlay">
+                <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.svg" alt="close">
+            </div>    
         </div>
         <div class="overlay-edit-container">
             <div class="overlay-edit-container">
@@ -156,9 +178,22 @@ function getOverlayEdit(id, title, description) {
             </div>
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="assigned-to">Assigned to</label>
-                <select name="assigned-from" id="assigned-to">
-                    <option autofocus value="">Select contacts to assign</option>
-                </select>
+                <div onclick="openDropdownAssigned()" class="assigned-menu-overlay">
+                    <input type="text" placeholder="Select contacts to assign"></input>
+                    <img id="arrow-dropdown" src="./assets/icons/arrow_drop_down.png">
+                </div>
+            </div>
+            <div>
+                <div id="user-names-edit-overlay">
+                    <div style="background-color: #FFC701;" class="assigned-user">
+                        <p>MB</p>
+                    </div
+                </div>
+            </div>
+            <div class="d-none" id="selected-user-dropdown">
+                <div class="dropdown-container" id="user-dropdown">
+                    
+                </div>
             </div>
             <div class="button-ok-container">
                 <button class="button-ok" onclick="saveEdit(${id})"><p>Ok</p><img src="./assets/icons/check.svg" alt=""></button>
@@ -170,6 +205,14 @@ function getOverlayEdit(id, title, description) {
 
 function getContactName(name) {
     return `
-    <option value="${name}">${name}</option>
+    <div class="contact-container-overlay">
+        <div class="user-edit-overlay">
+            <div class="user-name-overlay">
+                <div class="user-initials-overlay"><p>MB</p></div>
+                <p>${name}</p>
+            </div>
+        </div>
+        <img src="./assets/icons/unchecked_icon.png"
+    </div>
     `
 }

@@ -38,7 +38,7 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
     clone.querySelector('.contactEmail').innerHTML = contact.email 
         ? `<a style="color: #007cee;" href="#">${contact.email}</a>` 
         : 'No email available';
-    contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}')`);
+        contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}'); toggleDetails();`);
     container.appendChild(clone);
 }
 
@@ -84,16 +84,16 @@ function createContact() {
         email: document.getElementById('addEmail').value,
         phone: document.getElementById('addPhone').value,
     };
-    getNewContactId().then(newId => {
-        fetch(BASE_URL + `contacts/${newId}.json`, {
-            method: 'PUT',
-            body: JSON.stringify({ ...newContact, id: newId })
-        }).then(() => {
-            newContact.id = newId;
-            contacts.push(newContact);
-            updateContactDisplay();
-            closeAddContactForm(true);
-        });
+    const newId = getNewContactId();
+    fetch(BASE_URL + `contacts/${newId}.json`, {
+        method: 'PUT',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...newContact, id: newId })
+    }).then(() => {
+        newContact.id = newId;
+        contacts.push(newContact);
+        updateContactDisplay();
+        closeAddContactForm(true);
     });
 }
 
@@ -117,18 +117,9 @@ function updateContactDisplay() {
 }
 
 function getNewContactId() {
-    return fetch(BASE_URL + 'contacts.json')
-        .then(response => response.json())
-        .then(data => {
-            if (data) {
-                const existingIds = Object.values(data)
-                    .filter(contact => contact && contact.id)
-                    .map(contact => contact.id);
-                return existingIds.length ? Math.max(...existingIds) + 1 : 1;
-            } else {
-                return 1;
-            }
-        });
+    if (contacts.length === 0) return 1;
+    const existingIds = contacts.map(contact => contact.id);
+    return Math.max(...existingIds) + 1;
 }
 
 function closeEditContactForm() {
@@ -177,7 +168,11 @@ function openAddContactForm() {
 }
 
 function addLetterHeader(container, letter) {
-    container.innerHTML += `<div class="contact-header">${letter}</div>`;
+    container.innerHTML += `
+        <div class="contactHeaderWrapper">
+            <div class="contactHeader">${letter}</div>
+        </div>
+    `;
 }
 
 function getInitials(name) {
@@ -190,24 +185,48 @@ function getRandomColor() {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-
 fetchContacts().then(() => {
     sortContacts();
     displayContacts(contacts);
 });
 
+function toggleDetails() {
+    if (window.innerWidth < 1250) {
+        const detailsContainer = document.querySelector('.detailsContainer');
+        const contactsContainer = document.querySelector('.contactsSection');
+        const backArrow = document.querySelector('.backArrow');
+
+        detailsContainer.classList.toggle('show-details');
+        contactsContainer.classList.toggle('hide-contacts');
+
+        if (detailsContainer.classList.contains('show-details')) {
+            backArrow.classList.add('show-details');
+        } else {
+            backArrow.classList.remove('show-details');
+        }
+    }
+}
+
+function hideDetails() {
+    const detailsContainer = document.querySelector('.detailsContainer');
+    const contactsContainer = document.querySelector('.contactsSection');
+    const backArrow = document.querySelector('.backArrow');
+
+    detailsContainer.classList.remove('show-details');
+    contactsContainer.classList.remove('hide-contacts');
+
+    backArrow.classList.add('show-details');
+}
+
 async function deleteContact(del) {
     let id = + document.getElementById('contactId').innerHTML;
     id--;
     contacts.splice(id, 1 );
-
-    // Updating ID's 
     var newId = 1;
     for (var i in contacts) {
         contacts[i].id = newId;
         newId++;
     }
-
     let responseContact = await fetch(BASE_URL + 'contacts.json', {
         method: "PUT",
         headers: {
@@ -215,8 +234,6 @@ async function deleteContact(del) {
         },
         body: JSON.stringify(contacts)
     });
-
-    
     updateContactDisplay();
     closeContactDetails();
     if(del == "editForm") {

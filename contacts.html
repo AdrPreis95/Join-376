@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contact</title>
+    <title>Contacts</title>
 
     <link rel="icon" href="./assets/img/join_logo_dark.png">
 
-    
     <script src="./scripts/base_url.js"></script>
     <script src="./scripts/contacts.js"></script>
     <script src="./scripts/template_contacts.js"></script>
@@ -18,11 +17,9 @@
     <link rel="stylesheet" href="style/privacy_policy.css">
     <link rel="stylesheet" href="style/legal_notice.css">
     <link rel="stylesheet" href="style/contacts.css">
-    <link rel="stylesheet" href="style/board.css">
-    <link rel="stylesheet" href="style/add_task.css">
     <link rel="stylesheet" href="style/responsive.css">
-    <link rel="stylesheet" href="style/summary.css">
     <link rel="stylesheet" href="style/contacts_overlay.css">
+    <link rel="stylesheet" href="style/contacts_responsive.css">
 
 </head>
 
@@ -31,32 +28,27 @@
     <aside class="sidebar">
 
         <div class="sidebar-logo">
-            <img src="assets/img/join_logo.png" alt="Join-Logo">
+            <img src="assets/img/join_logo.png" alt="Join Logo">
         </div>
-
+        
         <div class="main-links-container">
-            <a href="./summary.html" class="main-link">
-                <img src="./assets/icons/summary_icon.png" alt="summary_icon">
-                Summary
+            <a href="summary.html" class="main-link">
+                <img src="assets/icons/summary_icon.png" alt="Summary Icon"> Summary
             </a>
-
-            <a href="./add_task.html" class="main-link">
-                <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
-                Add Task
+        
+            <a href="add_task.html" class="main-link">
+                <img src="assets/icons/add_task_icon.png" alt="Add Task Icon"> Add Task
             </a>
-
-            <a href="./board.html" class="main-link">
-                <img src="./assets/icons/board_icon.png" alt="board_icon">
-                Board
+        
+            <a href="board.html" class="main-link">
+                <img src="assets/icons/board_icon.png" alt="Board Icon"> Board
             </a>
-
-            <a href="./contacts.html" class="main-link active_side">
-                <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
-                Contacts
+        
+            <a href="contacts.html" class="main-link active_side">
+                <img src="assets/icons/contacts_icon.png" alt="Contacts Icon"> Contacts
             </a>
-
         </div>
-
+        
         <div class="legal-links-container">
             <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
             <a href="./legal_notice.html" class="legal-link">Legal notice</a>
@@ -73,37 +65,35 @@
                     <div class="leftContactText">
                         <p class="addContactHeadline" id="addContactHeadline">Add contact</p>
                         <p class="addContactSubText" id="addContactSubText">Tasks are better with a team!</p>
+                        <img onclick="closeAddContactForm()" class="addContactCloseButton editContactCloseButton" src="assets/icons/white_close.png" alt="Close">
                     </div>
                     
                     <div class="addContactSeparatorLine"></div>
                 </div>
         
-                <div style="width: 759px; position: relative; background-color: #f6f7f8; border-top-right-radius: 24px; border-bottom-right-radius: 24px;">
+                <div class="rightContactOverlay">
         
-                    <div style="position: absolute; height: 90%; display: flex; align-items: center; justify-content: center; left: 14%;">
+                    <div class="addDetailsContainer">
                         <div class="addDetailsInitialsCircle" id="addDetailsInitials">
                             <img style="height: 42px; width: 42px;" src="assets/icons/contacts_personicon.png" alt="Contact">
                         </div>
                     </div>
         
                     <div class="addContactContainer">
-                        <img style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeAddContactForm()">
+                        <img class="addContactClose" style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeAddContactForm()">
                         
                         <div style="position: relative;">
                             <input required class="addName" type="text" id="addName" placeholder="Name" />
-                            <span id="nameError" class="error-message" style="color: red;"></span>
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/person_icon.png" alt="Person">
                         </div>
                     
                         <div style="position: relative;">
                             <input required class="addEmail" type="email" id="addEmail" placeholder="Email" />
-                            <span id="emailError" class="error-message" style="color: red;"></span>
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/mail_icon.png" alt="Email">
                         </div>
                     
                         <div style="position: relative;">
                             <input required class="addPhone" type="tel" id="addPhone" placeholder="Phone" maxlength="20" />
-                            <span id="phoneError" class="error-message" style="color: red;"></span>
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/phone_icon.png" alt="Phone">
                         </div>
                     
@@ -133,18 +123,19 @@
                 <div class="leftContactOverlay">
                     <img class="editContactLogo" src="assets/img/join_logo.png" alt="Join-Logo">
                     <p class="editContactHeadline" id="editContactHeadline">Edit contact</p>
+                    <img onclick="closeEditContactForm()" class="addContactCloseButton editContactCloseButton" src="assets/icons/white_close.png" alt="Close">
                     <div class="editContactseparatorLine"></div>
                 </div>
 
-                <div style="width: 759px; position: relative; background-color: #f6f7f8; border-top-right-radius: 24px; border-bottom-right-radius: 24px;">
+                <div class="rightContactOverlay">
 
-                    <div style="position: absolute; height: 90%; display: flex; align-items: center; justify-content: center; left: 14%;">
+                    <div class="addDetailsContainer">
                         <div class="editDetailsInitialsCircle" id="editDetailsInitials"></div>
                     </div>
 
                     <div class="editContactContainer">
 
-                        <img style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeEditContactForm()">
+                        <img class="addContactClose" style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeEditContactForm()">
 
                         <div style="position: relative;">
                             <input required class="editName" type="text" id="editName" placeholder="Name"/>
@@ -225,7 +216,7 @@
                 <contacts class="createdContacts" id="createdContacts">
                     <template id="contactTemplate">
                         <div class="contactItem">
-                            <div class="contactWrapper" style="width: 80%; display: flex; align-items: center;">
+                            <div class="contactWrapper">
                                 <div class="initialsCircle"></div>
                                 <div class="contactDetails">
                                     <p style="display: flex; align-items: center; font-size: 18px;">
@@ -239,12 +230,16 @@
                 </contacts>
                 
             </section>
+
+            
         
-            <div class="detailsContainer" style="padding-left: 60px;">
-                <div class="headerSection" style="padding-top: 72px; display: flex; height: 164px; align-items: center; gap: 30px;">
-                    <h2 style="font-size: 73px;">Contacts</h2>
+            <div class="detailsContainer">
+                <img onclick="hideDetails()" class="backArrow" src="assets/icons/arrow_left_line_icon.png" alt="Back-Arrow">
+                <div class="headerSection">
+                    <h2 class="contactsHeaderText">Contacts</h2>
                     <div class="separatorLine"></div>
-                    <p style="color: black; font-style: normal; font-size: 22px;">Better with a team</p>
+                    <p class="contactsUnderText">Better with a team</p>
+                    
                 </div>
         
                 <div class="selectedContactDetails" id="selectedContactDetails">

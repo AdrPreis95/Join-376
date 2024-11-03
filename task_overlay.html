@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="style/task_overlay.css">
+
+    <script src="scripts/add_task.js"></script>
+    <script src="scripts/add_task_overlay.js"></script>
+</head>
+
+<body>
+    <div class="overall-container" id="task-overlay">
+        <div class="headline">
+            <h1>Add Task</h1>
+        </div>
+        <div class="content-section-confirm">
+            <div id="cont-cont" class="content-container">
+                <section id="cont-left" class="content-left">
+                    <p style="margin-bottom: 10px;">
+                        Title<span style="color: red;">*</span>
+                    </p>
+                    <input id="title" class="input-title" type="text" placeholder="Enter a title">
+                    <p style="margin-bottom: 10px; margin-top: 24px;">Description</p>
+                    <div class="textarea">
+                        <input id="description" type="text" placeholder="Enter a Description">
+                        <img src="./assets/icons/description-icon.png" alt="logo">
+                    </div>
+
+
+                    <div class="dropdown">
+                        <p style="margin-bottom: 10px; margin-top: 24px;">Assigned to</p>
+                        <div class="assigned-to-select">
+                            <input class="input-dropdown" id="dropdown-input" name="dropdown-input"
+                                oninput="filterContacts()" onclick="openDropdown()" type="text"
+                                placeholder="Select contacts to assign" autocomplete="off">
+                            <img id="arrow" class="dropdown-arrow" src="./assets/icons/dropdown-arrow.png"
+                                alt="ArrowIcon">
+                        </div>
+                        <div id="picked-user-avatar" class="picked-user-avatar"></div>
+
+
+
+                        <div id="dropdown-user" class="user-list">
+
+                        </div>
+
+
+
+
+                </section>
+                <div class="separating-line"></div>
+                <section class="content-right">
+
+                    <p style="margin-bottom: 10px;">
+                        Due Date<span style="color: red;">*</span>
+                    </p>
+
+                    <div id="errorborder" class="date-container">
+                        <input id="due-date-input" name="date" type="text" placeholder="dd/mm/yyyy" class="date-input"
+                            onkeypress="formatDueDate(event)" maxlength="10" pattern="\d{2}/\d{2}/\d{4}"
+                            title="Please enter a date in the format dd/mm/yyyy">
+                        <img onclick="fillCurrentDate()" src="./assets/icons/date-logo.png" alt="DateIcon">
+                    </div>
+
+
+
+                    <p style="margin-bottom: 10px; margin-top: 24px;">Prio</p>
+                    <div class="prio-container">
+                        <button style="cursor: pointer;" onclick="changeColor(this, '#ff3d00')" id="prio-red"
+                            class="prio-u">
+                            <b>Urgent</b><img src="assets/icons/urgent_icon.png" alt="PrioIcon">
+                        </button>
+                        <button style="cursor: pointer;" onclick="changeColor(this, '#FFAC0B')" id="prio-orange"
+                            class="prio-m">
+                            <b>Medium</b><img src="assets/icons/medium_icon.png" alt="Medium">
+                        </button>
+                        <button style="cursor: pointer;" onclick="changeColor(this, '#7EE32F')" id="prio-green"
+                            class="prio-l">
+                            <b>Low</b><img src="assets/icons/low_icon.png" alt="LowIcon">
+                        </button>
+                    </div>
+                    <p style="margin-top: 24px; margin-bottom: 10px;">
+                        Category<span style="color: red;">*</span>
+                    </p>
+                    <select class="select-minimal" id="selectcategory" name="category">
+                        <option value="" disabled selected hidden>Select task category</option>
+                        <option value="Technical Task">Technical Task</option>
+                        <option value="User Story">User Story</option>
+                    </select>
+
+                    <p style="margin-top: 24px; margin-bottom: 10px;">
+                        Subtasks
+                    </p>
+
+                    <div class="input-container">
+                        <input id="addsubtasks" name="addsubtasks" placeholder="Add new subtask">
+                        <img onclick="addSubtask()" id="add-subtask" class="input-icon"
+                            src="assets/icons/add_subtask.png" alt="AddSubtaskIcon">
+                        <div class="center-subtask-icons" id="show-icons" style="display: none;">
+                            <img onclick="clearSubtaskInput()" id="clear-subtask" class="input-icon-after"
+                                src="./assets/icons/close.png" alt="ClearTaskInputIcon">
+                            <div class="task-buttons-seperator"></div>
+                            <img onclick="confirmSubtask()" id="confirm-subtask" class="input-icon-after"
+                                src="./assets/icons/create-task.png" alt="ConfirmTaskIcon">
+                        </div>
+                    </div>
+
+                    <ul id="subtask-list"></ul>
+
+
+                    <section class="confirm">
+
+                        <div class="button-container">
+                            <button onclick="clearTask()" id="clear" class="clear-button">
+                                <span>Clear</span><img class="clear-image" src="./assets/icons/clear-icon.png"
+                                    alt="DeleteIcon">
+                            </button>
+                            <button onclick="createTask()" id="create" class="create-task-button">
+                                <span>Create Task</span><img src="./assets/icons/create-task.png" alt="ConfirmIcon">
+                            </button>
+                        </div>
+                    </section>
+
+            </div>
+
+            <p style="margin-top: 94px; margin-bottom: 10px; padding-left: 60px;">
+                <span style="color: red;">*</span>This field is required
+
+
+        </div>
+
+    </div>
+
+    </main>
+
+    </div>
+
+</body>
+
+</html>
