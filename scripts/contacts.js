@@ -88,9 +88,9 @@ function createContact() {
     fetch(BASE_URL + `contacts/${newId}.json`, {
         method: 'PUT',
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...newContact, id: newId })
+        body: JSON.stringify({ ...newContact, id: (newId + 1) })
     }).then(() => {
-        newContact.id = newId;
+        newContact.id = newId + 1;
         contacts.push(newContact);
         updateContactDisplay();
         closeAddContactForm(true);
@@ -117,9 +117,7 @@ function updateContactDisplay() {
 }
 
 function getNewContactId() {
-    if (contacts.length === 0) return 1;
-    const existingIds = contacts.map(contact => contact.id);
-    return Math.max(...existingIds) + 1;
+    return contacts.length;
 }
 
 function closeEditContactForm() {
@@ -220,20 +218,27 @@ function hideDetails() {
 
 async function deleteContact(del) {
     let id = + document.getElementById('contactId').innerHTML;
-    id--;
-    contacts.splice(id, 1 );
+
+    const removeContactById = (contactsJson, id) =>
+    contactsJson.filter(c => c.id !== id);
+
+    let updatedContacts = removeContactById(contacts, id);
     var newId = 1;
-    for (var i in contacts) {
-        contacts[i].id = newId;
+    for (var i in updatedContacts) {
+        updatedContacts[i].id = newId;
         newId++;
     }
+
     let responseContact = await fetch(BASE_URL + 'contacts.json', {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(contacts)
+        body: JSON.stringify(updatedContacts)
     });
+
+    contacts = updatedContacts;
+
     updateContactDisplay();
     closeContactDetails();
     if(del == "editForm") {
@@ -249,27 +254,41 @@ function closeContactDetails(){
 
 async function saveEditChanges() {
     let id = + document.getElementById('contactId').innerHTML;
-    id--;
-    const editName = document.getElementById('editName').value;
+    
     const editEmail = document.getElementById('editEmail').value;
+    const editName = document.getElementById('editName').value;
     const editPhone = document.getElementById('editPhone').value;
+    const updatedContact = {
+        id: id,
+        email: editEmail, 
+        name: editName, 
+        phone: editPhone 
+    }
 
-    contacts[id].name = editName;
-    contacts[id].email = editEmail;
-    contacts[id].phone = editPhone;
 
-    let responseContact = await fetch(BASE_URL + `contacts/${id}.json`, {
+    const updateContactById = contacts.map(contact => {
+        if (contact.id === id) {
+          return updatedContact;
+        } else {
+          return contact;
+        }
+       });
+
+    contacts = updateContactById;
+    
+
+    let responseContacts = await fetch(BASE_URL + `contacts/${(id-1)}.json`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(contacts[id])
+        body: JSON.stringify(updatedContact)
     });
 
-    const initials = getInitials(contacts[id].name);
+    const initials = getInitials(updatedContact.name);
     const bgColor = getRandomColor();
 
-    updateContactDetails(contacts[id], initials, bgColor);
+    updateContactDetails(updatedContact, initials, bgColor);
     closeEditContactForm();
     updateContactDisplay();
 }
