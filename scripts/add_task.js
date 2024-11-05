@@ -276,25 +276,27 @@ async function loadContacts() {
         }
         let contacts = await response.json();
 
-        allContacts = contacts.map(contact => {
-            let firstName = '';
-            let lastName = '';
+        allContacts = contacts
+            .filter(contact => contact) 
+            .map(contact => {
+                let firstName = '';
+                let lastName = '';
 
-            if (contact.name) {
-                const nameParts = contact.name.split(' ');
-                firstName = nameParts[0];
-                lastName = nameParts.slice(1).join(' ');
-            } else {
-                firstName = contact.firstName || '';
-                lastName = contact.lastName || '';
-            }
+                if (contact.name) {
+                    const nameParts = contact.name.split(' ');
+                    firstName = nameParts[0];
+                    lastName = nameParts.slice(1).join(' ');
+                } else {
+                    firstName = contact.firstName || '';
+                    lastName = contact.lastName || '';
+                }
 
-            return {
-                ...contact,
-                firstName: firstName,
-                lastName: lastName
-            };
-        });
+                return {
+                    ...contact,
+                    firstName: firstName,
+                    lastName: lastName
+                };
+            });
 
         allContacts.unshift(userAsContact);
 

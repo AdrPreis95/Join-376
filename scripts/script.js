@@ -1,4 +1,11 @@
-//Check if the user is logged in 
+const colors = [
+    "#FF7F00", "#FF66CC", "#A349A4",
+    "#8A2BE2", "#00C5CD", "#00CED1",
+    "#FF6A6A", "#FF9C00", "#FF77FF",
+    "#FFFF33", "#4169E1", "#ADFF2F",
+    "#FFFF00", "#FF4040", "#FFA500"
+];
+
 let loggedUser = {};
 if (sessionStorage.loggedUser != undefined){
     loggedUser = JSON.parse(sessionStorage.loggedUser);
