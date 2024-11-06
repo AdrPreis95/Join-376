@@ -35,6 +35,7 @@ function renderOverlayUser(responseTaskJson) {
     let names = [];
     let firstLetters = [];
     let colors = [];
+
     determineUserInfo(responseTaskJson, names, firstLetters, colors);
     if (names.length <= 4) {
         for (let i = 0; i < names.length; i++) {
@@ -84,9 +85,7 @@ async function editTask(id, title, description, dueDate, priority, assignedTo) {
     refOverlay.innerHTML = "";
     refOverlay.innerHTML = getOverlayEdit(id, title, description, assignedTo);
     document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
-    checkActivePriority(priority);
-    console.log(assignedTo);
-    
+    checkActivePriority(priority);    
     loadContacts();
 }
 

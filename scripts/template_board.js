@@ -185,9 +185,7 @@ function getOverlayEdit(id, title, description) {
             </div>
             <div>
                 <div id="user-names-edit-overlay">
-                    <div style="background-color: #FFC701;" class="assigned-user">
-                        <p>MB</p>
-                    </div
+
                 </div>
             </div>
             <div class="d-none" id="selected-user-dropdown">
@@ -213,6 +211,14 @@ function getContactName(name) {
             </div>
         </div>
         <img src="./assets/icons/unchecked_icon.png"
+    </div>
+    `
+}
+
+function getUserInititalsOverlayEdit(firstLetter) {
+    return `
+    <div style="background-color: #FFC701;" class="assigned-user-overlay-edit">
+        <p>${firstLetter}</p>
     </div>
     `
 }

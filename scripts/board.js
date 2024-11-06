@@ -11,9 +11,9 @@ let descriptions = [];
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
-    saveInArray(tasksJson);
     clearLists();
     renderTasks(tasksJson);
+    saveInArray(tasksJson);
 }
 
 /**
@@ -40,11 +40,18 @@ function saveInArray(tasksJson) {
     }
 }
 
+/**
+ * The function searches for a match in the title or description and then renders the task found.
+ */
 async function searchTask() {
     let keyword = document.getElementById('find-task').value;
     let titleIndex = titles.findIndex(element => element.toLowerCase().includes(keyword.toLowerCase()));
-    let descriptionIndex = descriptions.findIndex(element => element.toLowerCase().includes(keyword.toLowerCase()));
-        console.log(titleIndex);
+    let id = await findKey(titleIndex);
+    // let descriptionIndex = descriptions.findIndex(element => element.toLowerCase().includes(keyword.toLowerCase()));
+    let response = await fetch(BASE_URL + "/tasks/" + id + ".json")
+    let responseJson = await response.json();
+    renderTasks(responseJson);
+    document.getElementById('find-task').value = "";
 }
 
 /**
