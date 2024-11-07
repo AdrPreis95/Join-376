@@ -59,20 +59,18 @@
     <main class="main-content">
 
         <div id="addContactForm">
-            <div>
+            <form onsubmit="createContact(); return false;">
                 <div class="leftContactOverlay">
                     <img class="addContactLogo" src="assets/img/join_logo.png" alt="Join-Logo">
                     <div class="leftContactText">
                         <p class="addContactHeadline" id="addContactHeadline">Add contact</p>
                         <p class="addContactSubText" id="addContactSubText">Tasks are better with a team!</p>
-                        <img onclick="closeAddContactForm()" class="addContactCloseButton editContactCloseButton" src="assets/icons/white_close.png" alt="Close">
+                        <img onclick="closeAddContactForm(); showFooter()" class="addContactCloseButton editContactCloseButton" src="assets/icons/white_close.png" alt="Close">
                     </div>
-                    
                     <div class="addContactSeparatorLine"></div>
                 </div>
         
                 <div class="rightContactOverlay">
-        
                     <div class="addDetailsContainer">
                         <div class="addDetailsInitialsCircle" id="addDetailsInitials">
                             <img style="height: 42px; width: 42px;" src="assets/icons/contacts_personicon.png" alt="Contact">
@@ -83,90 +81,85 @@
                         <img class="addContactClose" style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeAddContactForm()">
                         
                         <div style="position: relative;">
-                            <input required class="addName" type="text" id="addName" placeholder="Name" />
+                            <input required class="addName" type="text" id="addName" name="name" placeholder="Name" />
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/person_icon.png" alt="Person">
                         </div>
-                    
+        
                         <div style="position: relative;">
-                            <input required class="addEmail" type="email" id="addEmail" placeholder="Email" />
+                            <input required class="addEmail" type="email" id="addEmail" name="email" placeholder="Email" />
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/mail_icon.png" alt="Email">
                         </div>
-                    
+        
                         <div style="position: relative;">
-                            <input required class="addPhone" type="tel" id="addPhone" placeholder="Phone" maxlength="20" />
+                            <input required class="addPhone" type="tel" id="addPhone" name="phone" placeholder="Phone" maxlength="20" pattern="\+?[0-9]+"
+                                title="Please enter only numbers."/>
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/phone_icon.png" alt="Phone">
                         </div>
-                    
+                        
+        
                         <div class="addContactButtons">
-                            <button id="cancelContactAdd">Cancel
+                            <button type="button" onclick="closeAddContactForm()" id="cancelContactAdd">Cancel
                                 <img src="assets/icons/clear-icon.png" alt="Cancel">
                             </button>
-                            <button onclick="createContact()" id="saveContactAdd">
+                            <button type="submit" id="saveContactAdd">
                                 Create contact
                                 <img src="assets/icons/create-task.png" alt="Save">
                             </button>
                         </div>
-
+        
                         <div class="createdContactOverlay" id="successfullycreatedContactOverlay">
                             <p>Contact successfully created</p>
                         </div>
-
                     </div>
-        
                 </div>
-        
-            </div>
+            </form>
         </div>
+        
 
         <div id="editContactForm">
-            <div>
+            <form onsubmit="saveEditChanges(); return false;">
                 <div class="leftContactOverlay">
                     <img class="editContactLogo" src="assets/img/join_logo.png" alt="Join-Logo">
                     <p class="editContactHeadline" id="editContactHeadline">Edit contact</p>
                     <img onclick="closeEditContactForm()" class="addContactCloseButton editContactCloseButton" src="assets/icons/white_close.png" alt="Close">
                     <div class="editContactseparatorLine"></div>
                 </div>
-
+        
                 <div class="rightContactOverlay">
-
                     <div class="addDetailsContainer">
                         <div class="editDetailsInitialsCircle" id="editDetailsInitials"></div>
                     </div>
-
+        
                     <div class="editContactContainer">
-
                         <img class="addContactClose" style="top: 48px; position: absolute; right: 0; cursor: pointer;" src="assets/icons/close.png" alt="Close" onclick="closeEditContactForm()">
-
+        
                         <div style="position: relative;">
-                            <input required class="editName" type="text" id="editName" placeholder="Name"/>
+                            <input required class="editName" type="text" id="editName" name="name" placeholder="Name" />
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/person_icon.png" alt="Person">
                         </div>
-                        
+        
                         <div style="position: relative;">
-                            <input required class="editEmail" type="email" id="editEmail" placeholder="Email" />
+                            <input required class="editEmail" type="email" id="editEmail" name="email" placeholder="Email" />
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/mail_icon.png" alt="Email">
                         </div>
-                        
+        
                         <div style="position: relative;">
-                            <input required class="editPhone" type="tel" id="editPhone" placeholder="Phone" maxlength="20" />
+                            <input required class="editPhone" type="tel" id="editPhone" name="phone" placeholder="Phone" maxlength="20" pattern="\+?[0-9]+" title="Please enter a valid phone number with optional '+' and numbers only." />
                             <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;" src="assets/icons/phone_icon.png" alt="Phone">
                         </div>
-
+        
                         <div class="editContactButtons">
-                            <button id="deleteContactChanges" onclick="deleteContact('editForm')">Delete</button>
-                            <button id="saveContactChanges" onclick="saveEditChanges()">
+                            <button type="button" id="deleteContactChanges" onclick="deleteContact('editForm')">Delete</button>
+                            <button type="submit" id="saveContactChanges">
                                 Save
                                 <img src="assets/icons/create-task.png" alt="Save">
                             </button>
                         </div>  
-                        
                     </div>
-                
                 </div>
-                
-            </div>
-            
+            </form>
         </div>
+        
 
         <header>
             <div class="submenu d-none">
@@ -205,8 +198,8 @@
         <main style="display: flex;">
             <section class="contactsSection">
                 <div class="addHeader">
-                    <button onclick="openAddContactForm()" class="addContact">
-                        <div style="color: white; font-size: 18px; display: flex; align-items: center; justify-content: center; position: relative; gap: 12px;">
+                    <button onclick="openAddContactForm(); hideFooter()" class="addContact">
+                        <div class="addHeaderText">
                             <b>Add new contact</b>
                             <img style="height: 36px;" src="assets/icons/person_add.png">
                         </div>
