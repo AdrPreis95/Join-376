@@ -13,6 +13,20 @@ function sortContacts() {
     contacts.sort((a, b) => a.name.localeCompare(b.name));
 }
 
+function addContactToContainer(container, contact, initials, bgColor, template) {
+    if (!template || !template.content) return;
+    const clone = template.content.cloneNode(true);
+    const contactWrapper = clone.querySelector('.contactWrapper');
+    clone.querySelector('.initialsCircle').textContent = initials;
+    clone.querySelector('.initialsCircle').style.backgroundColor = bgColor;
+    clone.querySelector('.contactName').textContent = contact.name;
+    clone.querySelector('.contactEmail').innerHTML = contact.email 
+        ? `<a style="color: #007cee;" href="#">${contact.email}</a>` 
+        : 'No email available';
+        contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}'); toggleDetails();`);
+    container.appendChild(clone);
+}
+
 function displayContacts(contacts) {
     const container = document.querySelector('.createdContacts');
     const template = document.getElementById('contactTemplate');
@@ -26,20 +40,6 @@ function displayContacts(contacts) {
         }
         addContactToContainer(container, contact, getInitials(contact.name), getRandomColor(), template);
     });
-}
-
-function addContactToContainer(container, contact, initials, bgColor, template) {
-    if (!template || !template.content) return;
-    const clone = template.content.cloneNode(true);
-    const contactWrapper = clone.querySelector('.contactWrapper');
-    clone.querySelector('.initialsCircle').textContent = initials;
-    clone.querySelector('.initialsCircle').style.backgroundColor = bgColor;
-    clone.querySelector('.contactName').textContent = contact.name;
-    clone.querySelector('.contactEmail').innerHTML = contact.email 
-        ? `<a style="color: #007cee;" href="#">${contact.email}</a>` 
-        : 'No email available';
-        contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}'); toggleDetails();`);
-    container.appendChild(clone);
 }
 
 function loadContactDetails(contactWrapper, contact, initials, bgColor) {
@@ -68,16 +68,6 @@ function updateContactDetails(contact, initials, bgColor) {
     document.getElementById('detailsPhone').textContent = contact.phone ? contact.phone : 'No phone available';
 }
 
-function updateEditContactForm(contact, initials, bgColor) {
-    document.getElementById('editName').value = contact.name;
-    document.getElementById('editEmail').value = contact.email || '';
-    document.getElementById('editPhone').value = contact.phone || '';
-    
-    const editInitialsCircle = document.getElementById('editDetailsInitials');
-    editInitialsCircle.textContent = initials;
-    editInitialsCircle.style.backgroundColor = bgColor;
-}
-
 function createContact() {
     const newContact = {
         name: document.getElementById('addName').value,
@@ -94,6 +84,7 @@ function createContact() {
         contacts.push(newContact);
         updateContactDisplay();
         closeAddContactForm(true);
+        if (window.innerWidth < 1250) showFooter();
     });
 }
 
@@ -118,6 +109,64 @@ function updateContactDisplay() {
 
 function getNewContactId() {
     return contacts.length;
+}
+
+async function deleteContact(del) {
+    let id = + document.getElementById('contactId').innerHTML;
+
+    const removeContactById = (contactsJson, id) =>
+    contactsJson.filter(c => c.id !== id);
+
+    let updatedContacts = removeContactById(contacts, id);
+    var newId = 1;
+    for (var i in updatedContacts) {
+        updatedContacts[i].id = newId;
+        newId++;
+    }
+
+    let responseContact = await fetch(BASE_URL + 'contacts.json', {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedContacts)
+    });
+
+    contacts = updatedContacts;
+
+    updateContactDisplay();
+    closeContactDetails();
+    if(del == "editForm") {
+        closeEditContactForm();
+    }
+}
+
+async function saveEditChanges() {
+    const id = +document.getElementById('contactId').innerHTML;
+    const updatedContact = {
+        id,
+        email: document.getElementById('editEmail').value, 
+        name: document.getElementById('editName').value, 
+        phone: document.getElementById('editPhone').value
+    };
+    contacts = contacts.map(contact => contact.id === id ? updatedContact : contact);
+    await fetch(`${BASE_URL}contacts/${id - 1}.json`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updatedContact)
+    });
+    updateContactDetails(updatedContact, getInitials(updatedContact.name), getRandomColor());
+    closeEditContactForm(); updateContactDisplay();
+}
+
+function updateEditContactForm(contact, initials, bgColor) {
+    document.getElementById('editName').value = contact.name;
+    document.getElementById('editEmail').value = contact.email || '';
+    document.getElementById('editPhone').value = contact.phone || '';
+    
+    const editInitialsCircle = document.getElementById('editDetailsInitials');
+    editInitialsCircle.textContent = initials;
+    editInitialsCircle.style.backgroundColor = bgColor;
 }
 
 function closeEditContactForm() {
@@ -155,7 +204,6 @@ function closeAddContactForm(contactCreated = false) {
     }, 1000);
 }
 
-
 function openAddContactForm() {
     const addContactForm = document.getElementById('addContactForm');
     addContactForm.style.display = 'flex';
@@ -165,28 +213,20 @@ function openAddContactForm() {
     }, 10);
 }
 
-function addLetterHeader(container, letter) {
-    container.innerHTML += `
-        <div class="contactHeaderWrapper">
-            <div class="contactHeader">${letter}</div>
-        </div>
-    `;
-}
+function hideFooter() {
+    const footer = document.querySelector('.responsive-footer');
+    if (footer) {
+      footer.classList.add('hide-contacts');
+    }
+  }
 
-function getInitials(name) {
-    const nameParts = name.split(' ');
-    return nameParts[0][0].toUpperCase() + (nameParts[1] ? nameParts[1][0].toUpperCase() : '');
+function showFooter() {
+    const footer = document.querySelector('.responsive-footer');
+    if (footer) {
+        footer.classList.remove('hide-contacts');
+        footer.classList.add('show-details');
+    }
 }
-
-function getRandomColor() {
-    const colors = ['#ff7a00', '#9327ff', '#6e52ff', '#fc71ff', '#ffbb2b', '#1fd7c1', '#462f8a', '#ff4646', '#00bee8'];
-    return colors[Math.floor(Math.random() * colors.length)];
-}
-
-fetchContacts().then(() => {
-    sortContacts();
-    displayContacts(contacts);
-});
 
 function toggleDetails() {
     if (window.innerWidth < 1250) {
@@ -216,34 +256,22 @@ function hideDetails() {
     backArrow.classList.add('show-details');
 }
 
-async function deleteContact(del) {
-    let id = + document.getElementById('contactId').innerHTML;
+function addLetterHeader(container, letter) {
+    container.innerHTML += `
+        <div class="contactHeaderWrapper">
+            <div class="contactHeader">${letter}</div>
+        </div>
+    `;
+}
 
-    const removeContactById = (contactsJson, id) =>
-    contactsJson.filter(c => c.id !== id);
+function getInitials(name) {
+    const nameParts = name.split(' ');
+    return nameParts[0][0].toUpperCase() + (nameParts[1] ? nameParts[1][0].toUpperCase() : '');
+}
 
-    let updatedContacts = removeContactById(contacts, id);
-    var newId = 1;
-    for (var i in updatedContacts) {
-        updatedContacts[i].id = newId;
-        newId++;
-    }
-
-    let responseContact = await fetch(BASE_URL + 'contacts.json', {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedContacts)
-    });
-
-    contacts = updatedContacts;
-
-    updateContactDisplay();
-    closeContactDetails();
-    if(del == "editForm") {
-        closeEditContactForm();
-    }
+function getRandomColor() {
+    const colors = ['#ff7a00', '#9327ff', '#6e52ff', '#fc71ff', '#ffbb2b', '#1fd7c1', '#462f8a', '#ff4646', '#00bee8'];
+    return colors[Math.floor(Math.random() * colors.length)];
 }
 
 function closeContactDetails(){
@@ -252,43 +280,7 @@ function closeContactDetails(){
     detailsSection.classList.remove('active');
 }
 
-async function saveEditChanges() {
-    let id = + document.getElementById('contactId').innerHTML;
-    
-    const editEmail = document.getElementById('editEmail').value;
-    const editName = document.getElementById('editName').value;
-    const editPhone = document.getElementById('editPhone').value;
-    const updatedContact = {
-        id: id,
-        email: editEmail, 
-        name: editName, 
-        phone: editPhone 
-    }
-
-
-    const updateContactById = contacts.map(contact => {
-        if (contact.id === id) {
-          return updatedContact;
-        } else {
-          return contact;
-        }
-       });
-
-    contacts = updateContactById;
-    
-
-    let responseContacts = await fetch(BASE_URL + `contacts/${(id-1)}.json`, {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedContact)
-    });
-
-    const initials = getInitials(updatedContact.name);
-    const bgColor = getRandomColor();
-
-    updateContactDetails(updatedContact, initials, bgColor);
-    closeEditContactForm();
-    updateContactDisplay();
-}
+fetchContacts().then(() => {
+    sortContacts();
+    displayContacts(contacts);
+});

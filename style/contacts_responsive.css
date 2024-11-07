@@ -1,251 +1,119 @@
 @media (max-width: 1250px) {
-    .responsiveLogo {
-        display: block;
-        height: 56px;
-        padding-left: 16px;
-    }
 
-    .main-link-responsive {
-        color: #CDCDCD;
-    }
+    .responsiveLogo { display: block; height: 56px; padding-left: 16px; }
 
-    .sidebar {
-        display: none;
-    }
-    
-    .help-link {
-        display: none;
-    }
+    .main-link-responsive { color: #CDCDCD; }
 
-    .header-content p {
-        display: none;
-    }
+    .sidebar { display: none; }
 
-    .detailsContainer {
-        display: none;
-        padding-left: 24px;
-    }
+    .help-link { display: none; }
 
-    .contactsSection {
-        width: 100%;
-    }
+    .header-content p { display: none; }
 
-    .header-content {
-        margin: 0px 8px 0px 8px;
-    }
+    .detailsContainer { display: none; padding-left: 24px; }
 
-    .headerSection {
-        flex-direction: column;
-        gap: 0px;
-        align-items: baseline;
-        margin-bottom: 32px;
-        position: relative;
-    }
+    .contactsSection { width: 100%; }
 
-    .contactsHeaderText {
-        font-size: 54px;
-        margin-bottom: 12px;
-    }
+    .header-content { margin: 0px 8px 0px 8px; }
 
-    .separatorLine {
-        height: 4px;
-        width: 88px;
-        background-color: #29ABE2;
-        position: absolute;
-        bottom: -32px;
-    }   
-    
-    .contactsUnderText {
-        font-size: 20px;
-    }
+    .headerSection { flex-direction: column; gap: 0px; align-items: baseline; margin-bottom: 32px; position: relative; }
 
-    .selectedContactHeader {
-        gap: 16px;
-    }
+    .contactsHeaderText { font-size: 54px; margin-bottom: 12px; }
 
-    .contactButtons {
-        display: none;
-    }
+    .separatorLine { height: 4px; width: 88px; background-color: #29ABE2; position: absolute; bottom: -32px; }
 
-    .addHeader {
-        display: none;
-    }
+    .contactsUnderText { font-size: 20px; }
 
-    .active_side {
-        padding: 8px 12px 8px 12px;
-        border-radius: 16px;
-    }
+    .selectedContactHeader { gap: 16px; }
 
-    .main-content {
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        padding-bottom: 72px;
-}
+    .contactButtons { display: none; }
 
-    .responsive-footer {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 30px;
-        background-color: #2A3647;
-        z-index: 1000;
-}
+    .active_side { padding: 8px 12px 8px 12px; border-radius: 16px; }
 
-    .detailsInitialsCircle {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        font-size: 27px;
-        color: white;
-        border: 3px solid #FFFFFF;
-        margin-bottom: 0px;
-    }
+    .main-content { display: flex; flex-direction: column; min-height: 100vh; padding-bottom: 72px; }
 
-    #detailsName {
-        font-size: 34px;
-    }
+    .responsive-footer { position: fixed; bottom: 0; width: 100%; display: flex; align-items: center; justify-content: center; 
+        gap: 30px; background-color: #2A3647; z-index: 1000; }
 
-    .leftContactOverlay {
-        width: 100%; border-top-left-radius: 24px; border-bottom-left-radius: 0px;
-        height: 100%; border-top-right-radius: 24px;
-    }
+    .detailsInitialsCircle { width: 80px; height: 80px; border-radius: 50%; display: flex; justify-content: center; align-items: center; 
+        font-size: 27px; color: white; border: 3px solid #FFFFFF; margin-bottom: 0px; }
 
-    .rightContactOverlay {
-        width: 100%; height: 100%; border-bottom-left-radius: 24px;
-    }
+    #detailsName { font-size: 34px; }
 
-    #addContactForm > * {
-        width: 100%; height: 100%; flex-direction: column;
-    }
+    .leftContactOverlay { width: 100%; border-top-left-radius: 24px; border-bottom-left-radius: 0px; height: 100%; border-top-right-radius: 24px; }
 
-    #editContactForm > * {
-        width: 100%; height: 100%; flex-direction: column;
-    }
+    .rightContactOverlay { width: 100%; height: 100%; border-bottom-left-radius: 24px; }
 
-    .addDetailsContainer {
-         height: 100%; display: flex; align-items: center; justify-content: center; width: 100%; left: 0%; top: -50%;
-    }
+    #addContactForm > * { width: 100%; height: 100%; flex-direction: column; }
 
-    .leftContactText {
-        align-items: baseline; margin-left: 24px;
-    }
+    #editContactForm > * { width: 100%; height: 100%; flex-direction: column; }
 
-    .addContactLogo {
-        display: none;
-    }
+    .addDetailsContainer { height: 100%; display: flex; align-items: center; justify-content: center; width: 100%; left: 0%; top: -50%; }
 
-    .addContactSeparatorLine {
-        top: 63%; left: 28.5px; width: 104px;
-    }
+    .leftContactText { align-items: baseline; margin-left: 24px; }
 
-    .addContactContainer {
-        width: 100%; position: relative; gap: 16px; right: 0;
-    }
+    .addContactLogo { display: none; }
 
-    .editContactContainer {
-        width: 100%; position: relative; gap: 16px; right: 0;
-    }
+    .addContactSeparatorLine { top: 63%; left: 28.5px; width: 104px; }
 
-    .addContactButtons {
-        justify-content: center; text-align: left;
-    }
+    .addContactContainer { width: 100%; position: relative; gap: 16px; right: 0; }
 
-    .editContactButtons {
-        justify-content: center; text-align: left;
-    }
+    .editContactContainer { width: 100%; position: relative; gap: 16px; right: 0; }
 
-    #cancelContactAdd {
-        display: none;
-    }
+    .addContactButtons { justify-content: center; text-align: left; }
 
-    .addContactClose {
-    display: none;
-    }
+    .editContactButtons { justify-content: center; text-align: left; }
 
-    .editContactLogo {
-        display: none;
-    }
+    #cancelContactAdd { display: none; }
 
-    #editContactHeadline {
-        align-items: center; justify-content: left; font-size: 47px; margin-left: 24px;
-    }
+    .addContactClose { display: none; }
 
-    .editContactseparatorLine {
-        width: 88px; left: 24.5px; 
-    }
+    .editContactLogo { display: none; }
 
-    .addContactCloseButton {
-        display: flex; position: absolute; top: 24px; right: 12px; width: 24px; height: 24px; cursor: pointer;
-    }
+    #editContactHeadline { align-items: center; justify-content: left; font-size: 47px; margin-left: 24px; }
 
-    #addContactHeadline {
-        font-size: 47px;
-    }
+    .editContactseparatorLine { width: 88px; left: 24.5px; }
 
-    .addContactSubText {
-        font-size: 20px;
-    }
+    .addContactCloseButton { display: flex; position: absolute; top: 24px; right: 12px; width: 24px; height: 24px; cursor: pointer; }
+
+    #addContactHeadline { font-size: 47px; }
+
+    .addContactSubText { font-size: 20px; }
+
+    .addHeader { position: absolute; bottom: 12.5%; right: 36px; transition: 0.3s ease-in-out; }
+
+    .addHeader:hover { transform: scale(1.15); transition: 0.3s ease-in-out; }
+
+    .addContact { width: 100%; border-radius: 30px; }
+
+    .addHeaderText { font-size: 0px; gap: 0px; }
 
 }
 
 @media (max-width: 450px) {
-    .contactWrapper {
-        width: 97%;
-        padding: 14px 24px 15px 0px;
-    }
-    .initialsCircle {
-        margin-right: 12px; margin-left: 12px;
-    }
 
-    .contactHeader {
-        width: 90%;
-        padding: 20px 24px 15px 10px;
-    }
+    .contactWrapper { width: 97%; padding: 14px 24px 15px 0px; }
 
-    .addName,
-    .addPhone,
-    .addEmail {
-    width: 294px;
-    border: 1px solid #D1D1D1;
-    padding: 13px 21px;
-    border-radius: 8px;
-    height: 48px;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 24px;
-    text-align: left;
-    transition: border-color 0.3s;
+    .initialsCircle { margin-right: 12px; margin-left: 12px; }
+
+    .contactHeader { width: 90%; padding: 20px 24px 15px 10px; }
+
+    .addName, .addPhone, .addEmail { width: 294px; border: 1px solid #D1D1D1; padding: 13px 21px; border-radius: 8px; height: 48px; font-size: 18px; 
+        font-weight: 400; line-height: 24px; text-align: left; transition: border-color 0.3s; }
+
+    .editName, .editPhone, .editEmail { width: 294px; border: 1px solid #D1D1D1; padding: 13px 21px; border-radius: 8px; height: 48px; font-size: 18px; 
+        font-weight: 400; line-height: 24px; text-align: left; transition: border-color 0.3s; }
 }
 
-    .editName,
-    .editPhone,
-    .editEmail {
-    width: 294px;
-    border: 1px solid #D1D1D1;
-    padding: 13px 21px;
-    border-radius: 8px;
-    height: 48px;
-    font-size: 18px;
-    font-weight: 400;
-    line-height: 24px;
-    text-align: left;
-    transition: border-color 0.3s;
-}
+@media (max-height: 730px) {
+
+    .addContactContainer { gap: 8px; height: 115%; }
 }
 
-.show-details {
-    display: flex;
-    flex-direction: column;
-}
+.show-details { display: flex; flex-direction: column; }
 
-.hide-contacts {
-    display: none;
-}
+.hide-contacts { display: none; }
 
+.detailsInitialsCircle { transition: 0.3s ease-in-out; }
+
+.detailsInitialsCircle:hover { transform: scale(1.3); transition: 0.3s ease-in-out; }
