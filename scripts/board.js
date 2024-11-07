@@ -147,13 +147,15 @@ function renderFirstLetter(user, id) {
     let firstLetters = [];
     let colors = [];
 
-    for (let i = 0; i < user.length; i++) {
-        let firstName = user[i].firstName[0];
-        let lastName = user[i].lastName[0];
-        let color = user[i].color;
-        let firstLetter = firstName + lastName;
-        firstLetters.push(firstLetter);
-        colors.push(color);
+    if (user !== undefined){
+        for (let i = 0; i < user.length; i++) {
+            let firstName = user[i].firstName[0];
+            let lastName = user[i].lastName[0];
+            let color = user[i].color;
+            let firstLetter = firstName + lastName;
+            firstLetters.push(firstLetter);
+            colors.push(color);
+        }
     }
     if (firstLetters.length <= 5) {
         for (let j = 0; j < firstLetters.length; j++) {

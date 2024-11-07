@@ -143,6 +143,33 @@
             -webkit-transform: translateX(100%);
         }
     }
+
+    .board-lists {
+        flex-direction: column;
+        padding: 0 20px 71px 20px;
+    }
+
+    .list {
+        width: inherit;
+        padding-bottom: 0;
+    }
+
+    .to-do, .in-progress, .await-feedback, .done {
+        display: flex;
+        gap: 12px;
+        overflow: scroll;
+        -ms-overflow-style: none;
+        /* for Internet Explorer, Edge */
+        scrollbar-width: none;
+        /* for Firefox */
+    }
+
+    .to-do::-webkit-scrollbar, .in-progress::-webkit-scrollbar, 
+    .await-feedback::-webkit-scrollbar, .done::-webkit-scrollbar {
+        display: none;
+        /* for Chrome, Safari, and Opera */
+    }
+
 }
 
 .hidden {
