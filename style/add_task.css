@@ -595,3 +595,12 @@ select {
     background-color: #29ABE2;
     cursor: pointer;
 }
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    display: none; /* Anfangs versteckt */
+}
+
+.input-error {
+    border-color: red;
+}

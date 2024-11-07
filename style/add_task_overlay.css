@@ -22,7 +22,32 @@
 }
 
 #taskoverlay iframe {
-  height: 90%;
-  width: 90%;
-  border: none;
+  background: white;
+  border-radius: 26px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  height: 592px;
+  width: 1155px;
+}
+
+#taskoverlay #cont-left.content-left {
+  width: -webkit-fill-available;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+
+#taskoverlay .content-right {
+  width: -webkit-fill-available;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+#taskoverlay #taskover-cont {
+  display: flex;
+        padding-left: 0px;
+        padding-right: 0px;
+        gap: 0px;
+        flex-direction: row;
 }
