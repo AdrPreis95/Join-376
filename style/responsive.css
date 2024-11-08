@@ -223,6 +223,14 @@
         display: none;
         /* for Chrome, Safari, and Opera */
     }
+
+    .contactsSection {
+        padding-top: 96px;
+    }
+
+    .overall-container {
+        padding-top: 96px;
+    }
 }
 
 .hidden {
