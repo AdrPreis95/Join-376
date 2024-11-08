@@ -91,12 +91,14 @@
                     <h1>Add Task</h1>
                 </div>
                 <div class="content-section-confirm">
-                    <div class="content-container">
+                    <div id="taskover-cont" class="content-container">
                         <section id="cont-left" class="content-left">
                             <p style="margin-bottom: 10px;">
                                 Title<span style="color: red;">*</span>
                             </p>
+                            <form action="" onsubmit="handleFormSubmit(event)">
                             <input id="title" class="input-title" type="text" placeholder="Enter a title">
+                        </form>
                             <p style="margin-bottom: 10px; margin-top: 24px;">Description</p>
                             <div class="textarea">
                                 <input id="description" type="text" placeholder="Enter a Description">
