@@ -195,8 +195,12 @@
         position: fixed;
     }
 
-    .board-header {
+    .contactsSection, .main-content h1{
         padding-top: 96px;
+    }
+
+    .add-task-button-responsive {
+        margin-top: 96px;
     }
 
     .main-content {
@@ -225,10 +229,6 @@
     }
 
     .contactsSection {
-        padding-top: 96px;
-    }
-
-    .overall-container {
         padding-top: 96px;
     }
 }
