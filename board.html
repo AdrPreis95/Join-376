@@ -92,7 +92,24 @@
         </div>
       </header>
       <div class="board-header">
-        <h1>Board</h1>
+        <div class="board-search">
+          <div class="board-h1-button">
+            <h1>Board</h1>
+            <button onclick="window.location.href='./add_task.html'" class="add-task-button-responsive" id="add-task-button-responsive"><img
+              src="./assets/icons/add.png" alt="add"></button>
+          </div>
+          <div class="board-input-responsive">
+            <form>
+              <div class="board-input-field">
+                <input type="text" placeholder="Find Task" id="find-task">
+                <div>
+                  <img src="./assets/icons/search_line_icon.png" alt="">
+                  <button type="button" onclick="searchTask()"><img src="./assets/icons/search_icon.png" alt=""></button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
         <div class="board-input-container">
           <form>
             <div class="board-input-field">
@@ -113,7 +130,7 @@
           ontouchend="drop(event)">
           <div class="list-head">
             <h3>To do</h3>
-            <button>+</button>
+            <button onclick="openAddTask()">+</button>
           </div>
           <div class="to-do" id="to-do">
 
@@ -123,7 +140,7 @@
           ontouchend="drop(event)">
           <div class="list-head">
             <h3>In progress</h3>
-            <button>+</button>
+            <button onclick="openAddTask()">+</button>
           </div>
           <div class="in-progress" id="in-progress">
 
@@ -133,7 +150,7 @@
           ontouchend="drop(event)">
           <div class="list-head">
             <h3>Await feedback</h3>
-            <button>+</button>
+            <button onclick="openAddTask()">+</button>
           </div>
           <div class="await-feedback" id="await-feedback">
 

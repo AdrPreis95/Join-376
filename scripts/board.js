@@ -78,7 +78,11 @@ function renderTasks(tasksJson) {
         let title = tasksArray[i].title;
         let description = tasksArray[i].description;
         let prioIcon = findPrio(tasksArray[i].prio);
-        document.getElementById(`${list}`).innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
+
+        let selectList = document.getElementById(`${list}`);
+        if (selectList)
+            selectList.innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
+
         if (tasksArray[i].subtasks != undefined) {
             calculateSubtaskProgress(tasksArray[i].subtasks, id);
         }
@@ -251,4 +255,13 @@ async function deleteTask(id) {
     });
     closeOverlay();
     loadTasks();
+}
+
+function openAddTask() {
+    let btnAddTaskResponsive = document.querySelector(".add-task-button-responsive");
+    if (window.getComputedStyle(btnAddTaskResponsive).display == 'none') {
+        openTaskOverlay();
+    } else {
+        window.location.href = "./add_task.html";
+    }
 }
