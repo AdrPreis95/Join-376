@@ -400,6 +400,11 @@
     font-size: 12px;
 }
 
+#user-names-edit-overlay {
+    display: flex;
+    flex-direction: row;
+}
+
 .button-ok-container {
     display: flex;
     justify-content: flex-end;

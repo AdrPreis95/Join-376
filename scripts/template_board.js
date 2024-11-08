@@ -193,6 +193,12 @@ function getOverlayEdit(id, title, description) {
                     
                 </div>
             </div>
+            <div class="overlay-edit-container">
+                <label class="edit-overlay-label" for="subtask-edit">Subtasks</label>
+                <div class="overlay-input-subtask">
+                    <input input type="text" name="subtask-edit" id="subtask-edit" maxlength="20"/>
+                </div>
+            </div>
             <div class="button-ok-container">
                 <button class="button-ok" onclick="saveEdit(${id})"><p>Ok</p><img src="./assets/icons/check.svg" alt=""></button>
             </div>
@@ -215,9 +221,9 @@ function getContactName(name) {
     `
 }
 
-function getUserInititalsOverlayEdit(firstLetter) {
+function getUserInititalsOverlayEdit(color, firstLetter) {
     return `
-    <div style="background-color: #FFC701;" class="assigned-user-overlay-edit">
+    <div style="background-color: ${color};" class="assigned-user-overlay-edit">
         <p>${firstLetter}</p>
     </div>
     `
