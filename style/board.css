@@ -101,6 +101,7 @@
     padding-left: 60px;
     gap: 26px;
     overflow-x: scroll;
+    height: calc(100vh - 257px);
 }
 
 .list {
