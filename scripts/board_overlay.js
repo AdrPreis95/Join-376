@@ -79,13 +79,14 @@ async function renderOverlaySubtasks(responseTaskJson) {
     }
 }
 
-async function editTask(id, title, description, dueDate, priority, assignedTo) {
+async function editTask(id, title, description, dueDate, priority) {
     id--;
     let refOverlay = document.getElementById('task-details');
     refOverlay.innerHTML = "";
-    refOverlay.innerHTML = getOverlayEdit(id, title, description, assignedTo);
+    refOverlay.innerHTML = getOverlayEdit(id, title, description);
     document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
-    checkActivePriority(priority);    
+    checkActivePriority(priority);
+    selectedUserEdit(id);
     loadContacts();
 }
 
@@ -218,5 +219,22 @@ function openDropdownAssigned() {
         dropdownRef.classList.remove('d_block');
         arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down.png");
         assignedUserRef.classList.remove('d-none');
+    }
+}
+
+async function selectedUserEdit(id) {
+    let response = await fetch(BASE_URL + "/tasks/" + id + ".json");
+    let responseJson = await response.json();
+    let usersFirstLetters = [];
+    let colors = [];
+    for (let i = 0; i < responseJson.assignedTo.length; i++) {
+        let firstName = responseJson.assignedTo[i].firstName[0];
+        let lastName = responseJson.assignedTo[i].lastName[0];
+        let firstLetter = firstName + lastName;
+        usersFirstLetters.push(firstLetter);
+        colors.push(responseJson.assignedTo[i].color);
+    }
+    for (let i = 0; i < usersFirstLetters.length; i++) {
+        document.getElementById('user-names-edit-overlay').innerHTML += getUserInititalsOverlayEdit(colors[i], usersFirstLetters[i]);
     }
 }
