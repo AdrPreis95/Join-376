@@ -566,14 +566,14 @@ select {
     display: flex;
     align-items: center;
     justify-content: center;
-    
-    position: relative; 
+
+    position: relative;
 }
 
 .delete-user-button {
     position: absolute;
-    top: -5px; 
-    right: -5px; 
+    top: -5px;
+    right: -5px;
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -595,13 +595,14 @@ select {
     background-color: #29ABE2;
     cursor: pointer;
 }
+
 .form-field {
     position: relative;
     margin-bottom: 10px;
 }
 
 .input-title {
-    border: 2px solid #ccc;
+   
     padding: 8px;
     width: 100%;
 }
@@ -613,7 +614,7 @@ select {
 .error-message {
     color: red;
     font-size: 12px;
-    display: none; 
+    display: none;
     position: absolute;
     top: 100%;
     left: 0;
@@ -625,7 +626,6 @@ select {
 }
 
 .date-input {
-    border: 2px solid #ccc;
     padding: 8px;
     width: 100%;
 }
@@ -637,7 +637,7 @@ select {
 .error-message {
     color: red;
     font-size: 12px;
-    display: none; 
+    display: none;
     position: absolute;
     top: 100%;
     left: 0;
@@ -649,7 +649,6 @@ select {
 }
 
 .select-minimal {
-    border: 2px solid #ccc;
     padding: 8px;
     width: 100%;
 }
@@ -661,9 +660,9 @@ select {
 .error-message {
     color: red;
     font-size: 12px;
-    display: none; /* Versteckt die Fehlermeldung standardmäßig */
+    display: none;
+    /* Versteckt die Fehlermeldung standardmäßig */
     position: absolute;
     top: 100%;
     left: 0;
 }
-

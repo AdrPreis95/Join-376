@@ -78,6 +78,10 @@ function buildNewTask(id, title, description, dueDate, category) {
 }
 
 async function saveTask(newTask) {
+   
+    let [day, month, year] = newTask.dueDate.split('/');
+    newTask.dueDate = `${year}-${month}-${day}`;
+
     await fetch(`${BASE_URL}/tasks/${newTask.id - 1}.json`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
@@ -85,6 +89,7 @@ async function saveTask(newTask) {
     });
     alert('Task erfolgreich erstellt!');
 }
+
 
 function fillCurrentDate() {
     let dateInput = document.getElementById('due-date-input');
