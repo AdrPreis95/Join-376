@@ -82,12 +82,54 @@
 
     .addHeader { position: absolute; bottom: 12.5%; right: 36px; transition: 0.3s ease-in-out; }
 
-    .addHeader:hover { transform: scale(1.15); transition: 0.3s ease-in-out; }
+    .addHeader:hover { transition: 0.3s ease-in-out; }
 
-    .addContact { width: 100%; border-radius: 30px; }
+    .addContact { width: 100%; border-radius: 30px; box-shadow: 0px 4px 4px 0px #00000040; transition: 0.3s ease-in-out;}
+
+    .addContact:hover { background: #29ABE2; transition: 0.3s ease-in-out;}
 
     .addHeaderText { font-size: 0px; gap: 0px; }
 
+    .responsiveEditContacts {
+        width: 64px; height: 64px; position: absolute; bottom: 11.7%; right: 32px; transition: opacity 0.3s ease-in-out; cursor: pointer; display: flex;
+    }
+
+    .responsiveEditContactDetails {
+        position: absolute; bottom: 48.7%; transition: 0.3s ease-in-out; cursor: pointer; display: flex; width: 96px; height: 40px; transition: 0.3s ease-in-out; right: 4px;
+    }
+
+    .responsiveDeleteContactDetails {
+        position: absolute; bottom: 4.7%; transition: 0.3s ease-in-out; cursor: pointer; display: flex; width: 96px; height: 40px; transition: 0.3s ease-in-out; right: 4px;
+    }
+
+    .responsiveEditContactDetails:hover {
+        transform: scale(1.1); transition: 0.3s ease-in-out;
+    }
+
+    .responsiveDeleteContactDetails:hover {
+        transform: scale(1.1); transition: 0.3s ease-in-out;
+    }
+
+    .responsiveMoreDetails {
+        box-shadow: 0px 4px 4px 0px #00000040; background: #FFFFFF; bottom: 22.7%; right: 104px;
+    }
+
+    .responsiveContactDetailsButtons {
+        position: absolute; bottom: 18.7%; right: 75px; height: 96px; width: 104px; background: #FFFFFF; box-shadow: 0px 4px 4px 0px #00000040;
+        border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-top-left-radius: 20px;
+    }
+    
+    .responsiveEditContacts.hover {
+        opacity: 0; transition: opacity 0.3s ease-in-out;
+    }
+    
+    .responsiveEditContactsContainer:hover .responsiveEditContacts.default {
+        opacity: 0; transition: opacity 0.3s ease-in-out;
+    }
+    
+    .responsiveEditContactsContainer:hover .responsiveEditContacts.hover {
+        opacity: 1; transition: opacity 0.3s ease-in-out;
+    }
 }
 
 @media (max-width: 450px) {

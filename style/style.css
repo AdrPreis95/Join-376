@@ -301,8 +301,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .backArrow {
-    width: 20px; height: 20px;
     position: absolute; right: 0;
     cursor: pointer; margin-right: 24px;
-    top: 168px; display: none; z-index: 10000;
+    top: 168px; display: none;
 }

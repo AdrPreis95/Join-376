@@ -136,6 +136,7 @@ async function deleteContact(del) {
 
     updateContactDisplay();
     closeContactDetails();
+    if (window.innerWidth < 1250) hideDetails();
     if(del == "editForm") {
         closeEditContactForm();
     }
@@ -157,6 +158,7 @@ async function saveEditChanges() {
     });
     updateContactDetails(updatedContact, getInitials(updatedContact.name), getRandomColor());
     closeEditContactForm(); updateContactDisplay();
+    if (window.innerWidth < 1250) showFooter();
 }
 
 function updateEditContactForm(contact, initials, bgColor) {
@@ -242,6 +244,18 @@ function toggleDetails() {
         } else {
             backArrow.classList.remove('show-details');
         }
+    }
+}
+
+function toggleContactDetails() {
+    const detailsButtons = document.querySelector('.responsiveContactDetailsButtons');
+    
+    if (detailsButtons.classList.contains('hide-contacts')) {
+        detailsButtons.classList.remove('hide-contacts');
+        detailsButtons.classList.add('show-details');
+    } else if (detailsButtons.classList.contains('show-details')) {
+        detailsButtons.classList.remove('show-details');
+        detailsButtons.classList.add('hide-contacts');
     }
 }
 

@@ -121,7 +121,7 @@
                 <div class="leftContactOverlay">
                     <img class="editContactLogo" src="assets/img/join_logo.png" alt="Join-Logo">
                     <p class="editContactHeadline" id="editContactHeadline">Edit contact</p>
-                    <img onclick="closeEditContactForm()" class="addContactCloseButton editContactCloseButton" src="assets/icons/white_close.png" alt="Close">
+                    <img onclick="closeEditContactForm(); showFooter()" class="addContactCloseButton editContactCloseButton" src="assets/icons/white_close.png" alt="Close">
                     <div class="editContactseparatorLine"></div>
                 </div>
         
@@ -223,8 +223,6 @@
                 </contacts>
                 
             </section>
-
-            
         
             <div class="detailsContainer">
                 <img onclick="hideDetails()" class="backArrow" src="assets/icons/arrow_left_line_icon.png" alt="Back-Arrow">
@@ -232,8 +230,22 @@
                     <h2 class="contactsHeaderText">Contacts</h2>
                     <div class="separatorLine"></div>
                     <p class="contactsUnderText">Better with a team</p>
+                </div>
+
+                <div class="responsiveMoreDetails">
+
+                    <div class="responsiveEditContactsContainer">
+                    <img onclick="toggleContactDetails()" class="responsiveEditContacts default" src="assets/icons/more_vert.png" alt="More">
+                    <img onclick="toggleContactDetails()" class="responsiveEditContacts hover" src="assets/icons/more_vert_hover.png" alt="More">
+                    </div>
+
+                        <div class="responsiveContactDetailsButtons hide-contacts">
+                            <img onclick="openEditContactForm(); hideFooter()" class="responsiveEditContactDetails" src="assets/icons/edit_edit.png" alt="Edit">
+                            <img onclick="deleteContact('contactDetails')" class="responsiveDeleteContactDetails" src="assets/icons/edit_delete.png" alt="Delete">
+                        </div>
                     
                 </div>
+                
         
                 <div class="selectedContactDetails" id="selectedContactDetails">
 
