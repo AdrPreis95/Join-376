@@ -473,3 +473,44 @@ function clearSubtaskList() {
     subtasksArray = [];
     selectedContacts = [];
 }
+
+
+function validateInput() {
+    const input = document.getElementById('title');
+    const errorMessage = document.getElementById('error-message');
+
+    if (input.value.trim() === "") {
+        input.classList.add('error');
+        errorMessage.style.display = 'block';
+    } else {
+        input.classList.remove('error');
+        errorMessage.style.display = 'none';
+    }
+}
+
+function validateDateInput() {
+    const dateInput = document.getElementById('due-date-input');
+    const dateErrorMessage = document.getElementById('date-error-message');
+    const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
+
+    if (!dateInput.value.match(datePattern)) {
+        dateInput.classList.add('error');
+        dateErrorMessage.style.display = 'block';
+    } else {
+        dateInput.classList.remove('error');
+        dateErrorMessage.style.display = 'none';
+    }
+}
+
+function validateSelectCategory() {
+    const selectCategory = document.getElementById('selectcategory');
+    const categoryErrorMessage = document.getElementById('category-error-message');
+
+    if (selectCategory.value === "") {
+        selectCategory.classList.add('error');
+        categoryErrorMessage.style.display = 'block';
+    } else {
+        selectCategory.classList.remove('error');
+        categoryErrorMessage.style.display = 'none';
+    }
+}
