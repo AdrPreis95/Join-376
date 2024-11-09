@@ -8,6 +8,12 @@ async function showOverlayDetailsTask(id) {
     renderOverlay(tasksArray);
 }
 
+async function loadTaskWithID(id) {
+    let response = await fetch(BASE_URL + "/tasks/" + id + ".json");
+    let responseJson = await response.json();
+    return responseJson;
+}
+
 function closeOverlay() {
     document.getElementById('task-details').style = 'display: none;';
     document.getElementById('all-content').style = 'filter: brightness(1);';
@@ -87,6 +93,7 @@ async function editTask(id, title, description, dueDate, priority) {
     document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
     checkActivePriority(priority);
     selectedUserEdit(id);
+    renderOverlayEditSubtasks(id);
     loadContacts();
 }
 
@@ -120,36 +127,35 @@ function changePriority(newPriority) {
 
 async function saveEdit(id) {
     id = await findKey(id);
-    let changeTask = await fetch(BASE_URL + "/tasks/" + id + ".json");
-    let changeTaskJson = await changeTask.json();
-    changeTaskJson = generateChangeTask(changeTaskJson);
+    let responseJson = await loadTaskWithID(id);
+    responseJson = generateChangeTask(responseJson);
         let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(changeTaskJson)
+            body: JSON.stringify(responseJson)
         });
         closeOverlay();
         loadTasks();
 }
 
-function generateChangeTask(changeTaskJson) {
+function generateChangeTask(responseJson) {
     let title = document.getElementById('overlay-title').value;
     let description = document.getElementById('overlay-description').value;
     let dueDate = document.getElementById('due-date-input').value;
 
     if (title != "") {
-        changeTaskJson.title = title;
+        responseJson.title = title;
     }
     if (description != "") {
-        changeTaskJson.description = description;
+        responseJson.description = description;
     }
     if (dueDate != "") {
-        changeTaskJson.dueDate = convertDateFormat(dueDate);
+        responseJson.dueDate = convertDateFormat(dueDate);
     }
-    changeTaskJson.prio = activePriorityButton();
-    return changeTaskJson;
+    responseJson.prio = activePriorityButton();
+    return responseJson;
 }
 
 function activePriorityButton() {
@@ -187,8 +193,7 @@ async function loadContacts() {
 async function changeStatusSubtask(id, subtaskId, status) {
     id--;
     id = await findKey(id);
-    let response = await fetch(BASE_URL + "/tasks/" + id + ".json");
-    let responseJson = await response.json();
+    let responseJson = await loadTaskWithID(id);
     if (status == 'done') {
         responseJson.subtasks[subtaskId].status = 'not done'
     } else if (status == 'not done') {
@@ -223,8 +228,7 @@ function openDropdownAssigned() {
 }
 
 async function selectedUserEdit(id) {
-    let response = await fetch(BASE_URL + "/tasks/" + id + ".json");
-    let responseJson = await response.json();
+    let responseJson = await loadTaskWithID(id);
     let usersFirstLetters = [];
     let colors = [];
     for (let i = 0; i < responseJson.assignedTo.length; i++) {
@@ -236,5 +240,28 @@ async function selectedUserEdit(id) {
     }
     for (let i = 0; i < usersFirstLetters.length; i++) {
         document.getElementById('user-names-edit-overlay').innerHTML += getUserInititalsOverlayEdit(colors[i], usersFirstLetters[i]);
+    }
+}
+
+function createSubtaskOverlay() {
+    let refAddIcon = document.getElementById('add-subtask-overlay-edit');
+    let createContainer = document.getElementById('create-subtask-overlay');
+    let srcAdd = "./assets/icons/add_subtask.png";
+    let srcCheck = "./assets/icons/check.png";
+    if (refAddIcon.getAttribute("src") == srcAdd) {
+        createContainer.innerHTML = getSubtaskOverlayIcons();        
+    } else {
+        createContainer.innerHTML = getSubtaskOverlayAddIcon();
+    }
+}
+
+function clearSubtaskInput() {
+    document.getElementById('subtask-edit').value = "";
+}
+
+async function renderOverlayEditSubtasks(id) {
+    let responseJson = await loadTaskWithID(id);
+    for (let i = 0; i < responseJson.subtasks.length; i++) {
+        document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(responseJson.subtasks[i].title)        
     }
 }

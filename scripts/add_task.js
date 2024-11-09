@@ -41,6 +41,7 @@ async function createTask() {
     let newID = await generateNewID();
     let newTask = buildNewTask(newID, title, description, dueDate, category);
     await saveTask(newTask);
+    loadTasks();
 }
 
 function prepareSubtasksAndContacts() {

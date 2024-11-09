@@ -195,9 +195,15 @@ function getOverlayEdit(id, title, description) {
             </div>
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="subtask-edit">Subtasks</label>
-                <div class="overlay-input-subtask">
-                    <input input type="text" name="subtask-edit" id="subtask-edit" maxlength="20"/>
+                <div class="overlay-edit-subtask">
+                    <input class="overlay-input-field" placeholder="Add new Subtask" type="text" name="subtask-edit" id="subtask-edit" maxlength="20"/>
+                    <div id="create-subtask-overlay" onclick="createSubtaskOverlay()">
+                        <img class="hover-container" id="add-subtask-overlay-edit" src="./assets/icons/add_subtask.png" alt="add">
+                    </div>
                 </div>
+            </div>
+            <div id="subtasks-overlay-edit">
+
             </div>
             <div class="button-ok-container">
                 <button class="button-ok" onclick="saveEdit(${id})"><p>Ok</p><img src="./assets/icons/check.svg" alt=""></button>
@@ -226,5 +232,35 @@ function getUserInititalsOverlayEdit(color, firstLetter) {
     <div style="background-color: ${color};" class="assigned-user-overlay-edit">
         <p>${firstLetter}</p>
     </div>
+    `
+}
+
+function getSubtasksOverlayEdit(subtask) {
+    return `
+    <div class="overlay-edit-subtask-list">
+        <ul>
+            <li>${subtask}</li>
+        </ul>
+    </div>
+    `
+}
+
+function getSubtaskOverlayIcons() {
+    return `
+    <div class="hover-container">
+        <img onclick="clearSubtaskInput()" id="add-subtask-overlay-edit" src="./assets/icons/close.png" alt="close">
+    </div>    
+    <p>|</p>
+    <div class="hover-container">
+        <img id="add-subtask-overlay-edit" src="./assets/icons/check.png" alt="check">
+    </div>
+    `
+}
+
+function getSubtaskOverlayAddIcon() {
+    return `
+    <div class="hover-container">
+        <img id="add-subtask-overlay-edit" src="./assets/icons/add_subtask.png" alt="add">
+    </div>    
     `
 }

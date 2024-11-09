@@ -42,6 +42,7 @@ function openTaskOverlay() {
 function closeTaskOverlay() {
   document.getElementById("taskoverlay").classList.add("hidden");
   document.body.classList.remove("overlay-active");
+  loadTasks()
 }
 
   
