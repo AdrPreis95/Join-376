@@ -94,6 +94,7 @@ async function editTask(id, title, description, dueDate, priority) {
     checkActivePriority(priority);
     selectedUserEdit(id);
     renderOverlayEditSubtasks(id);
+    hoverIcons();
     loadContacts();
 }
 
@@ -243,16 +244,34 @@ async function selectedUserEdit(id) {
     }
 }
 
-function createSubtaskOverlay() {
-    let refAddIcon = document.getElementById('add-subtask-overlay-edit');
+function editMode(id) {
     let createContainer = document.getElementById('create-subtask-overlay');
-    let srcAdd = "./assets/icons/add_subtask.png";
-    let srcCheck = "./assets/icons/check.png";
-    if (refAddIcon.getAttribute("src") == srcAdd) {
-        createContainer.innerHTML = getSubtaskOverlayIcons();        
+    if (document.getElementById('add-subtask-overlay-edit').getAttribute("src") == "./assets/icons/add_subtask.png") {
+        createContainer.innerHTML = getSubtaskOverlayIcons(id);        
     } else {
         createContainer.innerHTML = getSubtaskOverlayAddIcon();
     }
+}
+
+async function createSubtaskOverlay(id) {
+    let inputRef = document.getElementById('subtask-edit');
+    let numberOfSubtasks = await loadTaskWithID(id);
+    let idSubtask = numberOfSubtasks.subtasks.length;
+    if(inputRef != "") {
+        let newSubtask = {
+            status: "not done",
+            title: inputRef.value
+        }
+        await fetch(`${BASE_URL}/tasks/${id}/subtasks/${idSubtask}.json`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newSubtask)
+        });
+    }
+    renderOverlayEditSubtasks(id);
+    clearSubtaskInput();
 }
 
 function clearSubtaskInput() {
@@ -261,6 +280,7 @@ function clearSubtaskInput() {
 
 async function renderOverlayEditSubtasks(id) {
     let responseJson = await loadTaskWithID(id);
+    document.getElementById('subtasks-overlay-edit').innerHTML = "";
     for (let i = 0; i < responseJson.subtasks.length; i++) {
         document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(responseJson.subtasks[i].title)        
     }

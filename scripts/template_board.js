@@ -196,8 +196,8 @@ function getOverlayEdit(id, title, description) {
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="subtask-edit">Subtasks</label>
                 <div class="overlay-edit-subtask">
-                    <input class="overlay-input-field" placeholder="Add new Subtask" type="text" name="subtask-edit" id="subtask-edit" maxlength="20"/>
-                    <div id="create-subtask-overlay" onclick="createSubtaskOverlay()">
+                    <input class="overlay-input-field" placeholder="Add new subtask" type="text" name="subtask-edit" id="subtask-edit" maxlength="20"/>
+                    <div id="create-subtask-overlay" onclick="editMode(${id})">
                         <img class="hover-container" id="add-subtask-overlay-edit" src="./assets/icons/add_subtask.png" alt="add">
                     </div>
                 </div>
@@ -241,18 +241,23 @@ function getSubtasksOverlayEdit(subtask) {
         <ul>
             <li>${subtask}</li>
         </ul>
+        <div id="subtask-edit-icons">
+            <img src="./assets/icons/edit_icon.png">
+            <p>|</p>
+            <img src="./assets/icons/delete_icon.png">
+        </div>
     </div>
     `
 }
 
-function getSubtaskOverlayIcons() {
+function getSubtaskOverlayIcons(id) {
     return `
     <div class="hover-container">
         <img onclick="clearSubtaskInput()" id="add-subtask-overlay-edit" src="./assets/icons/close.png" alt="close">
     </div>    
     <p>|</p>
     <div class="hover-container">
-        <img id="add-subtask-overlay-edit" src="./assets/icons/check.png" alt="check">
+        <img onclick="createSubtaskOverlay(${id})" id="add-subtask-overlay-edit" src="./assets/icons/check.png" alt="check">
     </div>
     `
 }
