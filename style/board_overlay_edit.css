@@ -248,9 +248,21 @@
     background-color: #D1D1D1;
     border-radius: 10px;
 }
-#subtask-edit-icons {
-    display: none;
-    gap: 6px;
+
+.overlay-edit-subtask-list:hover .subtask-edit-icons {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.subtask-edit-icons {
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.subtask-edit-icons img {
+    cursor: pointer;
 }
 
 .button-ok-container {

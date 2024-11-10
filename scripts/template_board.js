@@ -235,21 +235,6 @@ function getUserInititalsOverlayEdit(color, firstLetter) {
     `
 }
 
-function getSubtasksOverlayEdit(subtask) {
-    return `
-    <div class="overlay-edit-subtask-list">
-        <ul>
-            <li>${subtask}</li>
-        </ul>
-        <div id="subtask-edit-icons">
-            <img src="./assets/icons/edit_icon.png">
-            <p>|</p>
-            <img src="./assets/icons/delete_icon.png">
-        </div>
-    </div>
-    `
-}
-
 function getSubtaskOverlayIcons(id) {
     return `
     <div class="hover-container">
@@ -266,6 +251,21 @@ function getSubtaskOverlayAddIcon() {
     return `
     <div class="hover-container">
         <img id="add-subtask-overlay-edit" src="./assets/icons/add_subtask.png" alt="add">
-    </div>    
+    </div>
+    `
+}
+
+function getSubtasksOverlayEdit(subtask, id) {
+    return `
+    <div class="overlay-edit-subtask-list">
+        <ul>
+            <li>${subtask}</li>
+        </ul>
+        <div class="subtask-edit-icons">
+            <img onclick="editSubtask()" src="./assets/icons/edit_icon.png">
+            <p>|</p>
+            <img onclick="deleteSubtask(${id}, '${subtask}')" src="./assets/icons/delete_icon.png">
+        </div>
+    </div>
     `
 }

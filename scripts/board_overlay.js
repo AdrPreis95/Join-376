@@ -94,7 +94,6 @@ async function editTask(id, title, description, dueDate, priority) {
     checkActivePriority(priority);
     selectedUserEdit(id);
     renderOverlayEditSubtasks(id);
-    hoverIcons();
     loadContacts();
 }
 
@@ -281,7 +280,28 @@ function clearSubtaskInput() {
 async function renderOverlayEditSubtasks(id) {
     let responseJson = await loadTaskWithID(id);
     document.getElementById('subtasks-overlay-edit').innerHTML = "";
-    for (let i = 0; i < responseJson.subtasks.length; i++) {
-        document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(responseJson.subtasks[i].title)        
+    for (let i = 0; i < Object.keys(responseJson.subtasks).length; i++) {
+        document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(responseJson.subtasks[i].title, id)        
     }
+}
+
+async function editSubtask() {
+    console.log('Hallo');
+}
+
+async function deleteSubtask(id, subtask) {
+    let task = await loadTaskWithID(id);
+    let subtaskId;
+    for (let i = 0; i < task.subtasks.length; i++) {
+        if (task.subtasks[i].title == subtask) {
+            subtaskId = i;
+        }        
+    }
+    let response = await fetch(BASE_URL + "/tasks/" + id + "/subtasks/" + subtaskId + ".json", {            
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        });
+    renderOverlayEditSubtasks(id);    
 }
