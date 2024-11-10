@@ -30,14 +30,20 @@ function setPriority(prio) {
 }
 
 async function createTask() {
-    prepareSubtasksAndContacts();
+
+    validateInput();
+    validateDateInput();
+    validateSelectCategory();
 
     let { title, description, dueDate, category } = getTaskInputs();
-    if (!title || !description || !dueDate) {
-        alert('Bitte füllen Sie alle erforderlichen Felder aus.');
+    const isTitleValid = title.trim() !== "";
+    const isDescriptionValid = description.trim() !== "";
+    const isDueDateValid = dueDate.match(/^\d{2}\/\d{2}\/\d{4}$/);
+    const isCategoryValid = category !== "";
+
+    if (!isTitleValid || !isDueDateValid || !isCategoryValid) {
         return;
     }
-
     let newID = await generateNewID();
     let newTask = buildNewTask(newID, title, description, dueDate, category);
     await saveTask(newTask);
@@ -79,7 +85,6 @@ function buildNewTask(id, title, description, dueDate, category) {
 }
 
 async function saveTask(newTask) {
-   
     let [day, month, year] = newTask.dueDate.split('/');
     newTask.dueDate = `${year}-${month}-${day}`;
 
@@ -88,9 +93,19 @@ async function saveTask(newTask) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newTask),
     });
-    alert('Task erfolgreich erstellt!');
-}
+    const successOverlay = document.getElementById('success-overlay');
 
+    if (successOverlay) {
+        successOverlay.style.display = 'flex';
+        successOverlay.style.justifyContent = 'center';
+        successOverlay.style.alignItems = 'center';
+        setTimeout(() => {
+            successOverlay.style.display = 'none';
+        }, 3000);
+    } else {
+        console.error('Element mit der ID "success-overlay" wurde nicht gefunden.');
+    }
+}
 
 function fillCurrentDate() {
     let dateInput = document.getElementById('due-date-input');
@@ -487,23 +502,31 @@ function validateInput() {
 
     if (input.value.trim() === "") {
         input.classList.add('error');
+        input.style.border = '2px solid red';
+        input.style.borderStyle = 'solid';
         errorMessage.style.display = 'block';
     } else {
         input.classList.remove('error');
+        input.style.border = 'none';
+        input.style.filter = 'drop-shadow(0px 0px 4px #D1D1D1)';
         errorMessage.style.display = 'none';
     }
 }
 
 function validateDateInput() {
     const dateInput = document.getElementById('due-date-input');
+    const dateContainer = document.querySelector('.date-container');
     const dateErrorMessage = document.getElementById('date-error-message');
     const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
 
     if (!dateInput.value.match(datePattern)) {
         dateInput.classList.add('error');
+        dateInput.style.border = '2px solid red';
         dateErrorMessage.style.display = 'block';
     } else {
         dateInput.classList.remove('error');
+        dateInput.style.border = 'none';
+        dateInput.style.filter = 'drop-shadow(0px 0px 4px #D1D1D1)';
         dateErrorMessage.style.display = 'none';
     }
 }
@@ -514,9 +537,34 @@ function validateSelectCategory() {
 
     if (selectCategory.value === "") {
         selectCategory.classList.add('error');
+        selectCategory.style.border = '2px solid red';
         categoryErrorMessage.style.display = 'block';
     } else {
         selectCategory.classList.remove('error');
+        selectCategory.style.border = 'none';
         categoryErrorMessage.style.display = 'none';
     }
 }
+document.getElementById('title').addEventListener('focus', function () {
+    if (!this.classList.contains('error')) {
+        this.style.border = '2px solid #29ABE2';
+    }
+});
+
+document.getElementById('title').addEventListener('blur', validateInput);
+
+document.getElementById('due-date-input').addEventListener('focus', function () {
+    if (!this.classList.contains('error')) {
+        this.style.border = '2px solid #29ABE2';
+    }
+});
+
+document.getElementById('due-date-input').addEventListener('blur', validateDateInput);
+
+document.getElementById('selectcategory').addEventListener('focus', function () {
+    if (!this.classList.contains('error')) {
+        this.style.border = '2px solid #29ABE2';
+    }
+});
+
+document.getElementById('selectcategory').addEventListener('blur', validateSelectCategory);
