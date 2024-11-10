@@ -475,6 +475,14 @@ function openDropdown() {
     dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
     if (dropdown.style.display === "flex") loadContacts();
 }
+function closeDropdownOnClickOutside(event) {
+    const dropdown = document.getElementById('dropdown-user');
+    const container = document.querySelector('.dropdown');
+    if (dropdown && container && !container.contains(event.target)) {
+        dropdown.style.display = 'none';
+    }
+}
+document.addEventListener('click', closeDropdownOnClickOutside);
 
 function clearTask() {
     clearInputs();

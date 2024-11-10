@@ -93,7 +93,7 @@
                 <div class="content-section-confirm">
                     <div id="taskover-cont" class="content-container">
                         <section id="cont-left" class="content-left">
-                            <p style="margin-bottom: 10px;">
+                            <p id="title-p" style="margin-bottom: 10px;">
                                 Title<span style="color: red;">*</span>
                             </p>
                             <div class="form-field">
@@ -102,7 +102,7 @@
                                 <span class="error-message" id="error-message">Please select a Title</span>
                             </div>
 
-                            <p style="margin-bottom: 10px; margin-top: 24px;">Description</p>
+                            <p id="description-p" style="margin-bottom: 10px; margin-top: 24px;">Description</p>
                             <div class="textarea">
                                 <input id="description" type="text" placeholder="Enter a Description">
                                 <img src="./assets/icons/description-icon.png" alt="logo">
@@ -110,7 +110,7 @@
 
 
                             <div class="dropdown">
-                                <p style="margin-bottom: 10px; margin-top: 24px;">Assigned to</p>
+                                <p id="assignedto-p" style="margin-bottom: 10px; margin-top: 24px;">Assigned to</p>
                                 <div class="assigned-to-select">
                                     <input class="input-dropdown" id="dropdown-input" name="dropdown-input"
                                         oninput="filterContacts()" onclick="openDropdown()" type="text"
@@ -133,7 +133,7 @@
                         <div class="separating-line"></div>
                         <section class="content-right">
 
-                            <p style="margin-bottom: 10px;">
+                            <p id="date-p" style="margin-bottom: 10px;">
                                 Due Date<span style="color: red;">*</span>
                             </p>
 
@@ -151,7 +151,7 @@
 
 
 
-                            <p style="margin-bottom: 10px; margin-top: 24px;">Prio</p>
+                            <p id="prio-p" style="margin-bottom: 10px; margin-top: 24px;">Prio</p>
                             <div class="prio-container">
                                 <button style="cursor: pointer;" onclick="changeColor(this, '#ff3d00')" id="prio-red"
                                     class="prio-u">
@@ -180,7 +180,7 @@
                             </div>
 
 
-                            <p style="margin-top: 24px; margin-bottom: 10px;">
+                            <p class="subtask-p" style="margin-top: 24px; margin-bottom: 10px;">
                                 Subtasks
                             </p>
 
@@ -208,7 +208,7 @@
                                             alt="DeleteIcon">
                                     </button>
                                     <button onclick="createTask()" id="create" class="create-task-button">
-                                        <span>Create Task</span><img src="./assets/icons/create-task.png"
+                                        <span id="createspan">Create Task</span><img src="./assets/icons/create-task.png"
                                             alt="ConfirmIcon">
                                     </button>
                                 </div>
