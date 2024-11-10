@@ -44,6 +44,7 @@ async function createTask() {
     if (!isTitleValid || !isDueDateValid || !isCategoryValid) {
         return;
     }
+    prepareSubtasksAndContacts();
     let newID = await generateNewID();
     let newTask = buildNewTask(newID, title, description, dueDate, category);
     await saveTask(newTask);
