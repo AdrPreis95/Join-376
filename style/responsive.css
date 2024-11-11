@@ -688,7 +688,7 @@
     }
 }
 
-@media(max-width:360px) {
+@media(max-width:420px) {
     .summary-content-container {
         width: -webkit-fill-available !important;
         padding: 36px 4% 0px 4% !important;
@@ -738,7 +738,12 @@
     }
 
     #priory-date {
-        font-size: 20px;
+        font-size: 16px;
+    }
+
+    .center-info-date {
+        gap: 0px !important;
+        text-align: center;
     }
 
     .tasks-board-container,
