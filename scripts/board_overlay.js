@@ -281,22 +281,19 @@ async function renderOverlayEditSubtasks(id) {
     let responseJson = await loadTaskWithID(id);
     document.getElementById('subtasks-overlay-edit').innerHTML = "";
     for (let i = 0; i < Object.keys(responseJson.subtasks).length; i++) {
-        document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(responseJson.subtasks[i].title, id)        
+        document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit('li', responseJson.subtasks[i].title, id)        
     }
 }
 
-async function editSubtask() {
-    console.log('Hallo');
+async function editSubtask(id, subtask) {
+    let task = await loadTaskWithID(id);
+    let subtaskId = findSubtask(task, subtask);
+    console.log(subtaskId);
 }
 
 async function deleteSubtask(id, subtask) {
     let task = await loadTaskWithID(id);
-    let subtaskId;
-    for (let i = 0; i < task.subtasks.length; i++) {
-        if (task.subtasks[i].title == subtask) {
-            subtaskId = i;
-        }        
-    }
+    let subtaskId = findSubtask(task, subtask);
     let response = await fetch(BASE_URL + "/tasks/" + id + "/subtasks/" + subtaskId + ".json", {            
         method: "DELETE",
         headers: {
@@ -304,4 +301,14 @@ async function deleteSubtask(id, subtask) {
         },
         });
     renderOverlayEditSubtasks(id);    
+}
+
+function findSubtask(task, subtask) {
+    let subtaskId
+    for (let i = 0; i < task.subtasks.length; i++) {
+        if (task.subtasks[i].title == subtask) {
+            subtaskId = i;
+        }        
+    }
+    return subtaskId;
 }
