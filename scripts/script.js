@@ -85,7 +85,3 @@ function formatDueDate(e) {
         date.value += '/';
     }
 }
-
-function goBack() {
-    window.history.back();
-}
