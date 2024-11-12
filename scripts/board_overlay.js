@@ -280,15 +280,24 @@ function clearSubtaskInput() {
 async function renderOverlayEditSubtasks(id) {
     let responseJson = await loadTaskWithID(id);
     document.getElementById('subtasks-overlay-edit').innerHTML = "";
-    for (let i = 0; i < Object.keys(responseJson.subtasks).length; i++) {
-        document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit('li', responseJson.subtasks[i].title, id)        
+    if(responseJson.subtasks != undefined) {
+        for (let i = 0; i < responseJson.subtasks.length; i++) {
+            document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(responseJson.subtasks[i].title, id);       
+        }
     }
 }
 
 async function editSubtask(id, subtask) {
     let task = await loadTaskWithID(id);
     let subtaskId = findSubtask(task, subtask);
-    console.log(subtaskId);
+    for (let i = 0; i < task.subtasks.length; i++) {
+        if (i != subtaskId) {
+            document.getElementById('subtasks-overlay-edit').innerHTML = "";
+            document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(task.subtasks[i].title, id);
+        } else {
+            document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEditInput(task.subtasks[i].title, id);
+        }
+    }
 }
 
 async function deleteSubtask(id, subtask) {
