@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="style/add_task.css">
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
+
+    <script src="scripts/script.js"></script>
 </head>
 <body onload="setUserInitials()">
     <div class="container">
@@ -44,7 +46,7 @@
                 </a>
             </div>
             <div class="legal-links-container">
-                <a href="./privacy_policy.html" class="legal-link active_side">Privacy Policy</a>
+                <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
                 <a href="./legal_notice.html" class="legal-link">Legal notice</a>
             </div>
         </aside>
@@ -70,7 +72,10 @@
                 </div>
               </header>
         
-              <h1>Help</h1>
+              <div class="legalNoticeHeader">
+                <h1 style="padding-left: 0px;">Help</h1>
+                <img onclick="goBack()" class="previousArrow" id="previousArrow" style="height: 20px; width: 20px; cursor: pointer;" src="assets/icons/arrow_left_line_icon.png" alt="Back">
+            </div>
 
               <div class="textcontainer">
                   <p>
