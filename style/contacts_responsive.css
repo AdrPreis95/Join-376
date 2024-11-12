@@ -10,7 +10,7 @@
 
     .header-content p { display: none; }
 
-    .detailsContainer { display: none; padding-left: 24px; }
+    .detailsContainer { display: none; padding-left: 24px; padding-top: 36px; }
 
     .contactsSection { width: 100%; }
 
@@ -58,7 +58,7 @@
 
     .addContactContainer { width: 100%; position: relative; gap: 16px; right: 0; }
 
-    .editContactContainer { width: 100%; position: relative; gap: 16px; right: 0; }
+    .editContactContainer { width: 100%; position: relative; gap: 16px; right: 0; height: 114%;}
 
     .addContactButtons { justify-content: center; text-align: left; }
 
@@ -116,7 +116,7 @@
 
     .responsiveContactDetailsButtons {
         position: absolute; bottom: 18.7%; right: 75px; height: 96px; width: 104px; background: #FFFFFF; box-shadow: 0px 4px 4px 0px #00000040;
-        border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px; border-top-right-radius: 20px; border-top-left-radius: 20px; z-index: 999;
     }
     
     .responsiveEditContacts.hover {

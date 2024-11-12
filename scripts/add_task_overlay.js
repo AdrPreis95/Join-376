@@ -1,4 +1,3 @@
-
 function openTaskOverlay() {
   document.getElementById("taskoverlay").classList.remove("hidden");
   document.body.classList.add("overlay-active");
@@ -37,7 +36,6 @@ function openTaskOverlay() {
     });
   });
 }
-
 
 function closeTaskOverlay() {
   document.getElementById("taskoverlay").classList.add("hidden");
