@@ -345,3 +345,65 @@ input[type=text] {
         width: 180px;
     }
 }
+
+@media (max-width: 370px) {
+    .signup-field {
+        width: 310px;
+        height: 555px;
+    }
+
+    .signup-field form input[type=email], input[type=password], input[type=text] {
+        width: 258px;
+        font-size: 16px;
+    }
+
+    .back-login {
+        top: 45px;
+    }
+
+    .error-message {
+        max-width: 258px;
+    }
+
+    .outer-signup-span span {
+        font-size: 33.9px;
+        line-height: 41.5px;
+    }
+
+    .signup-field form {
+        gap: 20px;
+    }
+
+    .signup-btn {
+        width: 140px;
+    }
+}
+
+@media (max-width: 330px) {
+    .signup-field {
+        width: 270px;
+        height: 515px;
+    }
+
+    .signup-field form input[type=email], input[type=password], input[type=text] {
+        width: 218px;
+        font-size: 16px;
+    }
+
+    .back-login {
+        top: 38px;
+    }
+
+    .error-message {
+        max-width: 218px;
+    }
+
+    .outer-signup-span span {
+        font-size: 33.9px;
+        line-height: 41.5px;
+    }
+
+    .signup-field form {
+        gap: 16px;
+    }
+}

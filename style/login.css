@@ -355,3 +355,68 @@
         gap: 18px;
     }
 }
+
+@media (max-width: 370px) {
+    .login-field {
+        width: 310px;
+        height: 475px;
+    }
+
+    .login-field form input[type=email], input[type=password], input[type=text] {
+        width: 258px;
+        font-size: 16px;
+    }
+
+    .login-signup span {
+        margin-right: 15px;
+    }
+
+    .error-message {
+        max-width: 258px;
+    }
+
+    .outer-login-span span {
+        font-size: 33.9px;
+        line-height: 41.5px;
+    }
+
+    .login-field form {
+        gap: 20px;
+    }
+
+    .login-btns { 
+        gap: 14px;
+    }
+}
+
+@media (max-width: 330px) {
+    .login-field {
+        width: 270px;
+        height: 435px;
+    }
+
+    .login-field form input[type=email], input[type=password], input[type=text] {
+        width: 228px;
+    }
+
+    .login-signup span {
+        margin-right: 15px;
+    }
+
+    .error-message {
+        max-width: 228px;
+    }
+
+    .outer-login-span span {
+        font-size: 29.9px;
+        line-height: 37.5px;
+    }
+
+    .login-field form {
+        gap: 16px;
+    }
+
+    .login-btns { 
+        gap: 10px;
+    }
+}

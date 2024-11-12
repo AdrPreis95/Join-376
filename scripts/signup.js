@@ -13,6 +13,14 @@ inputEmail.addEventListener('keyup', function(){
     }
 });
 
+inputEmail.addEventListener('focusout', function(event){
+    if(inputEmail.value !== "") {
+        validateEmailInput(event);
+    } else {
+        inputEmail.classList.remove('wrong-input');
+    }
+});
+
 inputPassword.addEventListener('keyup', function(){
     if(inputPassword.value !== "") {
         passwordIcon.classList.remove('lock-icon');

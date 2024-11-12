@@ -1,9 +1,9 @@
 let loggedUser = {};
-if (sessionStorage.loggedUser != undefined){
+if (sessionStorage.loggedUser != undefined) {
     window.location.href = "./summary.html";
 }
 
-let signedUser = { 
+let signedUser = {
     "email": "",
     "name": "",
     "password": ""
@@ -13,19 +13,19 @@ const BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatab
 
 async function loadData(path = "") {
     let response = await fetch(BASE_URL + path + ".json");
-    return responseToJson = await response.json();    
+    return responseToJson = await response.json();
 }
 
 async function patchData(path = "", data = {}) {
     let response = await fetch(BASE_URL + path + ".json", {
-        method : "PATCH",
-        headers : {
-            "Content-Type" : "application/json",
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
         },
-        body : JSON.stringify(data)
+        body: JSON.stringify(data)
     });
-    
-    return responseToJson = await response.json();    
+
+    return responseToJson = await response.json();
 }
 
 async function loadUser() {
@@ -37,14 +37,14 @@ async function loadUser() {
     if (email.value != "") {
         email.classList.remove("wrong-input");
 
-        if(password.value != "") {
+        if (password.value != "") {
             password.classList.remove("wrong-input");
 
-            let gettedUser = await loadData("users/" + editEmailToKey(email.value)); 
-            
+            let gettedUser = await loadData("users/" + editEmailToKey(email.value));
+
             if (gettedUser) {
-                if (matchingPassword(gettedUser.password, password.value)){
-                    
+                if (matchingPassword(gettedUser.password, password.value)) {
+
                     loggedUser = gettedUser;
                     sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
                     checkRememberMe(); //The user's email will be stored in a storage, if checkbox Remember me is checked 
@@ -83,14 +83,14 @@ async function loadUser() {
 async function loadGuestUser() {
     loggedUser = await loadData("users/guest");
     sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
-    window.location.href = "./summary.html";    
+    window.location.href = "./summary.html";
 }
 
-function matchingPassword (firstPassword = "", secondPassword = "") {
+function matchingPassword(firstPassword = "", secondPassword = "") {
     return firstPassword === secondPassword;
 }
 
-function editEmailToKey (email = "") {
+function editEmailToKey(email = "") {
     let editedEmail = email.replaceAll(".", ",");
     return editedEmail;
 }
@@ -100,12 +100,12 @@ async function signUpUser() {
     let email = document.getElementById("signup-email");
     let password = document.getElementById("signup-password");
     let confirm = document.getElementById("confirm-password");
-    
+
     const confirmPassword = document.querySelector(".password-confirm");
     confirmPassword.classList.remove('wrong-input');
     const inputCheckbox = document.querySelector(".input-checkbox");
     inputCheckbox.classList.remove('unchecked-privacy');
-    
+
     var privacyAccepted = document.getElementById("privacy-checkbox");
     let errorMsg = document.getElementById("check-password");
     errorMsg.classList.add('hidden');
@@ -139,7 +139,7 @@ async function signUpUser() {
                 email.classList.add('wrong-input');
                 email.focus();
             } else {
-                await patchData("users/" + editEmailToKey(email.value) , signedUser);
+                await patchData("users/" + editEmailToKey(email.value), signedUser);
                 email.classList.remove('wrong-input');
 
                 name.value = "";
@@ -149,7 +149,7 @@ async function signUpUser() {
 
                 showSucessSignedUp();
             }
-            
+
         } else {
             //passwords do not match
             errorMsg.innerHTML = "Your passwords don't match. Please try again.";
@@ -157,7 +157,7 @@ async function signUpUser() {
             confirmPassword.classList.add('wrong-input');
             password.focus();
         }
-    }else {
+    } else {
         //privacy policy must be accepted
         notificationPopUp("Privacy policy must be accepted!");
         inputCheckbox.classList.add('unchecked-privacy');
@@ -195,9 +195,9 @@ function notificationPopUp(msg = "") {
     }, 1500); // Duration as needed
 }
 
-function rememberMe(){
+function rememberMe() {
     let savedEmail = localStorage.getItem("join-saved-email");
-    if(savedEmail != null){
+    if (savedEmail != null) {
         document.getElementById("login-email").value = savedEmail;
         document.querySelector(".checkbox-login").checked = true;
     }
@@ -210,5 +210,18 @@ function checkRememberMe() {
         localStorage.setItem("join-saved-email", email);
     } else {
         localStorage.removeItem("join-saved-email");
+    }
+}
+
+function validateEmailInput(event) {
+    const emailInput = event.target;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (emailRegex.test(emailInput.value)) {
+        emailInput.classList.remove('wrong-input');
+    } else {
+        emailInput.classList.add('wrong-input');
+        notificationPopUp("Please enter a valid email address");
+        emailInput.focus();
     }
 }
