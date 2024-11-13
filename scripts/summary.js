@@ -74,29 +74,33 @@ async function showUrgentTasks() {
 
     document.getElementById("show-urgent").innerHTML = urgentTasks.length;
 
-    var deadline = "";
-
-    const compareDates = (d1, d2) => {
-        let date1 = new Date(d1).getTime();
-        let date2 = new Date(d2).getTime();
-      
-        if (date1 < date2) {
-          return d1;
-        } else {
-          return d2;
-        }
-    };
+    if (urgentTasks.length > 0) {
+        let deadline = "";
     
-    for(var i = 0 ; i < urgentTasks.length; i++){
-        deadline = compareDates(deadline, urgentTasks[i].dueDate);
+        for(var i = 0 ; i < urgentTasks.length; i++){
+            deadline = compareDates(deadline, urgentTasks[i].dueDate);
+        }
+
+        const formattedDate = new Date(deadline)
+        .toLocaleDateString({},
+        {timeZone:"UTC",month:"long", day:"2-digit", year:"numeric"}
+        );
+
+        document.getElementById("priory-date").innerHTML = formattedDate;
+    } else {
+        document.getElementById("priory-date").innerHTML = "--";
+    }    
+}
+
+function compareDates(d1, d2){
+    let date1 = new Date(d1).getTime();
+    let date2 = new Date(d2).getTime();
+  
+    if (date1 < date2) {
+      return d1;
+    } else {
+      return d2;
     }
-
-    const formattedDate = new Date(deadline)
-    .toLocaleDateString({},
-    {timeZone:"UTC",month:"long", day:"2-digit", year:"numeric"}
-    );
-
-    document.getElementById("priory-date").innerHTML = formattedDate;
 }
 
 async function showTasksOnList() {
