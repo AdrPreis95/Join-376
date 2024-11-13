@@ -158,7 +158,43 @@
 /* ⬇️⬇️⬇️SUMMARY-RESPONSIVE⬇️⬇️⬇️ */
 
 @media (max-width: 1120px) {
-    .greeting-user { display: none; }
+    .greeting-user { 
+        position: absolute;
+        background: #f6f7f8;
+        width: 67%;
+        height: 84.4%;
+        top: 99px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        -webkit-animation-duration: 2s;
+        animation-duration: 2s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        -webkit-animation-name: fadeOut;
+        animation-name: fadeOut;
+     }
+
+     @-webkit-keyframes fadeOut {
+        0% {
+            visibility: 1;
+        }
+        100% {
+            visibility: 0;
+            display: none;
+        }
+     }
+     
+     @keyframes fadeOut {
+        0% {
+            visibility: 1;
+        }
+        100% {
+            visibility: 0;
+            display: none;
+        }
+     }
 
     .top { gap: 12px !important; }
 
@@ -222,6 +258,10 @@
 }
 
 @media(max-width:720px) {
+    .greeting-user { 
+        width: 100%;
+        top: 75px;
+    }
     .top {
         gap: 12px !important;
     }
