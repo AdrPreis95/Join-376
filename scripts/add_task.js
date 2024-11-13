@@ -46,7 +46,8 @@ async function createTask() {
     }
     prepareSubtasksAndContacts();
     let newID = await generateNewID();
-    let newTask = buildNewTask(newID, title, description, dueDate, category);
+    let color = generateColor();
+    let newTask = buildNewTask(newID, title, description, dueDate, category, color);
     await saveTask(newTask);
     loadTasks();
 }
@@ -68,15 +69,17 @@ function getTaskInputs() {
     let dateInput = document.getElementById('due-date-input') || document.getElementById('date-div');
     let dueDate = dateInput.value || dateInput.textContent;
     let category = document.getElementById('selectcategory').value;
-    return { title, description, dueDate, category };
+    let color = getRandomColor();
+    return { title, description, dueDate, category, color };
 }
 
-function buildNewTask(id, title, description, dueDate, category) {
+function buildNewTask(id, title, description, dueDate, category, color) {
     return {
         id,
         title,
         description,
         dueDate,
+        color,
         prio: priority,
         category,
         list: "to-do",

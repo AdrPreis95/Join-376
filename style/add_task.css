@@ -433,7 +433,7 @@ select {
     border: unset;
     padding: 0.75rem;
     appearance: none;
-    background-image: url("/assets/icons/dropdown-arrow.png");
+    background-image: url('../assets/icons/dropdown-arrow.png');
     background-repeat: no-repeat;
     background-position: right 6px center;
 }
