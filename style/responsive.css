@@ -170,6 +170,10 @@
 
     .seperator-line { display: none; }
 
+    .separator-underline {
+        display: block !important;
+    }
+
     .headline-span { display: flex !important; gap: 0px !important; flex-direction: column !important; align-items: flex-start !important; }
 
     #summhl { margin-top: 36px !important; margin-bottom: 0px !important; padding-left: 0px !important; }
@@ -193,6 +197,12 @@
     .todo-container, .done-container { height: 100px !important; transform: none !important; scale: 1 !important; translate: none !important; transition: none !important; }
 
     .key-metrics-span { font-size: 16px !important; padding: 0px 0px 0px 0px !important; }
+
+    .separator-underline {
+        width: 70px !important;
+        height: 2px !important;
+        margin-top: 12px !important;
+    }
 
     .todo-icon, .done-icon, .prioimg { height: 38px !important; width: 38px !important; }
 

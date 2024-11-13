@@ -22,8 +22,16 @@
 
 .seperator-line {
     height: 59px;
-    width: 2px;
+    width: 3px;
     background-color: #29ABE2;
+}
+
+.separator-underline {
+    display: none;
+    height: 3px;
+    width: 112px;
+    background-color: #29ABE2;
+    margin-top: 16px;
 }
 
 .key-metrics-span {
