@@ -255,9 +255,9 @@ function getSubtaskOverlayAddIcon() {
     `
 }
 
-function getSubtasksOverlayEdit(subtask, id) {
+function getSubtasksOverlayEdit(subtask, id, i) {
     return `
-    <div class="overlay-edit-subtask-list">
+    <div class="overlay-edit-subtask-list" id="list-${i}">
         <ul>
             <li>${subtask}</li>
         </ul>
@@ -272,15 +272,11 @@ function getSubtasksOverlayEdit(subtask, id) {
 
 function getSubtasksOverlayEditInput(subtask, id) {
     return `
-    <div class="overlay-edit-subtask-list">
-        <ul>
-            <li><input placeholder="${subtask}"></input></li>
-        </ul>
-        <div class="subtask-edit-icons">
-            <img onclick="editSubtask(${id}, '${subtask}')" src="./assets/icons/edit_icon.png">
-            <p>|</p>
-            <img onclick="deleteSubtask(${id}, '${subtask}')" src="./assets/icons/delete_icon.png">
-        </div>
+    <input id="change-subtask-input" placeholder="${subtask}"></input>
+    <div class="subtask-edit-icons">
+        <img onclick="editSubtask(${id}, '${subtask}')" src="./assets/icons/edit_icon.png">
+        <p>|</p>
+        <img onclick="deleteSubtask(${id}, '${subtask}')" src="./assets/icons/delete_icon.png">
     </div>
     `
 }

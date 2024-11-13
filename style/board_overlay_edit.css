@@ -265,6 +265,22 @@
     cursor: pointer;
 }
 
+#change-subtask-input::placeholder {
+    color: #000000;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#change-subtask-input {
+    width: 90%;
+    background-color: none;
+    border: none;
+}
+
+#change-subtask-input:focus-visible {
+    outline: auto;
+}
+
 .button-ok-container {
     display: flex;
     justify-content: flex-end;
