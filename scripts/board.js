@@ -45,7 +45,15 @@ function saveInArray(tasksJson) {
 /**
  * The function searches for a match in the title or description and then renders the task found.
  */
-async function searchTask(type) {
+async function searchTask(type, e) {
+    var keynum; // To check if the backspace key is pressed
+
+    if(window.e) { // IE                  
+        keynum = e.keyCode;
+    } else if(e.which){ // Netscape/Firefox/Opera                 
+        keynum = e.which;
+    }
+
     let keyword = ""; 
     if (type == "responsive") {
         keyword = document.getElementById('find-task-responsive').value.toLowerCase();
@@ -64,13 +72,13 @@ async function searchTask(type) {
         (task.title.toLowerCase().includes(keyword) || 
             task.description.toLowerCase().includes(keyword)));
 
-    if (matchedTasks.length > 0) {
+    if (matchedTasks.length > 0 && keynum != 8) {
         clearLists();
         renderTasks(matchedTasks);
     } else {
         clearLists();
         renderTasks(responseJson);
-        if (keyword != "")
+        if (keyword != ""  && keynum != 8)
             noResults();
     }
 }

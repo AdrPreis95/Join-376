@@ -102,10 +102,10 @@
           <div class="board-input-responsive">
             <form>
               <div class="board-input-field">
-                <input type="text" placeholder="Find Task" id="find-task-responsive" class="find-task" onkeyup="searchTask('responsive')">
+                <input type="text" placeholder="Find Task" id="find-task-responsive" class="find-task" onkeyup="searchTask('responsive', event)">
                 <div>
                   <img src="./assets/icons/search_line_icon.png" alt="">
-                  <button type="button" onclick="searchTask('responsive')"><img src="./assets/icons/search_icon.png" alt=""></button>
+                  <button type="button" onclick="searchTask('responsive', event)"><img src="./assets/icons/search_icon.png" alt=""></button>
                 </div>
               </div>
             </form>
@@ -114,10 +114,10 @@
         <div class="board-input-container">
           <form>
             <div class="board-input-field">
-              <input type="text" placeholder="Find Task" id="find-task" class="find-task" onkeyup="searchTask('')">
+              <input type="text" placeholder="Find Task" id="find-task" class="find-task" onkeyup="searchTask('', event)">
               <div>
                 <img src="./assets/icons/search_line_icon.png" alt="">
-                <button type="button" onclick="searchTask('')"><img src="./assets/icons/search_icon.png" alt=""></button>
+                <button type="button" onclick="searchTask('', event)"><img src="./assets/icons/search_icon.png" alt=""></button>
               </div>
             </div>
           </form>
