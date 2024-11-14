@@ -158,7 +158,43 @@
 /* ⬇️⬇️⬇️SUMMARY-RESPONSIVE⬇️⬇️⬇️ */
 
 @media (max-width: 1120px) {
-    .greeting-user { display: none; }
+    .greeting-user { 
+        position: absolute;
+        background: #f6f7f8;
+        width: 67%;
+        height: 84.4%;
+        top: 99px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        -webkit-animation-duration: 2s;
+        animation-duration: 2s;
+        -webkit-animation-fill-mode: both;
+        animation-fill-mode: both;
+        -webkit-animation-name: fadeOut;
+        animation-name: fadeOut;
+     }
+
+     @-webkit-keyframes fadeOut {
+        0% {
+            visibility: 1;
+        }
+        100% {
+            visibility: 0;
+            display: none;
+        }
+     }
+     
+     @keyframes fadeOut {
+        0% {
+            visibility: 1;
+        }
+        100% {
+            visibility: 0;
+            display: none;
+        }
+     }
 
     .top { gap: 12px !important; }
 
@@ -169,6 +205,10 @@
     .summary-content-container { width: -webkit-fill-available !important; padding: 36px 16% 0px 12% !important; justify-content: flex-start !important; background-color: transparent !important; gap: 28px !important; margin-top: 20px !important; }
 
     .seperator-line { display: none; }
+
+    .separator-underline {
+        display: block !important;
+    }
 
     .headline-span { display: flex !important; gap: 0px !important; flex-direction: column !important; align-items: flex-start !important; }
 
@@ -194,6 +234,12 @@
 
     .key-metrics-span { font-size: 16px !important; padding: 0px 0px 0px 0px !important; }
 
+    .separator-underline {
+        width: 70px !important;
+        height: 2px !important;
+        margin-top: 12px !important;
+    }
+
     .todo-icon, .done-icon, .prioimg { height: 38px !important; width: 38px !important; }
 
     #show-todos, #show-done, #show-urgent, #show-tasks-board, #show-tasks-progress, #show-tasks-await-feedback { font-size: 38px; }
@@ -212,6 +258,10 @@
 }
 
 @media(max-width:720px) {
+    .greeting-user { 
+        width: 100%;
+        top: 75px;
+    }
     .top {
         gap: 12px !important;
     }

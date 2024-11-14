@@ -282,7 +282,7 @@ async function renderOverlayEditSubtasks(id) {
     document.getElementById('subtasks-overlay-edit').innerHTML = "";
     if(responseJson.subtasks != undefined) {
         for (let i = 0; i < responseJson.subtasks.length; i++) {
-            document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(responseJson.subtasks[i].title, id);       
+            document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(responseJson.subtasks[i].title, id, i);       
         }
     }
 }
@@ -291,11 +291,9 @@ async function editSubtask(id, subtask) {
     let task = await loadTaskWithID(id);
     let subtaskId = findSubtask(task, subtask);
     for (let i = 0; i < task.subtasks.length; i++) {
-        if (i != subtaskId) {
-            document.getElementById('subtasks-overlay-edit').innerHTML = "";
-            document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(task.subtasks[i].title, id);
-        } else {
-            document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEditInput(task.subtasks[i].title, id);
+        if(subtaskId == i) {
+            document.getElementById('list-' + subtaskId).innerHTML = "";
+            document.getElementById('list-' + subtaskId).innerHTML += getSubtasksOverlayEditInput(task.subtasks[i].title, id); 
         }
     }
 }
