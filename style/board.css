@@ -43,7 +43,7 @@
     padding-bottom: 24px;
 }
 
-#find-task {
+.find-task {
     width: 75%;
     height: 32px;
     border: none;
@@ -52,15 +52,66 @@
     font-weight: 400;
 }
 
-#find-task:focus {
+.find-task:focus {
     outline: none;
 }
 
-#find-task::placeholder {
+.find-task::placeholder {
     font-weight: 400;
     font-size: 20px;
     color: #D1D1D1;
     padding-left: 12px;
+}
+
+.search-msg-pop-up {
+    width: 312px;
+    height: 74px;
+    border-radius: 20px;
+    background-color: #2A3647;
+    -webkit-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-animation: slide-top 0.25s ease-in-out forwards;
+    animation: slide-top 0.25s ease-in-out forwards;
+}
+
+@-webkit-keyframes slide-top {
+    0% {
+        -webkit-transform: translateY(500%);
+        transform: translateY(500%);
+    }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-top {
+    0% {
+        -webkit-transform: translateY(500%);
+        transform: translateY(500%);
+    }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+
+.search-notification {
+    position: absolute;
+    left: 175px;
+    right: 0;
+    margin-inline: auto;
+    width: fit-content;
 }
 
 .add-task-button, .add-task-button-responsive {

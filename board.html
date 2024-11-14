@@ -102,10 +102,10 @@
           <div class="board-input-responsive">
             <form>
               <div class="board-input-field">
-                <input type="text" placeholder="Find Task" id="find-task">
+                <input type="text" placeholder="Find Task" id="find-task-responsive" class="find-task" onkeyup="searchTask('responsive')">
                 <div>
                   <img src="./assets/icons/search_line_icon.png" alt="">
-                  <button type="button" onclick="searchTask()"><img src="./assets/icons/search_icon.png" alt=""></button>
+                  <button type="button" onclick="searchTask('responsive')"><img src="./assets/icons/search_icon.png" alt=""></button>
                 </div>
               </div>
             </form>
@@ -114,15 +114,20 @@
         <div class="board-input-container">
           <form>
             <div class="board-input-field">
-              <input type="text" placeholder="Find Task" id="find-task">
+              <input type="text" placeholder="Find Task" id="find-task" class="find-task" onkeyup="searchTask('')">
               <div>
                 <img src="./assets/icons/search_line_icon.png" alt="">
-                <button type="button" onclick="searchTask()"><img src="./assets/icons/search_icon.png" alt=""></button>
+                <button type="button" onclick="searchTask('')"><img src="./assets/icons/search_icon.png" alt=""></button>
               </div>
             </div>
           </form>
           <button onclick="openTaskOverlay()" class="add-task-button"><span>Add task</span><img
               src="./assets/icons/add.png" alt="add"></button>
+        </div>
+      </div>
+      <div class="search-notification d-none" id="search-notification">
+        <div class="search-msg-pop-up">
+          <span id="search-pop-up-notification">No results found</span>
         </div>
       </div>
       <div class="board-lists" ontouchmove="move(event)">

@@ -258,6 +258,10 @@
 }
 
 @media(max-width:720px) {
+    .search-notification {
+        left: 0;
+    }
+
     .greeting-user { 
         width: 100%;
         top: 75px;

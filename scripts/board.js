@@ -4,6 +4,7 @@ let currentDraggedElement;
 let activePriority = '';
 let titles = [];
 let descriptions = [];
+let loadedTasks = [];
 
 /**
  * This function loads all tasks from Firebase at the start and renders them into the HTML template.
@@ -34,6 +35,7 @@ async function findKey(id) {
  * @param {object} tasksJson - The tasks are all transferred in this object.
  */
 function saveInArray(tasksJson) {
+    loadedTasks = tasksJson;
     for (let i = 0; i < tasksJson.length; i++) {
         titles.push(tasksJson[i].title);
         descriptions.push(tasksJson[i].description);
@@ -43,15 +45,42 @@ function saveInArray(tasksJson) {
 /**
  * The function searches for a match in the title or description and then renders the task found.
  */
-async function searchTask() {
-    let keyword = document.getElementById('find-task').value;
-    let titleIndex = titles.findIndex(element => element.toLowerCase().includes(keyword.toLowerCase()));
-    let id = await findKey(titleIndex);
-    // let descriptionIndex = descriptions.findIndex(element => element.toLowerCase().includes(keyword.toLowerCase()));
-    let response = await fetch(BASE_URL + "/tasks/" + id + ".json")
+async function searchTask(type) {
+    let keyword = ""; 
+    if (type == "responsive") {
+        keyword = document.getElementById('find-task-responsive').value.toLowerCase();
+        document.getElementById('find-task').value = document.getElementById('find-task-responsive').value;
+    } else {
+        keyword = document.getElementById('find-task').value.toLowerCase();
+        document.getElementById('find-task-responsive').value = document.getElementById('find-task').value;
+    } 
+
+    document.getElementById('find-task').value = document.getElementById('find-task-responsive').value;
+
+    let response = await fetch(BASE_URL + "/tasks.json");
     let responseJson = await response.json();
-    renderTasks(responseJson);
-    document.getElementById('find-task').value = "";
+
+    const matchedTasks = responseJson.filter((task) => 
+        (task.title.toLowerCase().includes(keyword) || 
+            task.description.toLowerCase().includes(keyword)));
+
+    if (matchedTasks.length > 0) {
+        clearLists();
+        renderTasks(matchedTasks);
+    } else {
+        clearLists();
+        renderTasks(responseJson);
+        if (keyword != "")
+            noResults();
+    }
+}
+
+function noResults() {
+    let popUp = document.getElementById("search-notification");
+    popUp.classList.remove("d-none");
+    setTimeout(() => {
+        popUp.classList.add("d-none");
+      }, "1500");
 }
 
 /**
