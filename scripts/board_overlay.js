@@ -246,7 +246,7 @@ async function selectedUserEdit(id) {
 function editMode(id) {
     let createContainer = document.getElementById('create-subtask-overlay');
     if (document.getElementById('add-subtask-overlay-edit').getAttribute("src") == "./assets/icons/add_subtask.png") {
-        createContainer.innerHTML = getSubtaskOverlayIcons(id);        
+        createContainer.innerHTML = getSubtaskOverlayIcons(id);      
     } else {
         createContainer.innerHTML = getSubtaskOverlayAddIcon();
     }
@@ -254,13 +254,17 @@ function editMode(id) {
 
 async function createSubtaskOverlay(id) {
     let inputRef = document.getElementById('subtask-edit');
-    let numberOfSubtasks = await loadTaskWithID(id);
-    let idSubtask = numberOfSubtasks.subtasks.length;
-    if(inputRef != "") {
+    let task = await loadTaskWithID(id);
+    if (!task.subtasks) {
+        task.subtasks = [];
+    }
+    let idSubtask = task.subtasks.length;
+    if(inputRef.value !== "") {
         let newSubtask = {
             status: "not done",
             title: inputRef.value
-        }
+        };
+        
         await fetch(`${BASE_URL}/tasks/${id}/subtasks/${idSubtask}.json`, {
             method: "PUT",
             headers: {
