@@ -105,6 +105,7 @@ async function saveTask(newTask) {
         successOverlay.style.alignItems = 'center';
         setTimeout(() => {
             successOverlay.style.display = 'none';
+            window.location.href = 'board.html';
         }, 3000);
     } else {
         console.error('Element mit der ID "success-overlay" wurde nicht gefunden.');
@@ -293,15 +294,6 @@ function deleteSubtask(deleteBtn) {
 function getRandomColor() {
     return generateColor();
 }
-
-// function generateColor() {
-//     let letters = '0123456789ABCDEF';
-//     let color = '#';
-//     for (let i = 0; i < 6; i++) {
-//         color += letters[Math.floor(Math.random() * 16)];
-//     }
-//     return color;
-// }
 
 function generateColor() {
     const colors = ["#FF7A00", "#FF5EB3", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF745E", "#FFA35E", "#FC71FF", "#FFC701", "#0038FF", "#C3FF2B", "#FFE62B", "#FF4646", "#FFBB2B"];

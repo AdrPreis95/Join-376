@@ -11,10 +11,12 @@
   z-index: 1000;
 }
 
+/* Overlay aktivieren */
 .overlay-active #taskoverlay {
   display: flex;
 }
 
+/* Stile für die Schaltfläche zum Schließen */
 .overlay-close {
   margin: 40px 180px 0px 0px;
   border: none;
@@ -22,12 +24,25 @@
   filter: drop-shadow(0px 0px 4px gray);
 }
 
+/* Blendet header, aside und footer im Overlay-Modus aus */
 .overlay-active header,
 .overlay-active aside,
 .overlay-active footer {
   display: none !important;
 }
 
+/* Setzt flex-direction auf 'row' im Overlay-Modus für .content-container */
+@media (max-width: 1200px) {
+  body.overlay-active #taskoverlay .content-container {
+    display: flex !important;
+    padding-left: 0px !important;
+    gap: 0px !important;
+    flex-direction: row !important; /* Erzwingt 'row' nur im Overlay */
+  }
+}
+
+
+/* Stile für das iframe im Overlay */
 #taskoverlay iframe {
   background: white;
   border-radius: 26px;
@@ -36,14 +51,8 @@
   width: 1155px;
 }
 
-#taskoverlay #cont-left.content-left {
-  width: -webkit-fill-available;
-  height: auto;
-  display: flex;
-  flex-direction: column;
-}
-
-
+/* Stile für cont-left und content-right im Overlay */
+#taskoverlay #cont-left.content-left,
 #taskoverlay .content-right {
   width: -webkit-fill-available;
   height: auto;
@@ -51,14 +60,20 @@
   flex-direction: column;
 }
 
-#taskoverlay #taskover-cont {
+/* Stile für taskover-cont */
+#taskoverlay .content-container {
   display: flex;
   padding-left: 0px;
-  padding-right: 0px;
   gap: 0px;
-  flex-direction: row;
+  flex-direction: row; /* Stellt sicher, dass 'row' nur im Overlay verwendet wird */
 }
 
+/* Stil für Überschrift im Overlay */
 .overlay-hl {
   font-size: 47px;
 }
+#taskoverlay #closeOverlay {
+  display: block !important; /* Erzwingt die Sichtbarkeit des Buttons */
+}
+
+
