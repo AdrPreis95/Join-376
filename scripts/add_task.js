@@ -522,7 +522,6 @@ function clearSubtaskList() {
     selectedContacts = [];
 }
 
-
 function validateInput() {
     const input = document.getElementById('title');
     const errorMessage = document.getElementById('error-message');
@@ -543,25 +542,21 @@ function validateInput() {
 function validateDateInput() {
     const dateInput = document.getElementById('due-date-input');
     const dateErrorMessage = document.getElementById('date-error-message');
-
-    // Überprüfe das Datum
     const validationResult = validateDateFormatAndFuture(dateInput.value);
-
-    if (!validationResult.isValid) {
-        // Fehleranzeige bei ungültigem Datum
+if (!validationResult.isValid) {
         dateInput.classList.add('error');
         dateInput.style.border = '2px solid red';
         dateErrorMessage.textContent = validationResult.message;
         dateErrorMessage.style.display = 'block';
     } else {
-        // Entferne die Fehleranzeige bei gültigem Datum
-        dateInput.value = validationResult.correctedDate || dateInput.value; // Korrigiere bei Bedarf auf das heutige Datum
+       dateInput.value = validationResult.correctedDate || dateInput.value; 
         dateInput.classList.remove('error');
         dateInput.style.border = 'none';
         dateInput.style.filter = 'drop-shadow(0px 0px 4px #D1D1D1)';
         dateErrorMessage.style.display = 'none';
     }
 }
+
 function validateDateFormatAndFuture(dateValue) {
     const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
     if (!dateValue.match(datePattern)) {
@@ -591,6 +586,7 @@ function getFormattedTodayDate() {
     const year = today.getFullYear();
     return `${day}/${month}/${year}`;
 }
+
 function initializeDateInput() {
     const dateInput = document.getElementById('due-date-input');
     dateInput.addEventListener('input', function (event) {
