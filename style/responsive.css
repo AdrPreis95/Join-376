@@ -150,7 +150,7 @@
 
     .prio-container img { height: 12px; }
 
-    #dropdown-user { display: none; position: fixed; z-index: 1; left: 0; right: 0; filter: drop-shadow(0px 0px 4px black); border: #29ABE2; border-style: solid; height: 224px; bottom: 70px; }
+    #dropdown-user { display: none; position: fixed !important; z-index: 1; left: 0; right: 0; filter: drop-shadow(0px 0px 4px black); border: #29ABE2; border-style: solid; height: 224px; bottom: 70px; }
 
     #picked-user-avatar { display: none; }
 }

@@ -281,10 +281,26 @@ function resetSubtaskInputs() {
 }
 
 function editSubtask(editBtn) {
-    let subtaskText = editBtn.parentElement.previousElementSibling;
-    let newSubtask = prompt("Edit subtask:", subtaskText.textContent);
-    if (newSubtask) subtaskText.textContent = newSubtask;
+
+    let subtaskText = editBtn.parentElement.previousElementSibling.querySelector('.subtask-text');
+    subtaskText.contentEditable = "true";
+    subtaskText.focus();
+    let originalText = subtaskText.textContent;
+    subtaskText.addEventListener('blur', function () {
+        let newText = subtaskText.textContent.trim();
+        if (newText === "") {
+            alert("Unteraufgabe darf nicht leer sein.");
+            subtaskText.textContent = originalText;
+        } else {
+            let subtaskIndex = subtasksArray.findIndex(subtask => subtask.title === originalText);
+            if (subtaskIndex !== -1) {
+                subtasksArray[subtaskIndex].title = newText;
+            }
+        }
+        subtaskText.contentEditable = "false";
+    });
 }
+
 
 function deleteSubtask(deleteBtn) {
     let subtaskToDelete = deleteBtn.parentElement.parentElement;
@@ -526,21 +542,63 @@ function validateInput() {
 
 function validateDateInput() {
     const dateInput = document.getElementById('due-date-input');
-    const dateContainer = document.querySelector('.date-container');
     const dateErrorMessage = document.getElementById('date-error-message');
-    const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
 
-    if (!dateInput.value.match(datePattern)) {
+    // Überprüfe das Datum
+    const validationResult = validateDateFormatAndFuture(dateInput.value);
+
+    if (!validationResult.isValid) {
+        // Fehleranzeige bei ungültigem Datum
         dateInput.classList.add('error');
         dateInput.style.border = '2px solid red';
+        dateErrorMessage.textContent = validationResult.message;
         dateErrorMessage.style.display = 'block';
     } else {
+        // Entferne die Fehleranzeige bei gültigem Datum
+        dateInput.value = validationResult.correctedDate || dateInput.value; // Korrigiere bei Bedarf auf das heutige Datum
         dateInput.classList.remove('error');
         dateInput.style.border = 'none';
         dateInput.style.filter = 'drop-shadow(0px 0px 4px #D1D1D1)';
         dateErrorMessage.style.display = 'none';
     }
 }
+function validateDateFormatAndFuture(dateValue) {
+    const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
+    if (!dateValue.match(datePattern)) {
+        return {
+            isValid: false,
+            message: 'Please select a Date'
+        };
+    }
+    const [day, month, year] = dateValue.split('/');
+    const enteredDate = new Date(`${year}-${month}-${day}`);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    if (enteredDate < today) {
+        return {
+            isValid: true,
+            correctedDate: getFormattedTodayDate()
+        };
+    }
+
+    return { isValid: true };
+}
+function getFormattedTodayDate() {
+    const today = new Date();
+    const day = String(today.getDate()).padStart(2, '0');
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const year = today.getFullYear();
+    return `${day}/${month}/${year}`;
+}
+function initializeDateInput() {
+    const dateInput = document.getElementById('due-date-input');
+    dateInput.addEventListener('input', function (event) {
+        const inputField = event.target;
+        inputField.value = inputField.value.replace(/[^0-9/]/g, '');
+    });
+}
+document.addEventListener('DOMContentLoaded', initializeDateInput);
 
 function validateSelectCategory() {
     const selectCategory = document.getElementById('selectcategory');
