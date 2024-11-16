@@ -51,3 +51,30 @@ function closeTaskOverlay() {
   // Stellt sicher, dass alle Aufgaben neu geladen werden, wenn das Overlay geschlossen wird
   loadTasks();
 }
+
+//Below it is possible to change the CSS from the iframe overlayContent
+
+document.addEventListener('DOMContentLoaded', function() {
+  const iframe = document.getElementById('overlayContent');
+  // Fetch the external CSS file
+  fetch('./style/iframe_overlay_content.css')
+  .then(response => {
+      if (!response.ok) throw new Error('Failed to load CSS');
+      return response.text();
+  })
+  .then(cssContent => {
+      iframe.onload = function () {
+          const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+          // Create a <style> element
+          const styleElement = iframeDocument.createElement('style');
+          styleElement.type = 'text/css';
+          // Assign the fetched CSS content to styleElement.textContent
+          styleElement.textContent = cssContent;
+          // Append the <style> element to the iframe's <head>
+          iframeDocument.head.appendChild(styleElement);
+      };
+  })
+  .catch(error => console.error('Error loading CSS:', error));
+  
+});
+

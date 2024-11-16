@@ -1,0 +1,10 @@
+/* ⬇️⬇️⬇️IFRAME-CSS⬇️⬇️⬇️ */
+
+
+
+/* ⬇️⬇️⬇️IFRAME-RESPONSIVE⬇️⬇️⬇️ */
+@media (max-width: 720px) {
+    .main-content h1 {
+        padding-top: unset;
+    }
+}
