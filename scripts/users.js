@@ -9,6 +9,9 @@ let signedUser = {
     "password": ""
 };
 
+const confirmPassword = document.querySelector(".password-confirm");
+const inputCheckbox = document.querySelector(".input-checkbox");
+
 const BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
 
 async function loadData(path = "") {
@@ -34,50 +37,60 @@ async function loadUser() {
     let errorMsg = document.getElementById("check-email-password");
     errorMsg.classList.add('hidden');
 
-    if (email.value != "") {
-        email.classList.remove("wrong-input");
-
-        if (password.value != "") {
-            password.classList.remove("wrong-input");
-
+    if (checkInputEmail(email)) {
+        if (checkInputPassword(password)) {
             let gettedUser = await loadData("users/" + editEmailToKey(email.value));
-
             if (gettedUser) {
                 if (matchingPassword(gettedUser.password, password.value)) {
-
-                    loggedUser = gettedUser;
-                    sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
-                    checkRememberMe(); //The user's email will be stored in a storage, if checkbox Remember me is checked 
-                    email.value = "";
-                    password.value = "";
-                    rememberMe();
-                    window.location.href = "./summary.html";
-
-                } else {
-                    //passwords do not match
-                    errorMsg.innerHTML = "Check your email and password. Please try again.";
-                    errorMsg.classList.remove('hidden');
-                    password.classList.add("wrong-input");
-                    email.classList.add("wrong-input");
-                    sessionStorage.removeItem("loggedUser");
+                    redirectToSummary(gettedUser, email, password);
+                } else {                    
+                    showErrorMsg(errorMsg, password, email); //because passwords do not match
                 }
-            } else {
-                //user does not exist
-                errorMsg.innerHTML = "Check your email and password. Please try again.";
-                errorMsg.classList.remove('hidden');
-                password.classList.add("wrong-input");
-                email.classList.add("wrong-input");
-                sessionStorage.removeItem("loggedUser");
+            } else {                
+                showErrorMsg(errorMsg, password, email);//beacuse user does not exist
             }
-
-        } else {
-            password.classList.add("wrong-input");
-            password.focus();
         }
+    }
+}
+
+function checkInputEmail(email){
+    if (email.value != "") {
+        email.classList.remove("wrong-input");
+        return true;
     } else {
         email.classList.add("wrong-input");
         email.focus();
+        return false;
     }
+}
+
+function checkInputPassword(password) {
+    if (password.value != "") {
+        password.classList.remove("wrong-input");
+        return true;
+    } else {
+        password.classList.add("wrong-input");
+        password.focus();
+        return false;
+    }
+}
+
+function redirectToSummary(gettedUser, email, password){
+    loggedUser = gettedUser;
+    sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
+    checkRememberMe(); //The user's email will be stored in a storage, if checkbox Remember me is checked 
+    email.value = "";
+    password.value = "";
+    rememberMe();
+    window.location.href = "./summary.html";
+}
+
+function showErrorMsg(errorMsg, password, email) {
+    errorMsg.innerHTML = "Check your email and password. Please try again.";
+    errorMsg.classList.remove('hidden');
+    password.classList.add("wrong-input");
+    email.classList.add("wrong-input");
+    sessionStorage.removeItem("loggedUser");
 }
 
 async function loadGuestUser() {
@@ -100,69 +113,82 @@ async function signUpUser() {
     let email = document.getElementById("signup-email");
     let password = document.getElementById("signup-password");
     let confirm = document.getElementById("confirm-password");
-
-    const confirmPassword = document.querySelector(".password-confirm");
     confirmPassword.classList.remove('wrong-input');
-    const inputCheckbox = document.querySelector(".input-checkbox");
     inputCheckbox.classList.remove('unchecked-privacy');
-
-    var privacyAccepted = document.getElementById("privacy-checkbox");
     let errorMsg = document.getElementById("check-password");
     errorMsg.classList.add('hidden');
 
-    if (privacyAccepted.value == 'true') {
-
+    if (checkPrivacyPolicy(inputCheckbox)) {
         if (matchingPassword(password.value, confirm.value)) {
-            signedUser.name = capitalizeNames(name.value);
-            signedUser.email = email.value;
-            signedUser.password = password.value;
-
-            // Load users data
-            let users = await loadData("users");
-
-            // Ensure users is an object or array before processing
-            if (!users || typeof users !== 'object') {
-                console.error("Users data is not an object or is undefined:", users);
-                return false;
-            }
-
-            // Use Object.values() to get an array of user objects.
-            const userArray = Object.values(users);
-
-            // Use .find() to locate the user with the desired email.
-            const foundUser = userArray.find(u => u.email === email.value);
-
-
-            if (foundUser != undefined) {
-                //Email is already linked to an account
-                notificationPopUp("Email is already linked to an account!");
-                email.classList.add('wrong-input');
-                email.focus();
+            setSignedUser (name, email, password);
+            if (checkFoundUser()) {
+                emailAlreadyLinked(email);
             } else {
                 await patchData("users/" + editEmailToKey(email.value), signedUser);
-                email.classList.remove('wrong-input');
-
-                name.value = "";
-                email.value = "";
-                password.value = "";
-                confirm.value = "";
-
+                resetSignUpInputs(email, name, password, confirm);
                 showSucessSignedUp();
             }
+        } else
+            errorPasswords(errorMsg, password, confirmPassword);
+    }
+}
 
-        } else {
-            //passwords do not match
-            errorMsg.innerHTML = "Your passwords don't match. Please try again.";
-            errorMsg.classList.remove('hidden');
-            confirmPassword.classList.add('wrong-input');
-            password.focus();
-        }
+async function checkFoundUser() {
+    // Load users data
+    let users = await loadData("users");
+    // Ensure users is an object or array before processing
+    if (!users || typeof users !== 'object') {
+        console.error("Users data is not an object or is undefined:", users);
+        return false;
+    }
+    // Use Object.values() to get an array of user objects.
+    const userArray = Object.values(users);
+    // Use .find() to locate the user with the desired email.
+    const foundUser = userArray.find(u => u.email === email.value);
+
+    return foundUser != undefined;
+}
+
+function checkPrivacyPolicy(inputCheckbox) {
+    let privacyAccepted = document.getElementById("privacy-checkbox");
+    if (privacyAccepted.value == 'true') {
+        return true;
     } else {
         //privacy policy must be accepted
         notificationPopUp("Privacy policy must be accepted!");
         inputCheckbox.classList.add('unchecked-privacy');
         privacyAccepted.focus();
+        return false;
     }
+}
+
+function setSignedUser (name, email, password) {
+    signedUser.name = capitalizeNames(name.value);
+    signedUser.email = email.value;
+    signedUser.password = password.value;
+}
+
+function errorPasswords(errorMsg, password, confirmPassword) {
+    //passwords do not match
+    errorMsg.innerHTML = "Your passwords don't match. Please try again.";
+    errorMsg.classList.remove('hidden');
+    confirmPassword.classList.add('wrong-input');
+    password.focus();
+}
+
+function emailAlreadyLinked(email) {
+    //Email is already linked to an account
+    notificationPopUp("Email is already linked to an account!");
+    email.classList.add('wrong-input');
+    email.focus();
+}
+
+function resetSignUpInputs(email, name, password, confirm) {
+    email.classList.remove('wrong-input');
+    name.value = "";
+    email.value = "";
+    password.value = "";
+    confirm.value = "";
 }
 
 function capitalizeNames(name) {
