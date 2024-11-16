@@ -190,14 +190,25 @@ async function loadContacts(id) {
     let activeUser = await loadActiveUser(id);
     let response = await fetch(BASE_URL + "/contacts.json");
     let responseJson = await response.json();
+    let activeUserIndex = checkActiveUser(activeUser, responseJson);
+    activeUserIndex.sort();
     responseJson.unshift(userAsContact);
+    renderOverlayContacts(responseJson, activeUserIndex);
+}
+
+function renderOverlayContacts(responseJson, activeUserIndex) {
     for (let i = 0; i < responseJson.length; i++) {
+        let urlIcon = './assets/icons/unchecked_icon.png';
+        for (let k = 0; k < activeUserIndex.length; k++) {
+            if(activeUserIndex[k] == [i - 1]) {
+                urlIcon = './assets/icons/checked_icon.png';
+            }
+        }
         let color = generateColor();
         let firstLetterFirstName = responseJson[i].name[0];
         let position = responseJson[i].name.indexOf(" ");
         let firstLetterLastName = responseJson[i].name[position + 1];
-        let active = checkActiveUser(activeUser, responseJson)
-        document.getElementById('user-dropdown').innerHTML += getContactName(responseJson[i].name, color, firstLetterFirstName, firstLetterLastName);
+        document.getElementById('user-dropdown').innerHTML += getContactName(responseJson[i].name, color, firstLetterFirstName, firstLetterLastName, urlIcon);
     }
 }
 
@@ -205,21 +216,24 @@ async function loadActiveUser(id) {
     let task = await loadTaskWithID(id);
     let activeUser = [];
     for (let i = 0; i < task.assignedTo.length; i++) {
-        let name = activeUser[i].firstName + activeUser[i].lastName
-        activeUser.push(task.assignedTo[i]);
+        let name = task.assignedTo[i].firstName + " " + task.assignedTo[i].lastName;
+        activeUser.push(name);
     }
     return activeUser;
 }
 
 function checkActiveUser(activeUser, responseJson) {
     let allContacts = [];
+    let activeUserIndex = [];
     for (let i = 0; i < responseJson.length; i++) {    
         allContacts.push(responseJson[i].name);
     }
-    for (let i = 0; i < activeUser; i++) {
-        const element = array[i];
-        
+    for (let i = 0; i < allContacts.length; i++) {
+        if(allContacts.indexOf(activeUser[i]) != -1) {
+            activeUserIndex.push(allContacts.indexOf(activeUser[i]));
+        }
     }
+    return activeUserIndex;
 }
 
 async function changeStatusSubtask(id, subtaskId, status) {

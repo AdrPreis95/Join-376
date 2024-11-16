@@ -216,7 +216,7 @@ function getOverlayEdit(id, title, description) {
     `
 }
 
-function getContactName(name, color, firstLetterFirstName, firstLetterLastName) {
+function getContactName(name, color, firstLetterFirstName, firstLetterLastName, urlIcon) {
     return `
     <div class="contact-container-overlay">
         <div class="user-edit-overlay">
@@ -225,7 +225,7 @@ function getContactName(name, color, firstLetterFirstName, firstLetterLastName) 
                 <p>${name}</p>
             </div>
         </div>
-        <img src="./assets/icons/unchecked_icon.png"
+        <img src=${urlIcon}>
     </div>
     `
 }
