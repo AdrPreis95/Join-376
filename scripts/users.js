@@ -137,10 +137,7 @@ function checkFoundUser(email, users) {
     // Use .find() to locate the user with the desired email.
     const foundUser = userArray.find(u => u.email === email.value);
 
-    if(foundUser != undefined){
-        return true;
-    } else
-        return false;
+    return foundUser != undefined;
 }
 
 function resetConfirmCheckBoxMsgError() {
