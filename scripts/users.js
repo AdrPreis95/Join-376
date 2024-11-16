@@ -9,8 +9,17 @@ let signedUser = {
     "password": ""
 };
 
-const confirmPassword = document.querySelector(".password-confirm");
-const inputCheckbox = document.querySelector(".input-checkbox");
+const emailLogin = document.getElementById("login-email");
+const passwordLogin = document.getElementById("login-password");
+const errorMsgLogin = document.getElementById("check-email-password");
+
+const nameSignUp = document.getElementById("signup-name");
+const emailSignUp = document.getElementById("signup-email");
+const passwordSignUp = document.getElementById("signup-password");
+const confirmSignUp = document.getElementById("confirm-password");
+const errorMsgSignUp = document.getElementById("check-password");
+const confirmPasswordSignUp = document.querySelector(".password-confirm");
+const inputCheckboxSignUp = document.querySelector(".input-checkbox");
 
 const BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
 
@@ -32,22 +41,18 @@ async function patchData(path = "", data = {}) {
 }
 
 async function loadUser() {
-    let email = document.getElementById("login-email");
-    let password = document.getElementById("login-password");
-    let errorMsg = document.getElementById("check-email-password");
-    errorMsg.classList.add('hidden');
-
-    if (checkInputEmail(email)) {
-        if (checkInputPassword(password)) {
-            let gettedUser = await loadData("users/" + editEmailToKey(email.value));
+    errorMsgLogin.classList.add('hidden');
+    if (checkInputEmail(emailLogin)) {
+        if (checkInputPassword(passwordLogin)) {
+            let gettedUser = await loadData("users/" + editEmailToKey(emailLogin.value));
             if (gettedUser) {
-                if (matchingPassword(gettedUser.password, password.value)) {
-                    redirectToSummary(gettedUser, email, password);
+                if (matchingPassword(gettedUser.password, passwordLogin.value)) {
+                    redirectToSummary(gettedUser, emailLogin, passwordLogin);
                 } else {                    
-                    showErrorMsg(errorMsg, password, email); //because passwords do not match
+                    showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); //because passwords do not match
                 }
             } else {                
-                showErrorMsg(errorMsg, password, email);//beacuse user does not exist
+                showErrorMsg(errorMsgLogin, passwordLogin, emailLogin);//beacuse user does not exist
             }
         }
     }
@@ -109,44 +114,39 @@ function editEmailToKey(email = "") {
 }
 
 async function signUpUser() {
-    let name = document.getElementById("signup-name");
-    let email = document.getElementById("signup-email");
-    let password = document.getElementById("signup-password");
-    let confirm = document.getElementById("confirm-password");
-    confirmPassword.classList.remove('wrong-input');
-    inputCheckbox.classList.remove('unchecked-privacy');
-    let errorMsg = document.getElementById("check-password");
-    errorMsg.classList.add('hidden');
-
-    if (checkPrivacyPolicy(inputCheckbox)) {
-        if (matchingPassword(password.value, confirm.value)) {
-            setSignedUser (name, email, password);
-            if (checkFoundUser()) {
-                emailAlreadyLinked(email);
+    resetConfirmCheckBoxMsgError();
+    if (checkPrivacyPolicy(inputCheckboxSignUp)) {
+        if (matchingPassword(passwordSignUp.value, confirmSignUp.value)) {
+            setSignedUser (nameSignUp, emailSignUp, passwordSignUp);
+            let users = await loadData("users");// Load users data
+            if (checkFoundUser(emailSignUp, users)) {
+                emailAlreadyLinked(emailSignUp);
             } else {
-                await patchData("users/" + editEmailToKey(email.value), signedUser);
-                resetSignUpInputs(email, name, password, confirm);
+                await patchData("users/" + editEmailToKey(emailSignUp.value), signedUser);
+                resetSignUpInputs(emailSignUp, nameSignUp, passwordSignUp, confirmSignUp);
                 showSucessSignedUp();
             }
         } else
-            errorPasswords(errorMsg, password, confirmPassword);
+            errorPasswords(errorMsgSignUp, passwordSignUp, confirmPasswordSignUp);
     }
 }
 
-async function checkFoundUser() {
-    // Load users data
-    let users = await loadData("users");
-    // Ensure users is an object or array before processing
-    if (!users || typeof users !== 'object') {
-        console.error("Users data is not an object or is undefined:", users);
-        return false;
-    }
+function checkFoundUser(email, users) {
     // Use Object.values() to get an array of user objects.
     const userArray = Object.values(users);
     // Use .find() to locate the user with the desired email.
     const foundUser = userArray.find(u => u.email === email.value);
 
-    return foundUser != undefined;
+    if(foundUser != undefined){
+        return true;
+    } else
+        return false;
+}
+
+function resetConfirmCheckBoxMsgError() {
+    confirmPasswordSignUp.classList.remove('wrong-input');
+    inputCheckboxSignUp.classList.remove('unchecked-privacy');
+    errorMsgSignUp.classList.add('hidden');
 }
 
 function checkPrivacyPolicy(inputCheckbox) {
