@@ -5,7 +5,7 @@
 .headline {
     margin-top: 36px;
     text-align: left;
-    margin-bottom: 36px;
+    /* margin-bottom: 36px; */
     font-size: 48px;
     display: flex;
     justify-content: space-between;
@@ -325,7 +325,8 @@ select {
 }
 
 .user-list {
-    height: 148px;
+    height: 130px;
+    position: relative;
     width: 100%;
     display: none;
     background-color: #FFFF;
@@ -399,7 +400,7 @@ select {
     display: flex;
     align-items: center;
     justify-content: end;
-    margin-top: 86px;
+    margin-top: 48px;
 }
 
 .create-task-button {
@@ -712,4 +713,9 @@ select {
     height: 100vh;
     width: 100%;
 
+}
+.subtask-text[contenteditable="true"] {
+    outline: 2px solid red;
+    background-color: #f0f8ff;
+    border-radius: 2px;
 }
