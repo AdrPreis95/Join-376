@@ -54,15 +54,7 @@ async function searchTask(type, e) {
     const matchedTasks = responseJson.filter((task) => (task.title.toLowerCase().includes(keyword) || 
                                                         task.description.toLowerCase().includes(keyword)));
 
-    if (matchedTasks.length > 0 && keynum != 8) {
-        clearLists();
-        renderTasks(matchedTasks);
-    } else {
-        clearLists();
-        renderTasks(responseJson);
-        if (keyword != ""  && keynum != 8)
-            noResults();
-    }
+    showSearchResults(matchedTasks, responseJson, keynum);
 }
 
 function pressedKey(e) {
@@ -81,6 +73,18 @@ function getKeyWord(type){
         document.getElementById('find-task-responsive').value = document.getElementById('find-task').value;
         return keyword = document.getElementById('find-task').value.toLowerCase();
     } 
+}
+
+function showSearchResults(matchedTasks, responseJson, keynum) {
+    if (matchedTasks.length > 0 && keynum != 8) {
+        clearLists();
+        renderTasks(matchedTasks);
+    } else {
+        clearLists();
+        renderTasks(responseJson);
+        if (keyword != ""  && keynum != 8)
+            noResults();
+    }
 }
 
 function noResults() {
