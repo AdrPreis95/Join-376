@@ -178,7 +178,7 @@ function getOverlayEdit(id, title, description) {
             </div>
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="assigned-to">Assigned to</label>
-                <div onclick="openDropdownAssigned()" class="assigned-menu-overlay">
+                <div onclick="openDropdownAssigned(${id})" class="assigned-menu-overlay">
                     <input type="text" placeholder="Select contacts to assign"></input>
                     <img id="arrow-dropdown" src="./assets/icons/arrow_drop_down.png">
                 </div>
@@ -234,6 +234,14 @@ function getUserInititalsOverlayEdit(color, firstLetter) {
     return `
     <div style="background-color: ${color};" class="assigned-user-overlay-edit">
         <p>${firstLetter}</p>
+    </div>
+    `
+}
+
+function getMoreUserOverlayEdit(userslength) {
+    return `
+    <div class="user-initials-overlay">
+        <p>+ ${userslength}</p>
     </div>
     `
 }

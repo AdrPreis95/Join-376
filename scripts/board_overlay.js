@@ -94,7 +94,7 @@ async function editTask(id, title, description, dueDate, priority) {
     checkActivePriority(priority);
     selectedUserEdit(id);
     renderOverlayEditSubtasks(id);
-    loadContacts();
+    loadContacts(id);
 }
 
 flatpickr("#calendar-icon", {
@@ -180,13 +180,14 @@ function activePriorityButton() {
     }
     return activeElement;
 }
-async function loadContacts() {
+async function loadContacts(id) {
     let userAsContact = {
         email: loggedUser.email, 
         id: 0, 
         name: loggedUser.name + " (You)", 
         phone: '000000'
     }
+    let activeUser = await loadActiveUser(id);
     let response = await fetch(BASE_URL + "/contacts.json");
     let responseJson = await response.json();
     responseJson.unshift(userAsContact);
@@ -195,7 +196,29 @@ async function loadContacts() {
         let firstLetterFirstName = responseJson[i].name[0];
         let position = responseJson[i].name.indexOf(" ");
         let firstLetterLastName = responseJson[i].name[position + 1];
+        let active = checkActiveUser(activeUser, responseJson)
         document.getElementById('user-dropdown').innerHTML += getContactName(responseJson[i].name, color, firstLetterFirstName, firstLetterLastName);
+    }
+}
+
+async function loadActiveUser(id) {
+    let task = await loadTaskWithID(id);
+    let activeUser = [];
+    for (let i = 0; i < task.assignedTo.length; i++) {
+        let name = activeUser[i].firstName + activeUser[i].lastName
+        activeUser.push(task.assignedTo[i]);
+    }
+    return activeUser;
+}
+
+function checkActiveUser(activeUser, responseJson) {
+    let allContacts = [];
+    for (let i = 0; i < responseJson.length; i++) {    
+        allContacts.push(responseJson[i].name);
+    }
+    for (let i = 0; i < activeUser; i++) {
+        const element = array[i];
+        
     }
 }
 
@@ -219,7 +242,7 @@ async function changeStatusSubtask(id, subtaskId, status) {
     renderOverlaySubtasks(responseJson);
 }
 
-function openDropdownAssigned() {
+function openDropdownAssigned(id) {
     let dropdownRef = document.getElementById('selected-user-dropdown');
     let arrowRef = document.getElementById('arrow-dropdown');
     let assignedUserRef = document.getElementById('user-names-edit-overlay');
@@ -252,8 +275,20 @@ async function selectedUserEdit(id) {
         usersFirstLetters.push(firstLetter);
         colors.push(responseJson.assignedTo[i].color);
     }
-    for (let i = 0; i < usersFirstLetters.length; i++) {
-        document.getElementById('user-names-edit-overlay').innerHTML += getUserInititalsOverlayEdit(colors[i], usersFirstLetters[i]);
+    renderOverlayEditUser(usersFirstLetters, colors)
+}
+
+function renderOverlayEditUser(usersFirstLetters, colors) {
+    if(usersFirstLetters.length >= 8) {
+        for (let i = 0; i < 8; i++) {
+            document.getElementById('user-names-edit-overlay').innerHTML += getUserInititalsOverlayEdit(colors[i], usersFirstLetters[i]);
+        }
+        let userslength = usersFirstLetters.length - 8;
+        document.getElementById('user-names-edit-overlay').innerHTML += getMoreUserOverlayEdit(userslength);
+    } else {
+        for (let i = 0; i < usersFirstLetters.length; i++) {
+            document.getElementById('user-names-edit-overlay').innerHTML += getUserInititalsOverlayEdit(colors[i], usersFirstLetters[i]);
+        }
     }
 }
 
