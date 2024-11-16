@@ -66,32 +66,43 @@ function drop(event) {
                 target = document.elementsFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
             }
 
-            let targetList = '';
+            let targetList = setTargetList(target);
 
-            if (target[0].className != undefined) {
-                targetList = (target[0].className == "task-card") ? target[1] : target.at('div.list').children.item(1);
-            }
-
-            if (targetList) {
-                if (!targetList.contains(moving)) {
-                    let list = targetList.className;
-                    if (listNames.includes(list)) {
-                        changeList(list);
-                    }
-                }
-            }
+            checkTargetList(targetList, moving);
         }
 
         // reset our element
-        if (moving.style) {
-            moving.style.left = '';
-            moving.style.top = '';
-            moving.style.height = '';
-            moving.style.width = '';
-            moving.style.position = '';
-            moving.style.zIndex = '';
-        }
-
-        moving = null;
+        
+        moving = resetElement(moving);
     }
+}
+
+function setTargetList(target){
+    if (target[0].className != undefined) {
+        return (target[0].className == "task-card") ? target[1] : target.at('div.list').children.item(1);
+    }
+}
+
+function checkTargetList(targetList, moving){
+    if (targetList) {
+        if (!targetList.contains(moving)) {
+            let list = targetList.className;
+            if (listNames.includes(list)) {
+                changeList(list);
+            }
+        }
+    }
+}
+
+function resetElement(moving) {
+    if (moving.style) {
+        moving.style.left = '';
+        moving.style.top = '';
+        moving.style.height = '';
+        moving.style.width = '';
+        moving.style.position = '';
+        moving.style.zIndex = '';
+    }
+
+    return null;
 }
