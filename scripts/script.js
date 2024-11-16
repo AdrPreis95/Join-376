@@ -92,3 +92,15 @@ function formatDueDate(e) {
         date.value += '/';
     }
 }
+
+async function loadTaskWithID(id) {
+    let response = await fetch(BASE_URL + "/tasks/" + id + ".json");
+    let responseJson = await response.json();
+    return responseJson;
+}
+
+function closeOverlay() {
+    document.getElementById('task-details').style = 'display: none;';
+    document.getElementById('all-content').style = 'filter: brightness(1);';
+    loadTasks();
+}
