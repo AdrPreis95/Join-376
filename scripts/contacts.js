@@ -113,16 +113,9 @@ function getNewContactId() {
 
 async function deleteContact(del) {
     let id = + document.getElementById('contactId').innerHTML;
-
-    const removeContactById = (contactsJson, id) =>
-    contactsJson.filter(c => c.id !== id);
-
+    
     let updatedContacts = removeContactById(contacts, id);
-    var newId = 1;
-    for (var i in updatedContacts) {
-        updatedContacts[i].id = newId;
-        newId++;
-    }
+    updatedContacts = updateID(updatedContacts);
 
     let responseContact = await fetch(BASE_URL + 'contacts.json', {
         method: "PUT",
@@ -131,9 +124,25 @@ async function deleteContact(del) {
         },
         body: JSON.stringify(updatedContacts)
     });
-
     contacts = updatedContacts;
 
+    updateDelChanges(del);
+}
+
+function removeContactById (contactsJson, id) {
+    return contactsJson.filter(c => c.id !== id);
+}
+
+function updateID (updatedContacts) {
+    var newId = 1;
+    for (var i in updatedContacts) {
+        updatedContacts[i].id = newId;
+        newId++;
+    }
+    return updatedContacts;
+}
+
+function updateDelChanges(del) {
     updateContactDisplay();
     closeContactDetails();
     if (window.innerWidth < 1250) hideDetails();
