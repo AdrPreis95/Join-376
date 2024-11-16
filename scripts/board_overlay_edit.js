@@ -106,10 +106,10 @@ async function loadContacts(id) {
     let activeUserIndex = checkActiveUser(activeUser, responseJson);
     activeUserIndex.sort();
     responseJson.unshift(userAsContact);
-    renderOverlayContacts(responseJson, activeUserIndex);
+    renderOverlayContacts(id, responseJson, activeUserIndex);
 }
 
-function renderOverlayContacts(responseJson, activeUserIndex) {
+function renderOverlayContacts(id, responseJson, activeUserIndex) {
     for (let i = 0; i < responseJson.length; i++) {
         let urlIcon = './assets/icons/unchecked_icon.png';
         for (let k = 0; k < activeUserIndex.length; k++) {
@@ -121,7 +121,7 @@ function renderOverlayContacts(responseJson, activeUserIndex) {
         let firstLetterFirstName = responseJson[i].name[0];
         let position = responseJson[i].name.indexOf(" ");
         let firstLetterLastName = responseJson[i].name[position + 1];
-        document.getElementById('user-dropdown').innerHTML += getContactName(responseJson[i].name, color, firstLetterFirstName, firstLetterLastName, urlIcon);
+        document.getElementById('user-dropdown').innerHTML += getContactName(id, responseJson[i].name, color, firstLetterFirstName, firstLetterLastName, urlIcon);
     }
 }
 
@@ -147,6 +147,27 @@ function checkActiveUser(activeUser, responseJson) {
         }
     }
     return activeUserIndex;
+}
+
+async function toggleAssigendTo(name, urlIcon, id) {
+    if(urlIcon == './assets/icons/unchecked_icon.png') {
+        let nameArr = name.split(" ");
+        let firstName = nameArr[0];
+        let lastName = nameArr[1];
+        let color = generateColor();
+            let newUser = {
+                firstName: firstName,
+                lastName: lastName,
+                color: color
+            };
+            await fetch(`${BASE_URL}/tasks/${id}/assignedTo/.json`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(newUser)
+            });
+    }
 }
 
 async function changeStatusSubtask(id, subtaskId, status) {

@@ -215,7 +215,7 @@ function getOverlayEdit(id, title, description) {
     `
 }
 
-function getContactName(name, color, firstLetterFirstName, firstLetterLastName, urlIcon) {
+function getContactName(id, name, color, firstLetterFirstName, firstLetterLastName, urlIcon) {
     return `
     <div class="contact-container-overlay">
         <div class="user-edit-overlay">
@@ -224,7 +224,7 @@ function getContactName(name, color, firstLetterFirstName, firstLetterLastName, 
                 <p>${name}</p>
             </div>
         </div>
-        <img src=${urlIcon}>
+        <img src=${urlIcon} onclick="toggleAssigendTo('${name}', '${urlIcon}', ${id})">
     </div>
     `
 }
