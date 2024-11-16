@@ -57,7 +57,7 @@ function getMoreUser(quantity) {
 
 function getOverlayDetails(id, classCategory, category, title, description, dueDate, priority, prioIcon) {
     return `
-    <div class="content-overlay">
+    <div class="content-overlay" onclick="closeDropdownAssigned()">
         <div class="header-overlay">
             <label class="category-overlay category-${classCategory}">${category}</label>
             <div class="close-overlay">
@@ -165,7 +165,7 @@ function getOverlayEdit(id, title, description) {
                 <label class="edit-overlay-label" for="due-date">Due date</label>
                 <div class="overlay-input-field-date">
                     <input input type="text" pattern="\d{2}/\d{2}/\d{4}" name="date" onkeypress="formatDueDate(event)" id="due-date-input" placeholder="dd/mm/yyyy" maxlength="10"/>
-                    <img src="./assets/icons/date_icon.svg" alt ="calender">
+                    <img src="./assets/icons/date_icon.svg" style="cursor: pointer;" alt ="calendar" id="calendar-icon">
                 </div>
             </div>
             <div class="overlay-priority-container">
@@ -201,6 +201,9 @@ function getOverlayEdit(id, title, description) {
                         <img class="hover-container" id="add-subtask-overlay-edit" src="./assets/icons/add_subtask.png" alt="add">
                     </div>
                 </div>
+            </div>
+            <div id="warn-emptyinput-container">
+
             </div>
             <div id="subtasks-overlay-edit">
 
@@ -274,9 +277,15 @@ function getSubtasksOverlayEditInput(subtask, id) {
     return `
     <input id="change-subtask-input" placeholder="${subtask}"></input>
     <div class="subtask-edit-icons">
-        <img onclick="editSubtask(${id}, '${subtask}')" src="./assets/icons/edit_icon.png">
-        <p>|</p>
         <img onclick="deleteSubtask(${id}, '${subtask}')" src="./assets/icons/delete_icon.png">
+        <p>|</p>
+        <img onclick="saveEditSubtask(${id}, '${subtask}')" src="./assets/icons/check.png">
     </div>
+    `
+}
+
+function getWarningEmptyInput() {
+    return `
+    <p>Die Eingabe darf nicht leer sein!</p>
     `
 }

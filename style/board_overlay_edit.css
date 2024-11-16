@@ -155,7 +155,6 @@
     flex-direction: column;
     padding: 8px 0px 8px 0px;
     gap: 8px;
-    overflow: scroll;
     overflow-y: scroll;
     overflow-x: hidden;
     border-radius: 10px;

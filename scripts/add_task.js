@@ -1,3 +1,4 @@
+
 let priority = '';
 let subtasksArray = [];
 let allContacts = [];
@@ -30,7 +31,6 @@ function setPriority(prio) {
 }
 
 async function createTask() {
-
     validateInput();
     validateDateInput();
     validateSelectCategory();
@@ -46,10 +46,8 @@ async function createTask() {
     }
     prepareSubtasksAndContacts();
     let newID = await generateNewID();
-    let color = generateColor();
-    let newTask = buildNewTask(newID, title, description, dueDate, category, color);
+    let newTask = buildNewTask(newID, title, description, dueDate, category);
     await saveTask(newTask);
-    loadTasks();
 }
 
 function prepareSubtasksAndContacts() {
@@ -59,7 +57,8 @@ function prepareSubtasksAndContacts() {
     }));
     selectedContacts = selectedContacts.map(contact => ({
         firstName: contact.firstName ? contact.firstName : '',
-        lastName: contact.lastName ? contact.lastName : ''
+        lastName: contact.lastName ? contact.lastName : '',
+        color: generateColor()
     }));
 }
 

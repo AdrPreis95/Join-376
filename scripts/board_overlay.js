@@ -97,6 +97,11 @@ async function editTask(id, title, description, dueDate, priority) {
     loadContacts();
 }
 
+flatpickr("#calendar-icon", {
+    dateFormat: "Y-m-d",
+    minDate: "today"
+});
+
 function checkActivePriority(priority) {
     if (priority == 'Urgent') {
         document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
@@ -227,6 +232,11 @@ function openDropdownAssigned() {
     }
 }
 
+function closeDropdownAssigned() {
+    document.getElementById('selected-user-dropdown').classList.add('d-none');
+    document.getElementById('arrow-dropdown').setAttribute("src", "./assets/icons/arrow_drop_down.png");
+}
+
 async function selectedUserEdit(id) {
     let responseJson = await loadTaskWithID(id);
     let usersFirstLetters = [];
@@ -322,4 +332,26 @@ function findSubtask(task, subtask) {
         }        
     }
     return subtaskId;
+}
+
+async function saveEditSubtask(id, subtask) {
+    let task = await loadTaskWithID(id);
+    let subtaskId = findSubtask(task, subtask);
+    let inputTitle = document.getElementById('change-subtask-input').value;
+    if(inputTitle != "") {
+        let newSubtask = {
+            status: "not done",
+            title: inputTitle
+        }
+        await fetch(`${BASE_URL}/tasks/${id}/subtasks/${subtaskId}.json`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newSubtask)
+        });
+    } else {
+        document.getElementById('warn-emptyinput-container').innerHTML = getWarningEmptyInput();
+    }
+    renderOverlayEditSubtasks(id);
 }
