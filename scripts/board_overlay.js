@@ -191,7 +191,11 @@ async function loadContacts() {
     let responseJson = await response.json();
     responseJson.unshift(userAsContact);
     for (let i = 0; i < responseJson.length; i++) {
-        document.getElementById('user-dropdown').innerHTML += getContactName(responseJson[i].name);
+        let color = generateColor();
+        let firstLetterFirstName = responseJson[i].name[0];
+        let position = responseJson[i].name.indexOf(" ");
+        let firstLetterLastName = responseJson[i].name[position + 1];
+        document.getElementById('user-dropdown').innerHTML += getContactName(responseJson[i].name, color, firstLetterFirstName, firstLetterLastName);
     }
 }
 
@@ -312,20 +316,24 @@ async function editSubtask(id, subtask) {
     }
 }
 
-async function deleteSubtask(id, subtask) {
-    let task = await loadTaskWithID(id);
-    let subtaskId = findSubtask(task, subtask);
-    let response = await fetch(BASE_URL + "/tasks/" + id + "/subtasks/" + subtaskId + ".json", {            
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
+async function deleteSubtask(taskId, subtaskName) {
+    let task = await loadTaskWithID(taskId);
+    let subtaskIndex = findSubtask(task, subtaskName);
+    if (subtaskIndex !== -1) {
+        task.subtasks.splice(subtaskIndex, 1);
+        await fetch(BASE_URL + "/tasks/" + taskId + ".json", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(task),
         });
-    renderOverlayEditSubtasks(id);    
+    }
+    renderOverlayEditSubtasks(taskId);
 }
 
 function findSubtask(task, subtask) {
-    let subtaskId
+    let subtaskId;
     for (let i = 0; i < task.subtasks.length; i++) {
         if (task.subtasks[i].title == subtask) {
             subtaskId = i;

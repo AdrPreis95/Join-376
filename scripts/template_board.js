@@ -216,12 +216,12 @@ function getOverlayEdit(id, title, description) {
     `
 }
 
-function getContactName(name) {
+function getContactName(name, color, firstLetterFirstName, firstLetterLastName) {
     return `
     <div class="contact-container-overlay">
         <div class="user-edit-overlay">
             <div class="user-name-overlay">
-                <div class="user-initials-overlay"><p>MB</p></div>
+                <div class="user-initials-overlay" style="background-color: ${color}"><p>${firstLetterFirstName}${firstLetterLastName}</p></div>
                 <p>${name}</p>
             </div>
         </div>
