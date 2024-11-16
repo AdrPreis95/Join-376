@@ -204,7 +204,7 @@ function renderFirstLetter(user, id) {
         }
     } else {
         for (let j = 0; j < 5; j++) {
-            document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j]);
+            document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);
         }
         document.getElementById('more-user-' + id).innerHTML = getMoreUser(firstLetters.length - 5);
     }

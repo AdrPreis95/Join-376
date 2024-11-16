@@ -37,6 +37,10 @@
     overflow-x: hidden;
 }
 
+.task-details::-webkit-scrollbar {
+    display: none;
+}
+
 @keyframes slideIn {
     from {
         transform: translate(100%, -50%);

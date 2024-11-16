@@ -97,6 +97,11 @@ async function editTask(id, title, description, dueDate, priority) {
     loadContacts();
 }
 
+flatpickr("#calendar-icon", {
+    dateFormat: "Y-m-d",
+    minDate: "today"
+});
+
 function checkActivePriority(priority) {
     if (priority == 'Urgent') {
         document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
@@ -186,7 +191,11 @@ async function loadContacts() {
     let responseJson = await response.json();
     responseJson.unshift(userAsContact);
     for (let i = 0; i < responseJson.length; i++) {
-        document.getElementById('user-dropdown').innerHTML += getContactName(responseJson[i].name);
+        let color = generateColor();
+        let firstLetterFirstName = responseJson[i].name[0];
+        let position = responseJson[i].name.indexOf(" ");
+        let firstLetterLastName = responseJson[i].name[position + 1];
+        document.getElementById('user-dropdown').innerHTML += getContactName(responseJson[i].name, color, firstLetterFirstName, firstLetterLastName);
     }
 }
 
@@ -225,6 +234,11 @@ function openDropdownAssigned() {
         arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down.png");
         assignedUserRef.classList.remove('d-none');
     }
+}
+
+function closeDropdownAssigned() {
+    document.getElementById('selected-user-dropdown').classList.add('d-none');
+    document.getElementById('arrow-dropdown').setAttribute("src", "./assets/icons/arrow_drop_down.png");
 }
 
 async function selectedUserEdit(id) {
@@ -302,24 +316,50 @@ async function editSubtask(id, subtask) {
     }
 }
 
-async function deleteSubtask(id, subtask) {
-    let task = await loadTaskWithID(id);
-    let subtaskId = findSubtask(task, subtask);
-    let response = await fetch(BASE_URL + "/tasks/" + id + "/subtasks/" + subtaskId + ".json", {            
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-        },
+async function deleteSubtask(taskId, subtaskName) {
+    let task = await loadTaskWithID(taskId);
+    let subtaskIndex = findSubtask(task, subtaskName);
+    if (subtaskIndex !== -1) {
+        task.subtasks.splice(subtaskIndex, 1);
+        await fetch(BASE_URL + "/tasks/" + taskId + ".json", {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(task),
         });
-    renderOverlayEditSubtasks(id);    
+    }
+    renderOverlayEditSubtasks(taskId);
 }
 
 function findSubtask(task, subtask) {
-    let subtaskId
+    let subtaskId;
     for (let i = 0; i < task.subtasks.length; i++) {
         if (task.subtasks[i].title == subtask) {
             subtaskId = i;
         }        
     }
     return subtaskId;
+}
+
+async function saveEditSubtask(id, subtask) {
+    let task = await loadTaskWithID(id);
+    let subtaskId = findSubtask(task, subtask);
+    let inputTitle = document.getElementById('change-subtask-input').value;
+    if(inputTitle != "") {
+        let newSubtask = {
+            status: "not done",
+            title: inputTitle
+        }
+        await fetch(`${BASE_URL}/tasks/${id}/subtasks/${subtaskId}.json`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newSubtask)
+        });
+    } else {
+        document.getElementById('warn-emptyinput-container').innerHTML = getWarningEmptyInput();
+    }
+    renderOverlayEditSubtasks(id);
 }
