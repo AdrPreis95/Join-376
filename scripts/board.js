@@ -46,31 +46,13 @@ function saveInArray(tasksJson) {
  * The function searches for a match in the title or description and then renders the task found.
  */
 async function searchTask(type, e) {
-    var keynum; // To check if the backspace key is pressed
-
-    if(window.e) { // IE                  
-        keynum = e.keyCode;
-    } else if(e.which){ // Netscape/Firefox/Opera                 
-        keynum = e.which;
-    }
-
-    let keyword = ""; 
-    if (type == "responsive") {
-        keyword = document.getElementById('find-task-responsive').value.toLowerCase();
-        document.getElementById('find-task').value = document.getElementById('find-task-responsive').value;
-    } else {
-        keyword = document.getElementById('find-task').value.toLowerCase();
-        document.getElementById('find-task-responsive').value = document.getElementById('find-task').value;
-    } 
-
-    document.getElementById('find-task').value = document.getElementById('find-task-responsive').value;
-
+    var keynum = pressedKey(e); // To check if the backspace key is pressed  
+    let keyword = getKeyWord(type); 
     let response = await fetch(BASE_URL + "/tasks.json");
     let responseJson = await response.json();
 
-    const matchedTasks = responseJson.filter((task) => 
-        (task.title.toLowerCase().includes(keyword) || 
-            task.description.toLowerCase().includes(keyword)));
+    const matchedTasks = responseJson.filter((task) => (task.title.toLowerCase().includes(keyword) || 
+                                                        task.description.toLowerCase().includes(keyword)));
 
     if (matchedTasks.length > 0 && keynum != 8) {
         clearLists();
@@ -81,6 +63,24 @@ async function searchTask(type, e) {
         if (keyword != ""  && keynum != 8)
             noResults();
     }
+}
+
+function pressedKey(e) {
+    if(window.e) { // IE                  
+        return keynum = e.keyCode;
+    } else if(e.which){ // Netscape/Firefox/Opera                 
+        return keynum = e.which;
+    }
+}
+
+function getKeyWord(type){
+    if (type == "responsive") {
+        document.getElementById('find-task').value = document.getElementById('find-task-responsive').value;
+        return document.getElementById('find-task-responsive').value.toLowerCase();
+    } else {
+        document.getElementById('find-task-responsive').value = document.getElementById('find-task').value;
+        return keyword = document.getElementById('find-task').value.toLowerCase();
+    } 
 }
 
 function noResults() {
