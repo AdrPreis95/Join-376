@@ -10,11 +10,6 @@ async function editTask(id, title, description, dueDate, priority) {
     loadContacts(id);
 }
 
-flatpickr("#calendar-icon", {
-    dateFormat: "Y-m-d",
-    minDate: "today"
-});
-
 function checkActivePriority(priority) {
     if (priority == 'Urgent') {
         document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
@@ -93,6 +88,7 @@ function activePriorityButton() {
     }
     return activeElement;
 }
+
 async function loadContacts(id) {
     let userAsContact = {
         email: loggedUser.email, 
