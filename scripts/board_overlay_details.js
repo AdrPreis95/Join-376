@@ -43,15 +43,15 @@ function renderOverlayUser(responseTaskJson) {
     let colors = [];
 
     determineUserInfo(responseTaskJson, names, firstLetters, colors);
-    if (names.length <= 4) {
+    if (names.length <= 3) {
         for (let i = 0; i < names.length; i++) {
             document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i], colors[i]);
         } 
     } else {
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 3; i++) {
         document.getElementById('user-names-overlay').innerHTML += getUserNamesOverlay(firstLetters[i], names[i], colors[i]);
         }
-        document.getElementById('more-user-overlay').innerHTML += getMoreUserOverlay(names.length - 4);
+        document.getElementById('more-user-overlay').innerHTML += getMoreUserOverlay(names.length - 3);
     }
 }
 

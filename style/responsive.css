@@ -355,6 +355,40 @@
     }
 }
 
+@media (max-width: 532px) {
+    .task-details {
+        width: 92%;
+        padding: 33px 20px 33px 20px;
+        
+    }
+
+    .content-overlay {
+        gap: 16px;
+    }
+
+    .content-overlay h4, .content-overlay p {
+        font-size: 16px;
+    }
+
+    .category-overlay {
+        font-size: 16px;
+    }
+
+    .content-overlay h3 {
+        font-size: 36px;
+    }
+
+    .close-icon {
+        width: 13.15px;
+        height: 13.15px;
+    }
+
+    .close-overlay {
+        width: 24px;
+        height: 24px;
+    }
+}
+
 @media(max-width:420px) {
     .summary-content-container {
         width: -webkit-fill-available !important;
