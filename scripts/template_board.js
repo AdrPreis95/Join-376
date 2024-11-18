@@ -1,6 +1,6 @@
 function getTask(id, category, classCategory, title, description, prioIcon) {
     return `
-    <div class="task-card" id="${id}" draggable="true" ondragstart="startDragging(${id})"
+    <div class="task-card" id="${id}" draggable="true" ondragstart="startDragging(${id})" ondragend="removeDragging(${id})"
      ontouchstart="onTouch(event, ${id});" ontouchend="cancel()" ontouchmove="cancel()" onclick="showOverlayDetailsTask(${id}); event.stopPropagation()">
         <div>
             <label class="category-${classCategory}">${category}</label>
@@ -224,7 +224,7 @@ function getContactName(id, name, color, firstLetterFirstName, firstLetterLastNa
                 <p>${name}</p>
             </div>
         </div>
-        <img src="${urlIcon}" onclick="toggleAssignedTo(${id}, '${name}', this)" class="toggle-icon"/>
+        <img src=${urlIcon} onclick="toggleAssigendTo(${id}, '${name}', '${color}', '${firstLetterFirstName}', '${firstLetterLastName}', '${urlIcon}')">
     </div>
     `
 }

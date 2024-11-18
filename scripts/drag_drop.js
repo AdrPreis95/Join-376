@@ -24,6 +24,8 @@ function longPressed(event, id) {
 function pickup(event) {
     if (!event.target.classList.contains('task-card')) {
         moving = event.target.parentElement;
+        if (!moving.classList.contains('task-card'))
+            moving = moving.parentElement;
     } else {
         moving = event.target;
     }
@@ -36,7 +38,7 @@ function pickup(event) {
     moving.style.height = moving.clientHeight + "px";
     moving.style.width = moving.clientWidth + "px";
     moving.style.position = 'fixed';
-    moving.style.zIndex = '10'; 
+    moving.style.zIndex = '-10'; 
 }
 
 function move(event) {
@@ -72,19 +74,22 @@ function drop(event) {
         }
 
         // reset our element
-        
-        moving = resetElement(moving);
+        removeDragging(moving.id);
+        moving = resetElement(moving);        
     }
 }
 
 function setTargetList(target){
-    if (target[0]){
-        if (target[0].className != undefined) {
-            return (target[0].className == "task-card") ? target[1] : target.at('div.list').children.item(1);
-        } else 
-            return null;
-    } else 
-        return null;    
+    if (target.at('div.list').childNodes[3]){
+        return target.at('div.list').childNodes[3];
+    } else {
+        for (let index = 0; index < target.length; index++) {
+            const element = target[index];
+            if (listNames.includes(element.id))
+                return element;
+        }
+
+    }
 }
 
 function checkTargetList(targetList, moving){
@@ -110,3 +115,10 @@ function resetElement(moving) {
 
     return null;
 }
+
+document.addEventListener('mousemove', function(e) {
+    if (moving){
+        moving.style.left = e.pageX + 'px';
+        moving.style.top = e.pageY + 'px';
+    }
+});
