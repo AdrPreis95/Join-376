@@ -1,10 +1,163 @@
-/* ⬇️⬇️⬇️IFRAME-CSS⬇️⬇️⬇️ */
+⬇️⬇️⬇️IFRAME-CSS⬇️⬇️⬇️ #overlay-mode {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#overlay-mode.overlay-active {
+    display: flex;
+}
+
+.nohidden {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.gethidden {
+    display: none;
+}
+
+.overlay-active {
+    display: block !important;
+}
+
+#overlay-mode .overlay-close {
+    margin: 40px 76px 0px 0px;
+    border: none;
+    background: none;
+    filter: drop-shadow(0px 0px 4px gray);
+}
+
+#overlay-mode .required-p {
+    margin-top: 0px !important;
+    margin-bottom: 10px;
+    padding-left: 60px;
+}
+
+#overlay-mode header,
+#overlay-mode aside,
+#overlay-mode footer {
+    display: none !important;
+}
+
+#overlay-mode .textarea {
+    height: 80px !important;
+}
+
+#overlay-mode #description {
+    height: 16px !important;
+}
+
+#overlay-mode #prio-red,
+#overlay-mode #prio-green,
+#overlay-mode #prio-orange {
+    height: 38px !important;
+    width: -webkit-fill-available;
+
+}
+
+#overlay-mode .prio-container {
+    gap: 8px !important;
+}
+
+#overlay-mode .create-task-button,
+#overlay-mode .clear-button {
+    height: 48px;
+}
+
+
+
+@media (max-width: 1200px) {
+    #overlay-mode.overlay-active .content-container {
+        display: flex !important;
+        padding-left: 0px !important;
+        gap: 0px !important;
+        flex-direction: row !important;
+    }
+}
+
+#overlayContent {
+    background: white;
+    border-radius: 26px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* display: none; */
+    height: 82vh;
+    border: none;
+    width: -webkit-fill-available;
+    position: fixed;
+    z-index: 1;
+    margin: 0px 10% 0px 10%;
+    overflow: hidden;
+}
+
+
+#overlay-mode .content-right,
+#overlay-mode .content-left {
+    width: -webkit-fill-available;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 8% 0px 8%;
+}
+
+#overlay-mode #taskover-cont {
+    display: flex;
+    justify-content: center;
+    padding-left: 0px;
+    gap: 0px !important;
+    flex-direction: row !important;
+}
+
+#overlay-mode .input-title,
+#overlay-mode #due-date-input,
+#overlay-mode #dropdown-input,
+#overlay-mode #selectcategory,
+#overlay-mode #addsubtasks {
+    height: 38px !important;
+}
+
+#overlay-mode .overlay-hl {
+    font-size: 38px !important;
+}
+
+#overlay-mode #closeOverlay {
+    display: block !important;
+}
+
+
+
 
 
 
 /* ⬇️⬇️⬇️IFRAME-RESPONSIVE⬇️⬇️⬇️ */
+
+@media (max-width: 1200px) {
+    #overlay-mode .content-container {
+        display: flex;
+        padding-left: 0px;
+        gap: 0px;
+        flex-direction: row !important;
+    }
+}
+
 @media (max-width: 720px) {
-    .main-content h1 {
+    #overlay-mode .main-content h1 {
         padding-top: unset;
     }
 }

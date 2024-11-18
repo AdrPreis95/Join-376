@@ -17,13 +17,14 @@
     <link rel="stylesheet" href="style/add_task.css">
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
+    <!-- <link rel="stylesheet" href="style/iframe_overlay_content.css"> -->
 
     <script src="scripts/base_url.js"></script>
     <script src="./scripts/script.js"></script>
 
 </head>
 
-<body onload="setUserInitials()">
+<body id="main-page" onload="setUserInitials()">
     <div class="container">
         <aside class="sidebar">
             <div class="sidebar-logo">
@@ -212,7 +213,7 @@
 
                     </div>
 
-                    <p style="margin-top: 48px; margin-bottom: 10px; padding-left: 60px;">
+                    <p class="required-p" style="margin-top: 48px; margin-bottom: 10px; padding-left: 60px;">
                         <span style="color: red;">*</span>This field is required
 
 

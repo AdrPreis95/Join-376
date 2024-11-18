@@ -535,13 +535,13 @@ function validateDateInput() {
     const dateInput = document.getElementById('due-date-input');
     const dateErrorMessage = document.getElementById('date-error-message');
     const validationResult = validateDateFormatAndFuture(dateInput.value);
-if (!validationResult.isValid) {
+    if (!validationResult.isValid) {
         dateInput.classList.add('error');
         dateInput.style.border = '2px solid red';
         dateErrorMessage.textContent = validationResult.message;
         dateErrorMessage.style.display = 'block';
     } else {
-       dateInput.value = validationResult.correctedDate || dateInput.value; 
+        dateInput.value = validationResult.correctedDate || dateInput.value;
         dateInput.classList.remove('error');
         dateInput.style.border = 'none';
         dateInput.style.filter = 'drop-shadow(0px 0px 4px #D1D1D1)';
@@ -625,3 +625,15 @@ document.getElementById('selectcategory').addEventListener('focus', function () 
 });
 
 document.getElementById('selectcategory').addEventListener('blur', validateSelectCategory);
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+    if (window !== window.top) {
+        // Die Seite läuft in einem iframe
+        document.body.id = 'overlay-mode';
+    } else {
+        // Die Seite läuft eigenständig
+        document.body.id = 'main-page';
+    }
+});

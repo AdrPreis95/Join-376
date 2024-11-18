@@ -85,7 +85,7 @@
     .contactsSection { padding-top: 96px; }
 }
 
-.hidden { visibility: hidden; }
+
 
 @media (min-height: 1080px) {
     .privacy-legal { padding-bottom: 0; }
@@ -98,342 +98,153 @@
 /*⬇️⬇️⬇️ ADD-TASK-RESPONSIVE⬇️⬇️⬇️  */
 
 @media (max-width: 1200px) {
-    .content-container { display: flex; padding-left: 0px; gap: 0px; flex-direction: column; }
+    #main-page .content-container { 
+        display: flex; 
+        padding-left: 0px; 
+        gap: 0px; 
+        flex-direction: column; 
+    }
 
-    .content-left { width: auto; height: auto; display: flex; flex-direction: column; padding: 0px 10% 0px 10%; }
+    #main-page .content-left { 
+        width: auto; 
+        height: auto; 
+        display: flex; 
+        flex-direction: column; 
+        padding: 0px 10% 0px 10%; 
+    }
 
-    .content-right { width: auto; height: auto; display: flex; flex-direction: column; padding: 0px 10% 0px 10%; }
+    #main-page .content-right { 
+        width: auto; 
+        height: auto; 
+        display: flex; 
+        flex-direction: column; 
+        padding: 0px 10% 0px 10%; 
+    }
 
-    .prio-container { display: flex; justify-content: space-between; gap: 8px; }
+    #main-page .prio-container { 
+        display: flex; 
+        justify-content: space-between; 
+        gap: 8px; 
+    }
 
-    .separating-line { width: 2px; height: 0px; background-color: #D1D1D1; }
+    #main-page .separating-line { 
+        width: 2px; 
+        height: 0px; 
+        background-color: #D1D1D1; 
+    }
 }
 
 @media (max-width: 520px) {
-    .overlay-hl { font-size: 38px; }
+    #main-page .overlay-hl { font-size: 38px; }
 
-    #title { height: 36px; }
+    #main-page #title { height: 36px; }
 
-    .user-list { display: none; }
+    #main-page .user-list { display: none; }
 
-    .textarea { width: 100%; height: 48px; background-color: #FFFFFF; border-radius: 12px; border-style: none; filter: drop-shadow(0px 0px 4px #D1D1D1); }
-
-    #description { height: 16px; width: 100%; border: none; outline: none; font-size: 14px; color: #333; }
-
-    #dropdown-input { height: 36px; }
-
-    #due-date-input { height: 36px; }
-
-    #prio-red, #prio-orange, #prio-green { height: 38px; gap: 4px; }
-
-    #prio-red img, #prio-orange img, #prio-green img { height: 10px; width: 18px; }
-
-    #selectcategory { height: 36px; }
-
-    .input-container, .subtask-p, #addsubtasks { display: none; }
-
-    #create { height: 48px; width: 150px; gap: 0px; white-space: nowrap; font-size: 20px; }
-
-    #clear { height: 48px; font-size: 20px; width: 86px; }
-
-    #title-p { margin-bottom: 4px !important; }
-
-    #description-p { margin-bottom: 4px !important; margin-top: 6px !important; }
-
-    #assignedto-p { margin-bottom: 4px !important; margin-top: 6px !important; }
-
-    #date-p { margin-bottom: 4px !important; margin-top: 6px !important; }
-
-    #prio-p { margin-bottom: 4px !important; margin-top: 6px !important; }
-
-    .confirm { margin: 12px 0px 0px 0px; }
-
-    .prio-container img { height: 12px; }
-
-    #dropdown-user { display: none; position: fixed !important; z-index: 1; left: 0; right: 0; filter: drop-shadow(0px 0px 4px black); border: #29ABE2; border-style: solid; height: 224px; bottom: 70px; }
-
-    #picked-user-avatar { display: none; }
-}
-
-/* ⬇️⬇️⬇️SUMMARY-RESPONSIVE⬇️⬇️⬇️ */
-
-@media (max-width: 1120px) {
-    .greeting-user { 
-        position: absolute;
-        background: #f6f7f8;
-        width: 67%;
-        height: 84.4%;
-        top: 99px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        -webkit-animation-duration: 2s;
-        animation-duration: 2s;
-        -webkit-animation-fill-mode: both;
-        animation-fill-mode: both;
-        -webkit-animation-name: fadeOut;
-        animation-name: fadeOut;
-     }
-
-     @-webkit-keyframes fadeOut {
-        0% {
-            visibility: 1;
-        }
-        100% {
-            visibility: 0;
-            display: none;
-        }
-     }
-     
-     @keyframes fadeOut {
-        0% {
-            visibility: 1;
-        }
-        100% {
-            visibility: 0;
-            display: none;
-        }
-     }
-
-    .top { gap: 12px !important; }
-
-    .bottom { display: flex; justify-content: space-between; gap: 12px !important; }
-
-    .headline-span { padding: 0px 0px 0px 60px !important; }
-
-    .summary-content-container { width: -webkit-fill-available !important; padding: 36px 16% 0px 12% !important; justify-content: flex-start !important; background-color: transparent !important; gap: 28px !important; margin-top: 20px !important; }
-
-    .seperator-line { display: none; }
-
-    .separator-underline {
-        display: block !important;
+    #main-page .textarea { 
+        width: 100%; 
+        height: 48px; 
+        background-color: #FFFFFF; 
+        border-radius: 12px; 
+        border-style: none; 
+        filter: drop-shadow(0px 0px 4px #D1D1D1); 
     }
 
-    .headline-span { display: flex !important; gap: 0px !important; flex-direction: column !important; align-items: flex-start !important; }
-
-    #summhl { margin-top: 36px !important; margin-bottom: 0px !important; padding-left: 0px !important; }
-
-    .todo-container, .done-container { height: 140px !important; transform: none !important; scale: 1 !important; translate: none !important; transition: none !important; }
-
-    .urgent-date-container { height: 140px !important; width: -webkit-fill-available; transform: none !important; scale: 1 !important; translate: none !important; transition: none !important; }
-
-    .tasks-board-container, .task-progress-container, .task-feedback-container { height: 140px !important; transform: none !important; scale: 1 !important; translate: none !important; transition: none !important; }
-}
-
-@media (max-width: 920px) {
-    .overall-content-container { display: flex; align-items: center; gap: 80px; margin-left: 0% !important; }
-}
-
-@media (max-width: 780px) {
-    .top { gap: 12px !important; }
-
-    .summary-content-container { width: -webkit-fill-available !important; padding: 36px 10% 0px 10% !important; justify-content: flex-start !important; background-color: transparent !important; gap: 48px !important; margin-top: 24px !important; }
-
-    .todo-container, .done-container { height: 100px !important; transform: none !important; scale: 1 !important; translate: none !important; transition: none !important; }
-
-    .key-metrics-span { font-size: 16px !important; padding: 0px 0px 0px 0px !important; }
-
-    .separator-underline {
-        width: 70px !important;
-        height: 2px !important;
-        margin-top: 12px !important;
+    #main-page #description { 
+        height: 16px; 
+        width: 100%; 
+        border: none; 
+        outline: none; 
+        font-size: 14px; 
+        color: #333; 
     }
 
-    .todo-icon, .done-icon, .prioimg { height: 38px !important; width: 38px !important; }
+    #main-page #dropdown-input { height: 36px; }
 
-    #show-todos, #show-done, #show-urgent, #show-tasks-board, #show-tasks-progress, #show-tasks-await-feedback { font-size: 38px; }
+    #main-page #due-date-input { height: 36px; }
 
-    .urgent-date-container { height: 100px !important; width: -webkit-fill-available; transform: none !important; scale: 1 !important; translate: none !important; transition: none !important; }
-
-    #priory-date { font-size: 20px; }
-
-    .tasks-board-container, .task-progress-container, .task-feedback-container { height: 100px !important; transform: none !important; scale: 1 !important; translate: none !important; transition: none !important; }
-
-    .headline-span { padding: 0px 0px 0px 60px !important; }
-
-    .seperator-urgent-date { height: 58px !important; }
-
-    .bottom { display: flex; justify-content: space-between; gap: 12px !important; }
-}
-
-@media(max-width:720px) {
-    .search-notification {
-        left: 0;
+    #main-page #prio-red, 
+    #main-page #prio-orange, 
+    #main-page #prio-green { 
+        height: 38px; 
+        gap: 4px; 
     }
 
-    .greeting-user { 
-        width: 100%;
-        top: 75px;
-    }
-    .top {
-        gap: 12px !important;
-    }
-
-    .previousArrow {
-        margin-top: 72px;
+    #main-page #prio-red img, 
+    #main-page #prio-orange img, 
+    #main-page #prio-green img { 
+        height: 10px; 
+        width: 18px; 
     }
 
-    .legalNoticeHeader {
-        padding: 0px 16px 0px 16px !important;
+    #main-page #selectcategory { height: 36px; }
+
+    #main-page .input-container, 
+    #main-page .subtask-p, 
+    #main-page #addsubtasks { 
+        display: none; 
     }
 
-    .summary-content-container {
-        width: -webkit-fill-available !important;
-        padding: 36px 12% 0px 12% !important;
-        justify-content: flex-start !important;
-        background-color: transparent !important;
-        gap: 48px !important;
-        margin-top: 24px !important;
+    #main-page #create { 
+        height: 48px; 
+        width: 150px; 
+        gap: 0px; 
+        white-space: nowrap; 
+        font-size: 20px; 
     }
 
-    .todo-container,
-    .done-container {
-        height: 100px !important;
-        transform: none !important;
-        scale: 1 !important;
-        translate: none !important;
-        transition: none !important;
+    #main-page #clear { 
+        height: 48px; 
+        font-size: 20px; 
+        width: 86px; 
     }
 
-    .key-metrics-span {
-        font-size: 16px !important;
-        padding: 0px 0px 0px 0px !important;
+    #main-page #title-p { 
+        margin-bottom: 4px !important; 
     }
 
-    .todo-icon,
-    .done-icon,
-    .prioimg {
-        height: 38px !important;
-        width: 38px !important;
+    #main-page #description-p { 
+        margin-bottom: 4px !important; 
+        margin-top: 6px !important; 
     }
 
-    #show-todos,
-    #show-done,
-    #show-urgent,
-    #show-tasks-board,
-    #show-tasks-progress,
-    #show-tasks-await-feedback {
-        font-size: 38px;
+    #main-page #assignedto-p { 
+        margin-bottom: 4px !important; 
+        margin-top: 6px !important; 
     }
 
-    .urgent-date-container {
-        height: 100px !important;
-        width: -webkit-fill-available;
-        transform: none !important;
-        scale: 1 !important;
-        translate: none !important;
-        transition: none !important;
+    #main-page #date-p { 
+        margin-bottom: 4px !important; 
+        margin-top: 6px !important; 
     }
 
-    #priory-date {
-        font-size: 20px;
+    #main-page #prio-p { 
+        margin-bottom: 4px !important; 
+        margin-top: 6px !important; 
     }
 
-    .tasks-board-container,
-    .task-progress-container,
-    .task-feedback-container {
-        height: 100px !important;
-        transform: none !important;
-        scale: 1 !important;
-        translate: none !important;
-        transition: none !important;
+    #main-page .confirm { 
+        margin: 12px 0px 0px 0px; 
     }
 
-    .headline-span {
-        padding: 0px 0px 0px 60px !important;
+    #main-page .prio-container img { 
+        height: 12px; 
     }
 
-    .seperator-urgent-date {
-        height: 58px !important;
+    #main-page #dropdown-user { 
+        display: none; 
+        position: fixed !important; 
+        z-index: 1; 
+        left: 0; 
+        right: 0; 
+        filter: drop-shadow(0px 0px 4px black); 
+        border: #29ABE2; 
+        border-style: solid; 
+        height: 224px; 
+        bottom: 70px; 
     }
 
-    .bottom {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px !important;
-    }
-}
-
-@media(max-width:420px) {
-    .summary-content-container {
-        width: -webkit-fill-available !important;
-        padding: 36px 4% 0px 4% !important;
-        justify-content: flex-start !important;
-        background-color: transparent !important;
-        gap: 24px !important;
-        margin-top: 24px !important;
-    }
-
-    .todo-container,
-    .done-container {
-        height: 100px !important;
-        transform: none !important;
-        scale: 1 !important;
-        translate: none !important;
-        transition: none !important;
-    }
-
-    .key-metrics-span {
-        font-size: 16px !important;
-        padding: 0px 0px 0px 0px !important;
-    }
-
-    .todo-icon,
-    .done-icon,
-    .prioimg {
-        height: 38px !important;
-        width: 38px !important;
-    }
-
-    #show-todos,
-    #show-done,
-    #show-urgent,
-    #show-tasks-board,
-    #show-tasks-progress,
-    #show-tasks-await-feedback {
-        font-size: 38px;
-    }
-
-    .urgent-date-container {
-        height: 100px !important;
-        width: -webkit-fill-available;
-        transform: none !important;
-        scale: 1 !important;
-        translate: none !important;
-        transition: none !important;
-    }
-
-    #priory-date {
-        font-size: 16px;
-    }
-
-    .center-info-date {
-        gap: 0px !important;
-        text-align: center;
-    }
-
-    .tasks-board-container,
-    .task-progress-container,
-    .task-feedback-container {
-        height: 100px !important;
-        transform: none !important;
-        scale: 1 !important;
-        translate: none !important;
-        transition: none !important;
-    }
-
-    .headline-span {
-        padding: 0px 0px 0px 60px !important;
-    }
-
-    .seperator-urgent-date {
-        height: 58px !important;
-    }
-
-    .bottom {
-        display: flex;
-        justify-content: space-between;
-        gap: 12px !important;
+    #main-page #picked-user-avatar { 
+        display: none; 
     }
 }

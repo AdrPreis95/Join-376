@@ -47,32 +47,32 @@ function saveInArray(tasksJson) {
  */
 async function searchTask(type, e) {
     var keynum = pressedKey(e); // To check if the backspace key is pressed  
-    let keyword = getKeyWord(type); 
+    let keyword = getKeyWord(type);
     let response = await fetch(BASE_URL + "/tasks.json");
     let responseJson = await response.json();
 
-    const matchedTasks = responseJson.filter((task) => (task.title.toLowerCase().includes(keyword) || 
-                                                        task.description.toLowerCase().includes(keyword)));
+    const matchedTasks = responseJson.filter((task) => (task.title.toLowerCase().includes(keyword) ||
+        task.description.toLowerCase().includes(keyword)));
 
     showSearchResults(matchedTasks, responseJson, keynum);
 }
 
 function pressedKey(e) {
-    if(window.e) { // IE                  
+    if (window.e) { // IE                  
         return keynum = e.keyCode;
-    } else if(e.which){ // Netscape/Firefox/Opera                 
+    } else if (e.which) { // Netscape/Firefox/Opera                 
         return keynum = e.which;
     }
 }
 
-function getKeyWord(type){
+function getKeyWord(type) {
     if (type == "responsive") {
         document.getElementById('find-task').value = document.getElementById('find-task-responsive').value;
         return document.getElementById('find-task-responsive').value.toLowerCase();
     } else {
         document.getElementById('find-task-responsive').value = document.getElementById('find-task').value;
         return keyword = document.getElementById('find-task').value.toLowerCase();
-    } 
+    }
 }
 
 function showSearchResults(matchedTasks, responseJson, keynum) {
@@ -82,7 +82,7 @@ function showSearchResults(matchedTasks, responseJson, keynum) {
     } else {
         clearLists();
         renderTasks(responseJson);
-        if (keyword != ""  && keynum != 8)
+        if (keyword != "" && keynum != 8)
             noResults();
     }
 }
@@ -92,7 +92,7 @@ function noResults() {
     popUp.classList.remove("d-none");
     setTimeout(() => {
         popUp.classList.add("d-none");
-      }, "1500");
+    }, "1500");
 }
 
 /**
@@ -192,7 +192,7 @@ function renderFirstLetter(user, id) {
     let firstLetters = [];
     let colors = [];
 
-    if (user !== undefined){
+    if (user !== undefined) {
         for (let i = 0; i < user.length; i++) {
             let firstName = user[i].firstName[0];
             let lastName = user[i].lastName[0];
@@ -280,7 +280,7 @@ async function deleteTask(id) {
     let tasksJson = await tasks.json();
     tasksJson = Array.isArray(tasksJson) ? tasksJson : Object.values(tasksJson);
     const removeTaskById = (tasksJson, id) =>
-    tasksJson.filter(task => task.id !== id);
+        tasksJson.filter(task => task.id !== id);
     let updatedTasks = removeTaskById(tasksJson, id);
     var newId = 1;
     for (var i in updatedTasks) {
@@ -298,11 +298,42 @@ async function deleteTask(id) {
     loadTasks();
 }
 
-function openAddTask() {
-    let btnAddTaskResponsive = document.querySelector(".add-task-button-responsive");
-    if (window.getComputedStyle(btnAddTaskResponsive).display == 'none') {
-        openTaskOverlay();
-    } else {
-        window.location.href = "./add_task.html";
+
+function openOverlay() {
+    const overlay = document.getElementById('overlayContent'); 
+    overlay.classList.add('overlay-active'); 
+    setOverlayMode(); 
+}
+
+function closeOverlay() {
+    const overlay = document.getElementById('taskoverlay'); 
+    overlay.classList.remove('overlay-active'); 
+    resetToMainPage(); 
+}
+
+function setOverlayMode() {
+    const iframe = document.getElementById("overlayContent");
+    if (iframe) {
+        iframe.onload = function () {
+            setTimeout(() => {
+                const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+                const body = iframeDocument.body;
+                if (body) {
+                    console.log("Ändere Body-ID zu 'overlay-mode'");
+                    body.id = "overlay-mode";
+                }
+            }, 100); 
+        };
+    }
+}
+
+function resetToMainPage() {
+    const iframe = document.getElementById('overlayContent');
+    if (iframe) {
+        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        const body = iframeDocument.body;
+if (body) {
+            body.id = 'main-page';
+        }
     }
 }
