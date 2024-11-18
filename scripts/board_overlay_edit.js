@@ -145,11 +145,86 @@ function checkActiveUser(activeUser, responseJson) {
     return activeUserIndex;
 }
 
-async function toggleAssignedTo(id, name, color, firstLetterFirstName, firstLetterLastName, urlIcon) {
-    if(urlIcon == './assets/icons/unchecked_icon.png') {
-        urlIcon = './assets/icons/checked_icon.png'
-        renderOverlayContacts(id, name, color, firstLetterFirstName, firstLetterLastName, urlIcon);
+async function updateAssignedStatusInFirebase(id, name, isAssigned) {
+    let task = await loadTaskWithID(id);
+
+    // Initialisiere die Struktur, falls nicht vorhanden
+    if (!task.assignedTo || typeof task.assignedTo !== "object") {
+        task.assignedTo = {};
     }
+
+    if (isAssigned) {
+        // Füge einen neuen Nutzer hinzu
+        let [firstName, lastName] = name.split(" ");
+        if (!firstName || !lastName) {
+            console.error("Name konnte nicht korrekt aufgeteilt werden:", name);
+            return;
+        }
+
+        // Prüfe, ob der Nutzer bereits existiert
+        let userExists = Object.values(task.assignedTo).some(
+            user => user.firstName === firstName && user.lastName === lastName
+        );
+
+        if (!userExists) {
+            // Nächsten freien Schlüssel finden
+            let newKey = Object.keys(task.assignedTo).length;
+            task.assignedTo[newKey] = {
+                firstName,
+                lastName,
+                color: generateColor() // Farbe zufügen
+            };
+        }
+    } else {
+        // Entferne den Nutzer
+        for (let key in task.assignedTo) {
+            let user = task.assignedTo[key];
+            if (`${user.firstName} ${user.lastName}` === name) {
+                delete task.assignedTo[key];
+                break;
+            }
+        }
+
+        // Schlüssel neu nummerieren, um Lücken zu vermeiden
+        let reassigned = {};
+        let index = 0;
+        for (let key in task.assignedTo) {
+            reassigned[index++] = task.assignedTo[key];
+        }
+        task.assignedTo = reassigned;
+    }
+
+    // Daten in Firebase speichern
+    let response = await fetch(`${BASE_URL}/tasks/${id}.json`, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(task)
+    });
+
+    if (!response.ok) {
+        console.error("Fehler beim Speichern der Daten in Firebase:", response.statusText);
+    }
+}
+
+async function toggleAssignedTo(id, name, iconElement) {
+    let isChecked = iconElement.src.includes('checked_icon');
+
+    // Icon ändern und Daten aktualisieren
+    if (isChecked) {
+        iconElement.src = './assets/icons/unchecked_icon.png';
+        await updateAssignedStatusInFirebase(id, name, false);
+    } else {
+        iconElement.src = './assets/icons/checked_icon.png';
+        await updateAssignedStatusInFirebase(id, name, true);
+    }
+
+    // Ansicht neu laden
+    let task = await loadTaskWithID(id);
+    let activeUser = loadActiveUser(task);
+    let activeUserIndex = activeUserIndex(activeUser, task);
+    renderOverlayContacts(id, task.assignedTo, activeUserIndex);
 }
 
 async function changeStatusSubtask(id, subtaskId, status) {
