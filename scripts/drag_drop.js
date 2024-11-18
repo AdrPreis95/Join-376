@@ -78,9 +78,13 @@ function drop(event) {
 }
 
 function setTargetList(target){
-    if (target[0].className != undefined) {
-        return (target[0].className == "task-card") ? target[1] : target.at('div.list').children.item(1);
-    }
+    if (target[0]){
+        if (target[0].className != undefined) {
+            return (target[0].className == "task-card") ? target[1] : target.at('div.list').children.item(1);
+        } else 
+            return null;
+    } else 
+        return null;    
 }
 
 function checkTargetList(targetList, moving){

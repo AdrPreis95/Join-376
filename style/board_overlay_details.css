@@ -28,7 +28,7 @@
     left: 50%;
     transform: translate(100%, -50%);
     background-color: #FFFFFF;
-    height: 931px;
+    max-height: calc(100vh - 120px);
     width: 525px;
     border-radius: 30px;
     padding: 48px 40px 48px 40px;
@@ -54,7 +54,8 @@
     display: flex;
     flex-direction: column;
     gap: 24px;
-    width: 525px;
+    width: 100%;
+    height: 100%;
 }
 
 .content-overlay h3 {
@@ -138,7 +139,6 @@
     font-size: 19px;
     font-weight: 400;
     color: #000000;
-    font-family: 'Open Sans';
 }
 
 #subtasks-overlay {

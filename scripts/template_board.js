@@ -224,7 +224,7 @@ function getContactName(id, name, color, firstLetterFirstName, firstLetterLastNa
                 <p>${name}</p>
             </div>
         </div>
-        <img src=${urlIcon} onclick="toggleAssigendTo('${name}', '${urlIcon}', ${id})">
+        <img src=${urlIcon} onclick="toggleAssigendTo(${id}, '${name}', '${color}', '${firstLetterFirstName}', '${firstLetterLastName}', '${urlIcon}')">
     </div>
     `
 }
@@ -282,7 +282,7 @@ function getSubtasksOverlayEdit(subtask, id, i) {
 
 function getSubtasksOverlayEditInput(subtask, id) {
     return `
-    <input id="change-subtask-input" placeholder="${subtask}"></input>
+    <input id="change-subtask-input" placeholder="${subtask}" maxlength="20"></input>
     <div class="subtask-edit-icons">
         <img onclick="deleteSubtask(${id}, '${subtask}')" src="./assets/icons/delete_icon.png">
         <p>|</p>
@@ -293,6 +293,6 @@ function getSubtasksOverlayEditInput(subtask, id) {
 
 function getWarningEmptyInput() {
     return `
-    <p>Die Eingabe darf nicht leer sein!</p>
+    <p>Please enter a change to the subtask.</p>
     `
 }

@@ -193,42 +193,60 @@
         font-size: 20px; 
     }
 
-    #main-page #clear { 
-        height: 48px; 
-        font-size: 20px; 
-        width: 86px; 
+    .tasks-board-container,
+    .task-progress-container,
+    .task-feedback-container {
+        height: 100px !important;
+        transform: none !important;
+        scale: 1 !important;
+        translate: none !important;
+        transition: none !important;
     }
 
-    #main-page #title-p { 
-        margin-bottom: 4px !important; 
+    .headline-span {
+        padding: 0px 0px 0px 60px !important;
     }
 
-    #main-page #description-p { 
-        margin-bottom: 4px !important; 
-        margin-top: 6px !important; 
+    .seperator-urgent-date {
+        height: 58px !important;
     }
 
-    #main-page #assignedto-p { 
-        margin-bottom: 4px !important; 
-        margin-top: 6px !important; 
+    .bottom {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px !important;
+    }
+}
+
+@media(max-width:420px) {
+    .summary-content-container {
+        width: -webkit-fill-available !important;
+        padding: 36px 4% 0px 4% !important;
+        justify-content: flex-start !important;
+        background-color: transparent !important;
+        gap: 24px !important;
+        margin-top: 24px !important;
     }
 
-    #main-page #date-p { 
-        margin-bottom: 4px !important; 
-        margin-top: 6px !important; 
+    .todo-container,
+    .done-container {
+        height: 100px !important;
+        transform: none !important;
+        scale: 1 !important;
+        translate: none !important;
+        transition: none !important;
     }
 
-    #main-page #prio-p { 
-        margin-bottom: 4px !important; 
-        margin-top: 6px !important; 
+    .key-metrics-span {
+        font-size: 16px !important;
+        padding: 0px 0px 0px 0px !important;
     }
 
-    #main-page .confirm { 
-        margin: 12px 0px 0px 0px; 
-    }
-
-    #main-page .prio-container img { 
-        height: 12px; 
+    .todo-icon,
+    .done-icon,
+    .prioimg {
+        height: 38px !important;
+        width: 38px !important;
     }
 
     #main-page #dropdown-user { 

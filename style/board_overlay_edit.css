@@ -264,20 +264,29 @@
     cursor: pointer;
 }
 
-#change-subtask-input::placeholder {
-    color: #000000;
-    font-size: 16px;
-    font-weight: 400;
-}
-
 #change-subtask-input {
-    width: 90%;
-    background-color: none;
+    width: 100%;
     border: none;
+    border-bottom: 1px solid #9747FF;
+    background-color: #D1D1D1;
+    outline: none;
+    font-size: 16px;
 }
 
-#change-subtask-input:focus-visible {
-    outline: auto;
+#change-subtask-input::placeholder {
+    font-size: 16px;
+    color: #000000;
+}
+
+#change-subtask-input:focus {
+    border: none;
+    border-bottom: 1px solid #9747FF;
+}
+
+#warn-emptyinput-container p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #FF8190;
 }
 
 .button-ok-container {

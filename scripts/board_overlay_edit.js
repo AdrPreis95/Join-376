@@ -10,11 +10,6 @@ async function editTask(id, title, description, dueDate, priority) {
     loadContacts(id);
 }
 
-flatpickr("#calendar-icon", {
-    dateFormat: "Y-m-d",
-    minDate: "today"
-});
-
 function checkActivePriority(priority) {
     if (priority == 'Urgent') {
         document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
@@ -93,6 +88,7 @@ function activePriorityButton() {
     }
     return activeElement;
 }
+
 async function loadContacts(id) {
     let userAsContact = {
         email: loggedUser.email, 
@@ -149,24 +145,10 @@ function checkActiveUser(activeUser, responseJson) {
     return activeUserIndex;
 }
 
-async function toggleAssigendTo(name, urlIcon, id) {
+async function toggleAssignedTo(id, name, color, firstLetterFirstName, firstLetterLastName, urlIcon) {
     if(urlIcon == './assets/icons/unchecked_icon.png') {
-        let nameArr = name.split(" ");
-        let firstName = nameArr[0];
-        let lastName = nameArr[1];
-        let color = generateColor();
-            let newUser = {
-                firstName: firstName,
-                lastName: lastName,
-                color: color
-            };
-            await fetch(`${BASE_URL}/tasks/${id}/assignedTo/.json`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(newUser)
-            });
+        urlIcon = './assets/icons/checked_icon.png'
+        renderOverlayContacts(id, name, color, firstLetterFirstName, firstLetterLastName, urlIcon);
     }
 }
 
