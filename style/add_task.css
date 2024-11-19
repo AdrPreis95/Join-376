@@ -12,7 +12,7 @@
     align-items: flex-start;
 }
 
-.overlay-close {
+#closeOverlay {
     display: none;
     margin: 40px 180px 0px 0px;
     border: none;
@@ -714,6 +714,7 @@ select {
     width: 100%;
 
 }
+
 .subtask-text[contenteditable="true"] {
     outline: 2px solid red;
     background-color: #f0f8ff;

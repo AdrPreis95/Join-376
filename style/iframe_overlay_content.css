@@ -29,15 +29,16 @@
     z-index: 1;
 }
 
-.gethidden {
-    display: none;
+#gethidden {
+    display: none !important;
 }
 
 .overlay-active {
     display: block !important;
 }
 
-#overlay-mode .overlay-close {
+#overlay-mode #closeOverlay {
+    display: block !important;
     margin: 40px 76px 0px 0px;
     border: none;
     background: none;
@@ -81,8 +82,6 @@
     height: 48px;
 }
 
-
-
 @media (max-width: 1200px) {
     #overlay-mode.overlay-active .content-container {
         display: flex !important;
@@ -106,7 +105,6 @@
     overflow: hidden;
 }
 
-
 #overlay-mode .content-right,
 #overlay-mode .content-left {
     width: -webkit-fill-available;
@@ -123,6 +121,28 @@
     gap: 0px !important;
     flex-direction: row !important;
 }
+#closeOverlay {
+    display: none; 
+  }
+  
+  #taskoverlay.nohidden #closeOverlay {
+    display: inline-block; 
+    position: absolute;
+    top: 100px; 
+    right: 50px;
+    border-radius: 50%; 
+    background-color: lightslategray;
+    border: none;
+    font-size: 18px;
+    color: #333;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  #closeOverlay:hover {
+    color: #ff0000; 
+  }
+  
 
 #overlay-mode .input-title,
 #overlay-mode #due-date-input,
@@ -134,6 +154,10 @@
 
 #overlay-mode .overlay-hl {
     font-size: 38px !important;
+}
+
+#overlay-mode .headline {
+    margin-bottom: 0px !important;
 }
 
 #overlay-mode #closeOverlay {
