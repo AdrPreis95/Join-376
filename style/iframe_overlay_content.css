@@ -58,7 +58,7 @@
 }
 
 #overlay-mode .textarea {
-    height: 80px !important;
+    height: 100px !important;
 }
 
 #overlay-mode #description {
@@ -68,7 +68,7 @@
 #overlay-mode #prio-red,
 #overlay-mode #prio-green,
 #overlay-mode #prio-orange {
-    height: 38px !important;
+    height: 48px !important;
     width: -webkit-fill-available;
 
 }
@@ -121,28 +121,36 @@
     gap: 0px !important;
     flex-direction: row !important;
 }
+
 #closeOverlay {
-    display: none; 
-  }
-  
-  #taskoverlay.nohidden #closeOverlay {
-    display: inline-block; 
+    display: none;
+}
+
+#taskoverlay.nohidden #closeOverlay {
+    display: inline-block;
     position: absolute;
-    top: 100px; 
-    right: 50px;
-    border-radius: 50%; 
-    background-color: lightslategray;
+    top: 100px;
+    right: 4%;
+    background-color: transparent;
     border: none;
-    font-size: 18px;
+    font-size: 24px;
     color: #333;
     cursor: pointer;
     z-index: 10;
-  }
-  
-  #closeOverlay:hover {
-    color: #ff0000; 
-  }
-  
+}
+
+#closeOverlay :hover {
+    background-color: #D2D2D2;
+    border-radius: 50%;
+    transform: scale(1.3);
+    filter: drop-shadow(0px 0px 4px black);
+}
+
+#overlay-mode #prio-p {
+    margin-bottom: 4px !important;
+    margin-top: 0px !important;
+}
+
 
 #overlay-mode .input-title,
 #overlay-mode #due-date-input,
@@ -153,7 +161,7 @@
 }
 
 #overlay-mode .overlay-hl {
-    font-size: 38px !important;
+    font-size: 48px !important;
 }
 
 #overlay-mode .headline {
