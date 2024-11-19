@@ -224,7 +224,7 @@ function getContactName(id, name, color, firstLetterFirstName, firstLetterLastNa
                 <p>${name}</p>
             </div>
         </div>
-        <img src="${urlIcon}" onclick="toggleAssignedTo(${id}, '${name}', this)" class="toggle-icon"/>
+        <img id="checkbox-contact-${name}" src="${urlIcon}" onclick="toggleAssignedTo('${name}', ${id})" class="toggle-icon">
     </div>
     `
 }
