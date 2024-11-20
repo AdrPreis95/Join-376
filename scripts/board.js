@@ -299,41 +299,62 @@ async function deleteTask(id) {
 }
 
 
+/**
+ * This Function opens the overlay, activates the overlay class, and sets the overlay mode.
+ */
 function openOverlay() {
-    const overlay = document.getElementById('overlayContent'); 
-    overlay.classList.add('overlay-active'); 
-    setOverlayMode(); 
+    const overlay = document.getElementById('overlayContent');
+    if (overlay) {
+        overlay.classList.add('overlay-active'); // Adds the active class to the overlay
+        setOverlayMode(); // Sets the overlay mode
+    }
 }
 
+/**
+ * This Function close the task overlay, removes the overlay class, and resets the mode to the main page.
+ */
 function closeTaskOverlay() {
-    const overlay = document.getElementById('taskoverlay'); 
-    overlay.classList.remove('overlay-active'); 
-    resetToMainPage(); 
+    const overlay = document.getElementById('taskoverlay');
+    if (overlay) {
+        overlay.classList.remove('overlay-active'); // Removes the active class from the overlay
+        resetToMainPage(); // Resets the mode to the main page
+    }
 }
 
+/**
+ * This Function activate the overlay mode by setting the <body> element ID inside the iframe to "overlay-mode".
+ */
 function setOverlayMode() {
     const iframe = document.getElementById("overlayContent");
     if (iframe) {
         iframe.onload = function () {
             setTimeout(() => {
                 const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                const body = iframeDocument.body;
-                if (body) {
-                    console.log("Ändere Body-ID zu 'overlay-mode'");
-                    body.id = "overlay-mode";
+                if (iframeDocument) {
+                    const body = iframeDocument.body;
+                    if (body) {
+                        console.log("Changing body ID to 'overlay-mode'");
+                        body.id = "overlay-mode"; // Sets the ID to indicate overlay mode
+                    }
                 }
-            }, 100); 
+            }, 100); // Delay to ensure iframe content has loaded
         };
     }
 }
 
+/**
+ * This Function resets the state inside the iframe to the main page by setting the `<body>` element ID to "main-page".
+ */
 function resetToMainPage() {
     const iframe = document.getElementById('overlayContent');
     if (iframe) {
         const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-        const body = iframeDocument.body;
-if (body) {
-            body.id = 'main-page';
+        if (iframeDocument) {
+            const body = iframeDocument.body;
+            if (body) {
+                console.log("Resetting body ID to 'main-page'");
+                body.id = 'main-page'; // Resets the ID to indicate the main page mode
+            }
         }
     }
 }
