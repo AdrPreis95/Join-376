@@ -188,8 +188,18 @@
     }
 }
 
-@media (max-width: 720px) {
-    #overlay-mode .main-content h1 {
-        padding-top: unset;
+@media (max-width: 920px) {
+    #overlay-mode #create {
+        height: 42px;
+        width: 138px;
+        gap: 0px;
+        white-space: nowrap;
+        font-size: 18px;
+    }
+
+    #overlay-mode #clear {
+        height: 42px;
+        font-size: 18px;
+
     }
 }

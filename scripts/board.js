@@ -305,7 +305,7 @@ function openOverlay() {
     setOverlayMode(); 
 }
 
-function closeOverlay() {
+function closeTaskOverlay() {
     const overlay = document.getElementById('taskoverlay'); 
     overlay.classList.remove('overlay-active'); 
     resetToMainPage(); 
