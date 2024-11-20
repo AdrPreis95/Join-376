@@ -6,17 +6,17 @@ function monitorMediaQuery() {
     function handleMediaChange(e) {
         if (e.matches && isOverlayModeActive()) {
             console.log("Bildschirmbreite > 1150px und Overlay aktiv. Weiterleitung zur Hauptseite.");
-            window.location.href = 'main.html'; // Passe die Zielseite an
+            window.location.href = 'main.html'; 
         }
     }
 
-    // Event-Listener hinzufügen
-    mediaQueryListener = handleMediaChange; // Speichern, um später zu entfernen
+   
+    mediaQueryListener = handleMediaChange; 
     mediaQuery.addEventListener('change', handleMediaChange);
 
-    // Initial prüfen, ob die Bedingung erfüllt ist
+   
     if (mediaQuery.matches && isOverlayModeActive()) {
-        window.location.href = 'main.html'; // Passe die Zielseite an
+        window.location.href = 'main.html'; 
     }
 }
 
@@ -24,7 +24,7 @@ function stopMediaQueryMonitoring() {
     const mediaQuery = window.matchMedia('(min-width: 1150px)');
     if (mediaQueryListener) {
         mediaQuery.removeEventListener('change', mediaQueryListener);
-        mediaQueryListener = null; // Listener zurücksetzen
+        mediaQueryListener = null; 
     }
 }
 
@@ -38,14 +38,6 @@ function isOverlayModeActive() {
   }
   return false;
 }
-
-
-
-
-
-
-
-
 
 function openTaskOverlay() {
   showOverlay();
