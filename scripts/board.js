@@ -119,7 +119,6 @@ function renderTasks(tasksJson) {
         let title = tasksArray[i].title;
         let description = tasksArray[i].description;
         let prioIcon = findPrio(tasksArray[i].prio);
-
         let selectList = document.getElementById(`${list}`);
         if (selectList)
             selectList.innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
@@ -127,7 +126,7 @@ function renderTasks(tasksJson) {
         if (tasksArray[i].subtasks != undefined) {
             calculateSubtaskProgress(tasksArray[i].subtasks, id);
         }
-        renderFirstLetter(tasksArray[i].assignedTo, id);
+        getFirstLetter(tasksArray[i].assignedTo, id);
     }
     checkEmptyList();
 }
@@ -184,14 +183,13 @@ function calculateSubtaskProgress(subtasks, id) {
 }
 
 /**
- * This function searches for the first letter of the first name and the last name and renders these letters respectively.
+ * This function searches for the first letter of the first name and the last name.
  * @param {array} user - All users are transferred in an array.
  * @param {number} id - The Id to render the correct letters.
  */
-function renderFirstLetter(user, id) {
+function getFirstLetter(user, id) {
     let firstLetters = [];
     let colors = [];
-
     if (user !== undefined) {
         for (let i = 0; i < user.length; i++) {
             let firstName = user[i].firstName[0];
@@ -202,6 +200,13 @@ function renderFirstLetter(user, id) {
             colors.push(color);
         }
     }
+    renderFirstLetter(firstLetters, colors, id);
+}
+
+/**
+ * This function renders the initial letters of the names in the map.
+ */
+function renderFirstLetter(firstLetters, colors, id) {
     if (firstLetters.length <= 5) {
         for (let j = 0; j < firstLetters.length; j++) {
             document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);

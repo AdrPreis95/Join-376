@@ -1,3 +1,11 @@
+/**
+ * This function is called as soon as a task is to be processed. All parameters are first collected and transferred to other functions.
+ * @param {number} id - Transfers the ID of the task in question.
+ * @param {string} title - Hands over the title.
+ * @param {string} description - Transfers the description.
+ * @param {Date} dueDate - Transfers the completion date.
+ * @param {string} priority - Transfers the priority.
+ */
 async function editTask(id, title, description, dueDate, priority) {
     id--;
     let refOverlay = document.getElementById('task-details');
@@ -11,6 +19,9 @@ async function editTask(id, title, description, dueDate, priority) {
     activeFlatPickr();
 }
 
+/**
+ * This function calls up the calendar for the dueDate.
+ */
 function activeFlatPickr() {
     const datePickerInput = document.getElementById('due-date-input');
     const openCalendar = document.getElementById('calendar-icon');
@@ -23,6 +34,10 @@ function activeFlatPickr() {
     });
 }
 
+/**
+ * This function changes the icon for the priority, depending on how it is.
+ * @param {string} priority - Transfers the priority.
+ */
 function checkActivePriority(priority) {
     if (priority == 'Urgent') {
         document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
@@ -40,6 +55,10 @@ function checkActivePriority(priority) {
     activePriority = priority;
 }
 
+/**
+ * This function changes an icon if the priority is changed by the user.
+ * @param {string} newPriority - Receives the new priority.
+ */
 function changePriority(newPriority) {
     let prioArr = ['urgent', 'medium', 'low'];
     for (let i = 0; i < prioArr.length; i++) {
@@ -51,6 +70,10 @@ function changePriority(newPriority) {
     checkActivePriority(newPriority);
 }
 
+/**
+ * This function saves the respective changes and loads them into Firebase.
+ * @param {number} id - Transfers the ID to save the changes to the correct object.
+ */
 async function saveEdit(id) {
     id = await findKey(id);
     let responseJson = await loadTaskWithID(id);
@@ -66,6 +89,11 @@ async function saveEdit(id) {
         loadTasks();
 }
 
+/**
+ * This function loads the existing information into the placeholders.
+ * @param {Object} responseJson - The entire task is transferred as an object.
+ * @returns Object Task
+ */
 function generateChangeTask(responseJson) {
     let title = document.getElementById('overlay-title').value;
     let description = document.getElementById('overlay-description').value;
@@ -84,6 +112,10 @@ function generateChangeTask(responseJson) {
     return responseJson;
 }
 
+/**
+ * This function highlights the priority already selected.
+ * @returns Returns the active element.
+ */
 function activePriorityButton() {
     let lowLabel = window.getComputedStyle(document.getElementById('low-label')).getPropertyValue("background-color");
     let mediumLabel = window.getComputedStyle(document.getElementById('medium-label')).getPropertyValue("background-color");
@@ -102,6 +134,10 @@ function activePriorityButton() {
     return activeElement;
 }
 
+/**
+ * This function loads the contacts from Firebase.
+ * @param {number} id - Transfers the ID of the respective task.
+ */
 async function loadContacts(id) {
     let userAsContact = {
         email: loggedUser.email, 
@@ -118,6 +154,12 @@ async function loadContacts(id) {
     renderOverlayContacts(id, responseJson, activeUserIndex);
 }
 
+/**
+ * This function renders the existing contacts when the drop-down is opened.
+ * @param {number} id - Transfers the ID of the respective task.
+ * @param {object} responseJson - Contains all contacts as an object.
+ * @param {number} activeUserIndex - Contains the index of the users who are active, if there are any.
+ */
 function renderOverlayContacts(id, responseJson, activeUserIndex) {
     for (let i = 0; i < responseJson.length; i++) {
         let urlIcon = './assets/icons/unchecked_icon.png';
@@ -158,53 +200,43 @@ function checkActiveUser(activeUser, responseJson) {
     return activeUserIndex;
 }
 
-// async function toggleAssignedTo(name, id) {
-//     let contactRef = document.getElementById('checkbox-contact-' + name);
-//     let uncheckedIcon = './assets/icons/unchecked_icon.png';
-//     let checkedIcon = './assets/icons/checked_icon.png';
-//     if(contactRef.getAttribute("src") == uncheckedIcon) {
-//         contactRef.setAttribute("src", checkedIcon);
-//         // Hinzufügen in Firebase
-//     } else if(contactRef.getAttribute("src") == checkedIcon) {
-//         contactRef.setAttribute("src", uncheckedIcon);
-//         // Entfernen aus Firebase
-//     }
-// }
+function updateAssignedTo(task, firstName, lastName) {
+    const index = task.assignedTo.findIndex(user => 
+        user.firstName === firstName && user.lastName === lastName
+    );
+    if (index === -1) {
+        task.assignedTo.push({ firstName, lastName, color: generateColor() });
+    } else {
+        task.assignedTo.splice(index, 1);
+    }
+}
+
+async function updateTaskInFirebase(taskRefUrl, updatedTask) {
+    await fetch(taskRefUrl, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ assignedTo: updatedTask.assignedTo })
+    });
+}
+
+function toggleIcon(contactRef, checkedIcon, uncheckedIcon) {
+    const isChecked = contactRef.getAttribute("src") === checkedIcon;
+    contactRef.setAttribute("src", isChecked ? uncheckedIcon : checkedIcon);
+}
 
 async function toggleAssignedTo(name, id) {
     const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
     const task = await loadTaskWithID(id);
     const [firstName, ...lastNameParts] = name.split(" ");
     const lastName = lastNameParts.join(" ");
-    const existingIndex = task.assignedTo.findIndex(user =>
-        user.firstName === firstName && user.lastName === lastName
-    );
-    if (existingIndex === -1) {
-        let color = generateColor();
-        task.assignedTo.push({ firstName, lastName, color });
-    } else {
-        task.assignedTo.splice(existingIndex, 1);
-    }
-    await fetch(taskRefUrl, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ assignedTo: task.assignedTo })
-    });
-    const contactRef = document.getElementById('checkbox-contact-' + name);
-    const uncheckedIcon = './assets/icons/unchecked_icon.png';
-    const checkedIcon = './assets/icons/checked_icon.png';
-    const isCurrentlyChecked = contactRef.getAttribute("src") === checkedIcon;
-    contactRef.setAttribute("src", isCurrentlyChecked ? uncheckedIcon : checkedIcon);
-}
+    
+    updateAssignedTo(task, firstName, lastName);
+    await updateTaskInFirebase(taskRefUrl, task);
 
-async function addUser(name, id) {
-    let task = await loadTaskWithID(id);
-    let assignedToLength = toggleAssignedTo.length;
-    if(assignedToLength > 0) {
-        for (let i = 0; i < assignedToLength.length; i++) { 
-            let 
-        }
-    }
+    const contactRef = document.getElementById('checkbox-contact-' + name);
+    toggleIcon(contactRef, './assets/icons/checked_icon.png', './assets/icons/unchecked_icon.png');
+    document.getElementById('user-names-edit-overlay').innerHTML = "";
+    selectedUserEdit(id);
 }
 
 async function changeStatusSubtask(id, subtaskId, status) {
@@ -249,7 +281,6 @@ function closeDropdownAssigned(event) {
         event.stopPropagation();
         return;
     }
-
     document.getElementById('arrow-dropdown').setAttribute("src", "./assets/icons/arrow_drop_down_top.png");
 }
 
