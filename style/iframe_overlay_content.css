@@ -69,8 +69,7 @@
 #overlay-mode #prio-green,
 #overlay-mode #prio-orange {
     height: 48px !important;
-    width: -webkit-fill-available;
-
+    width: -webkit-fill-available !important;
 }
 
 #overlay-mode .prio-container {
@@ -119,7 +118,7 @@
     justify-content: center;
     padding-left: 0px;
     gap: 0px !important;
-    flex-direction: row !important;
+    flex-direction: row;
 }
 
 #closeOverlay {
@@ -184,11 +183,25 @@
         display: flex;
         padding-left: 0px;
         gap: 0px;
-        flex-direction: row !important;
+        flex-direction: row;
     }
 }
 
 @media (max-width: 920px) {
+    #overlayContent {
+        height: -webkit-fill-available;
+        border: none;
+        width: -webkit-fill-available;
+        position: fixed;
+        z-index: 1;
+        margin: 0px 0% 0px 0%;
+        overflow: hidden;
+    }
+
+    #closeOverlay {
+        margin: -30px 30px 0px 0px !important;
+    }
+
     #overlay-mode #create {
         height: 42px;
         width: 138px;
@@ -201,5 +214,191 @@
         height: 42px;
         font-size: 18px;
 
+    }
+}
+
+
+
+@media (max-width: 720px) {
+    #overlay-mode .headline {
+        margin-bottom: 0px !important;
+        margin-top: 0px !important;
+    }
+
+    #closeOverlay {
+        margin: -90px 10px 0px 0px !important;
+    }
+
+    #overlay-mode .overlay-hl {
+        margin-top: 0px;
+        padding-top: 48px !important;
+    }
+
+    #overlay-mode .content-container {
+        display: flex;
+        padding-left: 0px;
+        gap: 0px;
+        flex-direction: column !important;
+    }
+
+    #overlay-mode .separating-line {
+        display: none !important;
+    }
+
+    #overlay-mode #dropdown-user {
+        position: fixed !important;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        filter: drop-shadow(0px 0px 4px black);
+        border: #29ABE2;
+        border-style: solid;
+        height: 224px;
+        bottom: 0px !important;
+        border-radius: 10px 10px 25px 25px !important;
+    }
+
+    #overlay-mode #overlayContent .content-left {
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 0px 10% 0px 10%;
+    }
+
+    #overlay-mode #overlayContent .content-right {
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 0px 10% 0px 10%;
+    }
+
+    #overlay-mode #overlayContent .prio-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    #overlay-mode #overlayContent .separating-line {
+        width: 2px;
+        height: 0px;
+        background-color: #D1D1D1;
+    }
+
+    #overlay-mode .required-p {
+        display: none;
+    }
+}
+
+@media (max-width: 520px) {
+    #overlay-mode .overlay-hl {
+        font-size: 38px !important;
+        margin-top: 0px;
+        padding-top: 48px !important;
+    }
+
+    #overlay-mode .headline {
+        margin-bottom: 0px !important;
+        margin-top: 0px !important;
+    }
+
+    #closeOverlay {
+        margin: -90px 10px 0px 0px !important;
+    }
+
+    #overlay-mode #dropdown-user {
+        position: fixed !important;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        filter: drop-shadow(0px 0px 4px black);
+        border: #29ABE2;
+        border-style: solid;
+        height: 224px;
+        bottom: 0px !important;
+        border-radius: 10px 10px 25px 25px !important;
+    }
+
+    #overlay-mode #overlayContent #title {
+        height: 36px;
+    }
+
+    #overlay-mode #overlayContent .user-list {
+        display: none;
+    }
+
+    #overlay-mode #overlayContent .textarea {
+        width: 100%;
+        height: 48px;
+        background-color: #FFFFFF;
+        border-radius: 12px;
+        border-style: none;
+        filter: drop-shadow(0px 0px 4px #D1D1D1);
+    }
+
+    #overlay-mode #overlayContent #description {
+        height: 16px;
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: #333;
+    }
+
+    #overlay-mode #overlayContent #dropdown-input {
+        height: 36px;
+    }
+
+    #overlay-mode #overlayContent #due-date-input {
+        height: 36px;
+    }
+
+    #overlay-mode #prio-red,
+    #overlay-mode #prio-orange,
+    #overlay-mode #prio-green {
+        height: 38px !important;
+        gap: 4px;
+    }
+
+    #overlay-mode #prio-red img,
+    #overlay-mode #prio-orange img,
+    #overlay-mode #prio-green img {
+        height: 10px !important;
+        width: 18px !important;
+    }
+
+    #overlay-mode #overlayContent #selectcategory {
+        height: 36px;
+    }
+
+    #overlay-mode #overlayContent .input-container,
+    #overlay-mode #overlayContent .subtask-p,
+    #overlay-mode #overlayContent #addsubtasks {
+        display: none;
+    }
+
+    #overlay-mode #overlayContent #create {
+        height: 48px;
+        width: 138px;
+        gap: 0px;
+        white-space: nowrap;
+        font-size: 18px;
+    }
+
+    #overlay-mode #overlayContent #clear {
+        height: 48px;
+        font-size: 18px;
+    }
+
+    #overlay-mode .button-container {
+        display: flex;
+        gap: 16px;
+        padding-bottom: 16px !important;
+    }
+
+    #overlay-mode .subtask-p {
+        margin-top: 0px !important;
+        margin-bottom: 10px;
     }
 }
