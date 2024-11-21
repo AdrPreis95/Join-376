@@ -143,7 +143,7 @@ function getSubtasksOverlay(id, subtaskId, status, title, statusIcon) {
     `
 }
 
-function getOverlayEdit(id, title, description) {
+function getOverlayEdit(id, title, description, dueDate) {
     return `
     <div class="content-overlay" onclick="closeDropdownAssigned(event)">
         <div class="header-overlay-edit">
@@ -163,7 +163,7 @@ function getOverlayEdit(id, title, description) {
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="due-date">Due date</label>
                 <div class="overlay-input-field-date">
-                    <input input type="text" pattern="\d{2}/\d{2}/\d{4}" name="date" onkeypress="formatDueDate(event)" id="due-date-input" placeholder="dd/mm/yyyy" maxlength="10"/>
+                    <input type="date" pattern="\d{2}/\d{2}/\d{4}" name="date" onkeypress="formatDueDate(event)" id="due-date-input" placeholder="${dueDate}" maxlength="10"/>
                     <img src="./assets/icons/date_icon.svg" style="cursor: pointer;" alt ="calendar" id="calendar-icon">
                 </div>
             </div>

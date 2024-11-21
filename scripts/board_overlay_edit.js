@@ -2,12 +2,25 @@ async function editTask(id, title, description, dueDate, priority) {
     id--;
     let refOverlay = document.getElementById('task-details');
     refOverlay.innerHTML = "";
-    refOverlay.innerHTML = getOverlayEdit(id, title, description);
+    refOverlay.innerHTML = getOverlayEdit(id, title, description, dueDate);
     document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
     checkActivePriority(priority);
     selectedUserEdit(id);
     renderOverlayEditSubtasks(id);
     loadContacts(id);
+    activeFlatPickr();
+}
+
+function activeFlatPickr() {
+    const datePickerInput = document.getElementById('due-date-input');
+    const openCalendar = document.getElementById('calendar-icon');
+    const calendar = flatpickr(datePickerInput, {
+        minDate: "today",
+        dateFormat: "Y-m-d",
+    });
+    openCalendar.addEventListener('click', () => {
+        calendar.open();
+    });
 }
 
 function checkActivePriority(priority) {
@@ -145,27 +158,51 @@ function checkActiveUser(activeUser, responseJson) {
     return activeUserIndex;
 }
 
-async function toggleAssignedTo(name, id) {
-    let contactRef = document.getElementById('checkbox-contact-' + name);
-    let uncheckedIcon = './assets/icons/unchecked_icon.png';
-    let checkedIcon = './assets/icons/checked_icon.png';
-    if(contactRef.getAttribute("src") == uncheckedIcon) {
-        contactRef.setAttribute("src", checkedIcon);
-        // Hinzufügen in Firebase
-    } else if(contactRef.getAttribute("src") == checkedIcon) {
-        contactRef.setAttribute("src", uncheckedIcon);
-        // Entfernen aus Firebase
-    }
-    let activeUser = await loadActiveUser(id);
-    let task = await loadTaskWithID(id);
-    if(activeUser.length != undefined) {
-        for (let i = 0; i < activeUser.length; i++) {
-            let nameArr = activeUser[i].split(" ");
-            let firstName = nameArr[0];
-            let lastName = nameArr[1];
-            if (activeUser[i] == task.assignedTo.firstName + task.assignedTo.lastName) {
+// async function toggleAssignedTo(name, id) {
+//     let contactRef = document.getElementById('checkbox-contact-' + name);
+//     let uncheckedIcon = './assets/icons/unchecked_icon.png';
+//     let checkedIcon = './assets/icons/checked_icon.png';
+//     if(contactRef.getAttribute("src") == uncheckedIcon) {
+//         contactRef.setAttribute("src", checkedIcon);
+//         // Hinzufügen in Firebase
+//     } else if(contactRef.getAttribute("src") == checkedIcon) {
+//         contactRef.setAttribute("src", uncheckedIcon);
+//         // Entfernen aus Firebase
+//     }
+// }
 
-            }
+async function toggleAssignedTo(name, id) {
+    const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
+    const task = await loadTaskWithID(id);
+    const [firstName, ...lastNameParts] = name.split(" ");
+    const lastName = lastNameParts.join(" ");
+    const existingIndex = task.assignedTo.findIndex(user =>
+        user.firstName === firstName && user.lastName === lastName
+    );
+    if (existingIndex === -1) {
+        let color = generateColor();
+        task.assignedTo.push({ firstName, lastName, color });
+    } else {
+        task.assignedTo.splice(existingIndex, 1);
+    }
+    await fetch(taskRefUrl, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ assignedTo: task.assignedTo })
+    });
+    const contactRef = document.getElementById('checkbox-contact-' + name);
+    const uncheckedIcon = './assets/icons/unchecked_icon.png';
+    const checkedIcon = './assets/icons/checked_icon.png';
+    const isCurrentlyChecked = contactRef.getAttribute("src") === checkedIcon;
+    contactRef.setAttribute("src", isCurrentlyChecked ? uncheckedIcon : checkedIcon);
+}
+
+async function addUser(name, id) {
+    let task = await loadTaskWithID(id);
+    let assignedToLength = toggleAssignedTo.length;
+    if(assignedToLength > 0) {
+        for (let i = 0; i < assignedToLength.length; i++) { 
+            let 
         }
     }
 }
