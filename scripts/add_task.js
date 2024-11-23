@@ -360,7 +360,6 @@ function validateInput() {
     }
 }
 
-
 function validateSelectCategory() {
     const selectCategory = document.getElementById('selectcategory');
     const categoryErrorMessage = document.getElementById('category-error-message');

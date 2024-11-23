@@ -303,6 +303,25 @@ async function deleteTask(id) {
     loadTasks();
 }
 
+/**
+ * Opens the "Add Task" overlay, allowing the user to add a new task to the list.
+ * 
+ * This function performs the following actions:
+ * 1. Displays the overlay where the "Add Task" interface is presented.
+ * 2. Adjusts the styles of the overlay for proper positioning and layout.
+ * 3. Hides unnecessary elements (e.g., `aside`, `footer`, `header`) within the iframe context 
+ *    to ensure a clean and focused user interface.
+ * 
+ * @function openAddTask
+ * @returns {void}
+ */
+function openAddTask() {
+    showOverlay(); // Displays the overlay.
+    setOverlayStyles(); // Configures styles for the overlay.
+    hideUnnecessaryElementsInIframe(); // Hides irrelevant elements in the iframe.
+}
+
+
 
 /**
  * This Function opens the overlay, activates the overlay class, and sets the overlay mode.
