@@ -289,6 +289,10 @@
     #overlay-mode .required-p {
         display: none;
     }
+
+    #overlay-mode .error-message {
+        display: none !important;
+    }
 }
 
 @media (max-width: 520px) {
@@ -400,5 +404,9 @@
     #overlay-mode .subtask-p {
         margin-top: 0px !important;
         margin-bottom: 10px;
+    }
+
+    #overlay-mode .error-message {
+        display: none !important;
     }
 }

@@ -305,6 +305,11 @@ select {
     border-radius: 16px;
 }
 
+.user-container:checked {
+    background-color: green;
+    border-radius: 16px;
+}
+
 .user-container input[type="checkbox"] {
     cursor: pointer;
 }
@@ -719,4 +724,28 @@ select {
     outline: 2px solid red;
     background-color: #f0f8ff;
     border-radius: 2px;
+}
+
+/* Container für das "+x"-Element */
+.more-contacts-info {
+    background-color: #ccc; /* Hintergrundfarbe */
+    color: #333; /* Textfarbe */
+    font-size: 14px; /* Schriftgröße */
+    font-weight: bold; /* Fettschrift */
+    padding: 5px 10px; /* Innenabstand */
+    border-radius: 50%; /* Kreisform */
+    display: flex; /* Zentrierung */
+    align-items: center; /* Vertikale Zentrierung */
+    justify-content: center; /* Horizontale Zentrierung */
+    width: 30px; /* Breite */
+    height: 30px; /* Höhe */
+    margin-left: 5px; /* Abstand zu vorherigem Element */
+    cursor: default; /* Keine Interaktion */
+}
+.user-container.selected {
+    background-color: #29ABE2;
+    border: 1px solid #091931;
+    border-radius: 30px;
+    padding: 5px;
+    transition: background-color 0.3s ease, border 0.3s ease;
 }

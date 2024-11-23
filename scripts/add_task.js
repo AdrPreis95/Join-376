@@ -116,66 +116,6 @@ function fillCurrentDate() {
     dateInput.value = getFormattedTodayDate();
 }
 
-function getFormattedTodayDate() {
-    let today = new Date();
-    let day = String(today.getDate()).padStart(2, '0');
-    let month = String(today.getMonth() + 1).padStart(2, '0');
-    let year = today.getFullYear();
-    return `${day}/${month}/${year}`;
-}
-
-function handleDateInput(event) {
-    let value = formatDateInput(event.target.value);
-    event.target.value = value;
-
-    if (value.length === 10) {
-        if (validateDate(value)) {
-            preventPastDate(value);
-        } else {
-            event.target.value = '';
-            alert("Bitte geben Sie ein gültiges Datum ein.");
-        }
-    }
-}
-
-function formatDateInput(value) {
-    value = value.replace(/\D/g, '');
-    if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2);
-    if (value.length > 5) value = value.slice(0, 5) + '/' + value.slice(5, 9);
-    return value;
-}
-
-function validateDate(value) {
-    let inputDateParts = value.split('/');
-    return inputDateParts.length === 3 && isValidDayAndMonth(inputDateParts);
-}
-
-function isValidDayAndMonth(inputDateParts) {
-    let day = parseInt(inputDateParts[0], 10);
-    let month = parseInt(inputDateParts[1], 10);
-    return day >= 1 && day <= 31 && month >= 1 && month <= 12;
-}
-
-function preventPastDate(value) {
-    let today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    let enteredDate = getEnteredDate(value);
-    let dateInput = document.getElementById('due-date-input');
-
-    if (enteredDate < today) {
-        fillCurrentDate();
-        dateInput.classList.add('error-border');
-    } else {
-        dateInput.classList.remove('error-border');
-    }
-}
-
-function getEnteredDate(value) {
-    let inputDateParts = value.split('/');
-    return new Date(`${inputDateParts[2]}-${inputDateParts[1]}-${inputDateParts[0]}`);
-}
-
 function resetPriorityButtons() {
     resetButton('prio-red');
     resetButton('prio-orange');
@@ -300,7 +240,6 @@ function editSubtask(editBtn) {
     });
 }
 
-
 function deleteSubtask(deleteBtn) {
     let subtaskToDelete = deleteBtn.parentElement.parentElement;
     subtaskToDelete.remove();
@@ -335,12 +274,6 @@ function createUserAsContact() {
     };
 }
 
-function processContacts(contacts, userAsContact) {
-    let formattedContacts = contacts.filter(contact => contact).map(formatContact);
-    formattedContacts.unshift(userAsContact);
-    return formattedContacts;
-}
-
 function formatContact(contact) {
     let firstName = '';
     let lastName = '';
@@ -355,60 +288,6 @@ function formatContact(contact) {
     return { ...contact, firstName, lastName };
 }
 
-function displayContacts(contacts) {
-    let dropdown = document.getElementById('dropdown-user');
-    dropdown.innerHTML = '';
-    contacts.forEach(contact => createContactElement(dropdown, contact));
-}
-
-function createContactElement(dropdown, contact) {
-    if (!contact) return;
-
-    let userContainer = document.createElement('div');
-    userContainer.classList.add('user-container');
-    userContainer.appendChild(createAvatarContainer(contact));
-    userContainer.appendChild(createCheckbox(contact));
-
-    dropdown.appendChild(userContainer);
-}
-
-function createAvatarContainer(contact) {
-    let avatarSpanContainer = document.createElement('div');
-    avatarSpanContainer.classList.add('avatar-span-container');
-
-    let avatar = document.createElement('div');
-    avatar.classList.add('avatar');
-    avatar.style.backgroundColor = getRandomColor();
-    avatar.innerText = getInitials(contact).toUpperCase();
-
-    let userName = document.createElement('span');
-    userName.classList.add('user-name');
-    userName.innerText = getFullName(contact);
-
-    avatarSpanContainer.appendChild(avatar);
-    avatarSpanContainer.appendChild(userName);
-
-    return avatarSpanContainer;
-}
-
-function createCheckbox(contact) {
-    let checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.addEventListener('change', function () {
-        updateSelectedContacts(this.checked, contact);
-        updatePickedUserAvatars();
-    });
-    return checkbox;
-}
-
-function updateSelectedContacts(isChecked, contact) {
-    if (isChecked) {
-        selectedContacts.push(contact);
-    } else {
-        selectedContacts = selectedContacts.filter(c => c !== contact);
-    }
-}
-
 function getInitials(contact) {
     let initials = '';
     if (contact.firstName) initials += contact.firstName.charAt(0);
@@ -421,70 +300,20 @@ function getFullName(contact) {
     return `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
 }
 
-function updatePickedUserAvatars() {
-    let pickedUserAvatarContainer = document.getElementById('picked-user-avatar');
-    pickedUserAvatarContainer.innerHTML = '';
-
-    selectedContacts.forEach((contact, index) => {
-        pickedUserAvatarContainer.appendChild(createPickedUserElement(contact, index));
-    });
-}
-
-function createPickedUserElement(contact, index) {
-    let userInfoContainer = document.createElement('div');
-    userInfoContainer.classList.add('picked-user-info');
-    userInfoContainer.appendChild(createDeleteButton(index));
-    userInfoContainer.appendChild(createAvatarDiv(contact));
-    userInfoContainer.appendChild(createNameSpan(contact));
-
-    return userInfoContainer;
-}
-
-function createDeleteButton(index) {
-    let deleteButton = document.createElement('button');
-    deleteButton.classList.add('delete-user-button');
-    deleteButton.innerHTML = '&times;';
-    deleteButton.title = 'Remove User';
-    deleteButton.addEventListener('click', () => {
-        selectedContacts.splice(index, 1);
-        updatePickedUserAvatars();
-    });
-    return deleteButton;
-}
-
-function createAvatarDiv(contact) {
-    let avatarDiv = document.createElement('div');
-    avatarDiv.classList.add('avatar');
-    avatarDiv.style.backgroundColor = getRandomColor();
-    avatarDiv.innerText = getInitials(contact).toUpperCase();
-    return avatarDiv;
-}
-
-function createNameSpan(contact) {
-    let nameSpan = document.createElement('span');
-    nameSpan.classList.add('picked-user-name');
-    nameSpan.innerText = `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
-    return nameSpan;
-}
-
-function filterContacts() {
-    let input = document.getElementById('dropdown-input').value.toLowerCase();
-    let filteredContacts = {};
-
-    for (const key in allContacts) {
-        if (allContacts[key].name.toLowerCase().startsWith(input)) {
-            filteredContacts[key] = allContacts[key];
-        }
-    }
-
-    displayContacts(filteredContacts);
-}
 
 function openDropdown() {
     let dropdown = document.getElementById('dropdown-user');
     dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-    if (dropdown.style.display === "flex") loadContacts();
+
+    if (dropdown.style.display === "flex") {
+
+        loadContacts().then(() => {
+
+            synchronizeCheckboxes();
+        });
+    }
 }
+
 function closeDropdownOnClickOutside(event) {
     const dropdown = document.getElementById('dropdown-user');
     const container = document.querySelector('.dropdown');
@@ -531,109 +360,38 @@ function validateInput() {
     }
 }
 
-function validateDateInput() {
-    const dateInput = document.getElementById('due-date-input');
-    const dateErrorMessage = document.getElementById('date-error-message');
-    const validationResult = validateDateFormatAndFuture(dateInput.value);
-    if (!validationResult.isValid) {
-        dateInput.classList.add('error');
-        dateInput.style.border = '2px solid red';
-        dateErrorMessage.textContent = validationResult.message;
-        dateErrorMessage.style.display = 'block';
-    } else {
-        dateInput.value = validationResult.correctedDate || dateInput.value;
-        dateInput.classList.remove('error');
-        dateInput.style.border = 'none';
-        dateInput.style.filter = 'drop-shadow(0px 0px 4px #D1D1D1)';
-        dateErrorMessage.style.display = 'none';
-    }
-}
-
-function validateDateFormatAndFuture(dateValue) {
-    const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
-    if (!dateValue.match(datePattern)) {
-        return {
-            isValid: false,
-            message: 'Please select a Date'
-        };
-    }
-    const [day, month, year] = dateValue.split('/');
-    const enteredDate = new Date(`${year}-${month}-${day}`);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    if (enteredDate < today) {
-        return {
-            isValid: true,
-            correctedDate: getFormattedTodayDate()
-        };
-    }
-
-    return { isValid: true };
-}
-function getFormattedTodayDate() {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const year = today.getFullYear();
-    return `${day}/${month}/${year}`;
-}
-
-function initializeDateInput() {
-    const dateInput = document.getElementById('due-date-input');
-    dateInput.addEventListener('input', function (event) {
-        const inputField = event.target;
-        inputField.value = inputField.value.replace(/[^0-9/]/g, '');
-    });
-}
-document.addEventListener('DOMContentLoaded', initializeDateInput);
 
 function validateSelectCategory() {
     const selectCategory = document.getElementById('selectcategory');
     const categoryErrorMessage = document.getElementById('category-error-message');
 
-    if (selectCategory.value === "") {
-        selectCategory.classList.add('error');
-        selectCategory.style.border = '2px solid red';
-        categoryErrorMessage.style.display = 'block';
+    if (isCategoryEmpty(selectCategory)) {
+        showCategoryError(selectCategory, categoryErrorMessage);
     } else {
-        selectCategory.classList.remove('error');
-        selectCategory.style.border = 'none';
-        categoryErrorMessage.style.display = 'none';
+        hideCategoryError(selectCategory, categoryErrorMessage);
     }
 }
-document.getElementById('title').addEventListener('focus', function () {
-    if (!this.classList.contains('error')) {
-        this.style.border = '2px solid #29ABE2';
-    }
-});
 
-document.getElementById('title').addEventListener('blur', validateInput);
+function isCategoryEmpty(selectCategory) {
+    return selectCategory.value === "";
+}
 
-document.getElementById('due-date-input').addEventListener('focus', function () {
-    if (!this.classList.contains('error')) {
-        this.style.border = '2px solid #29ABE2';
-    }
-});
+function showCategoryError(selectCategory, categoryErrorMessage) {
+    selectCategory.classList.add('error');
+    selectCategory.style.border = '2px solid red';
+    categoryErrorMessage.style.display = 'block';
+}
 
-document.getElementById('due-date-input').addEventListener('blur', validateDateInput);
-
-document.getElementById('selectcategory').addEventListener('focus', function () {
-    if (!this.classList.contains('error')) {
-        this.style.border = '2px solid #29ABE2';
-    }
-});
-
-document.getElementById('selectcategory').addEventListener('blur', validateSelectCategory);
-
-
+function hideCategoryError(selectCategory, categoryErrorMessage) {
+    selectCategory.classList.remove('error');
+    selectCategory.style.border = 'none';
+    categoryErrorMessage.style.display = 'none';
+}
 
 document.addEventListener('DOMContentLoaded', function () {
     if (window !== window.top) {
-        // Die Seite läuft in einem iframe
         document.body.id = 'overlay-mode';
     } else {
-        // Die Seite läuft eigenständig
         document.body.id = 'main-page';
     }
 });
