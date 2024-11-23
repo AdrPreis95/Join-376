@@ -235,7 +235,7 @@ function updateAssignedTo(task, firstName, lastName) {
  */
 async function updateTaskInFirebase(taskRefUrl, updatedTask) {
     await fetch(taskRefUrl, {
-        method: "PATCH",
+        method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ assignedTo: updatedTask.assignedTo })
     });
