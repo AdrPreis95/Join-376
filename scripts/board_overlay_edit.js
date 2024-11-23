@@ -176,6 +176,11 @@ function renderOverlayContacts(id, responseJson, activeUserIndex) {
     }
 }
 
+/**
+ * This function determines the users that have been entered for this task.
+ * @param {number} id - The ID is transferred in order to find the correct task.
+ * @returns An array is returned in which the active users.
+ */
 async function loadActiveUser(id) {
     let task = await loadTaskWithID(id);
     let activeUser = [];
@@ -186,6 +191,12 @@ async function loadActiveUser(id) {
     return activeUser;
 }
 
+/**
+ * This function uses the name to check which index the users have.
+ * @param {array} activeUser - The array in which the names are stored is transferred.
+ * @param {object} responseJson - The task is transferred as an object.
+ * @returns An array is returned in which the index of the active users has been saved.
+ */
 function checkActiveUser(activeUser, responseJson) {
     let allContacts = [];
     let activeUserIndex = [];
@@ -200,6 +211,12 @@ function checkActiveUser(activeUser, responseJson) {
     return activeUserIndex;
 }
 
+/**
+ * This function saves the change when a user is changed in the task.
+ * @param {object} task - The task is transferred as an object.
+ * @param {string} firstName - The first name is transferred.
+ * @param {string} lastName - The surname is transferred.
+ */
 function updateAssignedTo(task, firstName, lastName) {
     const index = task.assignedTo.findIndex(user => 
         user.firstName === firstName && user.lastName === lastName
@@ -211,6 +228,11 @@ function updateAssignedTo(task, firstName, lastName) {
     }
 }
 
+/**
+ * This function saves the change in Firebase.
+ * @param {string} taskRefUrl 
+ * @param {object} updatedTask 
+ */
 async function updateTaskInFirebase(taskRefUrl, updatedTask) {
     await fetch(taskRefUrl, {
         method: "PATCH",
@@ -219,11 +241,22 @@ async function updateTaskInFirebase(taskRefUrl, updatedTask) {
     });
 }
 
+/**
+ * This function changes the icon when a user is selected or deselected.
+ * @param {string} contactRef 
+ * @param {string} checkedIcon 
+ * @param {string} uncheckedIcon 
+ */
 function toggleIcon(contactRef, checkedIcon, uncheckedIcon) {
     const isChecked = contactRef.getAttribute("src") === checkedIcon;
     contactRef.setAttribute("src", isChecked ? uncheckedIcon : checkedIcon);
 }
 
+/**
+ * This function changes the user.
+ * @param {string} name 
+ * @param {number} id 
+ */
 async function toggleAssignedTo(name, id) {
     const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
     const task = await loadTaskWithID(id);
@@ -239,6 +272,12 @@ async function toggleAssignedTo(name, id) {
     selectedUserEdit(id);
 }
 
+/**
+ * This function changes the status of a subtask.
+ * @param {number} id 
+ * @param {number} subtaskId 
+ * @param {string} status 
+ */
 async function changeStatusSubtask(id, subtaskId, status) {
     id--;
     id = await findKey(id);
@@ -259,6 +298,9 @@ async function changeStatusSubtask(id, subtaskId, status) {
     renderOverlaySubtasks(responseJson);
 }
 
+/**
+ * This function opens the drop-down menu with the users.
+ */
 function openDropdownAssigned() {
     let dropdownRef = document.getElementById('selected-user-dropdown');
     let arrowRef = document.getElementById('arrow-dropdown');
@@ -276,6 +318,11 @@ function openDropdownAssigned() {
     }
 }
 
+/**
+ * This function closes the drop-down menu.
+ * @param {event} event 
+ * @returns 
+ */
 function closeDropdownAssigned(event) {
     if (event.target.closest('#assigned-container')) {
         event.stopPropagation();
@@ -284,6 +331,10 @@ function closeDropdownAssigned(event) {
     document.getElementById('arrow-dropdown').setAttribute("src", "./assets/icons/arrow_drop_down_top.png");
 }
 
+/**
+ * This function selects the selected users and saves them in an array.
+ * @param {number} id 
+ */
 async function selectedUserEdit(id) {
     let responseJson = await loadTaskWithID(id);
     let usersFirstLetters = [];
@@ -298,6 +349,11 @@ async function selectedUserEdit(id) {
     renderOverlayEditUser(usersFirstLetters, colors)
 }
 
+/**
+ * This function renders the respective users.
+ * @param {array} usersFirstLetters 
+ * @param {array} colors 
+ */
 function renderOverlayEditUser(usersFirstLetters, colors) {
     if(usersFirstLetters.length >= 8) {
         for (let i = 0; i < 8; i++) {
@@ -312,6 +368,10 @@ function renderOverlayEditUser(usersFirstLetters, colors) {
     }
 }
 
+/**
+ * This function renders the edit mode for the subtasks.
+ * @param {number} id 
+ */
 function editMode(id) {
     let createContainer = document.getElementById('create-subtask-overlay');
     if (document.getElementById('add-subtask-overlay-edit').getAttribute("src") == "./assets/icons/add_subtask.png") {
@@ -321,6 +381,10 @@ function editMode(id) {
     }
 }
 
+/**
+ * This function creates a new subtask.
+ * @param {number} id 
+ */
 async function createSubtaskOverlay(id) {
     let inputRef = document.getElementById('subtask-edit');
     let task = await loadTaskWithID(id);
@@ -346,10 +410,17 @@ async function createSubtaskOverlay(id) {
     clearSubtaskInput();
 }
 
+/**
+ * This function clears the input field after a new subtask has been created.
+ */
 function clearSubtaskInput() {
     document.getElementById('subtask-edit').value = "";
 }
 
+/**
+ * This function renders the editing of subtasks.
+ * @param {number} id 
+ */
 async function renderOverlayEditSubtasks(id) {
     let responseJson = await loadTaskWithID(id);
     document.getElementById('subtasks-overlay-edit').innerHTML = "";
@@ -360,6 +431,11 @@ async function renderOverlayEditSubtasks(id) {
     }
 }
 
+/**
+ * This function allows you to edit a subtask.
+ * @param {number} id 
+ * @param {array} subtask 
+ */
 async function editSubtask(id, subtask) {
     let task = await loadTaskWithID(id);
     let subtaskId = findSubtask(task, subtask);
@@ -371,6 +447,11 @@ async function editSubtask(id, subtask) {
     }
 }
 
+/**
+ * This function deletes a subtask.
+ * @param {number} taskId 
+ * @param {string} subtaskName 
+ */
 async function deleteSubtask(taskId, subtaskName) {
     let task = await loadTaskWithID(taskId);
     let subtaskIndex = findSubtask(task, subtaskName);
@@ -387,6 +468,12 @@ async function deleteSubtask(taskId, subtaskName) {
     renderOverlayEditSubtasks(taskId);
 }
 
+/**
+ * This function finds the relevant subtask.
+ * @param {object} task 
+ * @param {array} subtask 
+ * @returns 
+ */
 function findSubtask(task, subtask) {
     let subtaskId;
     for (let i = 0; i < task.subtasks.length; i++) {
@@ -397,6 +484,11 @@ function findSubtask(task, subtask) {
     return subtaskId;
 }
 
+/**
+ * This function saves the change to the processing of the subtask.
+ * @param {number} id 
+ * @param {array} subtask 
+ */
 async function saveEditSubtask(id, subtask) {
     let task = await loadTaskWithID(id);
     let subtaskId = findSubtask(task, subtask);
