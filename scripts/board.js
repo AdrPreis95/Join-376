@@ -340,8 +340,8 @@ function openOverlay() {
 function closeTaskOverlay() {
     const overlay = document.getElementById('taskoverlay');
     if (overlay) {
-        overlay.classList.remove('overlay-active'); // Removes the active class from the overlay
-        resetToMainPage(); // Resets the mode to the main page
+        overlay.classList.remove('overlay-active'); 
+        resetToMainPage(); 
     }
 }
 

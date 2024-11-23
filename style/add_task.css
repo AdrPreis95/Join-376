@@ -726,24 +726,25 @@ select {
     border-radius: 2px;
 }
 
-/* Container für das "+x"-Element */
+
 .more-contacts-info {
-    background-color: #ccc; /* Hintergrundfarbe */
-    color: #333; /* Textfarbe */
-    font-size: 14px; /* Schriftgröße */
-    font-weight: bold; /* Fettschrift */
-    padding: 5px 10px; /* Innenabstand */
-    border-radius: 50%; /* Kreisform */
-    display: flex; /* Zentrierung */
-    align-items: center; /* Vertikale Zentrierung */
-    justify-content: center; /* Horizontale Zentrierung */
-    width: 30px; /* Breite */
-    height: 30px; /* Höhe */
-    margin-left: 5px; /* Abstand zu vorherigem Element */
-    cursor: default; /* Keine Interaktion */
+    background-color: #ccc; 
+    color: #333; 
+    font-size: 14px; 
+    font-weight: bold; 
+    padding: 5px 10px; 
+    border-radius: 50%; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: 30px; 
+    height: 30px; 
+    margin-left: 5px;
+    cursor: default; 
 }
 .user-container.selected {
-    background-color: #29ABE2;
+    color: white;
+    background-color: #293646;
     border: 1px solid #091931;
     border-radius: 30px;
     padding: 5px;
