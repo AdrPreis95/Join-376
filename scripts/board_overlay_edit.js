@@ -233,12 +233,23 @@ function updateAssignedTo(task, firstName, lastName) {
  * @param {string} taskRefUrl 
  * @param {object} updatedTask 
  */
-async function updateTaskInFirebase(taskRefUrl, updatedTask) {
-    await fetch(taskRefUrl, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ assignedTo: updatedTask.assignedTo })
-    });
+async function updateTaskInFirebase(taskRefUrl, updatedField) {
+    try {
+        const response = await fetch(taskRefUrl);
+        const currentTask = await response.json();
+        if (!currentTask) {
+            console.error("Aufgabe konnte nicht geladen werden.");
+            return;
+        }
+        const updatedTask = { ...currentTask, ...updatedField };
+        await fetch(taskRefUrl, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedTask),
+        });
+    } catch (error) {
+        console.error("Fehler beim Aktualisieren der Aufgabe:", error);
+    }
 }
 
 /**
@@ -262,15 +273,14 @@ async function toggleAssignedTo(name, id) {
     const task = await loadTaskWithID(id);
     const [firstName, ...lastNameParts] = name.split(" ");
     const lastName = lastNameParts.join(" ");
-    
     updateAssignedTo(task, firstName, lastName);
-    await updateTaskInFirebase(taskRefUrl, task);
-
+    await updateTaskInFirebase(taskRefUrl, { assignedTo: task.assignedTo });
     const contactRef = document.getElementById('checkbox-contact-' + name);
     toggleIcon(contactRef, './assets/icons/checked_icon.png', './assets/icons/unchecked_icon.png');
     document.getElementById('user-names-edit-overlay').innerHTML = "";
     selectedUserEdit(id);
 }
+
 
 /**
  * This function changes the status of a subtask.
