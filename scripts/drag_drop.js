@@ -5,22 +5,38 @@ let listNames = ['to-do', 'in-progress', 'await-feedback', 'done'];
 
 let timer = null;
 
+/**
+ * This function resets timeout
+ */
 function cancel() {
     clearTimeout(timer);
     timer = null;
 }
 
+/**
+ * This function checks the user touch is long pressed
+ * @param {Event} event 
+ * @param {String} id 
+ */
 function onTouch(event, id) {
     timer = setTimeout(() => longPressed(event, id), 500);
 }
 
+/**
+ * This function starts the longpressed routines
+ * @param {Event} event 
+ * @param {String} id 
+ */
 function longPressed(event, id) {
     pickup(event);
     startDragging(id);
     removeDragging(id);
 }
 
-
+/**
+ * This function checks and save the pressed element
+ * @param {Event} event
+ */
 function pickup(event) {
     if (!event.target.classList.contains('task-card')) {
         moving = event.target.parentElement;
@@ -41,6 +57,10 @@ function pickup(event) {
     moving.style.zIndex = '-10';
 }
 
+/**
+ * This function checks and save the drop zone
+ * @param {Event} event 
+ */
 function move(event) {
     if (!event.target.classList.contains('task-card'))
         return;
@@ -58,6 +78,10 @@ function move(event) {
     }
 }
 
+/**
+ * This function drops the element according to the drop zone
+ * @param {Event} event 
+ */
 function drop(event) {
     if (moving) {
         if (event.currentTarget.classList.contains('list')) {
@@ -79,6 +103,10 @@ function drop(event) {
     }
 }
 
+/**
+ * This function checks and returns the drop zone
+ * @param {Element[]} target 
+ */
 function setTargetList(target) {
     if (target.at('div.list').childNodes[3] != undefined) {
         if (listNames.includes(target.at('div.list').childNodes[3].id)) {
@@ -94,6 +122,11 @@ function setTargetList(target) {
 
 }
 
+/**
+ * This function checks if the list does have the task and drags it
+ * @param {HTMLElement} targetList
+ * @param {HTMLElement} moving  
+ */
 function checkTargetList(targetList, moving) {
     if (targetList) {
         if (!targetList.contains(moving)) {
@@ -105,6 +138,10 @@ function checkTargetList(targetList, moving) {
     }
 }
 
+/**
+ * This function resets element
+ * @param {HTMLElement} moving  
+ */
 function resetElement(moving) {
     if (moving.style) {
         moving.style.left = '';

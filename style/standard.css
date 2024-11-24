@@ -59,6 +59,10 @@ button {
     display: none;
 }
 
+.hidden {
+    display: none;
+}
+
 .d_block {
     display: block;
 }
