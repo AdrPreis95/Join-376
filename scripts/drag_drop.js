@@ -54,7 +54,7 @@ function pickup(event) {
     moving.style.height = moving.clientHeight + "px";
     moving.style.width = moving.clientWidth + "px";
     moving.style.position = 'fixed';
-    moving.style.zIndex = '-10';
+    moving.style.zIndex = '10';
 }
 
 /**
@@ -159,5 +159,14 @@ document.addEventListener('mousemove', function (e) {
     if (moving) {
         moving.style.left = e.pageX + 'px';
         moving.style.top = e.pageY + 'px';
+    }
+});
+
+document.addEventListener('touchmove', function (e) {
+    if (moving) {
+        // Get the touch coordinates
+        const touch = e.touches[0];
+        moving.style.left = touch.pageX + 'px';
+        moving.style.top = touch.pageY + 'px';
     }
 });
