@@ -2,8 +2,22 @@ let moving = null;
 
 let listNames = ['to-do', 'in-progress', 'await-feedback', 'done'];
 
-
 let timer = null;
+
+document.addEventListener('mousemove', function (e) {
+    if (moving) {
+        moving.style.left = e.pageX + 'px';
+        moving.style.top = e.pageY + 'px';
+    }
+});
+
+document.addEventListener('touchmove', function (e) {
+    if (moving) {
+        const touch = e.touches[0];
+        moving.style.left = touch.pageX + 'px';
+        moving.style.top = touch.pageY + 'px';
+    }
+});
 
 /**
  * This function resets timeout
@@ -39,22 +53,37 @@ function longPressed(event, id) {
  */
 function pickup(event) {
     if (!event.target.classList.contains('task-card')) {
-        moving = event.target.parentElement;
-        if (!moving.classList.contains('task-card'))
-            moving = moving.parentElement;
+        for (moving = event.target.parentElement; !moving.classList.contains('task-card'); 
+            moving = moving.parentElement);// Loop through parent elements
     } else {
         moving = event.target;
     }
-
-    // Save the original width and height as custom properties on the element
-    moving.dataset.originalHeight = moving.clientHeight + "px";
+    
+    moving.dataset.originalHeight = moving.clientHeight + "px"; // Save the original width and height as custom properties on the element
     moving.dataset.originalWidth = moving.clientWidth + "px";
 
-    // Set the width and height to fixed values based on the element's current size
-    moving.style.height = moving.clientHeight + "px";
+    moving.style.height = moving.clientHeight + "px"; // Set the width and height to fixed values based on the element's current size
     moving.style.width = moving.clientWidth + "px";
     moving.style.position = 'fixed';
     moving.style.zIndex = '10';
+    setPickUpPosition(event, moving);
+}
+
+/**
+ * This function sets the position of the picked up element
+ * @param {Event} e 
+ * @param {HTMLElement} moving
+ */
+function setPickUpPosition(e, moving) {
+    const touch = e.touches[0];
+    if (touch) {
+         // assuming a single touchpoint
+        moving.style.left = touch.pageX + 'px';
+        moving.style.top = touch.pageY + 'px';
+    } else {
+        moving.style.left = e.pageX + 'px';
+        moving.style.top = e.pageY + 'px';
+    }
 }
 
 /**
@@ -154,19 +183,3 @@ function resetElement(moving) {
 
     return null;
 }
-
-document.addEventListener('mousemove', function (e) {
-    if (moving) {
-        moving.style.left = e.pageX + 'px';
-        moving.style.top = e.pageY + 'px';
-    }
-});
-
-document.addEventListener('touchmove', function (e) {
-    if (moving) {
-        // Get the touch coordinates
-        const touch = e.touches[0];
-        moving.style.left = touch.pageX + 'px';
-        moving.style.top = touch.pageY + 'px';
-    }
-});
