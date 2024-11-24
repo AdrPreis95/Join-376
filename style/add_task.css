@@ -329,7 +329,7 @@ select {
     gap: 12px;
 }
 
-.user-list {
+#dropdown-user {
     height: 130px;
     position: relative;
     width: 100%;
