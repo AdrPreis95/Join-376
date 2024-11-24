@@ -13,7 +13,7 @@
   <script src="./scripts/board_overlay_details.js"></script>
   <script src="./scripts/board_overlay_edit.js"></script>
   <script src="scripts/add_task_overlay.js"></script>
-  
+
 
   <link rel="icon" href="./assets/img/join_logo_dark.png" />
 
@@ -98,16 +98,18 @@
         <div class="board-search">
           <div class="board-h1-button">
             <h1>Board</h1>
-            <button onclick="window.location.href='./add_task.html'" class="add-task-button-responsive" id="add-task-button-responsive"><img
-              src="./assets/icons/add.png" alt="add"></button>
+            <button onclick="window.location.href='./add_task.html'" class="add-task-button-responsive"
+              id="add-task-button-responsive"><img src="./assets/icons/add.png" alt="add"></button>
           </div>
           <div class="board-input-responsive">
             <form>
               <div class="board-input-field">
-                <input type="text" placeholder="Find Task" id="find-task-responsive" class="find-task" onkeyup="searchTask('responsive', event)">
+                <input type="text" placeholder="Find Task" id="find-task-responsive" class="find-task"
+                  onkeyup="searchTask('responsive', event)">
                 <div>
                   <img src="./assets/icons/search_line_icon.png" alt="">
-                  <button type="button" onclick="searchTask('responsive', event)"><img src="./assets/icons/search_icon.png" alt=""></button>
+                  <button type="button" onclick="searchTask('responsive', event)"><img
+                      src="./assets/icons/search_icon.png" alt=""></button>
                 </div>
               </div>
             </form>
@@ -116,10 +118,12 @@
         <div class="board-input-container">
           <form>
             <div class="board-input-field">
-              <input type="text" placeholder="Find Task" id="find-task" class="find-task" onkeyup="searchTask('', event)">
+              <input type="text" placeholder="Find Task" id="find-task" class="find-task"
+                onkeyup="searchTask('', event)">
               <div>
                 <img src="./assets/icons/search_line_icon.png" alt="">
-                <button type="button" onclick="searchTask('', event)"><img src="./assets/icons/search_icon.png" alt=""></button>
+                <button type="button" onclick="searchTask('', event)"><img src="./assets/icons/search_icon.png"
+                    alt=""></button>
               </div>
             </div>
           </form>
@@ -132,7 +136,7 @@
           <span id="search-pop-up-notification">No results found</span>
         </div>
       </div>
-      <div class="board-lists" ontouchmove="move(event)">
+      <div class="board-lists" id="board-lists" onmousemove="move(event)" ontouchmove="move(event)">
 
         <div class="list" ondrop="changeList('to-do')" ondragover="allowDrop(event)" onmouseup="drop(event)"
           ontouchend="drop(event)">
@@ -205,8 +209,11 @@
 
   <div id="taskoverlay" class="overlay hidden">
     <iframe src="./add_task.html" id="overlayContent"></iframe>
+    <button class="overlay-close" id="closeOverlay" onclick="closeTaskOverlay()">
+      <img class="closebttn" src="./assets/icons/clear-icon.png" alt="ClearIcon">
+    </button>
   </div>
-  
+
   <link rel="stylesheet" href="style/add_task_overlay.css">
 </body>
 

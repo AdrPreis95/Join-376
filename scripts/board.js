@@ -119,7 +119,6 @@ function renderTasks(tasksJson) {
         let title = tasksArray[i].title;
         let description = tasksArray[i].description;
         let prioIcon = findPrio(tasksArray[i].prio);
-
         let selectList = document.getElementById(`${list}`);
         if (selectList)
             selectList.innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
@@ -127,7 +126,7 @@ function renderTasks(tasksJson) {
         if (tasksArray[i].subtasks != undefined) {
             calculateSubtaskProgress(tasksArray[i].subtasks, id);
         }
-        renderFirstLetter(tasksArray[i].assignedTo, id);
+        getFirstLetter(tasksArray[i].assignedTo, id);
     }
     checkEmptyList();
 }
@@ -184,14 +183,13 @@ function calculateSubtaskProgress(subtasks, id) {
 }
 
 /**
- * This function searches for the first letter of the first name and the last name and renders these letters respectively.
+ * This function searches for the first letter of the first name and the last name.
  * @param {array} user - All users are transferred in an array.
  * @param {number} id - The Id to render the correct letters.
  */
-function renderFirstLetter(user, id) {
+function getFirstLetter(user, id) {
     let firstLetters = [];
     let colors = [];
-
     if (user !== undefined) {
         for (let i = 0; i < user.length; i++) {
             let firstName = user[i].firstName[0];
@@ -202,6 +200,13 @@ function renderFirstLetter(user, id) {
             colors.push(color);
         }
     }
+    renderFirstLetter(firstLetters, colors, id);
+}
+
+/**
+ * This function renders the initial letters of the names in the map.
+ */
+function renderFirstLetter(firstLetters, colors, id) {
     if (firstLetters.length <= 5) {
         for (let j = 0; j < firstLetters.length; j++) {
             document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);
@@ -298,42 +303,82 @@ async function deleteTask(id) {
     loadTasks();
 }
 
+/**
+ * Opens the "Add Task" overlay, allowing the user to add a new task to the list.
+ * 
+ * This function performs the following actions:
+ * 1. Displays the overlay where the "Add Task" interface is presented.
+ * 2. Adjusts the styles of the overlay for proper positioning and layout.
+ * 3. Hides unnecessary elements (e.g., `aside`, `footer`, `header`) within the iframe context 
+ *    to ensure a clean and focused user interface.
+ * 
+ * @function openAddTask
+ * @returns {void}
+ */
+function openAddTask() {
+    showOverlay(); // Displays the overlay.
+    setOverlayStyles(); // Configures styles for the overlay.
+    hideUnnecessaryElementsInIframe(); // Hides irrelevant elements in the iframe.
+}
 
+
+
+/**
+ * This Function opens the overlay, activates the overlay class, and sets the overlay mode.
+ */
 function openOverlay() {
-    const overlay = document.getElementById('overlayContent'); 
-    overlay.classList.add('overlay-active'); 
-    setOverlayMode(); 
+    const overlay = document.getElementById('overlayContent');
+    if (overlay) {
+        overlay.classList.add('overlay-active'); // Adds the active class to the overlay
+        setOverlayMode(); // Sets the overlay mode
+    }
 }
 
-function closeOverlay() {
-    const overlay = document.getElementById('taskoverlay'); 
-    overlay.classList.remove('overlay-active'); 
-    resetToMainPage(); 
+/**
+ * This Function close the task overlay, removes the overlay class, and resets the mode to the main page.
+ */
+function closeTaskOverlay() {
+    const overlay = document.getElementById('taskoverlay');
+    if (overlay) {
+        overlay.classList.remove('overlay-active'); 
+        resetToMainPage(); 
+    }
 }
 
+/**
+ * This Function activate the overlay mode by setting the <body> element ID inside the iframe to "overlay-mode".
+ */
 function setOverlayMode() {
     const iframe = document.getElementById("overlayContent");
     if (iframe) {
         iframe.onload = function () {
             setTimeout(() => {
                 const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-                const body = iframeDocument.body;
-                if (body) {
-                    console.log("Ändere Body-ID zu 'overlay-mode'");
-                    body.id = "overlay-mode";
+                if (iframeDocument) {
+                    const body = iframeDocument.body;
+                    if (body) {
+                        console.log("Changing body ID to 'overlay-mode'");
+                        body.id = "overlay-mode"; // Sets the ID to indicate overlay mode
+                    }
                 }
-            }, 100); 
+            }, 100); // Delay to ensure iframe content has loaded
         };
     }
 }
 
+/**
+ * This Function resets the state inside the iframe to the main page by setting the `<body>` element ID to "main-page".
+ */
 function resetToMainPage() {
     const iframe = document.getElementById('overlayContent');
     if (iframe) {
         const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-        const body = iframeDocument.body;
-if (body) {
-            body.id = 'main-page';
+        if (iframeDocument) {
+            const body = iframeDocument.body;
+            if (body) {
+                console.log("Resetting body ID to 'main-page'");
+                body.id = 'main-page'; // Resets the ID to indicate the main page mode
+            }
         }
     }
 }

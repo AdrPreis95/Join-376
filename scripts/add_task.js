@@ -1,14 +1,24 @@
-
+/**
+ * Global variables to manage priorities, subtasks, and contacts.
+ * @type {string}
+ */
 let priority = '';
+/** @type {Array<Object>} */
 let subtasksArray = [];
+/** @type {Array<Object>} */
 let allContacts = [];
+/** @type {Array<Object>} */
 let selectedContacts = [];
 
+/**
+ * Fetches all task IDs from the backend.
+ * @async
+ * @returns {Promise<number[]>} Array of task IDs.
+ */
 async function getAllTaskIDs() {
     try {
         let response = await fetch(`${BASE_URL}/tasks.json`);
         let tasksData = await response.json();
-
         return tasksData ? extractIDs(tasksData) : [];
     } catch (error) {
         console.error("Fehler beim Abrufen der Task-IDs:", error);
@@ -16,20 +26,39 @@ async function getAllTaskIDs() {
     }
 }
 
+/**
+ * Extracts IDs from the tasks data object.
+ * @param {Object} tasksData - Tasks data from backend.
+ * @returns {number[]} Array of task IDs.
+ */
 function extractIDs(tasksData) {
     let ids = Object.keys(tasksData).map(key => parseInt(tasksData[key].id));
     return ids.filter(Number.isInteger);
 }
 
+/**
+ * Generates a new task ID.
+ * @async
+ * @returns {Promise<number>} The new task ID.
+ */
 async function generateNewID() {
     let existingIDs = await getAllTaskIDs();
     return Math.max(...existingIDs, 0) + 1;
 }
 
+/**
+ * Sets the priority for the task.
+ * @param {string} prio - The priority level.
+ */
 function setPriority(prio) {
     priority = prio;
 }
 
+/**
+ * Creates a new task with all inputs and saves it to the backend.
+ * @async
+ * @returns {Promise<void>}
+ */
 async function createTask() {
     validateInput();
     validateDateInput();
@@ -50,18 +79,25 @@ async function createTask() {
     await saveTask(newTask);
 }
 
+/**
+ * Prepares subtasks and contacts for saving.
+ */
 function prepareSubtasksAndContacts() {
     subtasksArray = subtasksArray.map(subtask => ({
         ...subtask,
         status: subtask.status || 'not done'
     }));
     selectedContacts = selectedContacts.map(contact => ({
-        firstName: contact.firstName ? contact.firstName : '',
-        lastName: contact.lastName ? contact.lastName : '',
+        firstName: contact.firstName || '',
+        lastName: contact.lastName || '',
         color: generateColor()
     }));
 }
 
+/**
+ * Gathers inputs from the task form.
+ * @returns {Object} Task input values.
+ */
 function getTaskInputs() {
     let title = document.getElementById('title').value;
     let description = document.getElementById('description').value;
@@ -72,6 +108,16 @@ function getTaskInputs() {
     return { title, description, dueDate, category, color };
 }
 
+/**
+ * Builds a new task object.
+ * @param {number} id - Task ID.
+ * @param {string} title - Task title.
+ * @param {string} description - Task description.
+ * @param {string} dueDate - Task due date.
+ * @param {string} category - Task category.
+ * @param {string} color - Task color.
+ * @returns {Object} The new task object.
+ */
 function buildNewTask(id, title, description, dueDate, category, color) {
     return {
         id,
@@ -87,6 +133,12 @@ function buildNewTask(id, title, description, dueDate, category, color) {
     };
 }
 
+/**
+ * Saves the task to the backend.
+ * @async
+ * @param {Object} newTask - The task object to save.
+ * @returns {Promise<void>}
+ */
 async function saveTask(newTask) {
     let [day, month, year] = newTask.dueDate.split('/');
     newTask.dueDate = `${year}-${month}-${day}`;
@@ -111,77 +163,27 @@ async function saveTask(newTask) {
     }
 }
 
+/**
+ * Fills the current date into the due date input field.
+ */
 function fillCurrentDate() {
     let dateInput = document.getElementById('due-date-input');
     dateInput.value = getFormattedTodayDate();
 }
 
-function getFormattedTodayDate() {
-    let today = new Date();
-    let day = String(today.getDate()).padStart(2, '0');
-    let month = String(today.getMonth() + 1).padStart(2, '0');
-    let year = today.getFullYear();
-    return `${day}/${month}/${year}`;
-}
-
-function handleDateInput(event) {
-    let value = formatDateInput(event.target.value);
-    event.target.value = value;
-
-    if (value.length === 10) {
-        if (validateDate(value)) {
-            preventPastDate(value);
-        } else {
-            event.target.value = '';
-            alert("Bitte geben Sie ein gültiges Datum ein.");
-        }
-    }
-}
-
-function formatDateInput(value) {
-    value = value.replace(/\D/g, '');
-    if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2);
-    if (value.length > 5) value = value.slice(0, 5) + '/' + value.slice(5, 9);
-    return value;
-}
-
-function validateDate(value) {
-    let inputDateParts = value.split('/');
-    return inputDateParts.length === 3 && isValidDayAndMonth(inputDateParts);
-}
-
-function isValidDayAndMonth(inputDateParts) {
-    let day = parseInt(inputDateParts[0], 10);
-    let month = parseInt(inputDateParts[1], 10);
-    return day >= 1 && day <= 31 && month >= 1 && month <= 12;
-}
-
-function preventPastDate(value) {
-    let today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    let enteredDate = getEnteredDate(value);
-    let dateInput = document.getElementById('due-date-input');
-
-    if (enteredDate < today) {
-        fillCurrentDate();
-        dateInput.classList.add('error-border');
-    } else {
-        dateInput.classList.remove('error-border');
-    }
-}
-
-function getEnteredDate(value) {
-    let inputDateParts = value.split('/');
-    return new Date(`${inputDateParts[2]}-${inputDateParts[1]}-${inputDateParts[0]}`);
-}
-
+/**
+ * Resets the styles of all priority buttons.
+ */
 function resetPriorityButtons() {
     resetButton('prio-red');
     resetButton('prio-orange');
     resetButton('prio-green');
 }
 
+/**
+ * Resets the styles of a single button.
+ * @param {string} buttonId - The ID of the button to reset.
+ */
 function resetButton(buttonId) {
     let button = document.getElementById(buttonId);
     button.style.backgroundColor = '';
@@ -190,6 +192,11 @@ function resetButton(buttonId) {
     img.style.filter = '';
 }
 
+/**
+ * Changes the color of the selected priority button.
+ * @param {HTMLElement} element - The priority button element.
+ * @param {string} color - The color to apply.
+ */
 function changeColor(element, color) {
     resetPriorityButtons();
     applyButtonColor(element, color);
@@ -203,6 +210,11 @@ function changeColor(element, color) {
     }
 }
 
+/**
+ * Applies styles to the selected priority button.
+ * @param {HTMLElement} element - The priority button element.
+ * @param {string} color - The color to apply.
+ */
 function applyButtonColor(element, color) {
     element.style.backgroundColor = color;
     element.style.color = '#FFFFFF';
@@ -210,26 +222,44 @@ function applyButtonColor(element, color) {
     img.style.filter = 'brightness(0) invert(1)';
 }
 
+
+/**
+ * Toggles the visibility of the subtask input and buttons.
+ */
 function addSubtask() {
     toggleShowIcons(true);
     toggleAddSubtaskButton(false);
 }
 
+/**
+ * Toggles the visibility of the icons for adding subtasks.
+ * @param {boolean} show - Whether to show or hide the icons.
+ */
 function toggleShowIcons(show) {
     let showIcons = document.getElementById('show-icons');
     if (showIcons) showIcons.style.display = show ? "flex" : "none";
 }
 
+/**
+ * Toggles the visibility of the "Add Subtask" button.
+ * @param {boolean} show - Whether to show or hide the button.
+ */
 function toggleAddSubtaskButton(show) {
     let addSubtaskButton = document.getElementById('add-subtask');
     if (addSubtaskButton) addSubtaskButton.style.display = show ? "inline-block" : "none";
 }
 
+/**
+ * Clears the subtask input field.
+ */
 function clearSubtaskInput() {
     let subtaskInput = document.getElementById('addsubtasks');
     if (subtaskInput) subtaskInput.value = '';
 }
 
+/**
+ * Validates and confirms a new subtask. Adds it to the subtask list if valid.
+ */
 function confirmSubtask() {
     let subtaskList = document.getElementById('subtask-list');
     let subtaskCount = subtaskList.getElementsByTagName('li').length;
@@ -248,6 +278,11 @@ function confirmSubtask() {
     addSubtaskToList(subtaskList, subtaskValue);
 }
 
+/**
+ * Adds a new subtask to the list.
+ * @param {HTMLElement} subtaskList - The HTML element containing the subtask list.
+ * @param {string} subtaskValue - The value of the new subtask.
+ */
 function addSubtaskToList(subtaskList, subtaskValue) {
     let li = createSubtaskElement(subtaskValue);
     subtaskList.appendChild(li);
@@ -255,6 +290,11 @@ function addSubtaskToList(subtaskList, subtaskValue) {
     resetSubtaskInputs();
 }
 
+/**
+ * Creates an HTML element for a new subtask.
+ * @param {string} subtaskValue - The value of the subtask.
+ * @returns {HTMLElement} The new subtask element.
+ */
 function createSubtaskElement(subtaskValue) {
     let li = document.createElement('li');
     li.innerHTML = `<div>
@@ -273,14 +313,20 @@ function createSubtaskElement(subtaskValue) {
     return li;
 }
 
+/**
+ * Resets the subtask input field and toggles buttons back to their default state.
+ */
 function resetSubtaskInputs() {
     document.getElementById('addsubtasks').value = '';
     toggleShowIcons(false);
     toggleAddSubtaskButton(true);
 }
 
+/**
+ * Edits an existing subtask.
+ * @param {HTMLElement} editBtn - The button element used to trigger the edit.
+ */
 function editSubtask(editBtn) {
-
     let subtaskText = editBtn.parentElement.previousElementSibling.querySelector('.subtask-text');
     subtaskText.contentEditable = "true";
     subtaskText.focus();
@@ -300,16 +346,28 @@ function editSubtask(editBtn) {
     });
 }
 
-
+/**
+ * Deletes a subtask from the list.
+ * @param {HTMLElement} deleteBtn - The button element used to trigger the delete.
+ */
 function deleteSubtask(deleteBtn) {
     let subtaskToDelete = deleteBtn.parentElement.parentElement;
     subtaskToDelete.remove();
 }
 
+/**
+ * Generates a random color.
+ * @returns {string} A randomly generated color.
+ */
 function getRandomColor() {
     return generateColor();
 }
 
+/**
+ * Loads all contacts from the backend and processes them.
+ * @async
+ * @returns {Promise<void>}
+ */
 async function loadContacts() {
     let userAsContact = createUserAsContact();
 
@@ -325,6 +383,10 @@ async function loadContacts() {
     }
 }
 
+/**
+ * Creates a contact representation for the logged-in user.
+ * @returns {Object} The logged-in user as a contact object.
+ */
 function createUserAsContact() {
     return {
         email: loggedUser.email,
@@ -335,12 +397,11 @@ function createUserAsContact() {
     };
 }
 
-function processContacts(contacts, userAsContact) {
-    let formattedContacts = contacts.filter(contact => contact).map(formatContact);
-    formattedContacts.unshift(userAsContact);
-    return formattedContacts;
-}
-
+/**
+ * Formats a contact object by splitting the name into first and last names.
+ * @param {Object} contact - The contact object to format.
+ * @returns {Object} The formatted contact object.
+ */
 function formatContact(contact) {
     let firstName = '';
     let lastName = '';
@@ -355,60 +416,11 @@ function formatContact(contact) {
     return { ...contact, firstName, lastName };
 }
 
-function displayContacts(contacts) {
-    let dropdown = document.getElementById('dropdown-user');
-    dropdown.innerHTML = '';
-    contacts.forEach(contact => createContactElement(dropdown, contact));
-}
-
-function createContactElement(dropdown, contact) {
-    if (!contact) return;
-
-    let userContainer = document.createElement('div');
-    userContainer.classList.add('user-container');
-    userContainer.appendChild(createAvatarContainer(contact));
-    userContainer.appendChild(createCheckbox(contact));
-
-    dropdown.appendChild(userContainer);
-}
-
-function createAvatarContainer(contact) {
-    let avatarSpanContainer = document.createElement('div');
-    avatarSpanContainer.classList.add('avatar-span-container');
-
-    let avatar = document.createElement('div');
-    avatar.classList.add('avatar');
-    avatar.style.backgroundColor = getRandomColor();
-    avatar.innerText = getInitials(contact).toUpperCase();
-
-    let userName = document.createElement('span');
-    userName.classList.add('user-name');
-    userName.innerText = getFullName(contact);
-
-    avatarSpanContainer.appendChild(avatar);
-    avatarSpanContainer.appendChild(userName);
-
-    return avatarSpanContainer;
-}
-
-function createCheckbox(contact) {
-    let checkbox = document.createElement('input');
-    checkbox.type = 'checkbox';
-    checkbox.addEventListener('change', function () {
-        updateSelectedContacts(this.checked, contact);
-        updatePickedUserAvatars();
-    });
-    return checkbox;
-}
-
-function updateSelectedContacts(isChecked, contact) {
-    if (isChecked) {
-        selectedContacts.push(contact);
-    } else {
-        selectedContacts = selectedContacts.filter(c => c !== contact);
-    }
-}
-
+/**
+ * Generates initials for a contact.
+ * @param {Object} contact - The contact object.
+ * @returns {string} The initials of the contact.
+ */
 function getInitials(contact) {
     let initials = '';
     if (contact.firstName) initials += contact.firstName.charAt(0);
@@ -417,74 +429,33 @@ function getInitials(contact) {
     return initials;
 }
 
+/**
+ * Gets the full name of a contact.
+ * @param {Object} contact - The contact object.
+ * @returns {string} The full name of the contact.
+ */
 function getFullName(contact) {
     return `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
 }
 
-function updatePickedUserAvatars() {
-    let pickedUserAvatarContainer = document.getElementById('picked-user-avatar');
-    pickedUserAvatarContainer.innerHTML = '';
-
-    selectedContacts.forEach((contact, index) => {
-        pickedUserAvatarContainer.appendChild(createPickedUserElement(contact, index));
-    });
-}
-
-function createPickedUserElement(contact, index) {
-    let userInfoContainer = document.createElement('div');
-    userInfoContainer.classList.add('picked-user-info');
-    userInfoContainer.appendChild(createDeleteButton(index));
-    userInfoContainer.appendChild(createAvatarDiv(contact));
-    userInfoContainer.appendChild(createNameSpan(contact));
-
-    return userInfoContainer;
-}
-
-function createDeleteButton(index) {
-    let deleteButton = document.createElement('button');
-    deleteButton.classList.add('delete-user-button');
-    deleteButton.innerHTML = '&times;';
-    deleteButton.title = 'Remove User';
-    deleteButton.addEventListener('click', () => {
-        selectedContacts.splice(index, 1);
-        updatePickedUserAvatars();
-    });
-    return deleteButton;
-}
-
-function createAvatarDiv(contact) {
-    let avatarDiv = document.createElement('div');
-    avatarDiv.classList.add('avatar');
-    avatarDiv.style.backgroundColor = getRandomColor();
-    avatarDiv.innerText = getInitials(contact).toUpperCase();
-    return avatarDiv;
-}
-
-function createNameSpan(contact) {
-    let nameSpan = document.createElement('span');
-    nameSpan.classList.add('picked-user-name');
-    nameSpan.innerText = `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
-    return nameSpan;
-}
-
-function filterContacts() {
-    let input = document.getElementById('dropdown-input').value.toLowerCase();
-    let filteredContacts = {};
-
-    for (const key in allContacts) {
-        if (allContacts[key].name.toLowerCase().startsWith(input)) {
-            filteredContacts[key] = allContacts[key];
-        }
-    }
-
-    displayContacts(filteredContacts);
-}
-
+/**
+ * Toggles the dropdown for user selection.
+ */
 function openDropdown() {
     let dropdown = document.getElementById('dropdown-user');
     dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-    if (dropdown.style.display === "flex") loadContacts();
+
+    if (dropdown.style.display === "flex") {
+        loadContacts().then(() => {
+            synchronizeCheckboxes();
+        });
+    }
 }
+
+/**
+ * Closes the dropdown when clicking outside.
+ * @param {Event} event - The click event.
+ */
 function closeDropdownOnClickOutside(event) {
     const dropdown = document.getElementById('dropdown-user');
     const container = document.querySelector('.dropdown');
@@ -494,6 +465,9 @@ function closeDropdownOnClickOutside(event) {
 }
 document.addEventListener('click', closeDropdownOnClickOutside);
 
+/**
+ * Clears all task-related inputs and resets the form.
+ */
 function clearTask() {
     clearInputs();
     clearSubtaskList();
@@ -501,6 +475,9 @@ function clearTask() {
     displayContacts(allContacts);
 }
 
+/**
+ * Clears the input fields for the task.
+ */
 function clearInputs() {
     document.getElementById("title").value = '';
     document.getElementById("description").value = '';
@@ -508,12 +485,18 @@ function clearInputs() {
     document.getElementById("selectcategory").value = '';
 }
 
+/**
+ * Clears the subtask list and resets the array.
+ */
 function clearSubtaskList() {
     document.getElementById("subtask-list").innerHTML = '';
     subtasksArray = [];
     selectedContacts = [];
 }
 
+/**
+ * Validates the title input field.
+ */
 function validateInput() {
     const input = document.getElementById('title');
     const errorMessage = document.getElementById('error-message');
@@ -521,119 +504,66 @@ function validateInput() {
     if (input.value.trim() === "") {
         input.classList.add('error');
         input.style.border = '2px solid red';
-        input.style.borderStyle = 'solid';
         errorMessage.style.display = 'block';
     } else {
         input.classList.remove('error');
         input.style.border = 'none';
-        input.style.filter = 'drop-shadow(0px 0px 4px #D1D1D1)';
         errorMessage.style.display = 'none';
     }
 }
 
-function validateDateInput() {
-    const dateInput = document.getElementById('due-date-input');
-    const dateErrorMessage = document.getElementById('date-error-message');
-    const validationResult = validateDateFormatAndFuture(dateInput.value);
-    if (!validationResult.isValid) {
-        dateInput.classList.add('error');
-        dateInput.style.border = '2px solid red';
-        dateErrorMessage.textContent = validationResult.message;
-        dateErrorMessage.style.display = 'block';
-    } else {
-        dateInput.value = validationResult.correctedDate || dateInput.value;
-        dateInput.classList.remove('error');
-        dateInput.style.border = 'none';
-        dateInput.style.filter = 'drop-shadow(0px 0px 4px #D1D1D1)';
-        dateErrorMessage.style.display = 'none';
-    }
-}
-
-function validateDateFormatAndFuture(dateValue) {
-    const datePattern = /^\d{2}\/\d{2}\/\d{4}$/;
-    if (!dateValue.match(datePattern)) {
-        return {
-            isValid: false,
-            message: 'Please select a Date'
-        };
-    }
-    const [day, month, year] = dateValue.split('/');
-    const enteredDate = new Date(`${year}-${month}-${day}`);
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    if (enteredDate < today) {
-        return {
-            isValid: true,
-            correctedDate: getFormattedTodayDate()
-        };
-    }
-
-    return { isValid: true };
-}
-function getFormattedTodayDate() {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const year = today.getFullYear();
-    return `${day}/${month}/${year}`;
-}
-
-function initializeDateInput() {
-    const dateInput = document.getElementById('due-date-input');
-    dateInput.addEventListener('input', function (event) {
-        const inputField = event.target;
-        inputField.value = inputField.value.replace(/[^0-9/]/g, '');
-    });
-}
-document.addEventListener('DOMContentLoaded', initializeDateInput);
-
+/**
+ * Validates the category selection input.
+ */
 function validateSelectCategory() {
     const selectCategory = document.getElementById('selectcategory');
     const categoryErrorMessage = document.getElementById('category-error-message');
 
-    if (selectCategory.value === "") {
-        selectCategory.classList.add('error');
-        selectCategory.style.border = '2px solid red';
-        categoryErrorMessage.style.display = 'block';
+    if (isCategoryEmpty(selectCategory)) {
+        showCategoryError(selectCategory, categoryErrorMessage);
     } else {
-        selectCategory.classList.remove('error');
-        selectCategory.style.border = 'none';
-        categoryErrorMessage.style.display = 'none';
+        hideCategoryError(selectCategory, categoryErrorMessage);
     }
 }
-document.getElementById('title').addEventListener('focus', function () {
-    if (!this.classList.contains('error')) {
-        this.style.border = '2px solid #29ABE2';
-    }
-});
 
-document.getElementById('title').addEventListener('blur', validateInput);
+/**
+ * Checks if the category selection is empty.
+ * @param {HTMLElement} selectCategory - The category selection element.
+ * @returns {boolean} True if the category is empty, otherwise false.
+ */
+function isCategoryEmpty(selectCategory) {
+    return selectCategory.value === "";
+}
 
-document.getElementById('due-date-input').addEventListener('focus', function () {
-    if (!this.classList.contains('error')) {
-        this.style.border = '2px solid #29ABE2';
-    }
-});
+/**
+ * Displays an error for the category selection input.
+ * @param {HTMLElement} selectCategory - The category selection element.
+ * @param {HTMLElement} categoryErrorMessage - The error message element.
+ */
+function showCategoryError(selectCategory, categoryErrorMessage) {
+    selectCategory.classList.add('error');
+    selectCategory.style.border = '2px solid red';
+    categoryErrorMessage.style.display = 'block';
+}
 
-document.getElementById('due-date-input').addEventListener('blur', validateDateInput);
+/**
+ * Hides the error for the category selection input.
+ * @param {HTMLElement} selectCategory - The category selection element.
+ * @param {HTMLElement} categoryErrorMessage - The error message element.
+ */
+function hideCategoryError(selectCategory, categoryErrorMessage) {
+    selectCategory.classList.remove('error');
+    selectCategory.style.border = 'none';
+    categoryErrorMessage.style.display = 'none';
+}
 
-document.getElementById('selectcategory').addEventListener('focus', function () {
-    if (!this.classList.contains('error')) {
-        this.style.border = '2px solid #29ABE2';
-    }
-});
-
-document.getElementById('selectcategory').addEventListener('blur', validateSelectCategory);
-
-
-
+/**
+ * Sets the page mode based on whether it's in an overlay or not.
+ */
 document.addEventListener('DOMContentLoaded', function () {
     if (window !== window.top) {
-        // Die Seite läuft in einem iframe
         document.body.id = 'overlay-mode';
     } else {
-        // Die Seite läuft eigenständig
         document.body.id = 'main-page';
     }
 });

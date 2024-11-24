@@ -158,6 +158,7 @@
 .list {
     width: 244px;
     padding-bottom: 100px;
+    height: inherit;
 }
 
 .list-head {

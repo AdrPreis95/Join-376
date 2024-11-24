@@ -1,15 +1,43 @@
+/**
+ * This function is called as soon as a task is to be processed. All parameters are first collected and transferred to other functions.
+ * @param {number} id - Transfers the ID of the task in question.
+ * @param {string} title - Hands over the title.
+ * @param {string} description - Transfers the description.
+ * @param {Date} dueDate - Transfers the completion date.
+ * @param {string} priority - Transfers the priority.
+ */
 async function editTask(id, title, description, dueDate, priority) {
     id--;
     let refOverlay = document.getElementById('task-details');
     refOverlay.innerHTML = "";
-    refOverlay.innerHTML = getOverlayEdit(id, title, description);
+    refOverlay.innerHTML = getOverlayEdit(id, title, description, dueDate);
     document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
     checkActivePriority(priority);
     selectedUserEdit(id);
     renderOverlayEditSubtasks(id);
     loadContacts(id);
+    activeFlatPickr();
 }
 
+/**
+ * This function calls up the calendar for the dueDate.
+ */
+function activeFlatPickr() {
+    const datePickerInput = document.getElementById('due-date-input');
+    const openCalendar = document.getElementById('calendar-icon');
+    const calendar = flatpickr(datePickerInput, {
+        minDate: "today",
+        dateFormat: "Y-m-d",
+    });
+    openCalendar.addEventListener('click', () => {
+        calendar.open();
+    });
+}
+
+/**
+ * This function changes the icon for the priority, depending on how it is.
+ * @param {string} priority - Transfers the priority.
+ */
 function checkActivePriority(priority) {
     if (priority == 'Urgent') {
         document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
@@ -27,6 +55,10 @@ function checkActivePriority(priority) {
     activePriority = priority;
 }
 
+/**
+ * This function changes an icon if the priority is changed by the user.
+ * @param {string} newPriority - Receives the new priority.
+ */
 function changePriority(newPriority) {
     let prioArr = ['urgent', 'medium', 'low'];
     for (let i = 0; i < prioArr.length; i++) {
@@ -38,6 +70,10 @@ function changePriority(newPriority) {
     checkActivePriority(newPriority);
 }
 
+/**
+ * This function saves the respective changes and loads them into Firebase.
+ * @param {number} id - Transfers the ID to save the changes to the correct object.
+ */
 async function saveEdit(id) {
     id = await findKey(id);
     let responseJson = await loadTaskWithID(id);
@@ -53,6 +89,11 @@ async function saveEdit(id) {
         loadTasks();
 }
 
+/**
+ * This function loads the existing information into the placeholders.
+ * @param {Object} responseJson - The entire task is transferred as an object.
+ * @returns Object Task
+ */
 function generateChangeTask(responseJson) {
     let title = document.getElementById('overlay-title').value;
     let description = document.getElementById('overlay-description').value;
@@ -71,6 +112,10 @@ function generateChangeTask(responseJson) {
     return responseJson;
 }
 
+/**
+ * This function highlights the priority already selected.
+ * @returns Returns the active element.
+ */
 function activePriorityButton() {
     let lowLabel = window.getComputedStyle(document.getElementById('low-label')).getPropertyValue("background-color");
     let mediumLabel = window.getComputedStyle(document.getElementById('medium-label')).getPropertyValue("background-color");
@@ -89,6 +134,10 @@ function activePriorityButton() {
     return activeElement;
 }
 
+/**
+ * This function loads the contacts from Firebase.
+ * @param {number} id - Transfers the ID of the respective task.
+ */
 async function loadContacts(id) {
     let userAsContact = {
         email: loggedUser.email, 
@@ -105,6 +154,12 @@ async function loadContacts(id) {
     renderOverlayContacts(id, responseJson, activeUserIndex);
 }
 
+/**
+ * This function renders the existing contacts when the drop-down is opened.
+ * @param {number} id - Transfers the ID of the respective task.
+ * @param {object} responseJson - Contains all contacts as an object.
+ * @param {number} activeUserIndex - Contains the index of the users who are active, if there are any.
+ */
 function renderOverlayContacts(id, responseJson, activeUserIndex) {
     for (let i = 0; i < responseJson.length; i++) {
         let urlIcon = './assets/icons/unchecked_icon.png';
@@ -121,6 +176,11 @@ function renderOverlayContacts(id, responseJson, activeUserIndex) {
     }
 }
 
+/**
+ * This function determines the users that have been entered for this task.
+ * @param {number} id - The ID is transferred in order to find the correct task.
+ * @returns An array is returned in which the active users.
+ */
 async function loadActiveUser(id) {
     let task = await loadTaskWithID(id);
     let activeUser = [];
@@ -131,6 +191,12 @@ async function loadActiveUser(id) {
     return activeUser;
 }
 
+/**
+ * This function uses the name to check which index the users have.
+ * @param {array} activeUser - The array in which the names are stored is transferred.
+ * @param {object} responseJson - The task is transferred as an object.
+ * @returns An array is returned in which the index of the active users has been saved.
+ */
 function checkActiveUser(activeUser, responseJson) {
     let allContacts = [];
     let activeUserIndex = [];
@@ -145,13 +211,83 @@ function checkActiveUser(activeUser, responseJson) {
     return activeUserIndex;
 }
 
-async function toggleAssignedTo(id, name, color, firstLetterFirstName, firstLetterLastName, urlIcon) {
-    if(urlIcon == './assets/icons/unchecked_icon.png') {
-        urlIcon = './assets/icons/checked_icon.png'
-        renderOverlayContacts(id, name, color, firstLetterFirstName, firstLetterLastName, urlIcon);
+/**
+ * This function saves the change when a user is changed in the task.
+ * @param {object} task - The task is transferred as an object.
+ * @param {string} firstName - The first name is transferred.
+ * @param {string} lastName - The surname is transferred.
+ */
+function updateAssignedTo(task, firstName, lastName) {
+    const index = task.assignedTo.findIndex(user => 
+        user.firstName === firstName && user.lastName === lastName
+    );
+    if (index === -1) {
+        task.assignedTo.push({ firstName, lastName, color: generateColor() });
+    } else {
+        task.assignedTo.splice(index, 1);
     }
 }
 
+/**
+ * This function saves the change in Firebase.
+ * @param {string} taskRefUrl 
+ * @param {object} updatedTask 
+ */
+async function updateTaskInFirebase(taskRefUrl, updatedField) {
+    try {
+        const response = await fetch(taskRefUrl);
+        const currentTask = await response.json();
+        if (!currentTask) {
+            console.error("Aufgabe konnte nicht geladen werden.");
+            return;
+        }
+        const updatedTask = { ...currentTask, ...updatedField };
+        await fetch(taskRefUrl, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(updatedTask),
+        });
+    } catch (error) {
+        console.error("Fehler beim Aktualisieren der Aufgabe:", error);
+    }
+}
+
+/**
+ * This function changes the icon when a user is selected or deselected.
+ * @param {string} contactRef 
+ * @param {string} checkedIcon 
+ * @param {string} uncheckedIcon 
+ */
+function toggleIcon(contactRef, checkedIcon, uncheckedIcon) {
+    const isChecked = contactRef.getAttribute("src") === checkedIcon;
+    contactRef.setAttribute("src", isChecked ? uncheckedIcon : checkedIcon);
+}
+
+/**
+ * This function changes the user.
+ * @param {string} name 
+ * @param {number} id 
+ */
+async function toggleAssignedTo(name, id) {
+    const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
+    const task = await loadTaskWithID(id);
+    const [firstName, ...lastNameParts] = name.split(" ");
+    const lastName = lastNameParts.join(" ");
+    updateAssignedTo(task, firstName, lastName);
+    await updateTaskInFirebase(taskRefUrl, { assignedTo: task.assignedTo });
+    const contactRef = document.getElementById('checkbox-contact-' + name);
+    toggleIcon(contactRef, './assets/icons/checked_icon.png', './assets/icons/unchecked_icon.png');
+    document.getElementById('user-names-edit-overlay').innerHTML = "";
+    selectedUserEdit(id);
+}
+
+
+/**
+ * This function changes the status of a subtask.
+ * @param {number} id 
+ * @param {number} subtaskId 
+ * @param {string} status 
+ */
 async function changeStatusSubtask(id, subtaskId, status) {
     id--;
     id = await findKey(id);
@@ -172,6 +308,9 @@ async function changeStatusSubtask(id, subtaskId, status) {
     renderOverlaySubtasks(responseJson);
 }
 
+/**
+ * This function opens the drop-down menu with the users.
+ */
 function openDropdownAssigned() {
     let dropdownRef = document.getElementById('selected-user-dropdown');
     let arrowRef = document.getElementById('arrow-dropdown');
@@ -189,15 +328,23 @@ function openDropdownAssigned() {
     }
 }
 
+/**
+ * This function closes the drop-down menu.
+ * @param {event} event 
+ * @returns 
+ */
 function closeDropdownAssigned(event) {
     if (event.target.closest('#assigned-container')) {
         event.stopPropagation();
         return;
     }
-
     document.getElementById('arrow-dropdown').setAttribute("src", "./assets/icons/arrow_drop_down_top.png");
 }
 
+/**
+ * This function selects the selected users and saves them in an array.
+ * @param {number} id 
+ */
 async function selectedUserEdit(id) {
     let responseJson = await loadTaskWithID(id);
     let usersFirstLetters = [];
@@ -212,6 +359,11 @@ async function selectedUserEdit(id) {
     renderOverlayEditUser(usersFirstLetters, colors)
 }
 
+/**
+ * This function renders the respective users.
+ * @param {array} usersFirstLetters 
+ * @param {array} colors 
+ */
 function renderOverlayEditUser(usersFirstLetters, colors) {
     if(usersFirstLetters.length >= 8) {
         for (let i = 0; i < 8; i++) {
@@ -226,6 +378,10 @@ function renderOverlayEditUser(usersFirstLetters, colors) {
     }
 }
 
+/**
+ * This function renders the edit mode for the subtasks.
+ * @param {number} id 
+ */
 function editMode(id) {
     let createContainer = document.getElementById('create-subtask-overlay');
     if (document.getElementById('add-subtask-overlay-edit').getAttribute("src") == "./assets/icons/add_subtask.png") {
@@ -235,6 +391,10 @@ function editMode(id) {
     }
 }
 
+/**
+ * This function creates a new subtask.
+ * @param {number} id 
+ */
 async function createSubtaskOverlay(id) {
     let inputRef = document.getElementById('subtask-edit');
     let task = await loadTaskWithID(id);
@@ -260,10 +420,17 @@ async function createSubtaskOverlay(id) {
     clearSubtaskInput();
 }
 
+/**
+ * This function clears the input field after a new subtask has been created.
+ */
 function clearSubtaskInput() {
     document.getElementById('subtask-edit').value = "";
 }
 
+/**
+ * This function renders the editing of subtasks.
+ * @param {number} id 
+ */
 async function renderOverlayEditSubtasks(id) {
     let responseJson = await loadTaskWithID(id);
     document.getElementById('subtasks-overlay-edit').innerHTML = "";
@@ -274,6 +441,11 @@ async function renderOverlayEditSubtasks(id) {
     }
 }
 
+/**
+ * This function allows you to edit a subtask.
+ * @param {number} id 
+ * @param {array} subtask 
+ */
 async function editSubtask(id, subtask) {
     let task = await loadTaskWithID(id);
     let subtaskId = findSubtask(task, subtask);
@@ -285,6 +457,11 @@ async function editSubtask(id, subtask) {
     }
 }
 
+/**
+ * This function deletes a subtask.
+ * @param {number} taskId 
+ * @param {string} subtaskName 
+ */
 async function deleteSubtask(taskId, subtaskName) {
     let task = await loadTaskWithID(taskId);
     let subtaskIndex = findSubtask(task, subtaskName);
@@ -301,6 +478,12 @@ async function deleteSubtask(taskId, subtaskName) {
     renderOverlayEditSubtasks(taskId);
 }
 
+/**
+ * This function finds the relevant subtask.
+ * @param {object} task 
+ * @param {array} subtask 
+ * @returns 
+ */
 function findSubtask(task, subtask) {
     let subtaskId;
     for (let i = 0; i < task.subtasks.length; i++) {
@@ -311,6 +494,11 @@ function findSubtask(task, subtask) {
     return subtaskId;
 }
 
+/**
+ * This function saves the change to the processing of the subtask.
+ * @param {number} id 
+ * @param {array} subtask 
+ */
 async function saveEditSubtask(id, subtask) {
     let task = await loadTaskWithID(id);
     let subtaskId = findSubtask(task, subtask);
