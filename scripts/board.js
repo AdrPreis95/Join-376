@@ -57,6 +57,11 @@ async function searchTask(type, e) {
     showSearchResults(matchedTasks, responseJson, keynum);
 }
 
+/**
+ * This function checks which button has been pressed and returns the key code.
+ * @param {event} e - The event object is transferred.
+ * @returns The function returns the key code (keynum) of the key pressed.
+ */
 function pressedKey(e) {
     if (window.e) { // IE                  
         return keynum = e.keyCode;
@@ -65,6 +70,11 @@ function pressedKey(e) {
     }
 }
 
+/**
+ * The function synchronizes the value of two input fields and returns the entered text as lower case letters. 
+ * @param {string} type 
+ * @returns The function returns the text of the relevant input field in lower case.
+ */
 function getKeyWord(type) {
     if (type == "responsive") {
         document.getElementById('find-task').value = document.getElementById('find-task-responsive').value;
@@ -75,6 +85,12 @@ function getKeyWord(type) {
     }
 }
 
+/**
+ * The function processes and displays search results based on an input. It checks whether there are matches to a search and renders either the filtered results or the entire list, depending on the input.
+ * @param {string} matchedTasks 
+ * @param {object} responseJson 
+ * @param {number} keynum 
+ */
 function showSearchResults(matchedTasks, responseJson, keynum) {
     if (matchedTasks.length > 0 && keynum != 8) {
         clearLists();
@@ -87,6 +103,9 @@ function showSearchResults(matchedTasks, responseJson, keynum) {
     }
 }
 
+/**
+ * This function provides user feedback if no results were found for the entry.
+ */
 function noResults() {
     let popUp = document.getElementById("search-notification");
     popUp.classList.remove("d-none");

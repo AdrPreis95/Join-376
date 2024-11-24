@@ -1,3 +1,13 @@
+/**
+ * This function contains the HTML template for a task as a card on the board.
+ * @param {number} id 
+ * @param {string} category 
+ * @param {string} classCategory 
+ * @param {string} title 
+ * @param {string} description 
+ * @param {string} prioIcon 
+ * @returns The HTML template is returned.
+ */
 function getTask(id, category, classCategory, title, description, prioIcon) {
     return `
     <div class="task-card" id="${id}" draggable="true" ondragstart="startDragging(${id})" ondragend="removeDragging(${id})"
@@ -25,6 +35,11 @@ function getTask(id, category, classCategory, title, description, prioIcon) {
     `
 }
 
+/**
+ * This function returns an HTML template which indicates that the respective list is not filled.
+ * @param {string} list 
+ * @returns The HTML template is returned.
+ */
 function getClearList(list) {
     return `
     <div class="list-no-task">
@@ -33,6 +48,13 @@ function getClearList(list) {
     `
 }
 
+/**
+ * This function returns the HTML template for the progress display of the subtask.
+ * @param {number} doneTasks 
+ * @param {number} allSubtasks 
+ * @param {number} progress 
+ * @returns The HTML template is returned.
+ */
 function getSubtask(doneTasks, allSubtasks, progress) {
     return `
     <div class="progress-border"><div id="subtask-progress" class="subtask-progress" style="width: ${progress}%;"></div></div>
@@ -40,6 +62,12 @@ function getSubtask(doneTasks, allSubtasks, progress) {
     `
 }
 
+/**
+ * This function creates the HTML template with the initial letters of the users and the color for the background.
+ * @param {string} firstLetters 
+ * @param {string} color 
+ * @returns The HTML template is returned.
+ */
 function getFirstLetterName(firstLetters, color) {
     return `
     <div style="background-color: ${color};" class="assigned-user">
@@ -48,12 +76,29 @@ function getFirstLetterName(firstLetters, color) {
     `
 }
 
+/**
+ * This function creates an HTML template if more users are specified that cannot be displayed due to a lack of space.
+ * @param {string} quantity 
+ * @returns The HTML template is returned.
+ */
 function getMoreUser(quantity) {
     return `
     <p>+ ${quantity}</p>
     `
 }
 
+/**
+ * This function creates the HTML template for the overlay when the detail view is opened.
+ * @param {number} id 
+ * @param {string} classCategory 
+ * @param {string} category 
+ * @param {string} title 
+ * @param {string} description 
+ * @param {string} dueDate 
+ * @param {string} priority 
+ * @param {string} prioIcon 
+ * @returns The HTML template is returned.
+ */
 function getOverlayDetails(id, classCategory, category, title, description, dueDate, priority, prioIcon) {
     return `
     <div class="content-overlay">
@@ -117,6 +162,13 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
     `
 }
 
+/**
+ * This function creates an HTML template for the user in the overlay.
+ * @param {string} firstLetter 
+ * @param {string} userName 
+ * @param {string} color 
+ * @returns The HTML template is returned.
+ */
 function getUserNamesOverlay(firstLetter, userName, color) {
     return `
     <div class="username-overlay">
@@ -128,12 +180,26 @@ function getUserNamesOverlay(firstLetter, userName, color) {
     `
 }
 
+/**
+ * This function creates an HTML template if there are more users in the task that cannot all be displayed in the overlay.
+ * @param {number} quantity 
+ * @returns The HTML template is returned.
+ */
 function getMoreUserOverlay(quantity) {
     return `
     <p>... ${quantity} weitere.</p>
     `
 }
 
+/**
+ * This function creates an HTML template for the overlay and the display of the subtasks.
+ * @param {numver} id 
+ * @param {number} subtaskId 
+ * @param {string} status 
+ * @param {string} title 
+ * @param {string} statusIcon 
+ * @returns The HTML template is returned.
+ */
 function getSubtasksOverlay(id, subtaskId, status, title, statusIcon) {
     return `
     <div class="subtask-overlay">
@@ -143,6 +209,14 @@ function getSubtasksOverlay(id, subtaskId, status, title, statusIcon) {
     `
 }
 
+/**
+ * This function creates an HTML template for the overlay and the edit mode.
+ * @param {number} id 
+ * @param {string} title 
+ * @param {string} description 
+ * @param {string} dueDate 
+ * @returns The HTML template is returned.
+ */
 function getOverlayEdit(id, title, description, dueDate) {
     return `
     <div class="content-overlay" onclick="closeDropdownAssigned(event)">
