@@ -319,6 +319,6 @@
 /*Responsive exclusive for board.html*/
 @media (max-width: 899px) {
     .main-content h1 {
-        padding-left: 10px;
+        padding-left: 20px;
     }
 }

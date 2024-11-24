@@ -43,22 +43,7 @@
 }
 @media (max-width: 899px) {
     .board-lists {
-        flex-direction: column;
         padding: 0 20px 71px 20px;
-    }
-
-    .list {
-        width: inherit;
-        padding-bottom: 0;
-    }
-
-    .to-do,
-    .in-progress,
-    .await-feedback,
-    .done {
-        display: flex;
-        gap: 12px;
-        overflow: scroll;
     }
 
     .board-header {
@@ -77,7 +62,7 @@
 
     .board-input-responsive {
         display: block;
-        padding: 0 30px 0 16px;
+        padding: 0 30px 0 20px;
     }
 
     .board-search {
@@ -214,7 +199,7 @@
 
     .board-input-responsive {
         display: block;
-        padding: 0 20px 0 16px;
+        padding: 0 20px 0 20px;
     }
 
     header {
