@@ -289,6 +289,16 @@ function getOverlayEdit(id, title, description, dueDate) {
     `
 }
 
+/**
+ * This function returns the HTML template for the contact bubble.
+ * @param {number} id 
+ * @param {string} name 
+ * @param {string} color 
+ * @param {string} firstLetterFirstName 
+ * @param {string} firstLetterLastName 
+ * @param {string} urlIcon 
+ * @returns The HTML template is returned.
+ */
 function getContactName(id, name, color, firstLetterFirstName, firstLetterLastName, urlIcon) {
     return `
     <div class="contact-container-overlay">
@@ -303,6 +313,12 @@ function getContactName(id, name, color, firstLetterFirstName, firstLetterLastNa
     `
 }
 
+/**
+ * This function returns the HTML template for the initial letters of the user.
+ * @param {string} color 
+ * @param {string} firstLetter 
+ * @returns The HTML template is returned.
+ */
 function getUserInititalsOverlayEdit(color, firstLetter) {
     return `
     <div style="background-color: ${color};" class="assigned-user-overlay-edit">
@@ -311,6 +327,11 @@ function getUserInititalsOverlayEdit(color, firstLetter) {
     `
 }
 
+/**
+ * This function returns the HTML template for the number of additional users that can no longer be displayed.
+ * @param {number} userslength 
+ * @returns The HTML template is returned.
+ */
 function getMoreUserOverlayEdit(userslength) {
     return `
     <div class="user-initials-overlay">
@@ -319,6 +340,11 @@ function getMoreUserOverlayEdit(userslength) {
     `
 }
 
+/**
+ * This function returns the HTML template for editing the subtasks.
+ * @param {number} id 
+ * @returns The HTML template is returned.
+ */
 function getSubtaskOverlayIcons(id) {
     return `
     <div class="hover-container">
@@ -331,6 +357,10 @@ function getSubtaskOverlayIcons(id) {
     `
 }
 
+/**
+ * This function returns the HTML template for the add icon when hovering.
+ * @returns The HTML template is returned.
+ */
 function getSubtaskOverlayAddIcon() {
     return `
     <div class="hover-container">
@@ -339,6 +369,13 @@ function getSubtaskOverlayAddIcon() {
     `
 }
 
+/**
+ * This function returns the HTML template for editing the subtasks in the overlay.
+ * @param {string} subtask 
+ * @param {number} id 
+ * @param {number} i 
+ * @returns The HTML template is returned.
+ */
 function getSubtasksOverlayEdit(subtask, id, i) {
     return `
     <div class="overlay-edit-subtask-list" id="list-${i}">
@@ -354,6 +391,12 @@ function getSubtasksOverlayEdit(subtask, id, i) {
     `
 }
 
+/**
+ * This function returns the HTML template when editing the subtasks in the overlay.
+ * @param {string} subtask 
+ * @param {number} id 
+ * @returns The HTML template is returned.
+ */
 function getSubtasksOverlayEditInput(subtask, id) {
     return `
     <input id="change-subtask-input" placeholder="${subtask}" maxlength="20"></input>
@@ -365,6 +408,10 @@ function getSubtasksOverlayEditInput(subtask, id) {
     `
 }
 
+/**
+ * This function returns the HTML template which tells the user that the input field is empty.
+ * @returns The HTML template is returned.
+ */
 function getWarningEmptyInput() {
     return `
     <p>Please enter a change to the subtask.</p>
