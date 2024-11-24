@@ -1,4 +1,32 @@
-let contacts = [];
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: contacts.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: contacts.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>let contacts = [];
 
 /**
  * @typedef {Object} Contact
@@ -10,13 +38,13 @@ let contacts = [];
 
 /**
  * Fetches all contacts from the server and updates the global `contacts` array.
- * @returns {Promise<Contact[]>} A promise resolving to an array of contact objects.
+ * @returns {Promise&lt;Contact[]>} A promise resolving to an array of contact objects.
  */
 function fetchContacts() {
     return fetch(BASE_URL + 'contacts.json')
         .then(response => response.json())
         .then(data => {
-            contacts = Object.values(data).filter(contact => contact && contact.name);
+            contacts = Object.values(data).filter(contact => contact &amp;&amp; contact.name);
             return contacts;
         });
 }
@@ -44,7 +72,7 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
     clone.querySelector('.initialsCircle').style.backgroundColor = bgColor;
     clone.querySelector('.contactName').textContent = contact.name;
     clone.querySelector('.contactEmail').innerHTML = contact.email 
-        ? `<a style="color: #007cee;" href="#">${contact.email}</a>` 
+        ? `&lt;a style="color: #007cee;" href="#">${contact.email}&lt;/a>` 
         : 'No email available';
         contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}'); toggleDetails();`);
     container.appendChild(clone);
@@ -102,7 +130,7 @@ function updateContactDetails(contact, initials, bgColor) {
     document.getElementById('contactId').innerHTML = contact.id;
     document.getElementById('detailsName').textContent = contact.name;
     document.getElementById('detailsEmail').innerHTML = contact.email 
-        ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
+        ? `&lt;a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}&lt;/a>` 
         : 'No email available';
     
     document.getElementById('detailsPhone').textContent = contact.phone ? contact.phone : 'No phone available';
@@ -127,7 +155,7 @@ function createContact() {
         contacts.push(newContact);
         updateContactDisplay();
         closeAddContactForm(true);
-        if (window.innerWidth < 1250) showFooter();
+        if (window.innerWidth &lt; 1250) showFooter();
     });
 }
 
@@ -214,7 +242,7 @@ function updateID (updatedContacts) {
 function updateDelChanges(del) {
     updateContactDisplay();
     closeContactDetails();
-    if (window.innerWidth < 1250) hideDetails();
+    if (window.innerWidth &lt; 1250) hideDetails();
     if(del == "editForm") {
         closeEditContactForm();
     }
@@ -239,7 +267,7 @@ async function saveEditChanges() {
     });
     updateContactDetails(updatedContact, getInitials(updatedContact.name), getRandomColor());
     closeEditContactForm(); updateContactDisplay();
-    if (window.innerWidth < 1250) showFooter();
+    if (window.innerWidth &lt; 1250) showFooter();
 }
 
 /**
@@ -318,7 +346,7 @@ function showFooter() {
 }
 
 function toggleDetails() {
-    if (window.innerWidth < 1250) {
+    if (window.innerWidth &lt; 1250) {
         const detailsContainer = document.querySelector('.detailsContainer');
         const contactsContainer = document.querySelector('.contactsSection');
         const backArrow = document.querySelector('.backArrow');
@@ -359,9 +387,9 @@ function hideDetails() {
 
 function addLetterHeader(container, letter) {
     container.innerHTML += `
-        <div class="contactHeaderWrapper">
-            <div class="contactHeader">${letter}</div>
-        </div>
+        &lt;div class="contactHeaderWrapper">
+            &lt;div class="contactHeader">${letter}&lt;/div>
+        &lt;/div>
     `;
 }
 
@@ -387,4 +415,26 @@ function closeContactDetails(){
 fetchContacts().then(() => {
     sortContacts();
     displayContacts(contacts);
-});
+});</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global_contacts.html#addContactToContainer">addContactToContainer</a></li><li><a href="global_contacts.html#createContact">createContact</a></li><li><a href="global_contacts.html#deleteContact">deleteContact</a></li><li><a href="global_contacts.html#displayContacts">displayContacts</a></li><li><a href="global_contacts.html#fetchContacts">fetchContacts</a></li><li><a href="global_contacts.html#getNewContactId">getNewContactId</a></li><li><a href="global_contacts.html#loadContactDetails">loadContactDetails</a></li><li><a href="global_contacts.html#removeContactById">removeContactById</a></li><li><a href="global_contacts.html#saveEditChanges">saveEditChanges</a></li><li><a href="global_contacts.html#sortContacts">sortContacts</a></li><li><a href="global_contacts.html#updateContactDetails">updateContactDetails</a></li><li><a href="global_contacts.html#updateContactDisplay">updateContactDisplay</a></li><li><a href="global_contacts.html#updateDelChanges">updateDelChanges</a></li><li><a href="global_contacts.html#updateEditContactForm">updateEditContactForm</a></li><li><a href="global_contacts.html#updateID">updateID</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sun Nov 24 2024 12:06:39 GMT+0100 (Central European Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
