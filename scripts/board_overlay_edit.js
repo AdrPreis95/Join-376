@@ -331,7 +331,6 @@ function openDropdownAssigned() {
 /**
  * This function closes the drop-down menu.
  * @param {event} event 
- * @returns 
  */
 function closeDropdownAssigned(event) {
     if (event.target.closest('#assigned-container')) {
@@ -482,7 +481,7 @@ async function deleteSubtask(taskId, subtaskName) {
  * This function finds the relevant subtask.
  * @param {object} task 
  * @param {array} subtask 
- * @returns 
+ * @returns {any}
  */
 function findSubtask(task, subtask) {
     let subtaskId;
