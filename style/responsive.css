@@ -38,7 +38,8 @@
     .done {
         display: flex;
         gap: 12px;
-        overflow: scroll;
+        overflow: overlay;
+        scrollbar-width: none;
     }
 }
 @media (max-width: 899px) {
