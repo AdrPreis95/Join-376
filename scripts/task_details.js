@@ -216,6 +216,56 @@ function filterContacts() {
     displayContacts(filteredContacts);
 }
 
+function fillCurrentDate() {
+    let dateInput = document.getElementById('due-date-input');
+    dateInput.focus(); 
+    dateInput.click(); 
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+    flatpickr("#due-date-input", { dateFormat: "d/m/Y" });
+});
+
+
+document.getElementById('dateimg').addEventListener('click', function () {
+    document.getElementById('due-date-input')._flatpickr.open();
+});
+
+document.addEventListener('DOMContentLoaded', function () {
+   
+    window.flatpickrInstance = flatpickr("#due-date-input", {
+        dateFormat: "d/m/Y", 
+        allowInput: false,    
+        minDate: "today",   
+     
+    });
+});
+
+
+function openFlatpickr() {
+    if (window.flatpickrInstance) {
+        window.flatpickrInstance.open(); 
+    }
+}
+flatpickr("#due-date-input", {
+    dateFormat: "d/m/Y",
+    minDate: "today", 
+    altInput: true,   
+    altFormat: "F j, Y", 
+    disableMobile: "true", 
+});
+
+
+
+function getFormattedTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0'); 
+    const day = String(today.getDate()).padStart(2, '0'); 
+    return `${year}-${month}-${day}`; 
+}
+
+
 /**
  * Validates the date input and ensures it is in the correct format and not in the past.
  */
@@ -269,13 +319,6 @@ function validateDateFormatAndFuture(dateValue) {
  * Returns the current date formatted as `DD/MM/YYYY`.
  * @returns {string} The formatted date string.
  */
-function getFormattedTodayDate() {
-    const today = new Date();
-    const day = String(today.getDate()).padStart(2, '0');
-    const month = String(today.getMonth() + 1).padStart(2, '0');
-    const year = today.getFullYear();
-    return `${day}/${month}/${year}`;
-}
 
 /**
  * Initializes the date input to ensure proper formatting.
