@@ -500,8 +500,13 @@ select {
 }
 
 #subtask-list {
-    list-style-type: none;
-    padding-left: 0px;
+    max-height: 90px !important;
+    overflow-y: auto !important;
+    overflow: auto !important;
+    list-style: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background-color: transparent !important;
 }
 
 #subtask-list li {
@@ -728,20 +733,21 @@ select {
 
 
 .more-contacts-info {
-    background-color: #ccc; 
-    color: #333; 
-    font-size: 14px; 
-    font-weight: bold; 
-    padding: 5px 10px; 
-    border-radius: 50%; 
-    display: flex; 
-    align-items: center; 
-    justify-content: center; 
-    width: 30px; 
-    height: 30px; 
+    background-color: #ccc;
+    color: #333;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 5px 10px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
     margin-left: 5px;
-    cursor: default; 
+    cursor: default;
 }
+
 .user-container.selected {
     color: white;
     background-color: #293646;

@@ -164,14 +164,6 @@ async function saveTask(newTask) {
 }
 
 /**
- * Fills the current date into the due date input field.
- */
-function fillCurrentDate() {
-    let dateInput = document.getElementById('due-date-input');
-    dateInput.value = getFormattedTodayDate();
-}
-
-/**
  * Resets the styles of all priority buttons.
  */
 function resetPriorityButtons() {
@@ -264,16 +256,16 @@ function confirmSubtask() {
     let subtaskList = document.getElementById('subtask-list');
     let subtaskCount = subtaskList.getElementsByTagName('li').length;
 
-    if (subtaskCount >= 2) {
-        alert("You can only add 2 subtasks.");
-        return;
-    }
+    // if (subtaskCount >= 2) {
+    //     alert("You can only add 2 subtasks.");
+    //     return;
+    // }
 
     let subtaskValue = document.getElementById('addsubtasks').value;
-    if (!subtaskValue) {
-        alert("Please enter a subtask.");
-        return;
-    }
+    // if (!subtaskValue) {
+    //     alert("Please enter a subtask.");
+    //     return;
+    // }
 
     addSubtaskToList(subtaskList, subtaskValue);
 }
