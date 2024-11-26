@@ -265,6 +265,48 @@
 }
 
 /*⬇️⬇️⬇️ ADD-TASK-RESPONSIVE⬇️⬇️⬇️  */
+@media (min-width: 1200px) {
+    .content-right {
+        /* height: auto !important; */
+    }
+
+    #main-page .required-p {
+        margin-top: -80px !important;
+        margin-bottom: 0px;
+        padding-left: 60px;
+        position: fixed !important;
+        bottom: 68px !important;
+    }
+
+    .confirm {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        margin-top: 38px;
+    }
+
+    #main-page #dropdown-user {
+        display: none;
+        position: fixed !important;
+        width: 440px !important;
+        top: 570px !important;
+        height: 240px !important;
+        z-index: 1 !important;
+    }
+
+    #main-page .picked-user-avatar {
+        z-index: 1 !important;
+        width: 440px !important;
+        height: 96px !important;
+        background-color: #F6F7F8 !important;
+        border-radius: 20px 20px 20px 20px !important;
+        display: flex !important;
+        padding-top: 0px !important;
+        gap: 4px !important;
+        overflow: auto !important;
+        align-items: center !important;
+    }
+}
 
 
 @media (max-width: 1200px) {
@@ -434,15 +476,7 @@
 
 }
 
-/* @media (max-width: 840px) {
-        .required-p {
-            margin-top: 48px !important;
-            margin-bottom: 10px;
-            padding-left: 60px;
-        }
-    
-        
-    } */
+
 
 @media (max-width: 780px) {
     .top {

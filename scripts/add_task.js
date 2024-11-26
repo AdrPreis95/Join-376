@@ -323,10 +323,17 @@ function editSubtask(editBtn) {
     subtaskText.contentEditable = "true";
     subtaskText.focus();
     let originalText = subtaskText.textContent;
+    subtaskText.addEventListener('keydown', function (event) {
+        if (event.key === "Enter") {
+            event.preventDefault();
+            subtaskText.blur();
+        }
+    });
+
+
     subtaskText.addEventListener('blur', function () {
         let newText = subtaskText.textContent.trim();
         if (newText === "") {
-            alert("Unteraufgabe darf nicht leer sein.");
             subtaskText.textContent = originalText;
         } else {
             let subtaskIndex = subtasksArray.findIndex(subtask => subtask.title === originalText);
@@ -337,6 +344,7 @@ function editSubtask(editBtn) {
         subtaskText.contentEditable = "false";
     });
 }
+
 
 /**
  * Deletes a subtask from the list.

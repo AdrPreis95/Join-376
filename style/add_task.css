@@ -3,7 +3,7 @@
 }
 
 .headline {
-    margin-top: 36px;
+    margin-top: 0px !important;
     text-align: left;
     /* margin-bottom: 36px; */
     font-size: 48px;
@@ -92,7 +92,7 @@ select {
 .content-right {
     display: flex;
     width: 440px;
-    height: 416px;
+    /* height: 416px; */
     flex-direction: column;
 }
 
@@ -500,7 +500,8 @@ select {
 }
 
 #subtask-list {
-    max-height: 90px !important;
+    cursor: pointer !important;
+    max-height: 67px !important;
     overflow-y: auto !important;
     overflow: auto !important;
     list-style: none !important;
@@ -567,11 +568,12 @@ select {
 .picked-user-avatar {
     display: flex;
     padding-top: 8px;
-    gap: 14px;
+    gap: 8px;
     overflow: auto;
     background-color: transparent;
     height: auto;
     width: 100%;
+    align-items: center;
 }
 
 .picked-user-name {
@@ -726,32 +728,35 @@ select {
 }
 
 .subtask-text[contenteditable="true"] {
-    outline: 2px solid red;
+    outline: 1px solid red;
     background-color: #f0f8ff;
     border-radius: 2px;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 
 .more-contacts-info {
-    background-color: #ccc;
-    color: #333;
-    font-size: 14px;
+    background-color: #2A3647;
+    color: white;
+    font-size: 18px;
+    border: 2px solid;
     font-weight: bold;
     padding: 5px 10px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 30px;
-    height: 30px;
-    margin-left: 5px;
+    width: 40px;
+    height: 40px;
+    margin-left: 6px;
+    margin-right: 6px;
     cursor: default;
 }
 
 .user-container.selected {
-    color: white;
-    background-color: #293646;
-    border: 1px solid #091931;
+    color: black;
+    background-color: rgba(41, 171, 226, 0.5);
     border-radius: 30px;
     padding: 5px;
     transition: background-color 0.3s ease, border 0.3s ease;
