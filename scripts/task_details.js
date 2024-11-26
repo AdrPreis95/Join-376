@@ -78,8 +78,20 @@ function createContactElement(dropdown, contact) {
 
     let userContainer = document.createElement('div');
     userContainer.classList.add('user-container');
-    userContainer.appendChild(createAvatarContainer(contact));
-    userContainer.appendChild(createCheckbox(contact));
+    
+    let avatarContainer = createAvatarContainer(contact);
+    let checkbox = createCheckbox(contact);
+
+    userContainer.appendChild(avatarContainer);
+    userContainer.appendChild(checkbox);
+
+    // Add click event to the container to toggle the checkbox
+    userContainer.addEventListener('click', function (event) {
+        if (event.target !== checkbox) { // Avoid toggling if the click was directly on the checkbox
+            checkbox.checked = !checkbox.checked;
+            checkbox.dispatchEvent(new Event('change')); // Trigger the change event to apply the existing logic
+        }
+    });
 
     dropdown.appendChild(userContainer);
 }
@@ -411,3 +423,5 @@ function getEnteredDate(value) {
     let inputDateParts = value.split('/');
     return new Date(`${inputDateParts[2]}-${inputDateParts[1]}-${inputDateParts[0]}`);
 }
+
+

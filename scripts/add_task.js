@@ -1,4 +1,12 @@
 /**
+ * @type {string}
+ * @description This parameter sets the default priority to "Medium". 
+ * It ensures that the priority button starts with "Medium" as the selected state
+ * unless explicitly changed by the user.
+ */
+let currentPriority = 'Medium';
+
+/**
  * Global variables to manage priorities, subtasks, and contacts.
  * @type {string}
  */
@@ -201,6 +209,15 @@ function changeColor(element, color) {
         setPriority('Low');
     }
 }
+// Setzt prio-orange standardmäßig als ausgewählt und speichert die Priorität
+window.addEventListener('DOMContentLoaded', function () {
+    const defaultButton = document.getElementById('prio-orange');
+    if (defaultButton) {
+        changeColor(defaultButton, 'orange'); // Farbe und Styling setzen
+        setPriority('Medium'); // Priorität standardmäßig speichern
+    }
+});
+
 
 /**
  * Applies styles to the selected priority button.
@@ -255,18 +272,7 @@ function clearSubtaskInput() {
 function confirmSubtask() {
     let subtaskList = document.getElementById('subtask-list');
     let subtaskCount = subtaskList.getElementsByTagName('li').length;
-
-    // if (subtaskCount >= 2) {
-    //     alert("You can only add 2 subtasks.");
-    //     return;
-    // }
-
     let subtaskValue = document.getElementById('addsubtasks').value;
-    // if (!subtaskValue) {
-    //     alert("Please enter a subtask.");
-    //     return;
-    // }
-
     addSubtaskToList(subtaskList, subtaskValue);
 }
 
@@ -473,6 +479,13 @@ function clearTask() {
     clearSubtaskList();
     resetPriorityButtons();
     displayContacts(allContacts);
+    clearAssignedContacts();
+
+    const defaultButton = document.getElementById('prio-orange');
+    if (defaultButton) {
+        changeColor(defaultButton, 'orange'); // Setzt die Standardfarbe
+        setPriority('Medium'); // Speichert die Standardpriorität
+    }
 }
 
 /**
@@ -483,6 +496,16 @@ function clearInputs() {
     document.getElementById("description").value = '';
     document.getElementById("due-date-input").value = '';
     document.getElementById("selectcategory").value = '';
+    document.getElementById("addsubtasks").value = '';
+
+}
+/**
+ 
+ * This function removes all content from the element with the ID "picked-user-avatar",
+ * effectively resetting the displayed list of assigned contacts.
+ */
+function clearAssignedContacts() {
+    document.getElementById("picked-user-avatar").innerHTML = '';
 }
 
 /**

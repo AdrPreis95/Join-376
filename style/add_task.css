@@ -395,11 +395,14 @@ select {
     color: #29ABE2;
     background-color: #FFFFFF;
     filter: drop-shadow(0px 2px 3px #2A3647);
+    transition: fill 0.3s ease;
 }
 
-.clear-image {
-    fill: #29abe2;
+.clear-button:hover .clear-image path {
+    fill: #29ABE2;
+    transition: fill 0.3s ease;
 }
+
 
 .confirm {
     display: flex;
