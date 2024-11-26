@@ -5,7 +5,6 @@
  * unless explicitly changed by the user.
  */
 let currentPriority = 'Medium';
-
 /**
  * Global variables to manage priorities, subtasks, and contacts.
  * @type {string}
@@ -209,15 +208,13 @@ function changeColor(element, color) {
         setPriority('Low');
     }
 }
-// Setzt prio-orange standardmäßig als ausgewählt und speichert die Priorität
 window.addEventListener('DOMContentLoaded', function () {
     const defaultButton = document.getElementById('prio-orange');
     if (defaultButton) {
-        changeColor(defaultButton, 'orange'); // Farbe und Styling setzen
-        setPriority('Medium'); // Priorität standardmäßig speichern
+        changeColor(defaultButton, 'orange'); 
+        setPriority('Medium'); 
     }
 });
-
 
 /**
  * Applies styles to the selected priority button.
@@ -230,7 +227,6 @@ function applyButtonColor(element, color) {
     let img = element.querySelector('img');
     img.style.filter = 'brightness(0) invert(1)';
 }
-
 
 /**
  * Toggles the visibility of the subtask input and buttons.
@@ -350,7 +346,6 @@ function editSubtask(editBtn) {
         subtaskText.contentEditable = "false";
     });
 }
-
 
 /**
  * Deletes a subtask from the list.
@@ -501,9 +496,8 @@ function clearInputs() {
 }
 /**
  
- * This function removes all content from the element with the ID "picked-user-avatar",
- * effectively resetting the displayed list of assigned contacts.
- */
+* This function removes all content from the element with the ID "picked-user-avatar",
+*/
 function clearAssignedContacts() {
     document.getElementById("picked-user-avatar").innerHTML = '';
 }

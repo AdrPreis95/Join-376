@@ -139,10 +139,7 @@
 }
 
 #closeOverlay :hover {
-    background-color: #D1D1D1;
-    border-radius: 50%;
-    transform: scale(1.4);
-    filter: drop-shadow(0px 0px 4px black);
+    transform: scale(1.1);
 }
 
 #overlay-mode #prio-p {

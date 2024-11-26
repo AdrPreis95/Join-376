@@ -29,7 +29,6 @@ function createCheckbox(contact) {
     let checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.checked = selectedContacts.some(selected => selected.email === contact.email);
-
     checkbox.addEventListener('change', function () {
         let userContainer = checkbox.closest('.user-container');
         if (this.checked) {
@@ -41,7 +40,6 @@ function createCheckbox(contact) {
         }
         updatePickedUserAvatars();
     });
-
     return checkbox;
 }
 
@@ -73,26 +71,21 @@ function synchronizeCheckboxes() {
  * @param {HTMLElement} dropdown - The dropdown element where the contact will be added.
  * @param {Object} contact - The contact object.
  */
+
 function createContactElement(dropdown, contact) {
     if (!contact) return;
-
     let userContainer = document.createElement('div');
     userContainer.classList.add('user-container');
-    
     let avatarContainer = createAvatarContainer(contact);
     let checkbox = createCheckbox(contact);
-
     userContainer.appendChild(avatarContainer);
     userContainer.appendChild(checkbox);
-
-    // Add click event to the container to toggle the checkbox
     userContainer.addEventListener('click', function (event) {
-        if (event.target !== checkbox) { // Avoid toggling if the click was directly on the checkbox
+        if (event.target !== checkbox) {
             checkbox.checked = !checkbox.checked;
-            checkbox.dispatchEvent(new Event('change')); // Trigger the change event to apply the existing logic
+            checkbox.dispatchEvent(new Event('change'));
         }
     });
-
     dropdown.appendChild(userContainer);
 }
 
@@ -218,66 +211,54 @@ function createNameSpan(contact) {
 function filterContacts() {
     let input = document.getElementById('dropdown-input').value.toLowerCase();
     let filteredContacts = {};
-
     for (const key in allContacts) {
         if (allContacts[key].name.toLowerCase().startsWith(input)) {
             filteredContacts[key] = allContacts[key];
         }
     }
-
     displayContacts(filteredContacts);
 }
 
 function fillCurrentDate() {
     let dateInput = document.getElementById('due-date-input');
-    dateInput.focus(); 
-    dateInput.click(); 
+    dateInput.focus();
+    dateInput.click();
 }
 
 document.addEventListener('DOMContentLoaded', function () {
     flatpickr("#due-date-input", { dateFormat: "d/m/Y" });
 });
-
-
 document.getElementById('dateimg').addEventListener('click', function () {
     document.getElementById('due-date-input')._flatpickr.open();
 });
-
 document.addEventListener('DOMContentLoaded', function () {
-   
-    window.flatpickrInstance = flatpickr("#due-date-input", {
-        dateFormat: "d/m/Y", 
-        allowInput: false,    
-        minDate: "today",   
-     
+window.flatpickrInstance = flatpickr("#due-date-input", {
+        dateFormat: "d/m/Y",
+        allowInput: false,
+        minDate: "today",
     });
 });
 
-
 function openFlatpickr() {
     if (window.flatpickrInstance) {
-        window.flatpickrInstance.open(); 
+        window.flatpickrInstance.open();
     }
 }
 flatpickr("#due-date-input", {
     dateFormat: "d/m/Y",
-    minDate: "today", 
-    altInput: true,   
-    altFormat: "F j, Y", 
-    disableMobile: "true", 
+    minDate: "today",
+    altInput: true,
+    altFormat: "F j, Y",
+    disableMobile: "true",
 });
-
-
 
 function getFormattedTodayDate() {
     const today = new Date();
     const year = today.getFullYear();
-    const month = String(today.getMonth() + 1).padStart(2, '0'); 
-    const day = String(today.getDate()).padStart(2, '0'); 
-    return `${year}-${month}-${day}`; 
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
 }
-
-
 /**
  * Validates the date input and ensures it is in the correct format and not in the past.
  */
