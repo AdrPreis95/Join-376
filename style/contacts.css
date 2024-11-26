@@ -6,7 +6,9 @@
 
 .headerSection { padding-top: 72px; display: flex; height: 164px; align-items: center; gap: 30px; }
 
-.addContact { width: 80%; padding: 10px; background-color: #2a3647; border-radius: 12px; border: none; cursor: pointer; }
+.addContact { width: 80%; padding: 10px; background-color: #2a3647; border-radius: 12px; border: none; cursor: pointer; transition: 0.3s ease-in-out; }
+
+.addContact:hover { transform: scale(1.1); transition: 0.3s ease-in-out; }
 
 .contactItem { display: flex; align-items: center; justify-content: center; margin-top: 8px; }
 
@@ -41,13 +43,19 @@
 
 .selectedContactHeader { display: flex; gap: 52px; align-items: center; }
 
-.editContactDetails { background: none; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; padding: 0; }
+.editContactDetails { background: none; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; padding: 0; transition: 0.3s ease-in-out; }
 
-.deleteContactDetails { background: none; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; padding: 0; }
+.editContactDetails:hover { transform: scale(1.1); transition: 0.3s ease-in-out; }
+
+.deleteContactDetails { background: none; border: none; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; padding: 0; transition: 0.3s ease-in-out;}
+
+.deleteContactDetails:hover { transform: scale(1.1); transition: 0.3s ease-in-out;}
 
 .contactButtons { display: flex; margin-top: 6px; gap: 16px; }
 
-.contactWrapper { padding: 15px 24px 15px 24px; border-radius: 10px 10px 10px 10px; display: flex; align-items: center; width: 80%; }
+.contactWrapper { padding: 15px 24px 15px 24px; border-radius: 10px 10px 10px 10px; display: flex; align-items: center; width: 80%; cursor: pointer; transition: 0.3s ease-in-out; }
+
+.contactWrapper:hover { background-color: #2a3647; color: white; transition: 0.3s ease-in-out;}
 
 .activeSideContacts { background-color: #2a3647; color: white; }
 
@@ -109,7 +117,3 @@
 .initialsCircle:hover { transform: scale(1.3); transition: 0.3s ease-in-out; }
 
 .responsiveEditContacts { display: none; }
-
-.editContactDetails:hover {
-    color: blue;
-}

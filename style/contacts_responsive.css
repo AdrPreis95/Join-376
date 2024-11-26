@@ -133,7 +133,6 @@
 }
 
 @media (max-width: 450px) {
-
     .contactWrapper { width: 97%; padding: 14px 24px 15px 0px; }
 
     .initialsCircle { margin-right: 12px; margin-left: 12px; }
@@ -147,10 +146,7 @@
         font-weight: 400; line-height: 24px; text-align: left; transition: border-color 0.3s; }
 }
 
-@media (max-height: 730px) {
-
-    .addContactContainer { gap: 8px; height: 115%; }
-}
+@media (max-height: 730px) { .addContactContainer { gap: 8px; height: 115%; } }
 
 .show-details { display: flex; flex-direction: column; }
 
