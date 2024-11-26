@@ -168,6 +168,11 @@
     padding: 7px 16px 7px 16px;
 }
 
+.contact-container-overlay:hover{
+    border-radius: 10px;
+    background-color: #D1D1D1;
+}
+
 .contact-container-overlay img {
     width: 24px;
     height: 24px;

@@ -219,7 +219,7 @@ function getSubtasksOverlay(id, subtaskId, status, title, statusIcon) {
  */
 function getOverlayEdit(id, title, description, dueDate) {
     return `
-    <div class="content-overlay" onclick="closeDropdownAssigned(event)">
+    <div class="content-overlay">
         <div class="header-overlay-edit">
             <div class ="close-overlay">
                 <img onclick="closeOverlay()" class="close-icon" src="./assets/icons/close.svg" alt="close">
@@ -301,14 +301,14 @@ function getOverlayEdit(id, title, description, dueDate) {
  */
 function getContactName(id, name, color, firstLetterFirstName, firstLetterLastName, urlIcon) {
     return `
-    <div class="contact-container-overlay">
+    <div class="contact-container-overlay" onclick="toggleAssignedTo('${name}', ${id})">
         <div class="user-edit-overlay">
             <div class="user-name-overlay">
                 <div class="user-initials-overlay" style="background-color: ${color}"><p>${firstLetterFirstName}${firstLetterLastName}</p></div>
                 <p>${name}</p>
             </div>
         </div>
-        <img id="checkbox-contact-${name}" src="${urlIcon}" onclick="toggleAssignedTo('${name}', ${id})" class="toggle-icon">
+        <img id="checkbox-contact-${name}" src="${urlIcon}" class="toggle-icon">
     </div>
     `
 }

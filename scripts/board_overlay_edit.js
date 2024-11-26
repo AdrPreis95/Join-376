@@ -330,14 +330,17 @@ function openDropdownAssigned() {
 
 /**
  * This function closes the drop-down menu.
- * @param {event} event 
  */
-function closeDropdownAssigned(event) {
-    if (event.target.closest('#assigned-container')) {
-        event.stopPropagation();
-        return;
+function closeDropdownAssigned() {
+    let dropdownRef = document.getElementById('selected-user-dropdown');
+    let arrowRef = document.getElementById('arrow-dropdown');
+    let assignedUserRef = document.getElementById('user-names-edit-overlay');
+    if (dropdownRef.className == 'd_block') {
+        dropdownRef.classList.add('d-none');
+        dropdownRef.classList.remove('d_block');
+        arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down.png");
+        assignedUserRef.classList.remove('d-none');
     }
-    document.getElementById('arrow-dropdown').setAttribute("src", "./assets/icons/arrow_drop_down_top.png");
 }
 
 /**
