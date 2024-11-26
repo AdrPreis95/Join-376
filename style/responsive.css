@@ -40,7 +40,8 @@
     .done {
         display: flex;
         gap: 12px;
-        overflow: scroll;
+        overflow: overlay;
+        scrollbar-width: none;
     }
 }
 

@@ -20,7 +20,7 @@
 
 .contactsSection::-webkit-scrollbar { width: 8px; }
 
-.contactsSection::-webkit-scrollbar-thumb { background-color: #888; border-radius: 10px; }
+.contactsSection::-webkit-scrollbar-thumb { background-color: #a9a9a9; border-radius: 10px; }
 
 .contactsSection::-webkit-scrollbar-track { border-radius: 10px; }
 
