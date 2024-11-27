@@ -283,15 +283,15 @@
         display: flex;
         align-items: center;
         justify-content: end;
-        margin-top: 38px;
+        margin-top: 0px !important;
     }
 
     #main-page #dropdown-user {
         display: none;
         position: fixed !important;
         width: 440px !important;
-        top: 570px !important;
-        height: 240px !important;
+        top: 626px !important;
+        height: 190px !important;
         z-index: 1 !important;
     }
 
@@ -306,6 +306,10 @@
         gap: 4px !important;
         overflow: auto !important;
         align-items: center !important;
+    }
+
+    #main-page #prio-p {
+        margin-top: 18px !important;
     }
 }
 

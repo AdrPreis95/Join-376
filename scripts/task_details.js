@@ -209,50 +209,46 @@ function createNameSpan(contact) {
  * Filters the contacts displayed in the dropdown based on the search input.
  */
 function filterContacts() {
-    let input = document.getElementById('dropdown-input').value.toLowerCase().trim(); // Eingabe lesen und in Kleinbuchstaben umwandeln
-
-    console.log("Eingegebener Text:", input); // Eingabe in der Konsole anzeigen
-
+    let input = document.getElementById('dropdown-input').value.toLowerCase().trim();
+    console.log("Eingegebener Text:", input);
     if (input.length === 0) {
-        // Wenn die Eingabe leer ist, alle Kontakte anzeigen
         displayContacts(allContacts);
         return;
     }
-
-    // Den ersten Buchstaben der Eingabe verwenden
     let initial = input[0];
-    console.log("Erster Buchstabe der Eingabe:", initial); // Überprüfen, ob der Buchstabe korrekt erkannt wird
-
-    // Kontakte filtern, deren Name mit dem Buchstaben beginnt
+    console.log("Erster Buchstabe der Eingabe:", initial);
     let filteredContacts = allContacts.filter(contact => {
         let contactName = contact.name || `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
         return contactName.toLowerCase().startsWith(initial);
     });
-
-    console.log("Gefilterte Kontakte:", filteredContacts); // Gefilterte Kontakte in der Konsole anzeigen
-
-    // Überprüfen, ob es Treffer gibt
+    console.log("Gefilterte Kontakte:", filteredContacts);
     if (filteredContacts.length === 0) {
-        displayNoResults(); // Keine Treffer anzeigen
+        displayNoResults();
     } else {
-        displayContacts(filteredContacts); // Gefilterte Kontakte anzeigen
+        displayContacts(filteredContacts);
     }
 }
 
-// Funktion, um eine "Keine Treffer"-Nachricht anzuzeigen
+
 function displayNoResults() {
     let dropdown = document.getElementById('dropdown-user');
-    dropdown.innerHTML = ''; // Dropdown leeren
+    dropdown.innerHTML = '';
 
-    // Nachricht hinzufügen
     let noResultsMessage = document.createElement('div');
     noResultsMessage.classList.add('no-results');
     noResultsMessage.textContent = '"No results found"';
     dropdown.appendChild(noResultsMessage);
 }
 
+function displayNoResults() {
+    let dropdown = document.getElementById('dropdown-user');
+    dropdown.innerHTML = '';
 
-
+    let noResultsMessage = document.createElement('div');
+    noResultsMessage.classList.add('no-results');
+    noResultsMessage.textContent = '"No results found"';
+    dropdown.appendChild(noResultsMessage);
+}
 
 function fillCurrentDate() {
     let dateInput = document.getElementById('due-date-input');

@@ -163,6 +163,7 @@ async function saveTask(newTask) {
         successOverlay.style.alignItems = 'center';
         setTimeout(() => {
             successOverlay.style.display = 'none';
+
             window.location.href = 'board.html';
         }, 3000);
     } else {
@@ -269,10 +270,19 @@ function confirmSubtask() {
     let subtaskList = document.getElementById('subtask-list');
     let subtaskCount = subtaskList.getElementsByTagName('li').length;
     let subtaskMessage = document.getElementById('subtask-limit-message');
-    if (subtaskCount >= 5) {
+    if (subtaskCount >= 3) {
+        // Trigger the blinking animation
+        subtaskMessage.classList.add('blink');
         subtaskMessage.style.display = "block";
+
+        // Remove the blinking animation after it runs
+        setTimeout(() => {
+            subtaskMessage.classList.remove('blink');
+            subtaskMessage.style.display = "none";
+        }, 2000); // Adjust duration to match animation length
         return;
     }
+
     subtaskMessage.style.display = "none";
 
     let subtaskValue = document.getElementById('addsubtasks').value.trim();
@@ -280,6 +290,7 @@ function confirmSubtask() {
         addSubtaskToList(subtaskList, subtaskValue);
     }
 }
+
 
 
 /**

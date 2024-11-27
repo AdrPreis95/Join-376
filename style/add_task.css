@@ -504,9 +504,9 @@ select {
 
 #subtask-list {
     cursor: pointer !important;
-    height: auto !important;
-    overflow-y: auto !important;
-    overflow: auto !important;
+    height: 90px !important;
+    overflow-y: hidden !important;
+    overflow: hidden !important;
     list-style: none !important;
     margin: 0 !important;
     padding: 0 !important;
@@ -782,10 +782,24 @@ select {
     justify-content: center;
 }
 
-#subtask-limit-message {
-    display: none;
+@keyframes blinkAnimation {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.blink {
+    animation: blinkAnimation 0.8s ease-in-out infinite;
     color: red;
-    font-size: 14px;
-    justify-content: flex-start;
-    margin-top: 0px !important;
+    font-weight: bold;
+    text-align: left;
+    font-size: 11px;
 }
