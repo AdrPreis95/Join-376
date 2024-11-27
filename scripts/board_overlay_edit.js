@@ -331,17 +331,18 @@ function openDropdownAssigned() {
 /**
  * This function closes the drop-down menu.
  */
-function closeDropdownAssigned() {
-    let dropdownRef = document.getElementById('selected-user-dropdown');
-    let arrowRef = document.getElementById('arrow-dropdown');
-    let assignedUserRef = document.getElementById('user-names-edit-overlay');
-    if (dropdownRef.className == 'd_block') {
-        dropdownRef.classList.add('d-none');
-        dropdownRef.classList.remove('d_block');
+document.addEventListener('click', (event) => {
+    const dropdown = document.getElementById('selected-user-dropdown');
+    const dropdownButton = document.getElementById('assigned-container');
+    const arrowRef = document.getElementById('arrow-dropdown');
+    const assignedUserRef = document.getElementById('user-names-edit-overlay');
+    if (!dropdown.contains(event.target) && !dropdownButton.contains(event.target)) {
+        dropdown.classList.add('d-none');
+        dropdown.classList.remove('d_block');
         arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down.png");
         assignedUserRef.classList.remove('d-none');
     }
-}
+    });
 
 /**
  * This function selects the selected users and saves them in an array.
