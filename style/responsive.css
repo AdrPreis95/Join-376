@@ -17,9 +17,13 @@
 }
 
 .main-links-container-responsive {
+    position: absolute;
+    bottom: 0;
+    background-color: #2A3647;
     display: flex;
     width: 100%;
     justify-content: space-around;
+    z-index: 1000;
 }
 
 @media (max-width: 1354px) {
@@ -48,6 +52,7 @@
 @media (max-width: 899px) {
     .board-lists {
         padding: 0 20px 71px 20px;
+        height: calc(100vh);
     }
 
     .board-header {
@@ -195,10 +200,6 @@
         100% {
             -webkit-transform: translateX(100%);
         }
-    }
-
-    .board-lists {
-        height: unset;
     }
 
     .board-input-responsive {

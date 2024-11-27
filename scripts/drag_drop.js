@@ -4,6 +4,9 @@ let listNames = ['to-do', 'in-progress', 'await-feedback', 'done'];
 
 let timer = null;
 
+const mainContent = document.querySelector('.main-content');
+const boardLists = document.getElementById('board-lists');
+
 document.addEventListener('mousemove', function (e) {
     if (moving) {
         moving.style.left = e.pageX + 'px';
@@ -13,11 +16,36 @@ document.addEventListener('mousemove', function (e) {
 
 document.addEventListener('touchmove', function (e) {
     if (moving) {
+        e.preventDefault();
         const touch = e.touches[0];
         moving.style.left = touch.pageX + 'px';
         moving.style.top = touch.pageY + 'px';
+
+        scrollToPoint(e, touch);
     }
-});
+}, { passive: false });
+
+/**
+ * This function scrolls the div .board-lists according to the touch
+ * @param {Event} e
+ */
+
+function scrollToPoint(e, touch) {
+    const elementsBottom = getElementsFromPoint(e);
+    if (elementsBottom.length > 0) {
+        const rect = boardLists.getBoundingClientRect();
+        const scrollThreshold = 30; // Distance from edges to trigger scroll
+        const scrollSpeed = 10; // Adjust scroll speed as needed
+        if (touch.clientY - rect.top < scrollThreshold) { // Scroll upwards if near the top of the board-lists
+            boardLists.scrollTop -= scrollSpeed;
+            mainContent.scrollTop = boardLists.scrollTop - 10;
+        }
+        if (touch.clientY + rect.top > rect.height - scrollThreshold) { // Scroll downwards if near the bottom of the board-lists
+            boardLists.scrollTop += scrollSpeed;
+            mainContent.scrollTop = boardLists.scrollTop;
+        }
+    }
+}
 
 /**
  * This function resets timeout
@@ -58,7 +86,7 @@ function pickup(event) {
     } else {
         moving = event.target;
     }
-    
+
     moving.dataset.originalHeight = moving.clientHeight + "px"; // Save the original width and height as custom properties on the element
     moving.dataset.originalWidth = moving.clientWidth + "px";
 
@@ -97,13 +125,25 @@ function move(event) {
         event.stopImmediatePropagation();
         if (event.clientX) {
             // mousemove
-            moving.style.left = event.clientX - moving.clientWidth / 2;
-            moving.style.top = event.clientY - moving.clientHeight / 2;
+            moving.style.left = event.clientX 
+            moving.style.top = event.clientY
         } else {
             // touchmove - assuming a single touchpoint
-            moving.style.left = event.changedTouches[0].clientX - moving.clientWidth / 2;
-            moving.style.top = event.changedTouches[0].clientY - moving.clientHeight / 2;
+            moving.style.left = event.changedTouches[0].clientX 
+            moving.style.top = event.changedTouches[0].clientY 
         }
+    }
+}
+
+/**
+ * This function gets the element according to the point
+ * @param {Event} event 
+ */
+function getElementsFromPoint(event) {
+    if (event.clientX) {
+        return document.elementsFromPoint(event.clientX, event.clientY);
+    } else {
+        return document.elementsFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
     }
 }
 
@@ -114,12 +154,7 @@ function move(event) {
 function drop(event) {
     if (moving) {
         if (event.currentTarget.classList.contains('list')) {
-            let target = null;
-            if (event.clientX) {
-                target = document.elementsFromPoint(event.clientX, event.clientY);
-            } else {
-                target = document.elementsFromPoint(event.changedTouches[0].clientX, event.changedTouches[0].clientY);
-            }
+            let target = getElementsFromPoint(event);
 
             let targetList = setTargetList(target);
 
@@ -137,11 +172,12 @@ function drop(event) {
  * @param {Element[]} target 
  */
 function setTargetList(target) {
-    if (target.at('div.list').childNodes[3] != undefined) {
-        if (listNames.includes(target.at('div.list').childNodes[3].id)) {
-            return target.at('div.list').childNodes[3];
+    if (target.at('div.list') != undefined)
+        if (target.at('div.list').childNodes[3] != undefined) {
+            if (listNames.includes(target.at('div.list').childNodes[3].id)) {
+                return target.at('div.list').childNodes[3];
+            }
         }
-    }
 
     for (let index = 0; index < target.length; index++) {
         const element = target[index];

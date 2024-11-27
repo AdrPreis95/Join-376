@@ -151,7 +151,8 @@
     display: flex;
     padding-left: 60px;
     gap: 26px;
-    overflow-x: scroll;
+
+    overflow: scroll;
     height: calc(100vh - 257px);
 }
 
