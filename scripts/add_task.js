@@ -211,8 +211,8 @@ function changeColor(element, color) {
 window.addEventListener('DOMContentLoaded', function () {
     const defaultButton = document.getElementById('prio-orange');
     if (defaultButton) {
-        changeColor(defaultButton, 'orange'); 
-        setPriority('Medium'); 
+        changeColor(defaultButton, 'orange');
+        setPriority('Medium');
     }
 });
 
@@ -268,9 +268,19 @@ function clearSubtaskInput() {
 function confirmSubtask() {
     let subtaskList = document.getElementById('subtask-list');
     let subtaskCount = subtaskList.getElementsByTagName('li').length;
-    let subtaskValue = document.getElementById('addsubtasks').value;
-    addSubtaskToList(subtaskList, subtaskValue);
+    let subtaskMessage = document.getElementById('subtask-limit-message');
+    if (subtaskCount >= 5) {
+        subtaskMessage.style.display = "block";
+        return;
+    }
+    subtaskMessage.style.display = "none";
+
+    let subtaskValue = document.getElementById('addsubtasks').value.trim();
+    if (subtaskValue !== "") {
+        addSubtaskToList(subtaskList, subtaskValue);
+    }
 }
+
 
 /**
  * Adds a new subtask to the list.
@@ -325,6 +335,14 @@ function editSubtask(editBtn) {
     subtaskText.contentEditable = "true";
     subtaskText.focus();
     let originalText = subtaskText.textContent;
+
+    // Begrenzung der Zeichenanzahl
+    subtaskText.addEventListener('input', function () {
+        if (subtaskText.textContent.length > 36) {
+            subtaskText.textContent = subtaskText.textContent.slice(0, 36); // Kürze auf 36 Zeichen
+        }
+    });
+
     subtaskText.addEventListener('keydown', function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -463,6 +481,7 @@ function closeDropdownOnClickOutside(event) {
     if (dropdown && container && !container.contains(event.target)) {
         dropdown.style.display = 'none';
     }
+    document.getElementById('dropdown-input').value = '';
 }
 document.addEventListener('click', closeDropdownOnClickOutside);
 
@@ -478,8 +497,8 @@ function clearTask() {
 
     const defaultButton = document.getElementById('prio-orange');
     if (defaultButton) {
-        changeColor(defaultButton, 'orange'); // Setzt die Standardfarbe
-        setPriority('Medium'); // Speichert die Standardpriorität
+        changeColor(defaultButton, 'orange'); 
+        setPriority('Medium'); 
     }
 }
 
@@ -492,6 +511,7 @@ function clearInputs() {
     document.getElementById("due-date-input").value = '';
     document.getElementById("selectcategory").value = '';
     document.getElementById("addsubtasks").value = '';
+    document.getElementById("dropdown-input").value = '';
 
 }
 /**
@@ -529,6 +549,24 @@ function validateInput() {
     }
 }
 
+// Validierung beim Schreiben hinzufügen
+document.getElementById('title').addEventListener('input', validateInput);
+
+// Beispiel: Validierung beim Absenden des Formulars
+function submitForm() {
+    validateInput();
+
+    const input = document.getElementById('title');
+    if (input.value.trim() !== "") {
+        alert("Formular erfolgreich abgesendet!");
+    }
+}
+
+
+// Event Listener hinzufügen, damit die Validierung während der Eingabe erfolgt
+document.getElementById('title').addEventListener('input', validateInput);
+
+
 /**
  * Validates the category selection input.
  */
@@ -542,6 +580,26 @@ function validateSelectCategory() {
         hideCategoryError(selectCategory, categoryErrorMessage);
     }
 }
+
+function isCategoryEmpty(selectCategory) {
+    return selectCategory.value === "";
+}
+
+function showCategoryError(selectCategory, categoryErrorMessage) {
+    selectCategory.classList.add('error');
+    selectCategory.style.border = '2px solid red';
+    categoryErrorMessage.style.display = 'block';
+}
+
+function hideCategoryError(selectCategory, categoryErrorMessage) {
+    selectCategory.classList.remove('error');
+    selectCategory.style.border = 'none';
+    categoryErrorMessage.style.display = 'none';
+}
+
+// Event Listener hinzufügen, um die Validierung bei Auswahländerungen durchzuführen
+document.getElementById('selectcategory').addEventListener('change', validateSelectCategory);
+
 
 /**
  * Checks if the category selection is empty.

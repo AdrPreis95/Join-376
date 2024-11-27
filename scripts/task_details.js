@@ -209,15 +209,50 @@ function createNameSpan(contact) {
  * Filters the contacts displayed in the dropdown based on the search input.
  */
 function filterContacts() {
-    let input = document.getElementById('dropdown-input').value.toLowerCase();
-    let filteredContacts = {};
-    for (const key in allContacts) {
-        if (allContacts[key].name.toLowerCase().startsWith(input)) {
-            filteredContacts[key] = allContacts[key];
-        }
+    let input = document.getElementById('dropdown-input').value.toLowerCase().trim(); // Eingabe lesen und in Kleinbuchstaben umwandeln
+
+    console.log("Eingegebener Text:", input); // Eingabe in der Konsole anzeigen
+
+    if (input.length === 0) {
+        // Wenn die Eingabe leer ist, alle Kontakte anzeigen
+        displayContacts(allContacts);
+        return;
     }
-    displayContacts(filteredContacts);
+
+    // Den ersten Buchstaben der Eingabe verwenden
+    let initial = input[0];
+    console.log("Erster Buchstabe der Eingabe:", initial); // Überprüfen, ob der Buchstabe korrekt erkannt wird
+
+    // Kontakte filtern, deren Name mit dem Buchstaben beginnt
+    let filteredContacts = allContacts.filter(contact => {
+        let contactName = contact.name || `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
+        return contactName.toLowerCase().startsWith(initial);
+    });
+
+    console.log("Gefilterte Kontakte:", filteredContacts); // Gefilterte Kontakte in der Konsole anzeigen
+
+    // Überprüfen, ob es Treffer gibt
+    if (filteredContacts.length === 0) {
+        displayNoResults(); // Keine Treffer anzeigen
+    } else {
+        displayContacts(filteredContacts); // Gefilterte Kontakte anzeigen
+    }
 }
+
+// Funktion, um eine "Keine Treffer"-Nachricht anzuzeigen
+function displayNoResults() {
+    let dropdown = document.getElementById('dropdown-user');
+    dropdown.innerHTML = ''; // Dropdown leeren
+
+    // Nachricht hinzufügen
+    let noResultsMessage = document.createElement('div');
+    noResultsMessage.classList.add('no-results');
+    noResultsMessage.textContent = '"No results found"';
+    dropdown.appendChild(noResultsMessage);
+}
+
+
+
 
 function fillCurrentDate() {
     let dateInput = document.getElementById('due-date-input');
@@ -232,7 +267,7 @@ document.getElementById('dateimg').addEventListener('click', function () {
     document.getElementById('due-date-input')._flatpickr.open();
 });
 document.addEventListener('DOMContentLoaded', function () {
-window.flatpickrInstance = flatpickr("#due-date-input", {
+    window.flatpickrInstance = flatpickr("#due-date-input", {
         dateFormat: "d/m/Y",
         allowInput: false,
         minDate: "today",
@@ -274,11 +309,15 @@ function validateDateInput() {
     } else {
         dateInput.value = validationResult.correctedDate || dateInput.value;
         dateInput.classList.remove('error');
-        dateInput.style.border = 'none';
-        dateInput.style.filter = 'drop-shadow(0px 0px 4px #D1D1D1)';
+        dateInput.style.border = '';
+        dateInput.style.filter = '';
         dateErrorMessage.style.display = 'none';
     }
 }
+
+// Event Listener hinzufügen, um die Validierung bei Eingaben auszuführen
+document.getElementById('due-date-input').addEventListener('input', validateDateInput);
+
 
 /**
  * Validates the date format and ensures it is not in the past.

@@ -185,7 +185,7 @@
                             </p>
 
                             <div class="input-container">
-                                <input id="addsubtasks" name="addsubtasks" placeholder="Add new subtask">
+                                <input id="addsubtasks" name="addsubtasks" placeholder="Add new subtask" minlength="3" maxlength="36">
                                 <img onclick="addSubtask()" id="add-subtask" class="input-icon"
                                     src="assets/icons/add_subtask.png" alt="AddSubtaskIcon">
                                 <div class="center-subtask-icons" id="show-icons" style="display: none;">
@@ -198,6 +198,9 @@
                             </div>
 
                             <ul id="subtask-list"></ul>
+                            <div id="subtask-limit-message" style="display: none; color: red; font-size: 14px; margin-top: 10px;">
+                                Limit of subtasks reached!
+                            </div>
 
 
                             <section class="confirm">
