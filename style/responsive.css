@@ -226,6 +226,7 @@
         overflow: scroll;
         -ms-overflow-style: none;
         scrollbar-width: none;
+        padding-bottom: 71px;
     }
 
     .main-content::-webkit-scrollbar {
