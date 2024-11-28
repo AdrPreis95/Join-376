@@ -19,10 +19,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 
-
-
-    <script src="scripts/base_url.js" defer></script>
     <script src="./scripts/task_details.js" defer></script>
+    <script src="scripts/task_overlay_details.js" defer></script>
+    <script src="scripts/base_url.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="./scripts/script.js" defer></script>
 
@@ -87,7 +86,6 @@
                             </svg></a>
                         <div class="user-icon" onclick="toggleSubmenu()">
                             <b id="user-initials"></b>
-
                         </div>
                     </div>
                 </div>
@@ -123,34 +121,24 @@
                                         alt="ArrowIcon">
                                 </div>
                                 <div id="picked-user-avatar" class="picked-user-avatar"></div>
-
-
-
                                 <div id="dropdown-user" class="user-list">
-
                                 </div>
                         </section>
                         <div class="separating-line"></div>
                         <section class="content-right">
-
                             <p id="date-p" style="margin-bottom: 10px;">
                                 Due Date<span style="color: red;">*</span>
                             </p>
-
                             <div class="form-field">
                                 <div id="errorborder" class="date-container">
                                     <input type="date" id="due-date-input" name="date" placeholder="dd/mm/yyyy"
                                         class="date-input" onblur="validateDateInput()" pattern="\d{2}/\d{2}/\d{4}"
                                         title="Please enter a date in the format dd/mm/yyyy" autocomplete="off">
                                     <img id="dateimg" src="./assets/icons/date-logo.png" alt="DateIcon">
-
                                 </div>
                                 <span class="error-message" id="date-error-message">Please select a date in the right
                                     Format</span>
                             </div>
-
-
-
                             <p id="prio-p" style="margin-bottom: 10px; margin-top: 24px;">Prio</p>
                             <div class="prio-container">
                                 <button style="cursor: pointer;" onclick="changeColor(this, '#ff3d00')" id="prio-red"
@@ -178,14 +166,12 @@
                                 </select>
                                 <span class="error-message" id="category-error-message">Please select a category.</span>
                             </div>
-
-
                             <p class="subtask-p" style="margin-top: 24px; margin-bottom: 10px;">
                                 Subtasks
                             </p>
-
                             <div class="input-container">
-                                <input id="addsubtasks" name="addsubtasks" placeholder="Add new subtask" minlength="3" maxlength="36">
+                                <input id="addsubtasks" name="addsubtasks" placeholder="Add new subtask" minlength="3"
+                                    maxlength="36">
                                 <img onclick="addSubtask()" id="add-subtask" class="input-icon"
                                     src="assets/icons/add_subtask.png" alt="AddSubtaskIcon">
                                 <div class="center-subtask-icons" id="show-icons" style="display: none;">
@@ -196,15 +182,12 @@
                                         src="./assets/icons/create-task.png" alt="ConfirmTaskIcon">
                                 </div>
                             </div>
-
                             <ul id="subtask-list"></ul>
-                            <div id="subtask-limit-message" style="display: none; color: red; font-size: 14px; margin-top: 10px;">
+                            <div id="subtask-limit-message"
+                                style="display: none; color: red; font-size: 14px; margin-top: 10px;">
                                 Limit of subtasks reached!
                             </div>
-
-
                             <section class="confirm">
-
                                 <div class="button-container">
                                     <button onclick="clearTask()" id="clear" class="clear-button">
                                         <span>Clear</span> <svg class="clear-image" width="14" height="14"
@@ -220,21 +203,13 @@
                                     </button>
                                 </div>
                             </section>
-
                     </div>
-
                     <p class="required-p" style="margin-top: 48px; margin-bottom: 10px; padding-left: 60px;">
                         <span style="color: red;">*</span>This field is required
-
-
                 </div>
-
             </div>
-
         </main>
-
     </div>
-
     <footer class="responsive-footer">
         <div class="main-links-container-responsive">
             <a href="./summary.html" class="main-link-responsive">
@@ -261,7 +236,6 @@
             <img class="success-icon" src="./assets/icons/board_icon.png" alt="boardicon">
         </div>
     </div>
-
     <script src="scripts/add_task.js"></script>
 </body>
 

@@ -311,7 +311,7 @@ function validateDateInput() {
     }
 }
 
-// Event Listener hinzufügen, um die Validierung bei Eingaben auszuführen
+
 document.getElementById('due-date-input').addEventListener('input', validateDateInput);
 
 
@@ -438,6 +438,17 @@ function preventPastDate(value) {
 function getEnteredDate(value) {
     let inputDateParts = value.split('/');
     return new Date(`${inputDateParts[2]}-${inputDateParts[1]}-${inputDateParts[0]}`);
+}
+function handleTaskCreation() {
+    createTask(() => {
+        if (document.body.id === "overlay-mode") {
+            console.log("Overlay mode detected. Closing overlay.");
+            closeOverlay(); 
+        } else {
+            console.log("Main page detected. Redirecting to board.");
+            window.location.href = "board.html"; 
+        }
+    });
 }
 
 

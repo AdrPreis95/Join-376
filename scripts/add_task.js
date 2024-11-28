@@ -147,27 +147,43 @@ function buildNewTask(id, title, description, dueDate, category, color) {
  * @returns {Promise<void>}
  */
 async function saveTask(newTask) {
+    // Datum ins Format yyyy-mm-dd umwandeln
     let [day, month, year] = newTask.dueDate.split('/');
     newTask.dueDate = `${year}-${month}-${day}`;
 
-    await fetch(`${BASE_URL}/tasks/${newTask.id - 1}.json`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(newTask),
-    });
-    const successOverlay = document.getElementById('success-overlay');
+    try {
+        // Task speichern
+        await fetch(`${BASE_URL}/tasks/${newTask.id - 1}.json`, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newTask),
+        });
 
-    if (successOverlay) {
-        successOverlay.style.display = 'flex';
-        successOverlay.style.justifyContent = 'center';
-        successOverlay.style.alignItems = 'center';
-        setTimeout(() => {
-            successOverlay.style.display = 'none';
+        // Erfolgsmeldung anzeigen
+        const successOverlay = document.getElementById('success-overlay');
+        if (successOverlay) {
+            successOverlay.style.display = 'flex';
+            successOverlay.style.justifyContent = 'center';
+            successOverlay.style.alignItems = 'center';
 
-            window.location.href = 'board.html';
-        }, 3000);
-    } else {
-        console.error('Element mit der ID "success-overlay" wurde nicht gefunden.');
+            setTimeout(() => {
+                successOverlay.style.display = 'none';
+
+                // Überprüfen, ob die Anwendung im Overlay-Modus ist
+                if (document.body.id === "overlay-mode") {
+                    console.log("Overlay mode detected. Clearing inputs and closing overlay.");
+                    // Inputs zurücksetzen und Overlay schließen
+                    clearInputsAndCloseOverlay();
+                } else {
+                    console.log("Main page detected. Redirecting to board.");
+                    window.location.href = 'board.html'; // Weiterleitung zur Board-Seite
+                }
+            }, 3000);
+        } else {
+            console.error('Element mit der ID "success-overlay" wurde nicht gefunden.');
+        }
+    } catch (error) {
+        console.error("Fehler beim Speichern des Tasks:", error);
     }
 }
 
@@ -271,27 +287,20 @@ function confirmSubtask() {
     let subtaskCount = subtaskList.getElementsByTagName('li').length;
     let subtaskMessage = document.getElementById('subtask-limit-message');
     if (subtaskCount >= 3) {
-        // Trigger the blinking animation
         subtaskMessage.classList.add('blink');
         subtaskMessage.style.display = "block";
-
-        // Remove the blinking animation after it runs
         setTimeout(() => {
             subtaskMessage.classList.remove('blink');
             subtaskMessage.style.display = "none";
-        }, 2000); // Adjust duration to match animation length
+        }, 2000);
         return;
     }
-
     subtaskMessage.style.display = "none";
-
     let subtaskValue = document.getElementById('addsubtasks').value.trim();
     if (subtaskValue !== "") {
         addSubtaskToList(subtaskList, subtaskValue);
     }
 }
-
-
 
 /**
  * Adds a new subtask to the list.
@@ -346,14 +355,11 @@ function editSubtask(editBtn) {
     subtaskText.contentEditable = "true";
     subtaskText.focus();
     let originalText = subtaskText.textContent;
-
-    // Begrenzung der Zeichenanzahl
     subtaskText.addEventListener('input', function () {
         if (subtaskText.textContent.length > 36) {
-            subtaskText.textContent = subtaskText.textContent.slice(0, 36); // Kürze auf 36 Zeichen
+            subtaskText.textContent = subtaskText.textContent.slice(0, 36);
         }
     });
-
     subtaskText.addEventListener('keydown', function (event) {
         if (event.key === "Enter") {
             event.preventDefault();
@@ -361,7 +367,7 @@ function editSubtask(editBtn) {
         }
     });
 
-
+    /**This Function is for the updated subtask,if the subtask dont get entered,the value of the old subtask get filled in */
     subtaskText.addEventListener('blur', function () {
         let newText = subtaskText.textContent.trim();
         if (newText === "") {
@@ -446,210 +452,3 @@ function formatContact(contact) {
     return { ...contact, firstName, lastName };
 }
 
-/**
- * Generates initials for a contact.
- * @param {Object} contact - The contact object.
- * @returns {string} The initials of the contact.
- */
-function getInitials(contact) {
-    let initials = '';
-    if (contact.firstName) initials += contact.firstName.charAt(0);
-    if (contact.lastName) initials += contact.lastName.charAt(0);
-    if (!initials && contact.name) initials = contact.name.charAt(0);
-    return initials;
-}
-
-/**
- * Gets the full name of a contact.
- * @param {Object} contact - The contact object.
- * @returns {string} The full name of the contact.
- */
-function getFullName(contact) {
-    return `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
-}
-
-/**
- * Toggles the dropdown for user selection.
- */
-function openDropdown() {
-    let dropdown = document.getElementById('dropdown-user');
-    dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-
-    if (dropdown.style.display === "flex") {
-        loadContacts().then(() => {
-            synchronizeCheckboxes();
-        });
-    }
-}
-
-/**
- * Closes the dropdown when clicking outside.
- * @param {Event} event - The click event.
- */
-function closeDropdownOnClickOutside(event) {
-    const dropdown = document.getElementById('dropdown-user');
-    const container = document.querySelector('.dropdown');
-    if (dropdown && container && !container.contains(event.target)) {
-        dropdown.style.display = 'none';
-    }
-    document.getElementById('dropdown-input').value = '';
-}
-document.addEventListener('click', closeDropdownOnClickOutside);
-
-/**
- * Clears all task-related inputs and resets the form.
- */
-function clearTask() {
-    clearInputs();
-    clearSubtaskList();
-    resetPriorityButtons();
-    displayContacts(allContacts);
-    clearAssignedContacts();
-
-    const defaultButton = document.getElementById('prio-orange');
-    if (defaultButton) {
-        changeColor(defaultButton, 'orange'); 
-        setPriority('Medium'); 
-    }
-}
-
-/**
- * Clears the input fields for the task.
- */
-function clearInputs() {
-    document.getElementById("title").value = '';
-    document.getElementById("description").value = '';
-    document.getElementById("due-date-input").value = '';
-    document.getElementById("selectcategory").value = '';
-    document.getElementById("addsubtasks").value = '';
-    document.getElementById("dropdown-input").value = '';
-
-}
-/**
- 
-* This function removes all content from the element with the ID "picked-user-avatar",
-*/
-function clearAssignedContacts() {
-    document.getElementById("picked-user-avatar").innerHTML = '';
-}
-
-/**
- * Clears the subtask list and resets the array.
- */
-function clearSubtaskList() {
-    document.getElementById("subtask-list").innerHTML = '';
-    subtasksArray = [];
-    selectedContacts = [];
-}
-
-/**
- * Validates the title input field.
- */
-function validateInput() {
-    const input = document.getElementById('title');
-    const errorMessage = document.getElementById('error-message');
-
-    if (input.value.trim() === "") {
-        input.classList.add('error');
-        input.style.border = '2px solid red';
-        errorMessage.style.display = 'block';
-    } else {
-        input.classList.remove('error');
-        input.style.border = 'none';
-        errorMessage.style.display = 'none';
-    }
-}
-
-// Validierung beim Schreiben hinzufügen
-document.getElementById('title').addEventListener('input', validateInput);
-
-// Beispiel: Validierung beim Absenden des Formulars
-function submitForm() {
-    validateInput();
-
-    const input = document.getElementById('title');
-    if (input.value.trim() !== "") {
-        alert("Formular erfolgreich abgesendet!");
-    }
-}
-
-
-// Event Listener hinzufügen, damit die Validierung während der Eingabe erfolgt
-document.getElementById('title').addEventListener('input', validateInput);
-
-
-/**
- * Validates the category selection input.
- */
-function validateSelectCategory() {
-    const selectCategory = document.getElementById('selectcategory');
-    const categoryErrorMessage = document.getElementById('category-error-message');
-
-    if (isCategoryEmpty(selectCategory)) {
-        showCategoryError(selectCategory, categoryErrorMessage);
-    } else {
-        hideCategoryError(selectCategory, categoryErrorMessage);
-    }
-}
-
-function isCategoryEmpty(selectCategory) {
-    return selectCategory.value === "";
-}
-
-function showCategoryError(selectCategory, categoryErrorMessage) {
-    selectCategory.classList.add('error');
-    selectCategory.style.border = '2px solid red';
-    categoryErrorMessage.style.display = 'block';
-}
-
-function hideCategoryError(selectCategory, categoryErrorMessage) {
-    selectCategory.classList.remove('error');
-    selectCategory.style.border = 'none';
-    categoryErrorMessage.style.display = 'none';
-}
-
-// Event Listener hinzufügen, um die Validierung bei Auswahländerungen durchzuführen
-document.getElementById('selectcategory').addEventListener('change', validateSelectCategory);
-
-
-/**
- * Checks if the category selection is empty.
- * @param {HTMLElement} selectCategory - The category selection element.
- * @returns {boolean} True if the category is empty, otherwise false.
- */
-function isCategoryEmpty(selectCategory) {
-    return selectCategory.value === "";
-}
-
-/**
- * Displays an error for the category selection input.
- * @param {HTMLElement} selectCategory - The category selection element.
- * @param {HTMLElement} categoryErrorMessage - The error message element.
- */
-function showCategoryError(selectCategory, categoryErrorMessage) {
-    selectCategory.classList.add('error');
-    selectCategory.style.border = '2px solid red';
-    categoryErrorMessage.style.display = 'block';
-}
-
-/**
- * Hides the error for the category selection input.
- * @param {HTMLElement} selectCategory - The category selection element.
- * @param {HTMLElement} categoryErrorMessage - The error message element.
- */
-function hideCategoryError(selectCategory, categoryErrorMessage) {
-    selectCategory.classList.remove('error');
-    selectCategory.style.border = 'none';
-    categoryErrorMessage.style.display = 'none';
-}
-
-/**
- * Sets the page mode based on whether it's in an overlay or not.
- */
-document.addEventListener('DOMContentLoaded', function () {
-    if (window !== window.top) {
-        document.body.id = 'overlay-mode';
-    } else {
-        document.body.id = 'main-page';
-    }
-});

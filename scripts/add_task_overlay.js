@@ -68,6 +68,7 @@ function closeTaskOverlay() {
   hideOverlay();
   removeOverlayActiveClass();
   refreshTasksIfAvailable();
+  
 }
 
 /**

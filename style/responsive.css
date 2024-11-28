@@ -274,18 +274,24 @@
     }
 
     #main-page .required-p {
-        margin-top: -80px !important;
-        margin-bottom: 0px;
+        margin-top: -24px !important;
+        margin-bottom: 10px;
         padding-left: 60px;
-        position: fixed !important;
-        bottom: 68px !important;
     }
 
     .confirm {
-        display: flex;
-        align-items: center;
-        justify-content: end;
         margin-top: 0px !important;
+    }
+
+    #subtask-list {
+        cursor: pointer !important;
+        height: 90px !important;
+        overflow-y: hidden !important;
+        overflow: hidden !important;
+        list-style: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background-color: aqua;
     }
 
     #main-page #dropdown-user {

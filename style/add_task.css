@@ -504,7 +504,7 @@ select {
 
 #subtask-list {
     cursor: pointer !important;
-    height: 90px !important;
+    max-height: 90px !important;
     overflow-y: hidden !important;
     overflow: hidden !important;
     list-style: none !important;
