@@ -281,7 +281,6 @@ async function toggleAssignedTo(name, id) {
     selectedUserEdit(id);
 }
 
-
 /**
  * This function changes the status of a subtask.
  * @param {number} id 
@@ -347,17 +346,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     assignedUserRef.classList.remove('d-none');
                 }
             }
-        } else {
-            console.log(document.getElementById('selected-user-dropdown'));
-            console.log(document.getElementById('assigned-container'));
-            console.log(document.getElementById('arrow-dropdown'));
-            console.log(document.getElementById('user-names-edit-overlay'));
         }
     });
-   
-
 });
-
 
 /**
  * This function selects the selected users and saves them in an array.
