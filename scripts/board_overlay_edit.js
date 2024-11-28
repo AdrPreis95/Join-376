@@ -78,15 +78,15 @@ async function saveEdit(id) {
     id = await findKey(id);
     let responseJson = await loadTaskWithID(id);
     responseJson = generateChangeTask(responseJson);
-        let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(responseJson)
-        });
-        closeOverlay();
-        loadTasks();
+    let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(responseJson)
+    });
+    closeOverlay();
+    loadTasks();
 }
 
 /**
@@ -140,9 +140,9 @@ function activePriorityButton() {
  */
 async function loadContacts(id) {
     let userAsContact = {
-        email: loggedUser.email, 
-        id: 0, 
-        name: loggedUser.name + " (You)", 
+        email: loggedUser.email,
+        id: 0,
+        name: loggedUser.name + " (You)",
         phone: '000000'
     }
     let activeUser = await loadActiveUser(id);
@@ -164,7 +164,7 @@ function renderOverlayContacts(id, responseJson, activeUserIndex) {
     for (let i = 0; i < responseJson.length; i++) {
         let urlIcon = './assets/icons/unchecked_icon.png';
         for (let k = 0; k < activeUserIndex.length; k++) {
-            if(activeUserIndex[k] == [i - 1]) {
+            if (activeUserIndex[k] == [i - 1]) {
                 urlIcon = './assets/icons/checked_icon.png';
             }
         }
@@ -200,11 +200,11 @@ async function loadActiveUser(id) {
 function checkActiveUser(activeUser, responseJson) {
     let allContacts = [];
     let activeUserIndex = [];
-    for (let i = 0; i < responseJson.length; i++) {    
+    for (let i = 0; i < responseJson.length; i++) {
         allContacts.push(responseJson[i].name);
     }
     for (let i = 0; i < allContacts.length; i++) {
-        if(allContacts.indexOf(activeUser[i]) != -1) {
+        if (allContacts.indexOf(activeUser[i]) != -1) {
             activeUserIndex.push(allContacts.indexOf(activeUser[i]));
         }
     }
@@ -218,7 +218,7 @@ function checkActiveUser(activeUser, responseJson) {
  * @param {string} lastName - The surname is transferred.
  */
 function updateAssignedTo(task, firstName, lastName) {
-    const index = task.assignedTo.findIndex(user => 
+    const index = task.assignedTo.findIndex(user =>
         user.firstName === firstName && user.lastName === lastName
     );
     if (index === -1) {
@@ -315,7 +315,7 @@ function openDropdownAssigned() {
     let dropdownRef = document.getElementById('selected-user-dropdown');
     let arrowRef = document.getElementById('arrow-dropdown');
     let assignedUserRef = document.getElementById('user-names-edit-overlay');
-    if(dropdownRef.className == 'd-none') {
+    if (dropdownRef.className == 'd-none') {
         dropdownRef.classList.remove('d-none');
         dropdownRef.classList.add('d_block');
         arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down_top.png");
@@ -331,18 +331,33 @@ function openDropdownAssigned() {
 /**
  * This function closes the drop-down menu.
  */
-document.addEventListener('click', (event) => {
-    const dropdown = document.getElementById('selected-user-dropdown');
-    const dropdownButton = document.getElementById('assigned-container');
-    const arrowRef = document.getElementById('arrow-dropdown');
-    const assignedUserRef = document.getElementById('user-names-edit-overlay');
-    if (!dropdown.contains(event.target) && !dropdownButton.contains(event.target)) {
-        dropdown.classList.add('d-none');
-        dropdown.classList.remove('d_block');
-        arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down.png");
-        assignedUserRef.classList.remove('d-none');
-    }
+document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('click', (event) => {
+        const dropdown = document.getElementById('selected-user-dropdown');
+        const dropdownButton = document.getElementById('assigned-container');
+        const arrowRef = document.getElementById('arrow-dropdown');
+        const assignedUserRef = document.getElementById('user-names-edit-overlay');
+
+        if (dropdown && dropdownButton && arrowRef && assignedUserRef) {
+            if (!dropdown.contains(event.target) && !dropdownButton.contains(event.target)) {
+                if (!assignedUserRef.classList.contains('d-none')) {
+                    dropdown.classList.add('d-none');
+                    dropdown.classList.remove('d_block');
+                    arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down.png");
+                    assignedUserRef.classList.remove('d-none');
+                }
+            }
+        } else {
+            console.log(document.getElementById('selected-user-dropdown'));
+            console.log(document.getElementById('assigned-container'));
+            console.log(document.getElementById('arrow-dropdown'));
+            console.log(document.getElementById('user-names-edit-overlay'));
+        }
     });
+   
+
+});
+
 
 /**
  * This function selects the selected users and saves them in an array.
@@ -368,7 +383,7 @@ async function selectedUserEdit(id) {
  * @param {array} colors 
  */
 function renderOverlayEditUser(usersFirstLetters, colors) {
-    if(usersFirstLetters.length >= 8) {
+    if (usersFirstLetters.length >= 8) {
         for (let i = 0; i < 8; i++) {
             document.getElementById('user-names-edit-overlay').innerHTML += getUserInititalsOverlayEdit(colors[i], usersFirstLetters[i]);
         }
@@ -388,7 +403,7 @@ function renderOverlayEditUser(usersFirstLetters, colors) {
 function editMode(id) {
     let createContainer = document.getElementById('create-subtask-overlay');
     if (document.getElementById('add-subtask-overlay-edit').getAttribute("src") == "./assets/icons/add_subtask.png") {
-        createContainer.innerHTML = getSubtaskOverlayIcons(id);      
+        createContainer.innerHTML = getSubtaskOverlayIcons(id);
     } else {
         createContainer.innerHTML = getSubtaskOverlayAddIcon();
     }
@@ -405,12 +420,12 @@ async function createSubtaskOverlay(id) {
         task.subtasks = [];
     }
     let idSubtask = task.subtasks.length;
-    if(inputRef.value !== "") {
+    if (inputRef.value !== "") {
         let newSubtask = {
             status: "not done",
             title: inputRef.value
         };
-        
+
         await fetch(`${BASE_URL}/tasks/${id}/subtasks/${idSubtask}.json`, {
             method: "PUT",
             headers: {
@@ -437,9 +452,9 @@ function clearSubtaskInput() {
 async function renderOverlayEditSubtasks(id) {
     let responseJson = await loadTaskWithID(id);
     document.getElementById('subtasks-overlay-edit').innerHTML = "";
-    if(responseJson.subtasks != undefined) {
+    if (responseJson.subtasks != undefined) {
         for (let i = 0; i < responseJson.subtasks.length; i++) {
-            document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(responseJson.subtasks[i].title, id, i);       
+            document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(responseJson.subtasks[i].title, id, i);
         }
     }
 }
@@ -453,9 +468,9 @@ async function editSubtask(id, subtask) {
     let task = await loadTaskWithID(id);
     let subtaskId = findSubtask(task, subtask);
     for (let i = 0; i < task.subtasks.length; i++) {
-        if(subtaskId == i) {
+        if (subtaskId == i) {
             document.getElementById('list-' + subtaskId).innerHTML = "";
-            document.getElementById('list-' + subtaskId).innerHTML += getSubtasksOverlayEditInput(task.subtasks[i].title, id); 
+            document.getElementById('list-' + subtaskId).innerHTML += getSubtasksOverlayEditInput(task.subtasks[i].title, id);
         }
     }
 }
@@ -492,7 +507,7 @@ function findSubtask(task, subtask) {
     for (let i = 0; i < task.subtasks.length; i++) {
         if (task.subtasks[i].title == subtask) {
             subtaskId = i;
-        }        
+        }
     }
     return subtaskId;
 }
@@ -506,7 +521,7 @@ async function saveEditSubtask(id, subtask) {
     let task = await loadTaskWithID(id);
     let subtaskId = findSubtask(task, subtask);
     let inputTitle = document.getElementById('change-subtask-input').value;
-    if(inputTitle != "") {
+    if (inputTitle != "") {
         let newSubtask = {
             status: "not done",
             title: inputTitle
