@@ -147,12 +147,10 @@ function buildNewTask(id, title, description, dueDate, category, color) {
  * @returns {Promise<void>}
  */
 async function saveTask(newTask) {
-    // Datum ins Format yyyy-mm-dd umwandeln
     let [day, month, year] = newTask.dueDate.split('/');
     newTask.dueDate = `${year}-${month}-${day}`;
 
     try {
-        // Task speichern
         await fetch(`${BASE_URL}/tasks/${newTask.id - 1}.json`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
@@ -168,8 +166,6 @@ async function saveTask(newTask) {
 
             setTimeout(() => {
                 successOverlay.style.display = 'none';
-
-                // Überprüfen, ob die Anwendung im Overlay-Modus ist
                 if (document.body.id === "overlay-mode") {
                     console.log("Overlay mode detected. Clearing inputs and closing overlay.");
                     // Inputs zurücksetzen und Overlay schließen
