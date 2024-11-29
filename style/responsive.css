@@ -150,6 +150,8 @@
         top: 76px;
         transform: translateX(100%);
         -webkit-transform: translateX(100%);
+        position: fixed !important;
+        z-index: 1000 !important;
     }
 
     .opened {
@@ -585,6 +587,10 @@
         top: 75px;
     }
 
+    .task-details {
+        top: 46% !important;
+    }
+
     .top {
         gap: 12px !important;
     }
@@ -676,6 +682,108 @@
         justify-content: space-between;
         gap: 12px !important;
     }
+}
+
+@media(max-width:550px) {
+    .content-overlay h3 {
+        font-size: 38px !important;
+        text-align: center !important;
+        display: flex !important;
+        justify-content: center !important;
+
+    }
+
+    .content-overlay {
+        display: flex;
+        flex-direction: column;
+        gap: 17px !important;
+        width: 100%;
+        height: auto !important;
+    }
+
+
+
+    .content-overlay p {
+        font-size: 17px !important;
+        color: #000000;
+        font-weight: 400;
+    }
+
+    .task-details {
+        width: 100% !important;
+
+    }
+
+    .username-overlay {
+        padding: 0px 0px 0px 0px !important;
+    }
+
+    .footer-overlay {
+        display: flex;
+        gap: 8px;
+        color: #D1D1D1;
+        cursor: pointer;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    .overlay-edit-container {
+        display: flex;
+        flex-direction: column;
+        width: -webkit-fill-available;
+        gap: 8px;
+    }
+
+    .prio-label-container {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .overlay-input-field-date #due-date-input {
+        width: 120px !important;
+
+
+    }
+
+    #user-dropdown {
+        border-radius: 10px 10px 10px 10px;
+        border: 1px solid #29abe2;
+        height: 180px;
+    }
+
+    #subtask-edit {
+        width: 170px !important;
+    }
+
+    .assigned-menu-overlay {
+        padding: 10px 4px 12px 0px !important;
+
+    }
+
+    #user-names-edit-overlay {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: -webkit-fill-available;
+        background-color: #2A3647;
+        border-radius: 10px;
+    }
+
+
+
+    #low-label,
+    #medium-label,
+    #urgent-label {
+        height: 38px;
+        gap: 4px;
+    }
+
+    .overlay-input-field-date {
+        width: -webkit-fill-available !important;
+    }
+
+
 }
 
 @media (max-width: 520px) {

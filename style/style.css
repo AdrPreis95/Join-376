@@ -45,7 +45,7 @@ header {
 .submenu-content {
     display: flex;
     flex-direction: column;
-    position: absolute;
+    position: fixed !important;
     top: 96px;
     right: 6px;
     background-color: #2A3647;
@@ -301,7 +301,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .backArrow {
-    position: absolute; right: 0;
-    cursor: pointer; margin-right: 24px;
-    top: 168px; display: none;
+    position: absolute;
+    right: 0;
+    cursor: pointer;
+    margin-right: 24px;
+    top: 168px;
+    display: none;
 }
