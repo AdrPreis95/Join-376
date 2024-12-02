@@ -1,5 +1,5 @@
 
-let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
+let BASE_URL = 'https://join376-5c0e7-default-rtdb.europe-west1.firebasedatabase.app/';
 let currentDraggedElement;
 let activePriority = '';
 let titles = [];
