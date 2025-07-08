@@ -89,8 +89,18 @@ async function createTask() {
     let fileData = { base64: "", name: "" };
 
     if (file) {
-        fileData = await convertToBase64(file);
+        if (!isValidFileType(file)) {
+            alert(" Ungültiges Dateiformat. Nur PNG, JPG, JPEG oder PDF erlaubt!!!");
+            return;
+        }
+
+        if (file.type.startsWith("image/")) {
+            fileData = await resizeAndConvertImage(file, 1024, 1024, 0.8); 
+        } else if (file.type === "application/pdf") {
+            fileData = await convertToBase64(file);
+        }
     }
+
 
     let newTask = buildNewTask(newID, title, description, dueDate, category, color, fileData);
     await saveTask(newTask);
@@ -502,6 +512,20 @@ function formatContact(contact) {
     return { ...contact, firstName, lastName };
 }
 
+
+function isValidFileType(file) {
+    const allowedTypes = [
+        "image/png",
+        "image/jpeg",
+        "image/jpg",
+        "application/pdf"
+    ];
+    const validExtension = /\.(png|jpg|jpeg|pdf)$/i.test(file.name);
+
+    return allowedTypes.includes(file.type) && validExtension;
+}
+
+
 function convertToBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -522,6 +546,47 @@ function createBlobURL(base64, mimeType) {
 
     const blob = new Blob([intArray], { type: mimeType });
     return URL.createObjectURL(blob);
+}
+function resizeAndConvertImage(file, maxWidth, maxHeight, quality = 0.8) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                // Proportional skalieren
+                if (width > maxWidth || height > maxHeight) {
+                    if (width > height) {
+                        height = height * (maxWidth / width);
+                        width = maxWidth;
+                    } else {
+                        width = width * (maxHeight / height);
+                        height = maxHeight;
+                    }
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                const base64 = canvas.toDataURL("image/jpeg", quality);
+                resolve({ base64, name: file.name });
+            };
+
+            img.onerror = (error) => reject(error);
+        };
+
+        reader.onerror = (error) => reject(error);
+    });
 }
 
 

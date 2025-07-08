@@ -249,7 +249,6 @@ async function updateTaskInFirebase(taskRefUrl, updatedField) {
         const response = await fetch(taskRefUrl);
         const currentTask = await response.json();
         if (!currentTask) {
-            console.error("Aufgabe konnte nicht geladen werden.");
             return;
         }
         const updatedTask = { ...currentTask, ...updatedField };
