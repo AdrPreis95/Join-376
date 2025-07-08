@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hilfeseite</title>
+
+    <link rel="icon" href="./assets/img/join_logo_dark.png">
+
+    <script src="./scripts/script.js"></script>
+
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/standard.css">
+    <link rel="stylesheet" href="style/legal_notice.css">
+    <link rel="stylesheet" href="style/contacts.css">
+    <link rel="stylesheet" href="style/board.css">
+    <link rel="stylesheet" href="style/add_task.css">
+    <link rel="stylesheet" href="style/responsive.css">
+    <link rel="stylesheet" href="style/summary.css">
+
+    <script src="scripts/helper.js"></script>
+    
+</head>
+<body onload="setUserInitials()">
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="assets/img/join_logo.png" alt="Join-Logo">
+            </div>
+            <div class="main-links-container">
+                <a href="./summary.html" class="main-link">
+                    <img src="./assets/icons/summary_icon.png" alt="summary_icon">
+                    Summary
+                </a>
+                <a href="./add_task.html" class="main-link">
+                    <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
+                    Add Task
+                </a>
+                <a href="./board.html" class="main-link">
+                    <img src="./assets/icons/board_icon.png" alt="board_icon">
+                    Board
+                </a>
+                <a href="./contacts.html" class="main-link">
+                    <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
+                    Contacts
+                </a>
+            </div>
+            <div class="legal-links-container">
+                <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
+                <a href="./legal_notice.html" class="legal-link">Legal notice</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="submenu d-none">
+                <div class="submenu-content closed">
+                    <a class="submenu-help" href="help.html">Help</a>
+                    <a href="legal_notice.html">Legal Notice</a>
+                    <a href="privacy_policy.html">Privacy Policy</a>
+                    <a onclick="logOut()">Log out</a>
+                </div>
+            </div> 
+            <header>
+                <div class="header-content">
+                  <p>Kanban Project Management Tool</p>
+                  <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
+                  <div class="header-icons">
+                    <div class="user-icon" onclick="toggleSubmenu()">
+                        <b id="user-initials"></b>
+                    </div>
+                  </div>
+                </div>
+              </header>
+        
+              <div class="legalNoticeHeader">
+                <h1 style="padding-left: 0px;">Help</h1>
+                <img onclick="goBack()" class="previousArrow" id="previousArrow" style="height: 20px; width: 20px; cursor: pointer;" src="assets/icons/arrow_left_line_icon.png" alt="Back">
+            </div>
+
+              <div class="textcontainer">
+                  <p>
+                      Welcome to the help page for Join, your guide to using our Kanban project management tool.
+                      Here, we provide you with an overview of what Join is, how it can benefit you, and how to use it.
+                  </p>
+                  
+                  <h2>What is Join?</h2>
+              
+                  <p>Join is a kanban-based project management tool designed and developed by a group of dedicated students as part of their web development bootcamp
+                      at the Developer Akademie.
+                  </p>
+              
+                  <p>
+                      Kanban, a Japanese term meaning "billboard", is a highly effective method to visualize work, limit work-in-progress, and
+                      maximize efficiency (or flow). Join leverages the principles of Kanban to help users manage their tasks and projects
+                      in an intuitive way.
+                  </p>
+              
+                  <p>
+                      It is important to note that Join is designed as an educational exercise and is not intended for extensive business use.
+                      While we strive to ensure the best possible user experience, we cannot guarantee consistent availability,
+                      reliability, accuracy, or other aspects of quality regarding Join.
+                  </p>
+                  
+                  <h2>How to use it</h2>
+              
+                  <p>Here is a step-by-step guide on how to use Join:</p>
+              
+                  <div style="display: flex; align-items: center; gap: 34px">
+                      <h3 style="font-size: 36px;">1.</h3> 
+                      <div>
+                          <h2 style="padding-bottom: 8px;">Exploring the Board</h2>
+                          <p>
+                              When you log in to Join, you will find a default board. This board represents your project and contains four default lists:
+                              "To Do", "In Progress", "Await Feedback", and "Done".
+                          </p>
+                      </div>
+                  </div>
+              
+                  <div style="display: flex; align-items: center; gap: 28px">
+                      <h3 style="font-size: 36px;">2.</h3> 
+                      <div>
+                          <h2 style="padding-bottom: 8px;">Creating Contacts</h2>
+                          <p>
+                              In Join, you can add contacts to collaborate on your projects. Go to the "Contacts" section, click on "New Contact", and fill in the required information.
+                          </p>
+                      </div>
+                  </div>
+              
+                  <div style="display: flex; align-items: center; gap: 28px">
+                      <h3 style="font-size: 36px;">3.</h3> 
+                      <div>
+                          <h2 style="padding-bottom: 8px;">Adding Cards</h2>
+                          <p>
+                              Now that you've added your contacts, you can start creating tasks. Click the "+" button under the
+                              appropriate list to create a new card. Fill in the card details, such as card name, description,
+                              due date, responsible person, etc.
+                          </p>
+                      </div>
+                  </div>
+              
+                  <div style="display: flex; align-items: center; gap: 28px">
+                      <h3 style="font-size: 36px;">4.</h3> 
+                      <div>
+                          <h2 style="padding-bottom: 8px;">Moving Cards</h2>
+                          <p>
+                              To track the progress of your tasks, you can easily move cards from one list to another.
+                              Drag the desired card with your mouse and drop it into the appropriate list, such as "In Progress", "Await Feedback", or "Done",
+                              to update the current status of your task.
+                          </p>
+                      </div>
+                  </div>
+              
+                  <div style="display: flex; align-items: center; gap: 28px">
+                      <h3 style="font-size: 36px;">5.</h3> 
+                      <div>
+                          <h2 style="padding-bottom: 8px;">Completing Tasks</h2>
+                          <p>
+                              Once a task is completed, you can move it to the "Done" list.
+                              This indicates that the task has been successfully completed. Check if all requirements are met and the task needs no further
+                              changes. Once you are satisfied, the card remains in the "Done" list and the process is complete.
+                          </p>
+                      </div>
+                  </div>
+              
+                  <h1 style="text-align: center; padding-left: 0;">Have fun using Join!</h1>
+              </div>
+              
+        
+            </div>
+        </main>
+        
+        <footer class="responsive-footer">
+            <div class="main-links-container-responsive">
+                <a href="./summary.html" class="main-link-responsive">
+                    <img src="./assets/icons/summary_icon.png" alt="summary_icon">
+                    Summary
+                </a>
+                <a href="./add_task.html" class="main-link-responsive">
+                    <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
+                    Add Task
+                </a>
+                <a href="./board.html" class="main-link-responsive">
+                    <img src="./assets/icons/board_icon.png" alt="board_icon">
+                    Board
+                </a>
+                <a href="./contacts.html" class="main-link-responsive">
+                    <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
+                    Contacts
+                </a>
+            </div>
+        </footer>
+</body>
+</html>

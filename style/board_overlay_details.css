@@ -1,0 +1,208 @@
+.close-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+}
+
+.close-overlay:hover {
+    background-color: #D1D1D1;
+    border-radius: 50%;
+}
+
+.task-details {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    top: 50%;
+    left: 50%;
+    transform: translate(100%, -50%);
+    background-color: #FFFFFF;
+    max-height: calc(100vh - 120px);
+    width: 525px;
+    border-radius: 30px;
+    padding: 48px 40px 48px 40px;
+    animation: slideIn 0.5s forwards;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.task-details::-webkit-scrollbar {
+    display: none;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translate(100%, -50%);
+    }
+    to {
+        transform: translate(-50%, -50%);
+    }
+}
+
+.content-overlay {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    height: 100%;
+}
+
+.content-overlay h3 {
+    font-size: 61px;
+    color: #000000;
+    font-weight: 700;
+}
+
+.content-overlay h4 {
+    font-size: 20px;
+    color: #2A3647;
+    font-weight: 400;
+}
+
+.content-overlay p {
+    font-size: 20px;
+    color: #000000;
+    font-weight: 400;
+}
+
+.header-overlay {
+    display: flex;
+    justify-content: space-between;
+}
+
+.category-overlay {
+    font-weight: 400;
+    font-size: 23px;
+    color: #FFFFFF;
+}
+
+.due-date-overlay {
+    display: flex;
+    justify-content: flex-start;
+    gap: 25px;
+}
+
+.priority-overlay {
+    display: flex;
+    justify-content: flex-start;
+    gap: 43px;
+}
+
+.priority-container-overlay {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.username-overlay {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 7px 16px 7px 16px;
+}
+
+#more-user-overlay {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 7px 16px 7px 16px;
+}
+
+#assigned-user-overlay, .assigned-user-overlay-edit {
+    width: 42px;
+    height: 42px;
+    border: 2px solid #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+#assigned-user-overlay p, .assigned-user-overlay-edit p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #FFFFFF;
+}
+
+.username {
+    font-size: 19px;
+    font-weight: 400;
+    color: #000000;
+}
+
+#subtasks-overlay {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.subtask-overlay {
+    display: flex;
+    gap: 16px;
+}
+
+.subtask-overlay:hover {
+    border-radius: 10px;
+    background-color: #F1F1F1;
+}
+
+.footer-overlay {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    color: #D1D1D1;
+    cursor: pointer;
+}
+
+.footer-link-overlay {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.footer-link-overlay:hover .del,
+.footer-link-overlay:hover .edit {
+    color: #29abe2;
+}
+
+.footer-link-overlay:hover .ico,
+.footer-link-overlay:hover .icor {
+    fill: #29ABE2;
+}
+
+
+.footer-overlay p {
+    font-weight: 400;
+    font-size: 16px;
+    color: #2A3647;
+}
+
+#delete-container:hover {
+    color: #29ABE2;
+    font-size: 16px;
+    font-weight: 400;
+    fill: #29ABE2;
+}
+
+#footer-delete {
+    color: #2A3647;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+#footer-edit {
+    color: #2A3647;
+    font-size: 16px;
+    font-weight: 400;
+}

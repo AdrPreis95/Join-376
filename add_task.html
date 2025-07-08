@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+
+    <link rel="icon" href="./assets/img/join_logo_dark.png">
+
+    <link rel="stylesheet" href="style/style.css">
+    <link rel="stylesheet" href="style/standard.css">
+    <link rel="stylesheet" href="style/legal_notice.css">
+    <link rel="stylesheet" href="style/contacts.css">
+    <link rel="stylesheet" href="style/board.css">
+    <link rel="stylesheet" href="style/add_task.css">
+    <link rel="stylesheet" href="style/responsive.css">
+    <link rel="stylesheet" href="style/summary.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+
+    <script src="./scripts/task_details.js" defer></script>
+    <script src="scripts/task_overlay_details.js" defer></script>
+    <script src="scripts/base_url.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="./scripts/script.js" defer></script>
+
+
+</head>
+
+<body id="main-page" onload="setUserInitials()">
+    <div class="container">
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="assets/img/join_logo.png" alt="Join-Logo">
+            </div>
+            <div class="main-links-container">
+                <a href="./summary.html" class="main-link">
+                    <img src="./assets/icons/summary_icon.png" alt="summary_icon">
+                    Summary
+                </a>
+                <a href="./add_task.html" class="main-link active_side">
+                    <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
+                    Add Task
+                </a>
+                <a href="./board.html" class="main-link">
+                    <img src="./assets/icons/board_icon.png" alt="board_icon">
+                    Board
+                </a>
+                <a href="./contacts.html" class="main-link">
+                    <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
+                    Contacts
+                </a>
+            </div>
+            <div class="legal-links-container">
+                <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
+                <a href="./legal_notice.html" class="legal-link">Legal notice</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="submenu d-none">
+                <div class="submenu-content closed">
+                    <a class="submenu-help" href="help.html">Help</a>
+                    <a href="legal_notice.html">Legal Notice</a>
+                    <a href="privacy_policy.html">Privacy Policy</a>
+                    <a onclick="logOut()">Log out</a>
+                </div>
+            </div>
+            <header class="header">
+                <div class="header-content">
+                    <p>Kanban Project Management Tool</p>
+                    <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
+                    <div class="header-icons">
+                        <a class="help-link" href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32"
+                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
+                                    y="0" width="32" height="32">
+                                    <rect width="32" height="32" fill="#D9D9D9" />
+                                </mask>
+                                <g mask="url(#mask0_233325_3412)">
+                                    <path
+                                        d="M15.95 22C16.3 22 16.5958 21.8792 16.8375 21.6375C17.0792 21.3958 17.2 21.1 17.2 20.75C17.2 20.4 17.0792 20.1042 16.8375 19.8625C16.5958 19.6208 16.3 19.5 15.95 19.5C15.6 19.5 15.3042 19.6208 15.0625 19.8625C14.8208 20.1042 14.7 20.4 14.7 20.75C14.7 21.1 14.8208 21.3958 15.0625 21.6375C15.3042 21.8792 15.6 22 15.95 22ZM16 26C14.6167 26 13.3167 25.7375 12.1 25.2125C10.8833 24.6875 9.825 23.975 8.925 23.075C8.025 22.175 7.3125 21.1167 6.7875 19.9C6.2625 18.6833 6 17.3833 6 16C6 14.6167 6.2625 13.3167 6.7875 12.1C7.3125 10.8833 8.025 9.825 8.925 8.925C9.825 8.025 10.8833 7.3125 12.1 6.7875C13.3167 6.2625 14.6167 6 16 6C17.3833 6 18.6833 6.2625 19.9 6.7875C21.1167 7.3125 22.175 8.025 23.075 8.925C23.975 9.825 24.6875 10.8833 25.2125 12.1C25.7375 13.3167 26 14.6167 26 16C26 17.3833 25.7375 18.6833 25.2125 19.9C24.6875 21.1167 23.975 22.175 23.075 23.075C22.175 23.975 21.1167 24.6875 19.9 25.2125C18.6833 25.7375 17.3833 26 16 26ZM16 24C18.2333 24 20.125 23.225 21.675 21.675C23.225 20.125 24 18.2333 24 16C24 13.7667 23.225 11.875 21.675 10.325C20.125 8.775 18.2333 8 16 8C13.7667 8 11.875 8.775 10.325 10.325C8.775 11.875 8 13.7667 8 16C8 18.2333 8.775 20.125 10.325 21.675C11.875 23.225 13.7667 24 16 24ZM16.1 11.7C16.5167 11.7 16.8792 11.8333 17.1875 12.1C17.4958 12.3667 17.65 12.7 17.65 13.1C17.65 13.4667 17.5375 13.7917 17.3125 14.075C17.0875 14.3583 16.8333 14.625 16.55 14.875C16.1667 15.2083 15.8292 15.575 15.5375 15.975C15.2458 16.375 15.1 16.825 15.1 17.325C15.1 17.5583 15.1875 17.7542 15.3625 17.9125C15.5375 18.0708 15.7417 18.15 15.975 18.15C16.225 18.15 16.4375 18.0667 16.6125 17.9C16.7875 17.7333 16.9 17.525 16.95 17.275C17.0167 16.925 17.1667 16.6125 17.4 16.3375C17.6333 16.0625 17.8833 15.8 18.15 15.55C18.5333 15.1833 18.8625 14.7833 19.1375 14.35C19.4125 13.9167 19.55 13.4333 19.55 12.9C19.55 12.05 19.2042 11.3542 18.5125 10.8125C17.8208 10.2708 17.0167 10 16.1 10C15.4667 10 14.8625 10.1333 14.2875 10.4C13.7125 10.6667 13.275 11.075 12.975 11.625C12.8583 11.825 12.8208 12.0375 12.8625 12.2625C12.9042 12.4875 13.0167 12.6583 13.2 12.775C13.4333 12.9083 13.675 12.95 13.925 12.9C14.175 12.85 14.3833 12.7083 14.55 12.475C14.7333 12.225 14.9625 12.0333 15.2375 11.9C15.5125 11.7667 15.8 11.7 16.1 11.7Z"
+                                        fill="#A8A8A8" />
+                                </g>
+                            </svg></a>
+                        <div class="user-icon" onclick="toggleSubmenu()">
+                            <b id="user-initials"></b>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <div class="overall-container">
+                <div class="headline">
+                    <h1 class="overlay-hl">Add Task</h1>
+                </div>
+                <div class="content-section-confirm">
+                    <div id="taskover-cont" class="content-container">
+                        <section id="cont-left" class="content-left">
+                            <p id="title-p" style="margin-bottom: 10px;">
+                                Title<span style="color: red;">*</span>
+                            </p>
+                            <div class="form-field">
+                                <input id="title" class="input-title" type="text" placeholder="Enter a title"
+                                    onblur="validateInput()">
+                                <span class="error-message" id="error-message">Please select a Title</span>
+                            </div>
+
+                            <p id="description-p" style="margin-bottom: 10px; margin-top: 24px;">Description</p>
+                            <div class="textarea">
+                                <input id="description" type="text" placeholder="Enter a Description">
+                                <img src="./assets/icons/description-icon.png" alt="logo">
+                            </div>
+                            <div class="dropdown">
+                                <p id="assignedto-p" style="margin-bottom: 10px; margin-top: 24px;">Assigned to</p>
+                                <div class="assigned-to-select">
+                                    <input class="input-dropdown" id="dropdown-input" name="dropdown-input"
+                                        oninput="filterContacts()" onclick="openDropdown()" type="text"
+                                        placeholder="Select contacts to assign" autocomplete="off">
+                                    <img id="arrow" class="dropdown-arrow" src="./assets/icons/dropdown-arrow.png"
+                                        alt="ArrowIcon">
+                                </div>
+                                <div id="picked-user-avatar" class="picked-user-avatar"></div>
+                                <div id="dropdown-user" class="user-list">
+                                </div>
+                                <input type="file" id="file-select" accept="image/*,.pdf" />
+
+                        </section>
+                        <div class="separating-line"></div>
+                        <section class="content-right">
+                            <p id="date-p" style="margin-bottom: 10px;">
+                                Due Date<span style="color: red;">*</span>
+                            </p>
+                            <div class="form-field">
+                                <div id="errorborder" class="date-container">
+                                    <input type="date" id="due-date-input" name="date" placeholder="dd/mm/yyyy"
+                                        class="date-input" onblur="validateDateInput()" pattern="\d{2}/\d{2}/\d{4}"
+                                        title="Please enter a date in the format dd/mm/yyyy" autocomplete="off">
+                                    <img id="dateimg" src="./assets/icons/date-logo.png" alt="DateIcon">
+                                </div>
+                                <span class="error-message" id="date-error-message">Please select a date in the right
+                                    Format</span>
+                            </div>
+                            <p id="prio-p" style="margin-bottom: 10px; margin-top: 24px;">Prio</p>
+                            <div class="prio-container">
+                                <button style="cursor: pointer;" onclick="changeColor(this, '#ff3d00')" id="prio-red"
+                                    class="prio-u">
+                                    <b>Urgent</b><img src="assets/icons/urgent_icon.png" alt="PrioIcon">
+                                </button>
+                                <button style="cursor: pointer;" onclick="changeColor(this, '#FFAC0B')" id="prio-orange"
+                                    class="prio-m">
+                                    <b>Medium</b><img src="assets/icons/medium_icon.png" alt="Medium">
+                                </button>
+                                <button style="cursor: pointer;" onclick="changeColor(this, '#7EE32F')" id="prio-green"
+                                    class="prio-l">
+                                    <b>Low</b><img src="assets/icons/low_icon.png" alt="LowIcon">
+                                </button>
+                            </div>
+                            <p style="margin-top: 24px; margin-bottom: 10px;">
+                                Category<span style="color: red;">*</span>
+                            </p>
+                            <div class="form-field">
+                                <select class="select-minimal" id="selectcategory" name="category"
+                                    onblur="validateSelectCategory()">
+                                    <option value="" disabled selected hidden>Select task category</option>
+                                    <option value="Technical Task">Technical Task</option>
+                                    <option value="User Story">User Story</option>
+                                </select>
+                                <span class="error-message" id="category-error-message">Please select a category.</span>
+                            </div>
+                            <p class="subtask-p" style="margin-top: 24px; margin-bottom: 10px;">
+                                Subtasks
+                            </p>
+                            <div class="input-container">
+                                <input id="addsubtasks" name="addsubtasks" placeholder="Add new subtask" minlength="3"
+                                    maxlength="36">
+                                <img onclick="addSubtask()" id="add-subtask" class="input-icon"
+                                    src="assets/icons/add_subtask.png" alt="AddSubtaskIcon">
+                                <div class="center-subtask-icons" id="show-icons" style="display: none;">
+                                    <img onclick="clearSubtaskInput()" id="clear-subtask" class="input-icon-after"
+                                        src="./assets/icons/close.png" alt="ClearTaskInputIcon">
+                                    <div class="task-buttons-seperator"></div>
+                                    <img onclick="confirmSubtask()" id="confirm-subtask" class="input-icon-after"
+                                        src="./assets/icons/create-task.png" alt="ConfirmTaskIcon">
+                                </div>
+                            </div>
+                            <ul id="subtask-list"></ul>
+                            <div id="subtask-limit-message"
+                                style="display: none; color: red; font-size: 14px; margin-top: 10px;">
+                                Limit of subtasks reached!
+                            </div>
+                            <section class="confirm">
+                                <div class="button-container">
+                                    <button onclick="clearTask()" id="clear" class="clear-button">
+                                        <span>Clear</span> <svg class="clear-image" width="14" height="14"
+                                            viewBox="0 0 14 14" fill="#" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M6.68193 8.79678L1.78193 13.6968C1.5986 13.8801 1.36527 13.9718 1.08193 13.9718C0.7986 13.9718 0.565267 13.8801 0.381934 13.6968C0.1986 13.5134 0.106934 13.2801 0.106934 12.9968C0.106934 12.7134 0.1986 12.4801 0.381934 12.2968L5.28193 7.39678L0.381934 2.49678C0.1986 2.31344 0.106934 2.08011 0.106934 1.79678C0.106934 1.51344 0.1986 1.28011 0.381934 1.09678C0.565267 0.913444 0.7986 0.821777 1.08193 0.821777C1.36527 0.821777 1.5986 0.913444 1.78193 1.09678L6.68193 5.99678L11.5819 1.09678C11.7653 0.913444 11.9986 0.821777 12.2819 0.821777C12.5653 0.821777 12.7986 0.913444 12.9819 1.09678C13.1653 1.28011 13.2569 1.51344 13.2569 1.79678C13.2569 2.08011 13.1653 2.31344 12.9819 2.49678L8.08193 7.39678L12.9819 12.2968C13.1653 12.4801 13.2569 12.7134 13.2569 12.9968C13.2569 13.2801 13.1653 13.5134 12.9819 13.6968C12.7986 13.8801 12.5653 13.9718 12.2819 13.9718C11.9986 13.9718 11.7653 13.8801 11.5819 13.6968L6.68193 8.79678Z"
+                                                fill="#2A3647" />
+                                        </svg>
+                                    </button>
+                                    <button onclick="createTask()" id="create" class="create-task-button">
+                                        <span id="createspan">Create Task</span><img
+                                            src="./assets/icons/create-task.png" alt="ConfirmIcon">
+                                    </button>
+                                </div>
+                            </section>
+                    </div>
+                    <p class="required-p" style="margin-top: 48px; margin-bottom: 10px; padding-left: 60px;">
+                        <span style="color: red;">*</span>This field is required
+                </div>
+            </div>
+        </main>
+    </div>
+    <footer class="responsive-footer">
+        <div class="main-links-container-responsive">
+            <a href="./summary.html" class="main-link-responsive">
+                <img src="./assets/icons/summary_icon.png" alt="summary_icon">
+                Summary
+            </a>
+            <a href="./add_task.html" class="main-link-responsive active_side">
+                <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
+                Add Task
+            </a>
+            <a href="./board.html" class="main-link-responsive">
+                <img src="./assets/icons/board_icon.png" alt="board_icon">
+                Board
+            </a>
+            <a href="./contacts.html" class="main-link-responsive">
+                <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
+                Contacts
+            </a>
+        </div>
+    </footer>
+    <div id="success-overlay">
+        <div id="success-message">
+            Task successfully created
+            <img class="success-icon" src="./assets/icons/board_icon.png" alt="boardicon">
+        </div>
+    </div>
+    <script src="scripts/add_task.js"></script>
+</body>
+
+</html>

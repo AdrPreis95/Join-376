@@ -1,0 +1,68 @@
+@font-face {
+    font-family: 'Inter';
+    src: url("../fonts/Inter-VariableFont_opsz\,wght.ttf");
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+}
+
+::-webkit-scrollbar-corner {
+    background: #f6f7f8;
+}
+
+::-webkit-scrollbar-track {
+    background: #f6f7f8;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #a9a9a9;
+    border-radius: 10px;
+    border: 2px solid #f6f7f8;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #888;
+}
+
+* {
+    font-family: 'Inter';
+    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth; 
+}
+
+html {
+    overscroll-behavior-x: none;
+}
+
+body {
+    background-color: #f6f7f8;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    overscroll-behavior-x: none;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+.d-none {
+    display: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.d_block {
+    display: block;
+}

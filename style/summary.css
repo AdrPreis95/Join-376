@@ -1,0 +1,253 @@
+.overall-container {
+    background-color: #F6F7F8;
+}
+
+.headline-span {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+.main-content h1 {
+    margin-top: 36px;
+    text-align: left;
+    margin-bottom: 36px;
+    padding-left: 60px;
+    font-size: 61px;
+}
+
+.h-2 {
+    font-size: 64px; display: flex; align-items: center; text-align: center; justify-content: center;
+}
+
+.seperator-line {
+    height: 59px;
+    width: 3px;
+    background-color: #29ABE2;
+}
+
+.separator-underline {
+    display: none;
+    height: 3px;
+    width: 112px;
+    background-color: #29ABE2;
+    margin-top: 16px;
+}
+
+.key-metrics-span {
+    font-size: 27px;
+    color: #2A3647;
+
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+
+}
+
+.summary-content-container {
+    width: 560px;
+    height: 562px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: transparent;
+}
+
+.todo-container {
+    width: 264px;
+    height: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+    cursor: pointer;
+}
+
+.todo-container:hover,
+.done-container:hover,
+.urgent-date-container:hover,
+.tasks-board-container:hover,
+.task-progress-container:hover,
+.task-feedback-container:hover {
+    background-color: #2A3647;
+    color: #FFFFFF;
+    transform: scale(1.05);
+    transition: transform 0.3s ease-in-out;
+}
+
+.todo-container:hover .p-info,
+.done-container:hover .p-info,
+.urgent-date-container:hover .p-info,
+.tasks-board-container:hover .p-info,
+.task-progress-container:hover .p-info,
+.urgent-date-container:hover .p-info,
+.urgent-date-container:hover .p-upcoming-deadline,
+.urgent-date-container:hover .priorydate,
+.task-feedback-container:hover .p-info {
+    color: #FFFFFF;
+}
+
+.todo-container:hover .todo-icon {
+    content: url('../assets/icons/hover-todo-white.png');
+}
+
+.done-container:hover .done-icon {
+    content: url(../assets/icons/done-hover-white.png);
+}
+
+.done-container {
+    width: 264px;
+    height: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+    cursor: pointer;
+}
+
+
+.done-icon {
+    height: 69px;
+    width: 69px;
+}
+
+.todo-icon {
+    height: 69px;
+    width: 69px;
+}
+
+.urgent-date-container {
+    height: 168px;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+    cursor: pointer;
+}
+
+.tasks-board-container {
+    height: 168px;
+    width: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+    cursor: pointer;
+}
+
+.task-progress-container {
+    height: 168px;
+    width: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+    cursor: pointer;
+
+}
+
+.task-feedback-container {
+    height: 168px;
+    width: 168px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #FFFFFF;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+    cursor: pointer;
+
+}
+
+.bottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.greeting {
+    font-size: 47px;
+}
+
+.user {
+    font-size: 64px;
+    color: #29ABE2;
+    margin-top: 12px;
+    text-align: left;
+    margin-bottom: 0px;
+    padding-left: 0px;
+
+}
+
+.overall-content-container {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    margin-left: 56px;
+}
+
+.center-info {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.seperator-urgent-date {
+    height: 102px;
+    width: 2px;
+    background-color: #D1D1D1;
+}
+
+.p-upcoming-deadline {
+    font-size: 16px;
+    font-weight: 400;
+    color: #2A3647;
+}
+
+.center-info-date {
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 12px;
+}
+
+.urgent-side {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.priorydate {
+    font-size: 21px;
+    color: #2A3647;
+}
+
+.p-info {
+    color: #2A3647;
+    font-weight: 400;
+}
+
+.p-info:hover {
+    color: #FFFFFF;
+}

@@ -1,0 +1,323 @@
+.header-overlay-edit {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.edit-overlay-label {
+    font-size: 20px;
+    font-weight: 400;
+    color: #2A3647;
+}
+
+.overlay-edit-container {
+    display: flex;
+    flex-direction: column;
+    width: 445px;
+    gap: 24px;
+}
+
+.overlay-input-field {
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+#overlay-title {
+    padding: 12px 21px 12px 21px;
+}
+
+.overlay-input-field::placeholder {
+    color: #000000;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.overlay-textarea {
+    min-height: 120px;
+    max-width: 445px;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    padding: 18px 16px 18px 16px;
+    font-size: 20px;
+    font-weight: 400;
+}
+
+.overlay-textarea::placeholder {
+    color: #000000;
+    font-size: 21px;
+    font-weight: 400;
+    font-family: 'Open Sans';
+}
+
+.overlay-input-field-date input {
+    border: none;
+}
+
+.overlay-input-field-date img {
+    width: 24px;
+    height: 24px;
+}
+
+.overlay-input-field-date {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px 12px 16px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+}
+
+#due-date-input {
+    font-size: 20px;
+    color: #000000;
+    font-weight: 400;
+}
+
+#due-date-input::placeholder {
+    font-size: 20px;
+    color: #000000;
+    font-weight: 400;
+}
+
+.overlay-input-field-date input:focus {
+    outline: none;
+}
+
+.overlay-priority-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.overlay-priority-container label {
+    color: #464F58;
+    font-size: 19px;
+    font-weight: 400;
+    font-family: 'Inter';
+}
+
+.prio-label-container {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+}
+
+.prio-label {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 10px;
+    padding: 16px 10px 16px 10px;
+    box-shadow: 0px 0px 4px 0px #0000001A;
+}
+
+#assigned-to {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+}
+
+.assigned-menu-overlay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 12px 16px 12px 16px;
+    border: 1px solid #D1D1D1;
+    border-radius: 10px;
+}
+
+.assigned-menu-overlay input {
+    width: 100%;
+    border: none;
+    color: #000000;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.assigned-menu-overlay input::placeholder {
+    color: #000000;
+    font-weight: 400;
+    font-size: 20px;
+}
+
+.assigned-menu-overlay input:focus {
+    outline: none;
+}
+
+.dropdown-container {
+    height: 140px;
+    width: 100%;
+    background-color: #FFFF;
+    flex-direction: column;
+    padding: 8px 0px 8px 0px;
+    gap: 8px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border-radius: 10px;
+    filter: drop-shadow(0px 0px 0.5px #D1D1D1);
+}
+
+.contact-container-overlay {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 7px 16px 7px 16px;
+}
+
+.contact-container-overlay:hover {
+    border-radius: 10px;
+    background-color: #D1D1D1;
+}
+
+.contact-container-overlay img {
+    width: 24px;
+    height: 24px;
+}
+
+.user-name-overlay {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.user-initials-overlay {
+    margin-left: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background-color: #2A3647;
+    border: 1px solid #FFFFFF;
+}
+
+.user-initials-overlay p {
+    color: #FFFFFF;
+    font-weight: 400;
+    font-size: 12px;
+}
+
+#user-names-edit-overlay {
+    display: flex;
+    flex-direction: row;
+}
+
+.overlay-edit-subtask {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 10px;
+    border: 1px solid #D1D1D1;
+    padding: 12px 16px 12px 16px;
+}
+
+.hover-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hover-container:hover {
+    border-radius: 50%;
+    background-color: #D1D1D1;
+}
+
+#subtask-edit {
+    border: none;
+}
+
+#subtask-edit:focus {
+    outline: none;
+}
+
+#create-subtask-overlay {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.overlay-edit-subtask-list {
+    padding: 6px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.overlay-edit-subtask-list:hover {
+    background-color: #D1D1D1;
+    border-radius: 10px;
+}
+
+.overlay-edit-subtask-list:hover .subtask-edit-icons {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.subtask-edit-icons {
+    display: flex;
+    align-items: center;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.subtask-edit-icons img {
+    cursor: pointer;
+}
+
+#change-subtask-input {
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #9747FF;
+    background-color: #D1D1D1;
+    outline: none;
+    font-size: 16px;
+}
+
+#change-subtask-input::placeholder {
+    font-size: 16px;
+    color: #000000;
+}
+
+#change-subtask-input:focus {
+    border: none;
+    border-bottom: 1px solid #9747FF;
+}
+
+#warn-emptyinput-container p {
+    font-size: 12px;
+    font-weight: 400;
+    color: #FF8190;
+}
+
+.button-ok-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.button-ok {
+    background-color: #2A3647;
+    border-radius: 10px;
+    gap: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+    border: none;
+    margin-bottom: 16px;
+}
+
+.button-ok p {
+    color: #FFFFFF;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.button-ok img {
+    width: 24px;
+    height: 24px;
+}

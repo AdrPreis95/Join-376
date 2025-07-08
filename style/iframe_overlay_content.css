@@ -1,0 +1,453 @@
+⬇️⬇️⬇️IFRAME-CSS⬇️⬇️⬇️ #overlay-mode {
+    
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#overlay-mode.overlay-active {
+    display: flex;
+}
+
+.nohidden {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    background-color: rgba(0, 0, 0, 0.5);
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+#gethidden {
+    display: none !important;
+}
+
+.overlay-active {
+    display: block !important;
+}
+
+#overlay-mode #closeOverlay {
+    display: block !important;
+    margin: 40px 76px 0px 0px;
+    border: none;
+    background: none;
+    filter: drop-shadow(0px 0px 4px gray);
+}
+
+#overlay-mode .required-p {
+    margin-top: 6px !important;
+    margin-bottom: 10px;
+    padding-left: 60px;
+}
+
+#overlay-mode header,
+#overlay-mode aside,
+#overlay-mode footer {
+    display: none !important;
+}
+
+#overlay-mode .textarea {
+    height: 100px !important;
+}
+
+#overlay-mode #description {
+    height: 16px !important;
+}
+
+#overlay-mode #prio-red,
+#overlay-mode #prio-green,
+#overlay-mode #prio-orange {
+    height: 48px !important;
+    width: -webkit-fill-available !important;
+}
+
+#overlay-mode .prio-container {
+    gap: 8px !important;
+}
+
+#overlay-mode .create-task-button,
+#overlay-mode .clear-button {
+    height: 48px;
+}
+
+@media (max-width: 1200px) {
+    #overlay-mode.overlay-active .content-container {
+        display: flex !important;
+        padding-left: 0px !important;
+        gap: 0px !important;
+        flex-direction: row !important;
+    }
+}
+
+#overlayContent {
+    background: white;
+    border-radius: 26px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* display: none; */
+    height: 82vh;
+    border: none;
+    width: -webkit-fill-available;
+    position: fixed;
+    z-index: 1;
+    margin: 0px 10% 0px 10%;
+    overflow: hidden;
+}
+
+#overlay-mode .content-right,
+#overlay-mode .content-left {
+    width: -webkit-fill-available;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0px 8% 0px 8%;
+}
+
+#overlay-mode #taskover-cont {
+    display: flex;
+    justify-content: center;
+    padding-left: 0px;
+    gap: 0px !important;
+    flex-direction: row;
+}
+
+#closeOverlay {
+    display: none;
+}
+
+#taskoverlay.nohidden #closeOverlay {
+    display: inline-block;
+    position: absolute;
+    top: 50px !important;
+    right: 0% !important;
+    background-color: transparent;
+    border: none;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    z-index: 10;
+}
+
+#closeOverlay :hover {
+    transform: scale(1.1);
+}
+
+#overlay-mode #prio-p {
+    margin-bottom: 4px !important;
+    margin-top: 0px !important;
+}
+
+
+#overlay-mode .input-title,
+#overlay-mode #due-date-input,
+#overlay-mode #dropdown-input,
+#overlay-mode #selectcategory,
+#overlay-mode #addsubtasks {
+    height: 38px !important;
+}
+
+#overlay-mode .overlay-hl {
+    font-size: 48px !important;
+}
+
+#overlay-mode .headline {
+    margin-bottom: 0px !important;
+}
+
+#overlay-mode #closeOverlay {
+    display: block !important;
+}
+
+#overlay-mode #picked-user-avatar {
+    display: none !important;
+}
+
+
+
+
+/* ⬇️⬇️⬇️IFRAME-RESPONSIVE⬇️⬇️⬇️ */
+
+@media (max-width: 1200px) {
+    #overlay-mode .content-container {
+        display: flex;
+        padding-left: 0px;
+        gap: 0px;
+        flex-direction: row;
+    }
+
+    #taskoverlay.nohidden #closeOverlay {
+        display: inline-block;
+        position: absolute;
+        top: 50px !important;
+        right: 0% !important;
+
+    }
+}
+
+@media (max-width: 920px) {
+    #overlayContent {
+        height: -webkit-fill-available;
+        border: none;
+        width: -webkit-fill-available;
+        position: fixed;
+        z-index: 1;
+        margin: 0px 0% 0px 0%;
+        overflow: hidden;
+    }
+
+    #closeOverlay {
+        margin: -96px 20px 0px 0px !important;
+    }
+
+    #taskoverlay.nohidden #closeOverlay {
+        display: inline-block;
+        position: absolute;
+        top: 96px !important;
+        right: -2% !important;
+
+    }
+
+    #overlay-mode #create {
+        height: 42px;
+        width: 138px;
+        gap: 0px;
+        white-space: nowrap;
+        font-size: 18px;
+    }
+
+    #overlay-mode #clear {
+        height: 42px;
+        font-size: 18px;
+
+    }
+}
+
+
+
+@media (max-width: 720px) {
+    #overlay-mode .headline {
+        margin-bottom: 0px !important;
+        margin-top: 0px !important;
+    }
+
+    #closeOverlay {
+        margin: -96px 20px 0px 0px !important;
+    }
+
+    #taskoverlay.nohidden #closeOverlay {
+        display: inline-block;
+        position: absolute;
+        top: 96px !important;
+        right: -2% !important;
+
+    }
+
+    #overlay-mode .overlay-hl {
+        margin-top: 0px;
+        padding-top: 48px !important;
+    }
+
+    #overlay-mode .content-container {
+        display: flex;
+        padding-left: 0px;
+        gap: 0px;
+        flex-direction: column !important;
+    }
+
+    #overlay-mode .separating-line {
+        display: none !important;
+    }
+
+    #overlay-mode #dropdown-user {
+        position: fixed !important;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        filter: drop-shadow(0px 0px 4px black);
+        border: #29ABE2;
+        border-style: solid;
+        height: 224px;
+        bottom: 0px !important;
+        border-radius: 10px 10px 25px 25px !important;
+    }
+
+    #overlay-mode #overlayContent .content-left {
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 0px 10% 0px 10%;
+    }
+
+    #overlay-mode #overlayContent .content-right {
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        padding: 0px 10% 0px 10%;
+    }
+
+    #overlay-mode #overlayContent .prio-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+    }
+
+    #overlay-mode #overlayContent .separating-line {
+        width: 2px;
+        height: 0px;
+        background-color: #D1D1D1;
+    }
+
+    #overlay-mode .required-p {
+        display: none;
+    }
+
+    #overlay-mode .error-message {
+        display: none !important;
+    }
+}
+
+@media (max-width: 520px) {
+    #overlay-mode .overlay-hl {
+        font-size: 38px !important;
+        margin-top: 0px;
+        padding-top: 48px !important;
+    }
+
+    #overlay-mode .headline {
+        margin-bottom: 0px !important;
+        margin-top: 0px !important;
+    }
+
+    #taskoverlay.nohidden #closeOverlay {
+        display: inline-block;
+        position: absolute;
+        top: 96px !important;
+        right: -4% !important;
+
+    }
+
+    #closeOverlay {
+        margin: -96px 20px 0px 0px !important;
+    }
+
+    #overlay-mode #dropdown-user {
+        position: fixed !important;
+        z-index: 1;
+        left: 0;
+        right: 0;
+        filter: drop-shadow(0px 0px 4px black);
+        border: #29ABE2;
+        border-style: solid;
+        height: 224px;
+        bottom: 0px !important;
+        border-radius: 10px 10px 25px 25px !important;
+    }
+
+    #overlay-mode #overlayContent #title {
+        height: 36px;
+    }
+
+    #overlay-mode #overlayContent .user-list {
+        display: none;
+    }
+
+    #overlay-mode #overlayContent .textarea {
+        width: 100%;
+        height: 48px;
+        background-color: #FFFFFF;
+        border-radius: 12px;
+        border-style: none;
+        filter: drop-shadow(0px 0px 4px #D1D1D1);
+    }
+
+    #overlay-mode #overlayContent #description {
+        height: 16px;
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 14px;
+        color: #333;
+    }
+
+    #overlay-mode #overlayContent #dropdown-input {
+        height: 36px;
+    }
+
+    #overlay-mode #overlayContent #due-date-input {
+        height: 36px;
+    }
+
+    #overlay-mode #prio-red,
+    #overlay-mode #prio-orange,
+    #overlay-mode #prio-green {
+        height: 38px !important;
+        gap: 4px;
+    }
+
+    #overlay-mode #prio-red img,
+    #overlay-mode #prio-orange img,
+    #overlay-mode #prio-green img {
+        height: 10px !important;
+        width: 18px !important;
+    }
+
+    #overlay-mode #overlayContent #selectcategory {
+        height: 36px;
+    }
+
+    #overlay-mode #overlayContent .input-container,
+    #overlay-mode #overlayContent .subtask-p,
+    #overlay-mode #overlayContent #addsubtasks {
+        display: none;
+    }
+
+    #overlay-mode #overlayContent #create {
+        height: 48px;
+        width: 138px;
+        gap: 0px;
+        white-space: nowrap;
+        font-size: 18px;
+    }
+
+    #overlay-mode #overlayContent #clear {
+        height: 48px;
+        font-size: 18px;
+    }
+
+    #overlay-mode .button-container {
+        display: flex;
+        gap: 16px;
+        padding-bottom: 16px !important;
+    }
+
+    #overlay-mode .subtask-p {
+        margin-top: 0px !important;
+        margin-bottom: 10px;
+    }
+
+    #overlay-mode .error-message {
+        display: none !important;
+    }
+}
+
+@media (max-width: 320px) {
+    #taskoverlay.nohidden #closeOverlay {
+        display: inline-block;
+        position: absolute;
+        top: 96px !important;
+        right: -6% !important;
+    }
+}

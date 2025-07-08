@@ -1,0 +1,410 @@
+.signup-page-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1920px;
+    max-height: 1080px;
+    gap: 40px;
+}
+
+.logo-signup {
+    display: flex;
+    justify-content: space-between;
+    padding: 67px 77px 0px 77px;
+}
+
+.logo-signup img {
+    padding-top: 10px;
+}
+
+.signup-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 56px 0;
+}
+
+.signup-field {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 598px;
+    height: 630px;
+    border-radius: 30px;
+    background-color: #ffffff;
+    -webkit-box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.01);
+    box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.01);
+}
+
+.back-login {
+    position: absolute;
+    top: 55px;
+    left: 45px;
+    cursor: pointer;
+}
+
+.signup-field form {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.signup-field form input[type=email],
+input[type=password],
+input[type=text] {
+    width: 422px;
+    height: 48px;
+    border: 1px solid #D1D1D1;
+    padding: 0 46px 0 16px;
+    border-radius: 10px;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    cursor: pointer;
+}
+
+.signup-field form input:focus {
+    outline: unset;
+    border: 0.5px solid #29ABE2;
+}
+
+.outer-signup-span span {
+    font-weight: 700;
+    font-size: 61px;
+    line-height: 73.2px;
+}
+
+.inner-signup-span {
+    width: 70%;
+    height: 1px;
+    margin: 0px auto;
+    padding-top: 12px;
+    border-bottom: 3px solid #29ABE2;
+}
+
+#signup-name {
+    background-image: url("../assets/icons/person_icon.png");
+    background-repeat: no-repeat;
+    background-position: right 4% bottom 50%;
+}
+
+#signup-email {
+    background-image: url("../assets/icons/mail_icon.png");
+    background-repeat: no-repeat;
+    background-position: right 4% bottom 50%;
+}
+
+.input-password {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-confirm {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-password input, .input-confirm input {
+    position: relative;
+}
+
+.input-password img, .input-confirm img {
+    position: absolute;
+    right: 4%;
+}
+
+.password-icon,
+.confirm-icon {
+    cursor: pointer;
+}
+
+.lock-icon {
+    content: url("../assets/icons/lock_icon.png");
+}
+
+.eye-icon {
+    content: url("../assets/icons/visibility_icon.png");
+}
+
+.eye-slash-icon {
+    content: url("../assets/icons/visibility_off_icon.png");
+}
+
+.input-checkbox {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.privacy-legal {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding-bottom: 75px;
+}
+
+.privacy-legal a {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19.2px;
+    color: #A8A8A8;
+}
+
+.unchecked-privacy {
+    color: #FF8190;
+}
+
+.signup-privacy-link {
+    color: #29ABE2;
+}
+
+.signup-privacy-link:hover {
+    text-decoration: underline;
+}
+
+.signup-field form input.wrong-input {
+    border: 0.5px solid #FF001F;
+}
+
+.success-signed {
+    display: none;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    z-index: 10;
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 100%;
+    height: 100vh;
+}
+
+.msg-pop-up {
+    width: 312px;
+    height: 74px;
+    border-radius: 20px;
+    background-color: #2A3647;
+    -webkit-box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.1);
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-animation: slide-top 0.25s ease-in-out forwards;
+    animation: slide-top 0.25s ease-in-out forwards;
+}
+
+@-webkit-keyframes slide-top {
+    0% {
+        -webkit-transform: translateY(500%);
+        transform: translateY(500%);
+    }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-top {
+    0% {
+        -webkit-transform: translateY(500%);
+        transform: translateY(500%);
+    }
+
+    100% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+}
+
+.notification {
+    display: none;
+    position: absolute;
+    text-align: center;
+    padding: 10px;
+    z-index: 100;
+    top: 10px;
+    -webkit-animation: slide-bottom 0.5s ease-in-out forwards;
+    animation: slide-bottom 0.5s ease-in-out forwards;
+}
+
+@-webkit-keyframes slide-bottom {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    100% {
+        -webkit-transform: translateY(50px);
+        transform: translateY(50px);
+    }
+}
+
+@keyframes slide-bottom {
+    0% {
+        -webkit-transform: translateY(0);
+        transform: translateY(0);
+    }
+
+    100% {
+        -webkit-transform: translateY(50px);
+        transform: translateY(50px);
+    }
+}
+
+@media (max-width: 670px) {
+    .signup-page-content {
+        gap: 24px;
+    }
+
+    .signup-field {
+        width: 530.6px;
+    }
+}
+
+@media (max-width: 500px) {
+    .logo-signup img {
+        content: url('../assets/img/join_logo_dark_64_78.png');
+    }
+
+    .logo-signup {
+        padding: 27px 38px 0px 38px;
+    }
+
+    .back-login {
+        top: 45px;
+    }
+
+    .sign-page-content {
+        gap: 32px;
+    }
+
+    .signup-content {
+        margin: 0;
+    }
+
+    .signup-field {
+        width: 396px;
+        height: 595px;
+    }
+
+
+    .outer-signup-span span {
+        font-size: 47px;
+        line-height: 56.4px;
+    }
+
+    .signup-field form input[type=email], input[type=password], input[type=text] {
+        width: 364px;
+    }
+
+    .signup-btn {
+        width: 180px;
+    }
+
+    .privacy-legal {
+        padding-bottom: 32px;
+    }
+}
+
+@media (max-width: 414px) {
+    .signup-field {
+        width: 350px;
+        height: 595px;
+    }
+
+    .signup-field form input[type=email], input[type=password], input[type=text] {
+        width: 298px;
+    }
+
+    .back-login {
+        top: 55px;
+    }
+
+    .error-message {
+        max-width: 298px;
+    }
+
+    .outer-signup-span span {
+        font-size: 37.9px;
+        line-height: 45.5px;
+    }
+
+    .signup-field form {
+        gap: 24px;
+    }
+
+    .signup-btn {
+        width: 180px;
+    }
+}
+
+@media (max-width: 370px) {
+    .signup-field {
+        width: 310px;
+        height: 555px;
+    }
+
+    .signup-field form input[type=email], input[type=password], input[type=text] {
+        width: 258px;
+        font-size: 16px;
+    }
+
+    .back-login {
+        top: 45px;
+    }
+
+    .error-message {
+        max-width: 258px;
+    }
+
+    .outer-signup-span span {
+        font-size: 33.9px;
+        line-height: 41.5px;
+    }
+
+    .signup-field form {
+        gap: 20px;
+    }
+
+    .signup-btn {
+        width: 140px;
+    }
+}
+
+@media (max-width: 330px) {
+    .signup-field {
+        width: 270px;
+        height: 515px;
+    }
+
+    .signup-field form input[type=email], input[type=password], input[type=text] {
+        width: 218px;
+        font-size: 16px;
+    }
+
+    .back-login {
+        top: 38px;
+    }
+
+    .error-message {
+        max-width: 218px;
+    }
+
+    .outer-signup-span span {
+        font-size: 33.9px;
+        line-height: 41.5px;
+    }
+
+    .signup-field form {
+        gap: 16px;
+    }
+}
