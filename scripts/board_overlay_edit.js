@@ -17,8 +17,8 @@ async function editTask(id, title, description, dueDate, priority) {
     renderOverlayEditSubtasks(id);
     loadContacts(id);
     activeFlatPickr();
-        const task = await loadTaskWithID(id); 
-    renderEditFile(task); 
+    const task = await loadTaskWithID(id);
+    renderEditFile(task);
 
 }
 
@@ -111,9 +111,17 @@ function generateChangeTask(responseJson) {
     if (dueDate != "") {
         responseJson.dueDate = convertDateFormat(dueDate);
     }
+
     responseJson.prio = activePriorityButton();
+
+    const fileContainer = document.getElementById('edit-overlay-file-preview');
+    if (!fileContainer || fileContainer.innerHTML.trim() === '') {
+        responseJson.file = { base64: "", name: "" };
+    }
+
     return responseJson;
 }
+
 
 /**
  * This function highlights the priority already selected.
@@ -579,4 +587,5 @@ async function removeFileFromTask(id) {
     if (container) container.innerHTML = "";
 
     console.log("Anhang entfernt");
+
 }
