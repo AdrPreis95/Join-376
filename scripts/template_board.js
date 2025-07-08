@@ -258,6 +258,11 @@ function getOverlayEdit(id, title, description, dueDate) {
             </div>
             <div>
                 <div id="user-names-edit-overlay">
+                <div class="overlay-edit-container">
+  <label class="edit-overlay-label">Attached file</label>
+  <div id="edit-overlay-file-preview"></div>
+</div>
+
 
                 </div>
             </div>
