@@ -39,16 +39,17 @@ function renderOverlay(responseTaskJson) {
         document.getElementById('subtask-headline-overlay').style = 'display: none';
     }
 
-    // 🔽 Datei-Vorschau ergänzen
+   
     if (responseTaskJson.file && responseTaskJson.file.base64) {
-        const mimeType = responseTaskJson.file.base64.split(';')[0].replace('data:', '');
-        const blobURL = createBlobURL(responseTaskJson.file.base64, mimeType);
+       const base64 = responseTaskJson.file.base64;
+const mimeType = base64.split(';')[0].replace('data:', '');
 
-        const filePreviewHTML = mimeType.startsWith("image/")
-            ? `<div class="task-file"><img src="${blobURL}" alt="${responseTaskJson.file.name}" style="max-width: 100px; margin-top: 10px; border-radius: 4px;"></div>`
-            : mimeType === "application/pdf"
-                ? `<div class="task-file"><a href="${blobURL}" download="${responseTaskJson.file.name}" target="_blank">📎 ${responseTaskJson.file.name}</a></div>`
-                : "";
+const filePreviewHTML = mimeType.startsWith("image/")
+    ? `<div class="task-file"><img src="${base64}" alt="${responseTaskJson.file.name}" style="max-width: 100px; margin-top: 10px; border-radius: 4px;"></div>`
+    : mimeType === "application/pdf"
+        ? `<div class="task-file"><embed src="${base64}" type="application/pdf" width="100%" height="200px"></div>`
+        : `<div class="task-file"><a href="${base64}" download="${responseTaskJson.file.name}" target="_blank">📎 ${responseTaskJson.file.name}</a></div>`;
+
 
         refOverlay.innerHTML += filePreviewHTML;
     }
@@ -119,16 +120,16 @@ async function renderOverlaySubtasks(responseTaskJson) {
     }
 }
 
-function createBlobURL(base64, filename) {
-    const byteString = atob(base64.split(',')[1]);
-    const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
+// function createBlobURL(base64, filename) {
+//     const byteString = atob(base64.split(',')[1]);
+//     const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
 
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-    }
+//     const ab = new ArrayBuffer(byteString.length);
+//     const ia = new Uint8Array(ab);
+//     for (let i = 0; i < byteString.length; i++) {
+//         ia[i] = byteString.charCodeAt(i);
+//     }
 
-    const blob = new Blob([ab], { type: mimeString });
-    return URL.createObjectURL(blob);
-}
+//     const blob = new Blob([ab], { type: mimeString });
+//     return URL.createObjectURL(blob);
+// }

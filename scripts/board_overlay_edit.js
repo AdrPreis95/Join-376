@@ -540,35 +540,34 @@ async function saveEditSubtask(id, subtask) {
     renderOverlayEditSubtasks(id);
 }
 
-function createBlobURL(base64, filename) {
-    const byteString = atob(base64.split(',')[1]);
-    const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
+// function createBlobURL(base64, filename) {
+//     const byteString = atob(base64.split(',')[1]);
+//     const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
 
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-    }
+//     const ab = new ArrayBuffer(byteString.length);
+//     const ia = new Uint8Array(ab);
+//     for (let i = 0; i < byteString.length; i++) {
+//         ia[i] = byteString.charCodeAt(i);
+//     }
 
-    const blob = new Blob([ab], { type: mimeString });
-    return URL.createObjectURL(blob);
-}
+//     const blob = new Blob([ab], { type: mimeString });
+//     return URL.createObjectURL(blob);
+// }
 function renderEditFile(task) {
     const container = document.getElementById('edit-overlay-file-preview');
     if (!container || !task.file || !task.file.base64 || !task.file.name) return;
 
-    const fileUrl = createBlobURL(task.file.base64, task.file.name);
     const isImage = task.file.base64.startsWith('data:image/');
     const isPDF = task.file.base64.startsWith('data:application/pdf');
 
     let filePreviewHTML = `<div style="margin-top: 10px;">`;
 
     if (isImage) {
-        filePreviewHTML += `<img src="${fileUrl}" alt="${task.file.name}" style="max-width: 100%; max-height: 200px; border-radius: 4px;" />`;
+        filePreviewHTML += `<img src="${task.file.base64}" alt="${task.file.name}" style="max-width: 100%; max-height: 200px; border-radius: 4px;" />`;
     } else if (isPDF) {
-        filePreviewHTML += `<embed src="${fileUrl}" type="application/pdf" width="100%" height="200px" />`;
+        filePreviewHTML += `<embed src="${task.file.base64}" type="application/pdf" width="100%" height="200px" />`;
     } else {
-        filePreviewHTML += `<a href="${fileUrl}" download="${task.file.name}">📎 ${task.file.name}</a>`;
+        filePreviewHTML += `<a href="${task.file.base64}" download="${task.file.name}">📎 ${task.file.name}</a>`;
     }
 
     filePreviewHTML += `
@@ -577,6 +576,7 @@ function renderEditFile(task) {
 
     container.innerHTML = filePreviewHTML;
 }
+
 async function removeFileFromTask(id) {
     const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
     await updateTaskInFirebase(taskRefUrl, { file: { base64: "", name: "" } });

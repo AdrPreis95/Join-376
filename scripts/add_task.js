@@ -95,7 +95,7 @@ async function createTask() {
         }
 
         if (file.type.startsWith("image/")) {
-            fileData = await resizeAndConvertImage(file, 1024, 1024, 0.8); 
+            fileData = await resizeAndConvertImage(file, 1024, 1024, 0.8);
         } else if (file.type === "application/pdf") {
             fileData = await convertToBase64(file);
         }
@@ -535,18 +535,42 @@ function convertToBase64(file) {
     });
 }
 
-function createBlobURL(base64, mimeType) {
-    const byteString = atob(base64.split(',')[1]);
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const intArray = new Uint8Array(arrayBuffer);
+// function createBlobURL(base64, mimeType) {
+//     const byteString = atob(base64.split(',')[1]);
+//     const arrayBuffer = new ArrayBuffer(byteString.length);
+//     const intArray = new Uint8Array(arrayBuffer);
 
-    for (let i = 0; i < byteString.length; i++) {
-        intArray[i] = byteString.charCodeAt(i);
+//     for (let i = 0; i < byteString.length; i++) {
+//         intArray[i] = byteString.charCodeAt(i);
+//     }
+
+//     const blob = new Blob([intArray], { type: mimeType });
+//     return URL.createObjectURL(blob);
+// }
+
+function renderEditFile(task) {
+    const container = document.getElementById('edit-overlay-file-preview');
+    container.innerHTML = "";
+
+    if (!task?.file?.base64 || !task?.file?.name) return;
+
+    const fileName = task.file.name.toLowerCase();
+
+    if (fileName.endsWith(".pdf")) {
+        container.innerHTML = `
+            <object data="${task.file.base64}" type="application/pdf" width="100%" height="300px">
+                <p>PDF kann nicht angezeigt werden. <a href="${task.file.base64}" target="_blank">PDF öffnen</a></p>
+            </object>
+            <button onclick="removeFileFromTask(${task.id})">Anhang entfernen</button>
+        `;
+    } else if (fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+        container.innerHTML = `
+            <img src="${task.file.base64}" alt="${task.file.name}" style="max-width: 100%; max-height: 300px;">
+            <button onclick="removeFileFromTask(${task.id})">Anhang entfernen</button>
+        `;
     }
-
-    const blob = new Blob([intArray], { type: mimeType });
-    return URL.createObjectURL(blob);
 }
+
 function resizeAndConvertImage(file, maxWidth, maxHeight, quality = 0.8) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
