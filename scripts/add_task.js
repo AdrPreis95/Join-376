@@ -80,17 +80,13 @@ async function createTask() {
     const isDueDateValid = dueDate.match(/^\d{2}\/\d{2}\/\d{4}$/);
     const isCategoryValid = category !== "";
 
-    if (!isTitleValid || !isDueDateValid || !isCategoryValid) {
-        return;
-    }
+    if (!isTitleValid || !isDueDateValid || !isCategoryValid) return;
+
+  const files = uploadedFiles;
+    if (!validateFileLimits(files)) return;
 
     prepareSubtasksAndContacts();
     let newID = await generateNewID();
-
-    const fileInput = document.getElementById("file-select");
-    const files = Array.from(fileInput?.files || []);
-
-    if (!validateFileLimits(files)) return;
 
     const processedFiles = await processFiles(files);
 
@@ -99,6 +95,7 @@ async function createTask() {
 
     console.log("📎 Anzahl verarbeiteter Dateien:", processedFiles.length);
 }
+
 
 
 
@@ -592,17 +589,67 @@ function resizeAndConvertImage(file, maxWidth, maxHeight, quality = 0.8) {
     });
 }
 
-function showUploadPreview(files) {
-    const container = document.getElementById('file-preview-container');
-    container.innerHTML = '';
+// function showUploadPreview(files) {
+//     const container = document.getElementById('file-preview-container');
+//     container.innerHTML = '';
 
-    files.forEach(file => {
+//     files.forEach(file => {
+//         const fileName = file.name.toLowerCase();
+
+//         if (fileName.endsWith('.pdf')) {
+//             container.innerHTML += `
+//                 <div class="file-preview">
+//                     <span>📎 ${file.name}</span>
+//                 </div>`;
+//         } else if (fileName.match(/\.(png|jpe?g)$/)) {
+//             const reader = new FileReader();
+//             reader.onload = () => {
+//                 container.innerHTML += `
+//                     <div class="file-preview">
+//                         <img src="${reader.result}" alt="${file.name}" style="max-width: 100px;">
+//                     </div>`;
+//             };
+//             reader.readAsDataURL(file);
+//         }
+//     });
+// }
+const MAX_IMAGES = 4;
+const MAX_PDFS = 2;
+
+
+function showUploadPreview(newFiles) {
+    const container = document.getElementById('file-preview-container');
+    const warningContainer = document.getElementById('file-limit-warning'); // Info-Hinweis-Container
+
+    // Füge neue gültige Dateien hinzu
+    for (let file of newFiles) {
+        const isPDF = file.name.toLowerCase().endsWith('.pdf');
+        const isImage = file.type.startsWith('image/');
+
+        const pdfCount = uploadedFiles.filter(f => f.name.toLowerCase().endsWith('.pdf')).length;
+        const imageCount = uploadedFiles.filter(f => f.type.startsWith('image/')).length;
+
+        const alreadyExists = uploadedFiles.some(f => f.name === file.name);
+
+        if (alreadyExists) continue;
+
+        if (isPDF && pdfCount < MAX_PDFS) {
+            uploadedFiles.push(file);
+        } else if (isImage && imageCount < MAX_IMAGES) {
+            uploadedFiles.push(file);
+        }
+    }
+
+    // Vorschau neu aufbauen
+    container.innerHTML = '';
+    uploadedFiles.forEach((file, index) => {
         const fileName = file.name.toLowerCase();
 
         if (fileName.endsWith('.pdf')) {
             container.innerHTML += `
                 <div class="file-preview">
                     <span>📎 ${file.name}</span>
+                    <button onclick="removePreviewFile(${index})">🗑️</button>
                 </div>`;
         } else if (fileName.match(/\.(png|jpe?g)$/)) {
             const reader = new FileReader();
@@ -610,12 +657,30 @@ function showUploadPreview(files) {
                 container.innerHTML += `
                     <div class="file-preview">
                         <img src="${reader.result}" alt="${file.name}" style="max-width: 100px;">
+                        <button onclick="removePreviewFile(${index})">🗑️</button>
                     </div>`;
             };
             reader.readAsDataURL(file);
         }
     });
+
+    // Hinweis anzeigen, wenn Limits erreicht sind
+    const pdfs = uploadedFiles.filter(f => f.name.toLowerCase().endsWith('.pdf')).length;
+    const imgs = uploadedFiles.filter(f => f.type.startsWith('image/')).length;
+
+    let warnings = [];
+    if (imgs >= MAX_IMAGES) warnings.push(`Maximal ${MAX_IMAGES} Bilder erlaubt`);
+    if (pdfs >= MAX_PDFS) warnings.push(`Maximal ${MAX_PDFS} PDFs erlaubt`);
+
+    warningContainer.innerText = warnings.join(' • ');
 }
+
+
+function removePreviewFile(index) {
+    uploadedFiles.splice(index, 1);
+    showUploadPreview([]); // ruft nur die Vorschau neu auf
+}
+
 
 async function processFiles(files) {
     const images = [];
