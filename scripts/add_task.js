@@ -17,6 +17,9 @@ let allContacts = [];
 /** @type {Array<Object>} */
 let selectedContacts = [];
 
+let uploadedFiles = [];
+
+
 /**
  * Fetches all task IDs from the backend.
  * @async
@@ -85,30 +88,18 @@ async function createTask() {
     let newID = await generateNewID();
 
     const fileInput = document.getElementById("file-select");
-    const file = fileInput?.files?.[0];
-    let fileData = { base64: "", name: "" };
+    const files = Array.from(fileInput?.files || []);
 
-    if (file) {
-        if (!isValidFileType(file)) {
-            alert(" Ungültiges Dateiformat. Nur PNG, JPG, JPEG oder PDF erlaubt!!!");
-            return;
-        }
+    if (!validateFileLimits(files)) return;
 
-        if (file.type.startsWith("image/")) {
-            fileData = await resizeAndConvertImage(file, 1024, 1024, 0.8);
-        } else if (file.type === "application/pdf") {
-            fileData = await convertToBase64(file);
-        }
-    }
+    const processedFiles = await processFiles(files);
 
-
-    let newTask = buildNewTask(newID, title, description, dueDate, category, color, fileData);
+    let newTask = buildNewTask(newID, title, description, dueDate, category, color, processedFiles);
     await saveTask(newTask);
 
-    console.log("Gewählter Dateiname:", file?.name);
-    console.log("Base64 vorhanden:", fileData.base64.length > 0);
-
+    console.log("📎 Anzahl verarbeiteter Dateien:", processedFiles.length);
 }
+
 
 
 /**
@@ -187,7 +178,7 @@ function getTaskInputs() {
  */
 
 
-function buildNewTask(id, title, description, dueDate, category, color, file = { base64: "", name: "" }) {
+function buildNewTask(id, title, description, dueDate, category, color, files = []) {
     return {
         id,
         title,
@@ -199,9 +190,10 @@ function buildNewTask(id, title, description, dueDate, category, color, file = {
         list: "to-do",
         subtasks: subtasksArray,
         assignedTo: selectedContacts,
-        file
+        files 
     };
 }
+
 
 
 /**
@@ -232,11 +224,10 @@ async function saveTask(newTask) {
                 successOverlay.style.display = 'none';
                 if (document.body.id === "overlay-mode") {
                     console.log("Overlay mode detected. Clearing inputs and closing overlay.");
-                    // Inputs zurücksetzen und Overlay schließen
                     clearInputsAndCloseOverlay();
                 } else {
                     console.log("Main page detected. Redirecting to board.");
-                    window.location.href = 'board.html'; // Weiterleitung zur Board-Seite
+                    window.location.href = 'board.html'; 
                 }
             }, 3000);
         } else {
@@ -535,18 +526,6 @@ function convertToBase64(file) {
     });
 }
 
-// function createBlobURL(base64, mimeType) {
-//     const byteString = atob(base64.split(',')[1]);
-//     const arrayBuffer = new ArrayBuffer(byteString.length);
-//     const intArray = new Uint8Array(arrayBuffer);
-
-//     for (let i = 0; i < byteString.length; i++) {
-//         intArray[i] = byteString.charCodeAt(i);
-//     }
-
-//     const blob = new Blob([intArray], { type: mimeType });
-//     return URL.createObjectURL(blob);
-// }
 
 function renderEditFile(task) {
     const container = document.getElementById('edit-overlay-file-preview');
@@ -612,6 +591,89 @@ function resizeAndConvertImage(file, maxWidth, maxHeight, quality = 0.8) {
         reader.onerror = (error) => reject(error);
     });
 }
+
+function showUploadPreview(files) {
+    const container = document.getElementById('file-preview-container');
+    container.innerHTML = '';
+
+    files.forEach(file => {
+        const fileName = file.name.toLowerCase();
+
+        if (fileName.endsWith('.pdf')) {
+            container.innerHTML += `
+                <div class="file-preview">
+                    <span>📎 ${file.name}</span>
+                </div>`;
+        } else if (fileName.match(/\.(png|jpe?g)$/)) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                container.innerHTML += `
+                    <div class="file-preview">
+                        <img src="${reader.result}" alt="${file.name}" style="max-width: 100px;">
+                    </div>`;
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+}
+
+async function processFiles(files) {
+    const images = [];
+    const pdfs = [];
+
+    for (let file of files) {
+        if (!isValidFileType(file)) {
+            alert(`${file.name} hat ein ungültiges Format.`);
+            continue;
+        }
+
+        if (file.type.startsWith('image/') && images.length < 4) {
+            const img = await resizeAndConvertImage(file, 800, 800);
+            images.push(img);
+        } else if (file.type === 'application/pdf' && pdfs.length < 2) {
+            const pdf = await convertToBase64(file);
+            pdfs.push(pdf);
+        }
+    }
+
+    return [...images, ...pdfs];
+}
+function validateFileLimits(files) {
+    const imageCount = files.filter(f => f.type.startsWith('image/')).length;
+    const pdfCount = files.filter(f => f.type === 'application/pdf').length;
+
+    if (imageCount > 4) {
+        alert("Maximal 4 Bilder erlaubt.");
+        return false;
+    }
+
+    if (pdfCount > 2) {
+        alert("Maximal 2 PDFs erlaubt.");
+        return false;
+    }
+
+    return true;
+}
+
+
+function validateFileLimits(files) {
+    const images = files.filter(file => file.type.startsWith('image/'));
+    const pdfs = files.filter(file => file.type === 'application/pdf');
+
+    if (images.length > 4) {
+        alert("Maximal 4 Bilder erlaubt!");
+        return false;
+    }
+
+    if (pdfs.length > 2) {
+        alert("Maximal 2 PDFs erlaubt!");
+        return false;
+    }
+
+    return true;
+}
+
+
 
 
 

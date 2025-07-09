@@ -114,10 +114,10 @@ function generateChangeTask(responseJson) {
 
     responseJson.prio = activePriorityButton();
 
-    const fileContainer = document.getElementById('edit-overlay-file-preview');
-    if (!fileContainer || fileContainer.innerHTML.trim() === '') {
-        responseJson.file = { base64: "", name: "" };
-    }
+    // const fileContainer = document.getElementById('edit-overlay-file-preview');
+    // if (!fileContainer || fileContainer.innerHTML.trim() === '') {
+    //     responseJson.file = { base64: "", name: "" };
+    // }
 
     return responseJson;
 }
@@ -540,51 +540,54 @@ async function saveEditSubtask(id, subtask) {
     renderOverlayEditSubtasks(id);
 }
 
-// function createBlobURL(base64, filename) {
-//     const byteString = atob(base64.split(',')[1]);
-//     const mimeString = base64.split(',')[0].split(':')[1].split(';')[0];
 
-//     const ab = new ArrayBuffer(byteString.length);
-//     const ia = new Uint8Array(ab);
-//     for (let i = 0; i < byteString.length; i++) {
-//         ia[i] = byteString.charCodeAt(i);
-//     }
-
-//     const blob = new Blob([ab], { type: mimeString });
-//     return URL.createObjectURL(blob);
-// }
 function renderEditFile(task) {
     const container = document.getElementById('edit-overlay-file-preview');
-    if (!container || !task.file || !task.file.base64 || !task.file.name) return;
+    if (!container || !Array.isArray(task.files)) return;
 
-    const isImage = task.file.base64.startsWith('data:image/');
-    const isPDF = task.file.base64.startsWith('data:application/pdf');
+    let filePreviewHTML = '';
 
-    let filePreviewHTML = `<div style="margin-top: 10px;">`;
+    task.files.forEach((file, index) => {
+        if (!file.base64 || !file.name) return;
 
-    if (isImage) {
-        filePreviewHTML += `<img src="${task.file.base64}" alt="${task.file.name}" style="max-width: 100%; max-height: 200px; border-radius: 4px;" />`;
-    } else if (isPDF) {
-        filePreviewHTML += `<embed src="${task.file.base64}" type="application/pdf" width="100%" height="200px" />`;
-    } else {
-        filePreviewHTML += `<a href="${task.file.base64}" download="${task.file.name}">📎 ${task.file.name}</a>`;
-    }
+        const isImage = file.base64.startsWith('data:image/');
+        const isPDF = file.base64.startsWith('data:application/pdf');
 
-    filePreviewHTML += `
-        <button onclick="removeFileFromTask(${task.id})" style="margin-top: 8px; display: block;">🗑️ Anhang entfernen</button>
-    </div>`;
+        filePreviewHTML += `<div style="margin-bottom: 10px;">`;
+
+        if (isImage) {
+            filePreviewHTML += `<img src="${file.base64}" alt="${file.name}" style="max-width: 100%; max-height: 200px; border-radius: 4px;" />`;
+        } else if (isPDF) {
+            filePreviewHTML += `<embed src="${file.base64}" type="application/pdf" width="100%" height="200px" />`;
+        } else {
+            filePreviewHTML += `<a href="${file.base64}" download="${file.name}">📎 ${file.name}</a>`;
+        }
+
+        filePreviewHTML += `<button onclick="removeFileFromTask(${task.id}, ${index})" style="margin-top: 8px; display: block;">🗑️ Anhang entfernen</button>`;
+        filePreviewHTML += `</div>`;
+    });
 
     container.innerHTML = filePreviewHTML;
 }
 
-async function removeFileFromTask(id) {
+
+async function removeFileFromTask(id, index) {
+    id--;
     const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
-    await updateTaskInFirebase(taskRefUrl, { file: { base64: "", name: "" } });
+    const task = await loadTaskWithID(id);
 
-    // UI sofort updaten
-    const container = document.getElementById('edit-overlay-file-preview');
-    if (container) container.innerHTML = "";
+    if (!task || !task.files || !Array.isArray(task.files)) {
+        console.warn("Datei konnte nicht entfernt werden – keine gültigen Daten:", task);
+        return;
+    }
 
+    task.files.splice(index, 1); 
+
+    await updateTaskInFirebase(taskRefUrl, { files: task.files });
+
+    renderEditFile(task); 
     console.log("Anhang entfernt");
-
 }
+
+
+

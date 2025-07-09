@@ -39,20 +39,33 @@ function renderOverlay(responseTaskJson) {
         document.getElementById('subtask-headline-overlay').style = 'display: none';
     }
 
-   
-    if (responseTaskJson.file && responseTaskJson.file.base64) {
-       const base64 = responseTaskJson.file.base64;
-const mimeType = base64.split(';')[0].replace('data:', '');
+    if (responseTaskJson.files && Array.isArray(responseTaskJson.files)) {
+        responseTaskJson.files.forEach(file => {
+            const base64 = file.base64;
+            const fileName = file.name.toLowerCase();
+            let preview = "";
 
-const filePreviewHTML = mimeType.startsWith("image/")
-    ? `<div class="task-file"><img src="${base64}" alt="${responseTaskJson.file.name}" style="max-width: 100px; margin-top: 10px; border-radius: 4px;"></div>`
-    : mimeType === "application/pdf"
-        ? `<div class="task-file"><embed src="${base64}" type="application/pdf" width="100%" height="200px"></div>`
-        : `<div class="task-file"><a href="${base64}" download="${responseTaskJson.file.name}" target="_blank">📎 ${responseTaskJson.file.name}</a></div>`;
+            if (fileName.endsWith(".pdf")) {
+                preview = `
+                <div class="task-file">
+                    <embed src="${base64}" type="application/pdf" width="100%" height="200px">
+                </div>`;
+            } else if (fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+                preview = `
+                <div class="task-file">
+                    <img src="${base64}" alt="${file.name}" style="max-width: 100px; margin-top: 10px; border-radius: 4px;">
+                </div>`;
+            } else {
+                preview = `
+                <div class="task-file">
+                    <a href="${base64}" download="${file.name}" target="_blank">📎 ${file.name}</a>
+                </div>`;
+            }
 
-
-        refOverlay.innerHTML += filePreviewHTML;
+            refOverlay.innerHTML += preview;
+        });
     }
+
 }
 
 

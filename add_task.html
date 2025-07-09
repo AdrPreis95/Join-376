@@ -123,7 +123,10 @@
                                 <div id="picked-user-avatar" class="picked-user-avatar"></div>
                                 <div id="dropdown-user" class="user-list">
                                 </div>
-                                <input type="file" id="file-select" accept="image/*,.pdf" />
+                                <input type="file" id="file-select" multiple
+                                    onchange="showUploadPreview(Array.from(this.files))">
+                                <div id="file-preview-container"></div>
+
 
                         </section>
                         <div class="separating-line"></div>
