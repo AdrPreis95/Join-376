@@ -192,15 +192,30 @@ function renderOverlayContacts(id, responseJson, activeUserIndex) {
  * @param {number} id - The ID is transferred in order to find the correct task.
  * @returns An array is returned in which the active users.
  */
+// async function loadActiveUser(id) {
+//     let task = await loadTaskWithID(id);
+//     let activeUser = [];
+//     for (let i = 0; i < task.assignedTo.length; i++) {
+//         let name = task.assignedTo[i].firstName + " " + task.assignedTo[i].lastName;
+//         activeUser.push(name);
+//     }
+//     return activeUser;
+// }
+
 async function loadActiveUser(id) {
     let task = await loadTaskWithID(id);
     let activeUser = [];
-    for (let i = 0; i < task.assignedTo.length; i++) {
-        let name = task.assignedTo[i].firstName + " " + task.assignedTo[i].lastName;
-        activeUser.push(name);
+
+    if (Array.isArray(task.assignedTo)) {
+        for (let i = 0; i < task.assignedTo.length; i++) {
+            let name = task.assignedTo[i].firstName + " " + task.assignedTo[i].lastName;
+            activeUser.push(name);
+        }
     }
+
     return activeUser;
 }
+
 
 /**
  * This function uses the name to check which index the users have.
@@ -228,16 +243,33 @@ function checkActiveUser(activeUser, responseJson) {
  * @param {string} firstName - The first name is transferred.
  * @param {string} lastName - The surname is transferred.
  */
+// function updateAssignedTo(task, firstName, lastName) {
+//     const index = task.assignedTo.findIndex(user =>
+//         user.firstName === firstName && user.lastName === lastName
+//     );
+//     if (index === -1) {
+//         task.assignedTo.push({ firstName, lastName, color: generateColor() });
+//     } else {
+//         task.assignedTo.splice(index, 1);
+//     }
+// }
+
 function updateAssignedTo(task, firstName, lastName) {
+    if (!Array.isArray(task.assignedTo)) {
+        task.assignedTo = [];
+    }
+
     const index = task.assignedTo.findIndex(user =>
         user.firstName === firstName && user.lastName === lastName
     );
+
     if (index === -1) {
         task.assignedTo.push({ firstName, lastName, color: generateColor() });
     } else {
         task.assignedTo.splice(index, 1);
     }
 }
+
 
 /**
  * This function saves the change in Firebase.
@@ -364,18 +396,35 @@ document.addEventListener('DOMContentLoaded', () => {
  * This function selects the selected users and saves them in an array.
  * @param {number} id 
  */
+// async function selectedUserEdit(id) {
+//     let responseJson = await loadTaskWithID(id);
+//     let usersFirstLetters = [];
+//     let colors = [];
+//     for (let i = 0; i < responseJson.assignedTo.length; i++) {
+//         let firstName = responseJson.assignedTo[i].firstName[0];
+//         let lastName = responseJson.assignedTo[i].lastName[0];
+//         let firstLetter = firstName + lastName;
+//         usersFirstLetters.push(firstLetter);
+//         colors.push(responseJson.assignedTo[i].color);
+//     }
+//     renderOverlayEditUser(usersFirstLetters, colors)
+// }
 async function selectedUserEdit(id) {
     let responseJson = await loadTaskWithID(id);
     let usersFirstLetters = [];
     let colors = [];
-    for (let i = 0; i < responseJson.assignedTo.length; i++) {
-        let firstName = responseJson.assignedTo[i].firstName[0];
-        let lastName = responseJson.assignedTo[i].lastName[0];
-        let firstLetter = firstName + lastName;
-        usersFirstLetters.push(firstLetter);
-        colors.push(responseJson.assignedTo[i].color);
+
+    if (Array.isArray(responseJson.assignedTo)) {
+        for (let i = 0; i < responseJson.assignedTo.length; i++) {
+            let firstName = responseJson.assignedTo[i].firstName[0];
+            let lastName = responseJson.assignedTo[i].lastName[0];
+            let firstLetter = firstName + lastName;
+            usersFirstLetters.push(firstLetter);
+            colors.push(responseJson.assignedTo[i].color);
+        }
     }
-    renderOverlayEditUser(usersFirstLetters, colors)
+
+    renderOverlayEditUser(usersFirstLetters, colors);
 }
 
 /**
@@ -541,62 +590,156 @@ async function saveEditSubtask(id, subtask) {
 }
 
 
+// function renderEditFile(task) {
+//     const container = document.getElementById('edit-overlay-file-preview');
+//     if (!container || !Array.isArray(task.files)) return;
+
+//     let imageGroupHTML = '';
+//     let otherFilesHTML = '';
+
+//     task.files.forEach((file, index) => {
+//         if (!file.base64 || !file.name) return;
+
+//         const isImage = file.base64.startsWith('data:image/');
+//         const isPDF = file.base64.startsWith('data:application/pdf');
+
+//         if (isImage) {
+//             imageGroupHTML += `
+//                 <li style="position: relative;">
+//                     <img src="${file.base64}" alt="${file.name}" style="max-height: 200px; border-radius: 4px; cursor: zoom-in;" />
+//                     <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
+//                         style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.5); border: none; color: white; padding: 2px 6px; border-radius: 4px; cursor: pointer;">X
+//                     </button>
+//                 </li>`;
+//         } else {
+//             otherFilesHTML += `
+//                 <div class="file-preview" style="margin-bottom: 10px;">
+//                     ${isPDF
+//                         ? `<embed src="${file.base64}" type="application/pdf" width="100%" height="200px" />`
+//                         : `<a href="${file.base64}" download="${file.name}" target="_blank">📎 ${file.name}</a>`
+//                     }
+//                     <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
+//                         style="margin-top: 8px; display: block;">X</button>
+//                 </div>`;
+//         }
+//     });
+
+//     container.innerHTML = `
+//         <ul id="image-viewer-list">
+//             ${imageGroupHTML}
+//         </ul>
+//         ${otherFilesHTML}
+//     `;
+
+//     // Init Viewer.js – nur für Bilder
+//     const viewerEl = document.getElementById('image-viewer-list');
+//     if (viewerEl) {
+//         new Viewer(viewerEl, {
+//             toolbar: true,
+//             navbar: false,
+//             title: true,
+//             tooltip: true,
+//             fullscreen: false,
+//             movable: true,
+//             zoomable: true,
+//         });
+//     }
+// }
+
+// function renderEditFile(task) {
+//     const container = document.getElementById('edit-overlay-file-preview');
+//     if (!container) return;
+
+//     let imageGroupHTML = '';
+//     let otherFilesHTML = '';
+
+//     if (Array.isArray(task.files)) {
+//         task.files.forEach((file, index) => {
+//             if (!file.base64 || !file.name) return;
+
+//             const isImage = file.base64.startsWith('data:image/');
+//             const isPDF = file.base64.startsWith('data:application/pdf');
+
+//             if (isImage) {
+//                 imageGroupHTML += `
+//                     <li style="position: relative;">
+//                         <img src="${file.base64}" alt="${file.name}" style="max-height: 200px; border-radius: 4px; cursor: zoom-in;" />
+//                         <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
+//                             style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.5); border: none; color: white; padding: 2px 6px; border-radius: 4px; cursor: pointer;">X
+//                         </button>
+//                     </li>`;
+//             } else {
+//                 otherFilesHTML += `
+//                     <div class="file-preview" style="margin-bottom: 10px;">
+//                         ${isPDF
+//                             ? `<embed src="${file.base64}" type="application/pdf" width="100%" height="200px" />`
+//                             : `<a href="${file.base64}" download="${file.name}" target="_blank">📎 ${file.name}</a>`
+//                         }
+//                         <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
+//                             style="margin-top: 8px; display: block;">X</button>
+//                     </div>`;
+//             }
+//         });
+//     }
+
+//     container.innerHTML = `
+//         <ul id="image-viewer-list" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0;">
+//             ${imageGroupHTML}
+//         </ul>
+//         ${otherFilesHTML}
+//         <div style="margin-top: 20px;">
+//             <label for="edit-file-upload" style="cursor: pointer; color: #0057ff; text-decoration: underline;">📎 Datei anhängen</label>
+//             <input type="file" id="edit-file-upload" multiple style="display: none;" onchange="handleEditFileUpload(event, ${task.id})">
+//         </div>
+//     `;
+
+//     // Init Viewer.js
+//     const viewerEl = document.getElementById('image-viewer-list');
+//     if (viewerEl) {
+//         new Viewer(viewerEl, {
+//             toolbar: true,
+//             navbar: false,
+//             title: true,
+//             tooltip: true,
+//             fullscreen: false,
+//             movable: true,
+//             zoomable: true,
+//         });
+//     }
+// }
+
+
 function renderEditFile(task) {
-    const container = document.getElementById('edit-overlay-file-preview');
-    if (!container || !Array.isArray(task.files)) return;
+    const c = document.getElementById('edit-overlay-file-preview');
+    if (!c) return;
+    if (!Array.isArray(task.files)) task.files = [];
 
-    let imageGroupHTML = '';
-    let otherFilesHTML = '';
+    const imgs = task.files.map((f, i) => f.base64?.startsWith('data:image/')
+        ? `<li style="position:relative;">
+             <img src="${f.base64}" alt="${f.name}" style="max-height:200px; border-radius:4px; cursor:zoom-in;">
+             <button onclick="removeFileFromTask(${task.id}, ${i})" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.5);color:white;border:none;padding:2px 6px;border-radius:4px;cursor:pointer;">X</button>
+           </li>`
+        : '').join('');
 
-    task.files.forEach((file, index) => {
-        if (!file.base64 || !file.name) return;
+    const files = task.files.map((f, i) => !f.base64?.startsWith('data:image/')
+        ? `<div style="margin-bottom:10px;">
+             ${f.base64?.startsWith('data:application/pdf')
+                 ? `<embed src="${f.base64}" type="application/pdf" width="100%" height="200px">`
+                 : `<a href="${f.base64}" download="${f.name}" target="_blank">📎 ${f.name}</a>`}
+             <button onclick="removeFileFromTask(${task.id}, ${i})" style="margin-top:8px;">🗑 Entfernen</button>
+           </div>`
+        : '').join('');
 
-        const isImage = file.base64.startsWith('data:image/');
-        const isPDF = file.base64.startsWith('data:application/pdf');
+    c.innerHTML = `
+        <ul id="image-viewer-list" style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;">${imgs}</ul>
+        ${files}
+        <div style="margin-top:20px;">
+            <label for="edit-file-upload" style="cursor:pointer;color:#0057ff;text-decoration:underline;">📎 Datei anhängen</label>
+            <input type="file" id="edit-file-upload" multiple accept=".jpg,.jpeg,.png,.pdf" style="display:none;" onchange="handleEditFileUpload(event, ${task.id})">
+        </div>`;
 
-        if (isImage) {
-            imageGroupHTML += `
-                <li style="position: relative;">
-                    <img src="${file.base64}" alt="${file.name}" style="max-height: 200px; border-radius: 4px; cursor: zoom-in;" />
-                    <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
-                        style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.5); border: none; color: white; padding: 2px 6px; border-radius: 4px; cursor: pointer;">X
-                    </button>
-                </li>`;
-        } else {
-            otherFilesHTML += `
-                <div class="file-preview" style="margin-bottom: 10px;">
-                    ${isPDF
-                        ? `<embed src="${file.base64}" type="application/pdf" width="100%" height="200px" />`
-                        : `<a href="${file.base64}" download="${file.name}" target="_blank">📎 ${file.name}</a>`
-                    }
-                    <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
-                        style="margin-top: 8px; display: block;">X</button>
-                </div>`;
-        }
-    });
-
-    container.innerHTML = `
-        <ul id="image-viewer-list">
-            ${imageGroupHTML}
-        </ul>
-        ${otherFilesHTML}
-    `;
-
-    // Init Viewer.js – nur für Bilder
-    const viewerEl = document.getElementById('image-viewer-list');
-    if (viewerEl) {
-        new Viewer(viewerEl, {
-            toolbar: true,
-            navbar: false,
-            title: true,
-            tooltip: true,
-            fullscreen: false,
-            movable: true,
-            zoomable: true,
-        });
-    }
+    if (document.getElementById('image-viewer-list')) new Viewer(document.getElementById('image-viewer-list'));
 }
-
 
 
 async function removeFileFromTask(id, index) {
@@ -617,5 +760,28 @@ async function removeFileFromTask(id, index) {
     console.log("Anhang entfernt");
 }
 
+async function handleEditFileUpload(event, taskId) {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    const id = taskId - 1;
+    const task = await loadTaskWithID(id);
+    if (!task) return;
+
+    if (!Array.isArray(task.files)) {
+        task.files = [];
+    }
+
+    for (let file of files) {
+        const reader = new FileReader();
+        reader.onload = async function (e) {
+            const base64 = e.target.result;
+            task.files.push({ name: file.name, base64 });
+            await updateTaskInFirebase(`${BASE_URL}/tasks/${id}.json`, { files: task.files });
+            renderEditFile(task); // neu rendern
+        };
+        reader.readAsDataURL(file);
+    }
+}
 
 
