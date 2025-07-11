@@ -571,13 +571,13 @@ function renderEditFile(task) {
                         : `<a href="${file.base64}" download="${file.name}" target="_blank">📎 ${file.name}</a>`
                     }
                     <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
-                        style="margin-top: 8px; display: block;">🗑 Entfernen</button>
+                        style="margin-top: 8px; display: block;">X</button>
                 </div>`;
         }
     });
 
     container.innerHTML = `
-        <ul id="image-viewer-list" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0;">
+        <ul id="image-viewer-list">
             ${imageGroupHTML}
         </ul>
         ${otherFilesHTML}

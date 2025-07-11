@@ -255,23 +255,25 @@ function getOverlayEdit(id, title, description, dueDate) {
                     <input type="text" placeholder="Select contacts to assign"></input>
                     <img id="arrow-dropdown" src="./assets/icons/arrow_drop_down.png">
                 </div>
-            </div>
-            <div>
-                <div id="user-names-edit-overlay">
-                <div class="overlay-edit-container">
-  <label class="edit-overlay-label">Attached file</label>
-  <div id="edit-overlay-file-preview"></div>
-</div>
-
-
-                </div>
+            </div>          
             </div>
             <div class="d-none" id="selected-user-dropdown">
                 <div class="dropdown-container" id="user-dropdown">
                     
                 </div>
             </div>
-            <div class="overlay-edit-container">
+
+           <div id="user-names-edit-overlay"></div>
+
+         <div>
+        <div class="overlay-edit-container">
+        <label class="edit-overlay-label">Attached file</label>
+       <div id="edit-overlay-file-preview">
+       </div>
+      </div>
+      </div>
+
+<div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="subtask-edit">Subtasks</label>
                 <div class="overlay-edit-subtask">
                     <input class="overlay-input-field" placeholder="Add new subtask" type="text" name="subtask-edit" id="subtask-edit" maxlength="20"/>
