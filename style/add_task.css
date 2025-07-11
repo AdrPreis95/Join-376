@@ -803,3 +803,32 @@ select {
     text-align: left;
     font-size: 11px;
 }
+
+#file-preview-container {
+    display: flex;
+    gap: 8px;
+    max-width: 100%;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+}
+
+
+.file-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    max-width: 100px;
+    max-height: 100px;
+    overflow: hidden;
+}
+
+.file-preview img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}

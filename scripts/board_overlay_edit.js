@@ -545,7 +545,8 @@ function renderEditFile(task) {
     const container = document.getElementById('edit-overlay-file-preview');
     if (!container || !Array.isArray(task.files)) return;
 
-    let filePreviewHTML = '';
+    let imageGroupHTML = '';
+    let otherFilesHTML = '';
 
     task.files.forEach((file, index) => {
         if (!file.base64 || !file.name) return;
@@ -553,22 +554,50 @@ function renderEditFile(task) {
         const isImage = file.base64.startsWith('data:image/');
         const isPDF = file.base64.startsWith('data:application/pdf');
 
-        filePreviewHTML += `<div style="margin-bottom: 10px;">`;
-
         if (isImage) {
-            filePreviewHTML += `<img src="${file.base64}" alt="${file.name}" style="max-width: 100%; max-height: 200px; border-radius: 4px;" />`;
-        } else if (isPDF) {
-            filePreviewHTML += `<embed src="${file.base64}" type="application/pdf" width="100%" height="200px" />`;
+            imageGroupHTML += `
+                <li style="position: relative;">
+                    <img src="${file.base64}" alt="${file.name}" style="max-height: 200px; border-radius: 4px; cursor: zoom-in;" />
+                    <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
+                        style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.5); border: none; color: white; padding: 2px 6px; border-radius: 4px; cursor: pointer;">
+                        🗑
+                    </button>
+                </li>`;
         } else {
-            filePreviewHTML += `<a href="${file.base64}" download="${file.name}">📎 ${file.name}</a>`;
+            otherFilesHTML += `
+                <div class="file-preview" style="margin-bottom: 10px;">
+                    ${isPDF
+                        ? `<embed src="${file.base64}" type="application/pdf" width="100%" height="200px" />`
+                        : `<a href="${file.base64}" download="${file.name}" target="_blank">📎 ${file.name}</a>`
+                    }
+                    <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
+                        style="margin-top: 8px; display: block;">🗑 Entfernen</button>
+                </div>`;
         }
-
-        filePreviewHTML += `<button onclick="removeFileFromTask(${task.id}, ${index})" style="margin-top: 8px; display: block;">🗑️ Anhang entfernen</button>`;
-        filePreviewHTML += `</div>`;
     });
 
-    container.innerHTML = filePreviewHTML;
+    container.innerHTML = `
+        <ul id="image-viewer-list" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0;">
+            ${imageGroupHTML}
+        </ul>
+        ${otherFilesHTML}
+    `;
+
+    // Init Viewer.js – nur für Bilder
+    const viewerEl = document.getElementById('image-viewer-list');
+    if (viewerEl) {
+        new Viewer(viewerEl, {
+            toolbar: true,
+            navbar: false,
+            title: true,
+            tooltip: true,
+            fullscreen: false,
+            movable: true,
+            zoomable: true,
+        });
+    }
 }
+
 
 
 async function removeFileFromTask(id, index) {
@@ -581,11 +610,11 @@ async function removeFileFromTask(id, index) {
         return;
     }
 
-    task.files.splice(index, 1); 
+    task.files.splice(index, 1);
 
     await updateTaskInFirebase(taskRefUrl, { files: task.files });
 
-    renderEditFile(task); 
+    renderEditFile(task);
     console.log("Anhang entfernt");
 }
 

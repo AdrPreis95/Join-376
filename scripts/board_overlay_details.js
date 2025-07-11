@@ -12,6 +12,63 @@ async function showOverlayDetailsTask(id) {
     renderOverlay(tasksArray);
 }
 
+// function renderOverlay(responseTaskJson) {
+//     let refOverlay = document.getElementById('task-details');
+//     refOverlay.style = 'display: flex';
+//     refOverlay.innerHTML = "";
+
+//     let classCategory = checkCategory(responseTaskJson.category);
+//     let prioIcon = findPrio(responseTaskJson.prio);
+
+//     refOverlay.innerHTML = getOverlayDetails(
+//         responseTaskJson.id,
+//         classCategory,
+//         responseTaskJson.category,
+//         responseTaskJson.title,
+//         responseTaskJson.description,
+//         responseTaskJson.dueDate,
+//         responseTaskJson.prio,
+//         prioIcon
+//     );
+
+//     renderOverlayUser(responseTaskJson);
+
+//     if (responseTaskJson.subtasks != undefined) {
+//         renderOverlaySubtasks(responseTaskJson);
+//     } else {
+//         document.getElementById('subtask-headline-overlay').style = 'display: none';
+//     }
+
+//     if (responseTaskJson.files && Array.isArray(responseTaskJson.files)) {
+//         responseTaskJson.files.forEach(file => {
+//             const base64 = file.base64;
+//             const fileName = file.name.toLowerCase();
+//             let preview = "";
+
+//             if (fileName.endsWith(".pdf")) {
+//                 preview = `
+//                 <div class="task-file">
+//                     <embed src="${base64}" type="application/pdf" width="100%" height="200px">
+//                 </div>`;
+//             } else if (fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+//                 preview = `
+//                 <div class="task-file">
+//                     <img src="${base64}" alt="${file.name}" style="max-width: 100px; margin-top: 10px; border-radius: 4px;">
+//                 </div>`;
+//             } else {
+//                 preview = `
+//                 <div class="task-file">
+//                     <a href="${base64}" download="${file.name}" target="_blank">📎 ${file.name}</a>
+//                 </div>`;
+//             }
+
+//             refOverlay.innerHTML += preview;
+//         });
+//     }
+
+// }
+
+
 function renderOverlay(responseTaskJson) {
     let refOverlay = document.getElementById('task-details');
     refOverlay.style = 'display: flex';
@@ -39,7 +96,12 @@ function renderOverlay(responseTaskJson) {
         document.getElementById('subtask-headline-overlay').style = 'display: none';
     }
 
+    // 🟩⬇️ Hier kommt der neue Teil für Image+PDF-Viewer
     if (responseTaskJson.files && Array.isArray(responseTaskJson.files)) {
+        let fileContainer = document.createElement("div");
+        fileContainer.className = "task-file viewer-gallery"; // wichtig für Viewer.js
+        fileContainer.id = `viewer-${responseTaskJson.id}`; // eindeutige ID
+
         responseTaskJson.files.forEach(file => {
             const base64 = file.base64;
             const fileName = file.name.toLowerCase();
@@ -47,26 +109,32 @@ function renderOverlay(responseTaskJson) {
 
             if (fileName.endsWith(".pdf")) {
                 preview = `
-                <div class="task-file">
-                    <embed src="${base64}" type="application/pdf" width="100%" height="200px">
-                </div>`;
+                    <embed src="${base64}" type="application/pdf" width="100px" height="100px" style="margin: 10px;">
+                `;
             } else if (fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
                 preview = `
-                <div class="task-file">
-                    <img src="${base64}" alt="${file.name}" style="max-width: 100px; margin-top: 10px; border-radius: 4px;">
-                </div>`;
+                    <img src="${base64}" alt="${file.name}" style="max-width: 100px; margin: 10px; border-radius: 4px;">
+                `;
             } else {
                 preview = `
-                <div class="task-file">
                     <a href="${base64}" download="${file.name}" target="_blank">📎 ${file.name}</a>
-                </div>`;
+                `;
             }
 
-            refOverlay.innerHTML += preview;
+            fileContainer.innerHTML += preview;
+        });
+
+        refOverlay.appendChild(fileContainer);
+
+        // Viewer aktivieren
+        new Viewer(fileContainer, {
+            navbar: true,
+            toolbar: true,
+            title: true
         });
     }
-
 }
+
 
 
 /**

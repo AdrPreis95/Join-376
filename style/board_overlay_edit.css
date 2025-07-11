@@ -321,3 +321,11 @@
     width: 24px;
     height: 24px;
 }
+
+.del-img{
+    display: flex;
+    height: 100px;
+    width: 100px;
+    color: red;
+    background-color: #FF8190;
+}
