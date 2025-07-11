@@ -760,6 +760,69 @@ async function removeFileFromTask(id, index) {
     console.log("Anhang entfernt");
 }
 
+// async function handleEditFileUpload(event, taskId) {
+//     const files = event.target.files;
+//     if (!files || files.length === 0) return;
+
+//     const id = taskId - 1;
+//     const task = await loadTaskWithID(id);
+//     if (!task) return;
+
+//     if (!Array.isArray(task.files)) {
+//         task.files = [];
+//     }
+
+//     for (let file of files) {
+//         const reader = new FileReader();
+//         reader.onload = async function (e) {
+//             const base64 = e.target.result;
+//             task.files.push({ name: file.name, base64 });
+//             await updateTaskInFirebase(`${BASE_URL}/tasks/${id}.json`, { files: task.files });
+//             renderEditFile(task); // neu rendern
+//         };
+//         reader.readAsDataURL(file);
+//     }
+// }
+
+
+
+// async function handleEditFileUpload(event, taskId) {
+//     const files = event.target.files;
+//     if (!files || files.length === 0) return;
+
+//     const id = taskId - 1;
+//     const task = await loadTaskWithID(id);
+//     if (!task) return;
+//     if (!Array.isArray(task.files)) task.files = [];
+
+//     let images = task.files.filter(f => f.base64?.startsWith('data:image/')).length;
+//     let pdfs = task.files.filter(f => f.base64?.startsWith('data:application/pdf')).length;
+
+//     for (let file of files) {
+//         const isImage = file.type === 'image/png' || file.type === 'image/jpeg';
+//         const isPDF = file.type === 'application/pdf';
+
+//         if (!isImage && !isPDF) continue;
+//         if (isImage && images >= 4) continue;
+//         if (isPDF && pdfs >= 2) continue;
+
+//         const reader = new FileReader();
+//         reader.onload = async function (e) {
+//             const base64 = e.target.result;
+//             task.files.push({ name: file.name, base64 });
+
+//             await updateTaskInFirebase(`${BASE_URL}/tasks/${id}.json`, { files: task.files });
+//             renderEditFile(task);
+//         };
+//         reader.readAsDataURL(file);
+
+//         if (isImage) images++;
+//         if (isPDF) pdfs++;
+//     }
+// }
+
+
+
 async function handleEditFileUpload(event, taskId) {
     const files = event.target.files;
     if (!files || files.length === 0) return;
@@ -767,21 +830,48 @@ async function handleEditFileUpload(event, taskId) {
     const id = taskId - 1;
     const task = await loadTaskWithID(id);
     if (!task) return;
+    if (!Array.isArray(task.files)) task.files = [];
 
-    if (!Array.isArray(task.files)) {
-        task.files = [];
-    }
+    let images = task.files.filter(f => f.base64?.startsWith('data:image/')).length;
+    let pdfs = task.files.filter(f => f.base64?.startsWith('data:application/pdf')).length;
 
     for (let file of files) {
+        const fileName = file.name.toLowerCase();
+        const isImage = file.type === 'image/png' || file.type === 'image/jpeg';
+        const isPDF = file.type === 'application/pdf';
+
+        const validExtension = /\.(png|jpe?g|pdf)$/.test(fileName);
+        const validMime = isImage || isPDF;
+
+        if (!validExtension || !validMime) {
+            alert(`❌ Ungültiges Dateiformat: "${file.name}". Nur PNG, JPG, JPEG und PDF sind erlaubt.`);
+            continue;
+        }
+
+        if (isImage && images >= 4) {
+            alert(`⚠️ Du kannst nur 4 Bilder anhängen. "${file.name}" wurde nicht hochgeladen.`);
+            continue;
+        }
+
+        if (isPDF && pdfs >= 2) {
+            alert(`⚠️ Du kannst nur 2 PDFs anhängen. "${file.name}" wurde nicht hochgeladen.`);
+            continue;
+        }
+
         const reader = new FileReader();
         reader.onload = async function (e) {
             const base64 = e.target.result;
             task.files.push({ name: file.name, base64 });
+
             await updateTaskInFirebase(`${BASE_URL}/tasks/${id}.json`, { files: task.files });
-            renderEditFile(task); // neu rendern
+            renderEditFile(task);
         };
         reader.readAsDataURL(file);
+
+        if (isImage) images++;
+        if (isPDF) pdfs++;
     }
 }
+
 
 
