@@ -559,8 +559,7 @@ function renderEditFile(task) {
                 <li style="position: relative;">
                     <img src="${file.base64}" alt="${file.name}" style="max-height: 200px; border-radius: 4px; cursor: zoom-in;" />
                     <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
-                        style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.5); border: none; color: white; padding: 2px 6px; border-radius: 4px; cursor: pointer;">
-                        🗑
+                        style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.5); border: none; color: white; padding: 2px 6px; border-radius: 4px; cursor: pointer;">X
                     </button>
                 </li>`;
         } else {

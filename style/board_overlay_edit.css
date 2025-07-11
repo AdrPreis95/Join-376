@@ -349,6 +349,8 @@
 
 #image-viewer-list img {
     max-height: 100px !important;
+    width: 180px !important;
     border-radius: 10px !important;
     cursor: zoom-in;
 }
+

@@ -589,30 +589,7 @@ function resizeAndConvertImage(file, maxWidth, maxHeight, quality = 0.8) {
     });
 }
 
-// function showUploadPreview(files) {
-//     const container = document.getElementById('file-preview-container');
-//     container.innerHTML = '';
 
-//     files.forEach(file => {
-//         const fileName = file.name.toLowerCase();
-
-//         if (fileName.endsWith('.pdf')) {
-//             container.innerHTML += `
-//                 <div class="file-preview">
-//                     <span>📎 ${file.name}</span>
-//                 </div>`;
-//         } else if (fileName.match(/\.(png|jpe?g)$/)) {
-//             const reader = new FileReader();
-//             reader.onload = () => {
-//                 container.innerHTML += `
-//                     <div class="file-preview">
-//                         <img src="${reader.result}" alt="${file.name}" style="max-width: 100px;">
-//                     </div>`;
-//             };
-//             reader.readAsDataURL(file);
-//         }
-//     });
-// }
 const MAX_IMAGES = 4;
 const MAX_PDFS = 2;
 
@@ -649,7 +626,7 @@ function showUploadPreview(newFiles) {
             container.innerHTML += `
                 <div class="file-preview">
                     <span>📎 ${file.name}</span>
-                    <button onclick="removePreviewFile(${index})">🗑️</button>
+                    <button onclick="removePreviewFile(${index})">X</button>
                 </div>`;
         } else if (fileName.match(/\.(png|jpe?g)$/)) {
             const reader = new FileReader();
@@ -657,14 +634,14 @@ function showUploadPreview(newFiles) {
                 container.innerHTML += `
                     <div class="file-preview">
                         <img src="${reader.result}" alt="${file.name}" style="max-width: 100px;">
-                        <button onclick="removePreviewFile(${index})">🗑️</button>
+                        <button onclick="removePreviewFile(${index})">X</button>
                     </div>`;
             };
             reader.readAsDataURL(file);
         }
     });
 
-    // Hinweis anzeigen, wenn Limits erreicht sind
+   
     const pdfs = uploadedFiles.filter(f => f.name.toLowerCase().endsWith('.pdf')).length;
     const imgs = uploadedFiles.filter(f => f.type.startsWith('image/')).length;
 

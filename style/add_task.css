@@ -819,12 +819,13 @@ select {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px;
+    padding: 0px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    max-width: 100px;
+    border-radius: 10px;
+    max-width: 180px;
     max-height: 100px;
     overflow: hidden;
+    margin-bottom: 0px !important;
 }
 
 .file-preview img {
