@@ -43,14 +43,15 @@ function renderOverlay(responseTaskJson) {
 
    // 🟦 Dateianhänge mit Type-Beschriftung & Viewer.js bleibt wie gehabt
 if (Array.isArray(responseTaskJson.files) && responseTaskJson.files.length > 0) {
-    let fileContainer = document.createElement("div");
-    fileContainer.className = "task-file viewer-gallery";
-    fileContainer.id = `viewer-${responseTaskJson.id}`;
+   const fileContainer = document.getElementById(`viewer-${responseTaskJson.id}`);
 
-    let headline = document.createElement("h4");
-    headline.textContent = "Attached files:";
-    headline.style.marginTop = "20px";
-    refOverlay.appendChild(headline);
+    // fileContainer.className = "task-file viewer-gallery";
+    // fileContainer.id = `viewer-${responseTaskJson.id}`;
+
+    // let headline = document.createElement("h4");
+    // headline.textContent = "Attached files:";
+    // headline.style.marginTop = "20px";
+    // refOverlay.appendChild(headline);
 
     responseTaskJson.files.forEach(file => {
         const base64 = file.base64;
@@ -75,7 +76,7 @@ if (Array.isArray(responseTaskJson.files) && responseTaskJson.files.length > 0) 
         fileContainer.appendChild(wrapper);
     });
 
-    refOverlay.appendChild(fileContainer);
+    // refOverlay.appendChild(fileContainer);
 
     // ✅ Viewer bleibt erhalten
     new Viewer(fileContainer, {

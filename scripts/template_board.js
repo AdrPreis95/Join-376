@@ -136,6 +136,8 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
 
             </div>
         </div>
+<h4 style="margin-top: 20px;">Attached files:</h4>
+<div class="task-file viewer-gallery" id="viewer-${id}"></div>
 
 
         <div class="footer-overlay">
