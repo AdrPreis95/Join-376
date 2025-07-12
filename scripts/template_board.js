@@ -136,6 +136,8 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
 
             </div>
         </div>
+
+
         <div class="footer-overlay">
             <div class="footer-link-overlay" id="delete-container" onclick="deleteTask(${id})">
                 <svg class="ico" width="17" height="18" viewBox="0 0 17 18" xmlns="http://www.w3.org/2000/svg">
@@ -267,7 +269,7 @@ function getOverlayEdit(id, title, description, dueDate) {
 
          <div>
         <div class="overlay-edit-container">
-        <label class="edit-overlay-label">Attached file</label>
+        <label class="edit-overlay-label">Upload</label>
        <div id="edit-overlay-file-preview">
        </div>
       </div>
