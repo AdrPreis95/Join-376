@@ -833,3 +833,12 @@ select {
     height: auto;
     display: block;
 }
+
+label[for="file-select"] img {
+    transition: 0.2s;
+}
+
+label[for="file-select"] img:hover {
+    filter: brightness(1.2);
+    transform: scale(1.05);
+}

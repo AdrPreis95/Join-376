@@ -126,8 +126,18 @@
                                 <div id="picked-user-avatar" class="picked-user-avatar"></div>
                                 <div id="dropdown-user" class="user-list">
                                 </div>
+
+
                                 <input type="file" id="file-select" multiple
-                                    onchange="showUploadPreview(Array.from(this.files))">
+                                    onchange="showUploadPreview(Array.from(this.files))" style="display: none;">
+
+
+                                <label for="file-select" style="cursor: pointer;">
+                                    <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij48cGF0aCBkPSJNMTYgMTZoLTN2NWgtMnYtNWgtM2w0LTQgNCA0em0zLjQ3OS01LjkwOGMtLjIxMi0zLjk1MS0zLjQ3My03LjA5Mi03LjQ3OS03LjA5MnMtNy4yNjcgMy4xNDEtNy40NzkgNy4wOTJjLTIuNTcuNDYzLTQuNTIxIDIuNzA2LTQuNTIxIDUuNDA4IDAgMy4wMzcgMi40NjMgNS41IDUuNSA1LjVoMy41di0yaC0zLjVjLTEuOTMgMC0zLjUtMS41Ny0zLjUtMy41IDAtMi43OTcgMi40NzktMy44MzMgNC40MzMtMy43Mi0uMTY3LTQuMjE4IDIuMjA4LTYuNzggNS41NjctNi43OCAzLjQ1MyAwIDUuODkxIDIuNzk3IDUuNTY3IDYuNzggMS43NDUtLjA0NiA0LjQzMy43NTEgNC40MzMgMy43MiAwIDEuOTMtMS41NyAzLjUtMy41IDMuNWgtMy41djJoMy41YzMuMDM3IDAgNS41LTIuNDYzIDUuNS01LjUgMC0yLjcwMi0xLjk1MS00Ljk0NS00LjUyMS01LjQwOHoiLz48L3N2Zz4="
+                                        alt="Upload Icon" width="40" style="vertical-align: middle;">
+                                </label>
+
+
                                 <div id="file-preview-container"></div>
 
                                 <div id="file-preview-container"></div>
