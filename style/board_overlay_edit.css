@@ -347,10 +347,38 @@
     list-style: none !important;
 }
 
-#image-viewer-list img {
-    max-height: 100px !important;
-    width: 180px !important;
+.viewer-gallery img {
+    width: 100%;
+    max-width: 200px !important;
+    max-height: 250px;
+    height: auto;
+    object-fit: cover;
     border-radius: 10px !important;
     cursor: zoom-in;
 }
 
+.viewer-gallery embed {
+  width: auto;
+  max-height: 250px;
+  max-width: 200px !important;
+  border-radius: 10px;
+  object-fit: contain;
+  background-color: white;
+  cursor: zoom-in;
+}
+
+
+
+.viewer-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    /* oder dein gewünschter Abstand */
+    justify-items: center;
+}
+
+/* Wenn letztes Element alleine in letzter Zeile steht → zentrieren */
+.viewer-gallery>*:last-child:nth-child(odd):nth-last-child(1) {
+    grid-column: 1 / -1;
+    justify-self: center;
+}
