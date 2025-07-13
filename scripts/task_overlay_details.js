@@ -5,70 +5,70 @@
 */
 function applyStylesToIframe(iframe, cssContent) {
     iframe.onload = function () {
-      const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-      if (iframeDocument) {
-        const styleElement = iframeDocument.createElement("style");
-        styleElement.type = "text/css";
-        styleElement.textContent = cssContent;
-        const head = iframeDocument.head || iframeDocument.getElementsByTagName("head")[0];
-        if (head) {
-          head.appendChild(styleElement);
+        const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+        if (iframeDocument) {
+            const styleElement = iframeDocument.createElement("style");
+            styleElement.type = "text/css";
+            styleElement.textContent = cssContent;
+            const head = iframeDocument.head || iframeDocument.getElementsByTagName("head")[0];
+            if (head) {
+                head.appendChild(styleElement);
+            } else {
+                console.error("Iframe head not found");
+            }
         } else {
-          console.error("Iframe head not found");
+            console.error("Iframe document not accessible");
         }
-      } else {
-        console.error("Iframe document not accessible");
-      }
     };
-  }
-  /**
-   * Function: closeTaskOverlay
-   * Description: Hides the task overlay and resets its contents.
-   */
-  function closeTaskOverlay() {
+}
+/**
+ * Function: closeTaskOverlay
+ * Description: Hides the task overlay and resets its contents.
+ */
+function closeTaskOverlay() {
     const overlay = document.getElementById('task-overlay');
     if (overlay) {
-      overlay.style.display = 'none'; // Hide the overlay
-      clearTask(); // Reset the overlay contents
+        overlay.style.display = 'none'; // Hide the overlay
+        clearTask(); // Reset the overlay contents
     }
-  }
-  
-  /**
-   * Function to clear the overlay Inputs
-   */
-  function clearInputsAndCloseOverlay() {
+}
+
+/**
+ * Function to clear the overlay Inputs
+ */
+function clearInputsAndCloseOverlay() {
     const overlay = document.getElementById('taskoverlay');
     if (overlay) {
-      overlay.classList.remove('nohidden');
-      overlay.classList.add('gethidden');
+        overlay.classList.remove('nohidden');
+        overlay.classList.add('gethidden');
     }
     clearTask();
-  }
-  function openDropdown() {
+}
+function openDropdown() {
     let dropdown = document.getElementById('dropdown-user');
     dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-  
+
     if (dropdown.style.display === "flex") {
         loadContacts().then(() => {
             synchronizeCheckboxes();
         });
     }
-  }
-  
-  /**
-  * Closes the dropdown when clicking outside.
-  * @param {Event} event - The click event.
-  */
-  function closeDropdownOnClickOutside(event) {
+}
+
+/**
+* Closes the dropdown when clicking outside.
+* @param {Event} event - The click event.
+*/
+function closeDropdownOnClickOutside(event) {
     const dropdown = document.getElementById('dropdown-user');
     const container = document.querySelector('.dropdown');
     if (dropdown && container && !container.contains(event.target)) {
         dropdown.style.display = 'none';
     }
     document.getElementById('dropdown-input').value = '';
-  }
-  document.addEventListener('click', closeDropdownOnClickOutside);
-  
+}
+document.addEventListener('click', closeDropdownOnClickOutside);
+
 /**
  * Generates initials for a contact.
  * @param {Object} contact - The contact object.
@@ -104,6 +104,12 @@ function clearTask() {
     resetPriorityButtons();
     displayContacts(allContacts);
     clearAssignedContacts();
+    uploadedFiles = [];
+    document.getElementById('file-preview-container').innerHTML = '';
+    document.getElementById('file-limit-warning').style.display = 'none';
+
+
+
 
     const defaultButton = document.getElementById('prio-orange');
     if (defaultButton) {
@@ -248,4 +254,3 @@ document.addEventListener('DOMContentLoaded', function () {
         document.body.id = 'main-page';
     }
 });
-  

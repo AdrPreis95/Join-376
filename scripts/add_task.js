@@ -93,7 +93,7 @@ async function createTask() {
     let newTask = buildNewTask(newID, title, description, dueDate, category, color, processedFiles);
     await saveTask(newTask);
 
-    console.log("📎 Anzahl verarbeiteter Dateien:", processedFiles.length);
+    
 }
 
 

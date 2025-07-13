@@ -809,7 +809,7 @@ select {
     gap: 8px;
     max-width: 100%;
     align-items: center;
-    flex-wrap: wrap;
+    /* flex-wrap: wrap; später mit responsive nachfügen  */
 }
 
 .file-preview {
@@ -859,8 +859,8 @@ label[for="file-select"] img:hover {
 
 .file-preview button {
     position: absolute;
-    top: -16px;
-    right: -10px;
+    top: -1px;
+    right: -2px;
     width: 24px;
     height: 24px;
     border-radius: 50%;
