@@ -41,50 +41,45 @@ function renderOverlay(responseTaskJson) {
         document.getElementById('subtask-headline-overlay').style = 'display: none';
     }
 
-   // 🟦 Dateianhänge mit Type-Beschriftung & Viewer.js bleibt wie gehabt
-if (Array.isArray(responseTaskJson.files) && responseTaskJson.files.length > 0) {
-   const fileContainer = document.getElementById(`viewer-${responseTaskJson.id}`);
+    if (Array.isArray(responseTaskJson.files) && responseTaskJson.files.length > 0) {
+        const fileContainer = document.getElementById(`viewer-${responseTaskJson.id}`);
+        responseTaskJson.files.forEach(file => {
+            const base64 = file.base64;
+            const fileName = file.name.toLowerCase();
+            const isPDF = fileName.endsWith(".pdf");
+            const isIMG = fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg");
 
-    // fileContainer.className = "task-file viewer-gallery";
-    // fileContainer.id = `viewer-${responseTaskJson.id}`;
+            let typeText = isPDF ? "Type: PDF" : isIMG ? "Type: Image" : "Type: File";
+            let wrapper = document.createElement("div");
+            wrapper.innerHTML = `<div style="font-size: 0.85rem; color: #777;">${typeText}</div>`;
 
-    // let headline = document.createElement("h4");
-    // headline.textContent = "Attached files:";
-    // headline.style.marginTop = "20px";
-    // refOverlay.appendChild(headline);
+            let preview = "";
+            if (isPDF) {
+                preview = `
+  <div class="pdf-preview-wrapper" onclick="openPdfPreview('${base64}')">
+    <embed src="${base64}" type="application/pdf" width="100px" height="100px" style="pointer-events: none; border-radius: 4px; margin-top: 6px;">
+    <div class="pdf-hover-icon">👁️</div>
+  </div>
+  <div class="file-controls">
+    <button onclick="event.stopPropagation(); downloadFile('${base64}', '${file.name}')">⬇️</button>
+  </div>
+`;
 
-    responseTaskJson.files.forEach(file => {
-        const base64 = file.base64;
-        const fileName = file.name.toLowerCase();
-        const isPDF = fileName.endsWith(".pdf");
-        const isIMG = fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg");
+            } else if (isIMG) {
+                preview = `<img src="${base64}" alt="${file.name}" style="max-width: 100px; border-radius: 4px; margin-top: 6px;">`;
+            } else {
+                preview = `<a href="${base64}" target="_blank" download="${file.name}">📎 ${file.name}</a>`;
+            }
 
-        let typeText = isPDF ? "Type: PDF" : isIMG ? "Type: Image" : "Type: File";
-        let wrapper = document.createElement("div");
-        wrapper.innerHTML = `<div style="font-size: 0.85rem; color: #777;">${typeText}</div>`;
-
-        let preview = "";
-        if (isPDF) {
-            preview = `<embed src="${base64}" type="application/pdf" width="100px" height="100px" style="margin-top: 6px;">`;
-        } else if (isIMG) {
-            preview = `<img src="${base64}" alt="${file.name}" style="max-width: 100px; border-radius: 4px; margin-top: 6px;">`;
-        } else {
-            preview = `<a href="${base64}" target="_blank" download="${file.name}">📎 ${file.name}</a>`;
-        }
-
-        wrapper.innerHTML += preview;
-        fileContainer.appendChild(wrapper);
-    });
-
-    // refOverlay.appendChild(fileContainer);
-
-    // ✅ Viewer bleibt erhalten
-    new Viewer(fileContainer, {
-        navbar: true,
-        toolbar: true,
-        title: true
-    });
-}
+            wrapper.innerHTML += preview;
+            fileContainer.appendChild(wrapper);
+        });
+        new Viewer(fileContainer, {
+            navbar: true,
+            toolbar: true,
+            title: true
+        });
+    }
 }
 
 
@@ -153,3 +148,23 @@ async function renderOverlaySubtasks(responseTaskJson) {
     }
 }
 
+function openPdfPreview(base64) {
+  const modal = document.getElementById('pdf-modal');
+  const frame = document.getElementById('pdf-frame');
+  frame.src = base64;
+  modal.style.display = 'flex';
+}
+
+function closeModal() {
+  const modal = document.getElementById('pdf-modal');
+  const frame = document.getElementById('pdf-frame');
+  modal.style.display = 'none';
+  frame.src = '';
+}
+
+function downloadFile(base64, filename) {
+  const link = document.createElement('a');
+  link.href = base64;
+  link.download = filename;
+  link.click();
+}

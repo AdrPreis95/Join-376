@@ -10,7 +10,7 @@
   <script src="./scripts/template_board.js"></script>
   <script src="./scripts/script.js"></script>
   <script src="./scripts/board.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/viewerjs@1.11.5/dist/viewer.min.js"defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/viewerjs@1.11.5/dist/viewer.min.js" defer></script>
   <script src="./scripts/board_overlay_details.js"></script>
   <script src="./scripts/board_overlay_edit.js"></script>
   <script src="scripts/add_task_overlay.js"></script>
@@ -213,6 +213,11 @@
     <button class="overlay-close" id="closeOverlay" onclick="closeTaskOverlay()">
       <img class="closebttn" src="./assets/icons/clear-icon.png" alt="ClearIcon">
     </button>
+  </div>
+  <div id="pdf-modal" class="modal" onclick="closeModal()">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <iframe id="pdf-frame" src="" frameborder="0"></iframe>
+    </div>
   </div>
 
   <link rel="stylesheet" href="style/add_task_overlay.css">

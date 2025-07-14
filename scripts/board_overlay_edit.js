@@ -192,15 +192,6 @@ function renderOverlayContacts(id, responseJson, activeUserIndex) {
  * @param {number} id - The ID is transferred in order to find the correct task.
  * @returns An array is returned in which the active users.
  */
-// async function loadActiveUser(id) {
-//     let task = await loadTaskWithID(id);
-//     let activeUser = [];
-//     for (let i = 0; i < task.assignedTo.length; i++) {
-//         let name = task.assignedTo[i].firstName + " " + task.assignedTo[i].lastName;
-//         activeUser.push(name);
-//     }
-//     return activeUser;
-// }
 
 async function loadActiveUser(id) {
     let task = await loadTaskWithID(id);
@@ -243,16 +234,6 @@ function checkActiveUser(activeUser, responseJson) {
  * @param {string} firstName - The first name is transferred.
  * @param {string} lastName - The surname is transferred.
  */
-// function updateAssignedTo(task, firstName, lastName) {
-//     const index = task.assignedTo.findIndex(user =>
-//         user.firstName === firstName && user.lastName === lastName
-//     );
-//     if (index === -1) {
-//         task.assignedTo.push({ firstName, lastName, color: generateColor() });
-//     } else {
-//         task.assignedTo.splice(index, 1);
-//     }
-// }
 
 function updateAssignedTo(task, firstName, lastName) {
     if (!Array.isArray(task.assignedTo)) {
@@ -590,124 +571,6 @@ async function saveEditSubtask(id, subtask) {
 }
 
 
-// function renderEditFile(task) {
-//     const container = document.getElementById('edit-overlay-file-preview');
-//     if (!container || !Array.isArray(task.files)) return;
-
-//     let imageGroupHTML = '';
-//     let otherFilesHTML = '';
-
-//     task.files.forEach((file, index) => {
-//         if (!file.base64 || !file.name) return;
-
-//         const isImage = file.base64.startsWith('data:image/');
-//         const isPDF = file.base64.startsWith('data:application/pdf');
-
-//         if (isImage) {
-//             imageGroupHTML += `
-//                 <li style="position: relative;">
-//                     <img src="${file.base64}" alt="${file.name}" style="max-height: 200px; border-radius: 4px; cursor: zoom-in;" />
-//                     <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
-//                         style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.5); border: none; color: white; padding: 2px 6px; border-radius: 4px; cursor: pointer;">X
-//                     </button>
-//                 </li>`;
-//         } else {
-//             otherFilesHTML += `
-//                 <div class="file-preview" style="margin-bottom: 10px;">
-//                     ${isPDF
-//                         ? `<embed src="${file.base64}" type="application/pdf" width="100%" height="200px" />`
-//                         : `<a href="${file.base64}" download="${file.name}" target="_blank">📎 ${file.name}</a>`
-//                     }
-//                     <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
-//                         style="margin-top: 8px; display: block;">X</button>
-//                 </div>`;
-//         }
-//     });
-
-//     container.innerHTML = `
-//         <ul id="image-viewer-list">
-//             ${imageGroupHTML}
-//         </ul>
-//         ${otherFilesHTML}
-//     `;
-
-//     // Init Viewer.js – nur für Bilder
-//     const viewerEl = document.getElementById('image-viewer-list');
-//     if (viewerEl) {
-//         new Viewer(viewerEl, {
-//             toolbar: true,
-//             navbar: false,
-//             title: true,
-//             tooltip: true,
-//             fullscreen: false,
-//             movable: true,
-//             zoomable: true,
-//         });
-//     }
-// }
-
-// function renderEditFile(task) {
-//     const container = document.getElementById('edit-overlay-file-preview');
-//     if (!container) return;
-
-//     let imageGroupHTML = '';
-//     let otherFilesHTML = '';
-
-//     if (Array.isArray(task.files)) {
-//         task.files.forEach((file, index) => {
-//             if (!file.base64 || !file.name) return;
-
-//             const isImage = file.base64.startsWith('data:image/');
-//             const isPDF = file.base64.startsWith('data:application/pdf');
-
-//             if (isImage) {
-//                 imageGroupHTML += `
-//                     <li style="position: relative;">
-//                         <img src="${file.base64}" alt="${file.name}" style="max-height: 200px; border-radius: 4px; cursor: zoom-in;" />
-//                         <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
-//                             style="position: absolute; top: 4px; right: 4px; background: rgba(0,0,0,0.5); border: none; color: white; padding: 2px 6px; border-radius: 4px; cursor: pointer;">X
-//                         </button>
-//                     </li>`;
-//             } else {
-//                 otherFilesHTML += `
-//                     <div class="file-preview" style="margin-bottom: 10px;">
-//                         ${isPDF
-//                             ? `<embed src="${file.base64}" type="application/pdf" width="100%" height="200px" />`
-//                             : `<a href="${file.base64}" download="${file.name}" target="_blank">📎 ${file.name}</a>`
-//                         }
-//                         <button class="del-img" onclick="removeFileFromTask(${task.id}, ${index})"
-//                             style="margin-top: 8px; display: block;">X</button>
-//                     </div>`;
-//             }
-//         });
-//     }
-
-//     container.innerHTML = `
-//         <ul id="image-viewer-list" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; padding: 0;">
-//             ${imageGroupHTML}
-//         </ul>
-//         ${otherFilesHTML}
-//         <div style="margin-top: 20px;">
-//             <label for="edit-file-upload" style="cursor: pointer; color: #0057ff; text-decoration: underline;">📎 Datei anhängen</label>
-//             <input type="file" id="edit-file-upload" multiple style="display: none;" onchange="handleEditFileUpload(event, ${task.id})">
-//         </div>
-//     `;
-
-//     // Init Viewer.js
-//     const viewerEl = document.getElementById('image-viewer-list');
-//     if (viewerEl) {
-//         new Viewer(viewerEl, {
-//             toolbar: true,
-//             navbar: false,
-//             title: true,
-//             tooltip: true,
-//             fullscreen: false,
-//             movable: true,
-//             zoomable: true,
-//         });
-//     }
-// }
-
 
 function renderEditFile(task) {
     const c = document.getElementById('edit-overlay-file-preview');
@@ -759,67 +622,6 @@ async function removeFileFromTask(id, index) {
     renderEditFile(task);
     console.log("Anhang entfernt");
 }
-
-// async function handleEditFileUpload(event, taskId) {
-//     const files = event.target.files;
-//     if (!files || files.length === 0) return;
-
-//     const id = taskId - 1;
-//     const task = await loadTaskWithID(id);
-//     if (!task) return;
-
-//     if (!Array.isArray(task.files)) {
-//         task.files = [];
-//     }
-
-//     for (let file of files) {
-//         const reader = new FileReader();
-//         reader.onload = async function (e) {
-//             const base64 = e.target.result;
-//             task.files.push({ name: file.name, base64 });
-//             await updateTaskInFirebase(`${BASE_URL}/tasks/${id}.json`, { files: task.files });
-//             renderEditFile(task); // neu rendern
-//         };
-//         reader.readAsDataURL(file);
-//     }
-// }
-
-
-
-// async function handleEditFileUpload(event, taskId) {
-//     const files = event.target.files;
-//     if (!files || files.length === 0) return;
-
-//     const id = taskId - 1;
-//     const task = await loadTaskWithID(id);
-//     if (!task) return;
-//     if (!Array.isArray(task.files)) task.files = [];
-
-//     let images = task.files.filter(f => f.base64?.startsWith('data:image/')).length;
-//     let pdfs = task.files.filter(f => f.base64?.startsWith('data:application/pdf')).length;
-
-//     for (let file of files) {
-//         const isImage = file.type === 'image/png' || file.type === 'image/jpeg';
-//         const isPDF = file.type === 'application/pdf';
-
-//         if (!isImage && !isPDF) continue;
-//         if (isImage && images >= 4) continue;
-//         if (isPDF && pdfs >= 2) continue;
-
-//         const reader = new FileReader();
-//         reader.onload = async function (e) {
-//             const base64 = e.target.result;
-//             task.files.push({ name: file.name, base64 });
-
-//             await updateTaskInFirebase(`${BASE_URL}/tasks/${id}.json`, { files: task.files });
-//             renderEditFile(task);
-//         };
-//         reader.readAsDataURL(file);
-
-//         if (isImage) images++;
-//         if (isPDF) pdfs++;
-//     }
-// }
 
 
 
