@@ -61,7 +61,9 @@ function renderOverlay(responseTaskJson) {
     <div class="pdf-hover-icon">👁️</div>
   </div>
   <div class="file-controls">
-    <button onclick="event.stopPropagation(); downloadFile('${base64}', '${file.name}')">⬇️</button>
+    <button onclick="event.stopPropagation(); downloadFile('${base64}', '${file.name}')">
+    <img src="data:image/svg+xml;base64,PHN2ZyBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjIiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNi44NjQgMy40MjRjLjUwMi0uMzAxIDEuMTM2LjA2MyAxLjEzNi42NDIgMCAuMjY0LS4xMzguNTA5LS4zNjUuNjQ0LTIuNDc2IDEuNDg2LTQuMTM1IDQuMTk3LTQuMTM1IDcuMjkyIDAgNC42OTEgMy44MDggOC40OTggOC40OTggOC40OThzOC40OTctMy44MDcgOC40OTctOC40OThjMC0zLjA5My0xLjY1Ni01LjgwMy00LjEzMS03LjI4OS0uMjI1LS4xMzYtLjM2NC0uMzgtLjM2NC0uNjQ0IDAtLjU4Mi42MzUtLjk0MyAxLjEzNy0uNjQyIDIuOTEgMS43NDggNC44NTggNC45MzYgNC44NTggOC41NzUgMCA1LjUxOS00LjQ3OSA5Ljk5OC05Ljk5NyA5Ljk5OHMtOS45OTgtNC40NzktOS45OTgtOS45OThjMC0zLjY0MSAxLjk1MS02LjgzIDQuODY0LTguNTc4em0uODMxIDguNTgyczIuMDI1IDIuMDIxIDMuNzc5IDMuNzc0Yy4xNDcuMTQ3LjMzOS4yMi41My4yMi4xOTIgMCAuMzg0LS4wNzMuNTMxLS4yMiAxLjc1My0xLjc1MiAzLjc3OS0zLjc3NSAzLjc3OS0zLjc3NS4xNDUtLjE0NS4yMTctLjMzNi4yMTctLjUyNiAwLS4xOTItLjA3NC0uMzg0LS4yMjEtLjUzMS0uMjkyLS4yOTMtLjc2Ni0uMjk0LTEuMDU2LS4wMDRsLTIuNSAyLjQ5OXYtMTAuNjkzYzAtLjQxNC0uMzM2LS43NS0uNzUtLjc1cy0uNzUuMzM2LS43NS43NXYxMC42OTNsLTIuNDk4LTIuNDk4Yy0uMjg5LS4yODktLjc2Mi0uMjg2LTEuMDU0LjAwNi0uMTQ3LjE0Ny0uMjIxLjMzOS0uMjIyLjUzMSAwIC4xOS4wNzEuMzguMjE1LjUyNHoiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvc3ZnPg==">
+    </button>
   </div>
 `;
 
@@ -149,22 +151,22 @@ async function renderOverlaySubtasks(responseTaskJson) {
 }
 
 function openPdfPreview(base64) {
-  const modal = document.getElementById('pdf-modal');
-  const frame = document.getElementById('pdf-frame');
-  frame.src = base64;
-  modal.style.display = 'flex';
+    const modal = document.getElementById('pdf-modal');
+    const frame = document.getElementById('pdf-frame');
+    frame.src = base64;
+    modal.style.display = 'flex';
 }
 
 function closeModal() {
-  const modal = document.getElementById('pdf-modal');
-  const frame = document.getElementById('pdf-frame');
-  modal.style.display = 'none';
-  frame.src = '';
+    const modal = document.getElementById('pdf-modal');
+    const frame = document.getElementById('pdf-frame');
+    modal.style.display = 'none';
+    frame.src = '';
 }
 
 function downloadFile(base64, filename) {
-  const link = document.createElement('a');
-  link.href = base64;
-  link.download = filename;
-  link.click();
+    const link = document.createElement('a');
+    link.href = base64;
+    link.download = filename;
+    link.click();
 }
