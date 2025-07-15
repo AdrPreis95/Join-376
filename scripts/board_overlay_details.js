@@ -75,7 +75,7 @@ function renderOverlay(responseTaskJson) {
                 preview = `
         <img src="${base64}" alt="${file.name}" style="max-width: 100px; border-radius: 4px; margin-top: 6px;">
         <div class="file-controls">
-            <button class="download-btn" onclick="event.stopPropagation(); downloadFile('${base64}', '${file.name}')">
+            <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${base64}', '${file.name}')">
                 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
                     <path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z"/>
                 </svg>

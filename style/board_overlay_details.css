@@ -223,7 +223,8 @@
     justify-content: center;
     text-align: center;
     gap: 4px;
-    box-shadow: 0 0 8px #29ABE2;
+    /* box-shadow: 0 0 8px #29ABE2; */
+    filter: drop-shadow(0px 0px 4px #D1D1D1);
     position: relative;
 }
 
@@ -330,8 +331,17 @@
 
 }
 
+.download-btn-img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* exakt zentrieren */
+    z-index: 2;
+}
+
 .preview-btn,
-.download-btn {
+.download-btn,
+.download-btn-img {
     width: 38px;
     height: 38px;
     background-color: #ffffff;
@@ -344,10 +354,10 @@
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 
-&:hover {
-  filter: drop-shadow(0px 0px 2px black);
-    
-}
+    &:hover {
+        filter: drop-shadow(0px 0px 2px black);
+
+    }
 }
 
 button svg {
