@@ -614,6 +614,14 @@ function showUploadPreview(newFiles) {
         const alreadyExists = uploadedFiles.some(f => f.name === file.name);
         if (alreadyExists) continue;
 
+        if (!isValidFileType(file)) {
+            const extMatch = file.name.match(/\.\w+$/);
+            const extension = extMatch ? extMatch[0] : "unknown";
+            showFileTypeWarning(extension);
+            continue;
+        }
+
+
         if (isPDF && pdfCount < MAX_PDFS) {
             uploadedFiles.push(file);
         } else if (isImage && imageCount < MAX_IMAGES) {
@@ -758,6 +766,19 @@ function closePdfModalAdd() {
             });
         }, 10);
     }
+}
+
+
+function showFileTypeWarning(extension) {
+    const overlay = document.getElementById('filetype-warning-overlay');
+    const typeSpan = document.getElementById('rejected-filetype');
+
+    typeSpan.textContent = extension.toLowerCase();
+    overlay.classList.add('show');
+
+    setTimeout(() => {
+        overlay.classList.remove('show');
+    }, 2000);
 }
 
 
