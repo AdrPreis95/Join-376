@@ -56,15 +56,19 @@ function renderOverlay(responseTaskJson) {
             let preview = "";
             if (isPDF) {
                 preview = `
-  <div class="pdf-preview-wrapper" onclick="openPdfPreview('${base64}')">
-    <embed src="${base64}" type="application/pdf" width="100px" height="100px" style="pointer-events: none; border-radius: 4px; margin-top: 6px;">
-    <div class="pdf-hover-icon">👁️</div>
-  </div>
-  <div class="file-controls">
-    <button onclick="event.stopPropagation(); downloadFile('${base64}', '${file.name}')">
-    <img src="data:image/svg+xml;base64,PHN2ZyBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgc3Ryb2tlLW1pdGVybGltaXQ9IjIiIHZpZXdCb3g9IjAgMCAyNCAyNCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBkPSJtNi44NjQgMy40MjRjLjUwMi0uMzAxIDEuMTM2LjA2MyAxLjEzNi42NDIgMCAuMjY0LS4xMzguNTA5LS4zNjUuNjQ0LTIuNDc2IDEuNDg2LTQuMTM1IDQuMTk3LTQuMTM1IDcuMjkyIDAgNC42OTEgMy44MDggOC40OTggOC40OTggOC40OThzOC40OTctMy44MDcgOC40OTctOC40OThjMC0zLjA5My0xLjY1Ni01LjgwMy00LjEzMS03LjI4OS0uMjI1LS4xMzYtLjM2NC0uMzgtLjM2NC0uNjQ0IDAtLjU4Mi42MzUtLjk0MyAxLjEzNy0uNjQyIDIuOTEgMS43NDggNC44NTggNC45MzYgNC44NTggOC41NzUgMCA1LjUxOS00LjQ3OSA5Ljk5OC05Ljk5NyA5Ljk5OHMtOS45OTgtNC40NzktOS45OTgtOS45OThjMC0zLjY0MSAxLjk1MS02LjgzIDQuODY0LTguNTc4em0uODMxIDguNTgyczIuMDI1IDIuMDIxIDMuNzc5IDMuNzc0Yy4xNDcuMTQ3LjMzOS4yMi41My4yMi4xOTIgMCAuMzg0LS4wNzMuNTMxLS4yMiAxLjc1My0xLjc1MiAzLjc3OS0zLjc3NSAzLjc3OS0zLjc3NS4xNDUtLjE0NS4yMTctLjMzNi4yMTctLjUyNiAwLS4xOTItLjA3NC0uMzg0LS4yMjEtLjUzMS0uMjkyLS4yOTMtLjc2Ni0uMjk0LTEuMDU2LS4wMDRsLTIuNSAyLjQ5OXYtMTAuNjkzYzAtLjQxNC0uMzM2LS43NS0uNzUtLjc1cy0uNzUuMzM2LS43NS43NXYxMC42OTNsLTIuNDk4LTIuNDk4Yy0uMjg5LS4yODktLjc2Mi0uMjg2LTEuMDU0LjAwNi0uMTQ3LjE0Ny0uMjIxLjMzOS0uMjIyLjUzMSAwIC4xOS4wNzEuMzguMjE1LjUyNHoiIGZpbGwtcnVsZT0ibm9uemVybyIvPjwvc3ZnPg==">
-    </button>
-  </div>
+  <div class="pdf-preview-wrapper">
+  <embed src="${base64}" type="application/pdf" width="100px" height="100px" style="pointer-events: none; border-radius: 4px; margin-top: 6px;">
+</div>
+<div class="file-controls">
+ 
+ <button class="preview-btn" onclick="event.stopPropagation(); openPdfPreview('${base64}')">
+ <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z" fill-rule="nonzero"/></svg>
+ </button>
+
+ <button class="download-btn" onclick="event.stopPropagation(); downloadFile('${base64}', '${file.name}')">
+ <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd"><path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z"/></svg>
+ </button>
+    </div>
 `;
 
             } else if (isIMG) {
