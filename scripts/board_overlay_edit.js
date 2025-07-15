@@ -573,36 +573,70 @@ async function saveEditSubtask(id, subtask) {
 
 
 function renderEditFile(task) {
-    const c = document.getElementById('edit-overlay-file-preview');
-    if (!c) return;
+    const container = document.getElementById('edit-overlay-file-preview');
+    if (!container) return;
     if (!Array.isArray(task.files)) task.files = [];
 
-    const imgs = task.files.map((f, i) => f.base64?.startsWith('data:image/')
-        ? `<li style="position:relative;">
-             <img src="${f.base64}" alt="${f.name}" style="max-height:200px; border-radius:4px; cursor:zoom-in;">
-             <button onclick="removeFileFromTask(${task.id}, ${i})" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.5);color:white;border:none;padding:2px 6px;border-radius:4px;cursor:pointer;">X</button>
-           </li>`
-        : '').join('');
+    container.innerHTML = `<div class="task-file viewer-gallery" id="viewer-${task.id}"></div>`;
+    const viewer = document.getElementById(`viewer-${task.id}`);
 
-    const files = task.files.map((f, i) => !f.base64?.startsWith('data:image/')
-        ? `<div style="margin-bottom:10px;">
-             ${f.base64?.startsWith('data:application/pdf')
-                 ? `<embed src="${f.base64}" type="application/pdf" width="100%" height="200px">`
-                 : `<a href="${f.base64}" download="${f.name}" target="_blank">📎 ${f.name}</a>`}
-             <button onclick="removeFileFromTask(${task.id}, ${i})" style="margin-top:8px;">🗑 Entfernen</button>
-           </div>`
-        : '').join('');
+    task.files.forEach((f, i) => {
+        const isImage = f.base64?.startsWith('data:image/');
+        const isPDF = f.base64?.startsWith('data:application/pdf');
+        const wrapper = document.createElement('div');
 
-    c.innerHTML = `
-        <ul id="image-viewer-list" style="display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;">${imgs}</ul>
-        ${files}
+        if (isImage) {
+            wrapper.innerHTML = `
+        <div class="pdf-preview-wrapper" style="position:relative;">
+            <img src="${f.base64}" alt="${f.name}" style="width:100%; height:80px; object-fit:cover; border-radius:6px; cursor:zoom-in;" />
+            
+            <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${f.base64}', '${f.name}')">
+                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+                    <path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z"/>
+                </svg>
+            </button>
+
+            <button class="delete-btn" onclick="event.stopPropagation(); removeFileFromTask(${task.id}, ${i})"
+                style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.5);color:white;border:none;padding:2px 6px;border-radius:4px;cursor:pointer;">
+                🗑
+            </button>
+        </div>
+    `;
+        }
+ 
+        else if (isPDF) {
+            wrapper.innerHTML = `
+                <div class="pdf-preview-wrapper" onclick="openPdfPreview('${f.base64}')">
+                    <embed src="${f.base64}" type="application/pdf" />
+                </div>
+                <div class="file-controls">
+                    <button class="preview-btn" onclick="event.stopPropagation(); openPdfPreview('${f.base64}')">
+                        <svg viewBox="0 0 24 24"><path d="M12 5c-4.1 0-7.7 3.1-9.9 6.5a1.1 1.1 0 000 1c2.2 3.4 5.8 6.5 9.9 6.5s7.7-3.1 9.9-6.5a1.1 1.1 0 000-1C19.7 8.1 16.1 5 12 5zm0 10a4 4 0 110-8 4 4 0 010 8z"/></svg>
+                    </button>
+                    <button class="download-btn" onclick="event.stopPropagation(); downloadFile('${f.base64}', '${f.name}')">
+                        <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+                            <path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z"/>
+                        </svg>
+                    </button>
+                    <button class="delete-btn" onclick="event.stopPropagation(); removeFileFromTask(${task.id}, ${i})">🗑</button>
+                </div>`;
+        }
+
+        viewer.appendChild(wrapper);
+    });
+
+    container.innerHTML += `
         <div style="margin-top:20px;">
             <label for="edit-file-upload" style="cursor:pointer;color:#0057ff;text-decoration:underline;">📎 Datei anhängen</label>
             <input type="file" id="edit-file-upload" multiple accept=".jpg,.jpeg,.png,.pdf" style="display:none;" onchange="handleEditFileUpload(event, ${task.id})">
         </div>`;
 
-    if (document.getElementById('image-viewer-list')) new Viewer(document.getElementById('image-viewer-list'));
+    if (document.getElementById(`viewer-${task.id}`)) {
+        new Viewer(document.getElementById(`viewer-${task.id}`));
+    }
+
 }
+
 
 
 async function removeFileFromTask(id, index) {
@@ -645,14 +679,14 @@ async function handleEditFileUpload(event, taskId) {
         const fileName = file.name.toLowerCase();
         const mimeType = file.type;
 
-        
+
         const isValidExtension = /\.(png|jpe?g|pdf)$/.test(fileName);
         const isValidMime = mimeType === 'image/png' || mimeType === 'image/jpeg' || mimeType === 'application/pdf';
 
         const isImage = mimeType.startsWith('image/');
         const isPDF = mimeType === 'application/pdf';
 
-       
+
         if (!isValidExtension || !isValidMime) {
             invalidFiles.push(file.name);
             continue;
@@ -682,7 +716,7 @@ async function handleEditFileUpload(event, taskId) {
         if (isPDF) pdfs++;
     }
 
-   
+
     if (invalidFiles.length > 0) {
         showUploadWarningOverlay(`❌ Ungültiges Dateiformat: ${invalidFiles.join(', ')}`);
     }
@@ -696,17 +730,17 @@ async function handleEditFileUpload(event, taskId) {
 
 
 function showUploadWarningOverlay(message) {
-  const overlay = document.getElementById('upload-warning-overlay');
-  const msgContainer = document.getElementById('upload-warning-message');
+    const overlay = document.getElementById('upload-warning-overlay');
+    const msgContainer = document.getElementById('upload-warning-message');
 
-  msgContainer.textContent = message;
-  overlay.classList.remove('hidden');
-  overlay.classList.add('show');
+    msgContainer.textContent = message;
+    overlay.classList.remove('hidden');
+    overlay.classList.add('show');
 
-  setTimeout(() => {
-    overlay.classList.remove('show');
-    overlay.classList.add('hidden');
-  }, 2000);
+    setTimeout(() => {
+        overlay.classList.remove('show');
+        overlay.classList.add('hidden');
+    }, 2000);
 }
 
 
