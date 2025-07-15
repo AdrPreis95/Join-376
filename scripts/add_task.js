@@ -85,6 +85,20 @@ async function createTask() {
     const files = uploadedFiles;
     if (!validateFileLimits(files)) return;
 
+   const allTypesValid = files.every(file => {
+    const type = file.type;
+    const name = file.name.toLowerCase();
+    const validImage = type.startsWith('image/') && /\.(png|jpe?g)$/.test(name);
+    const validPdf = type === 'application/pdf' && name.endsWith('.pdf');
+    return validImage || validPdf;
+});
+
+if (!allTypesValid) {
+    showSecurityOverlay("File type not allowed due to security restrictions.");
+    return;
+}
+
+
     prepareSubtasksAndContacts();
     let newID = await generateNewID();
 
@@ -97,6 +111,25 @@ async function createTask() {
 }
 
 
+function showSecurityOverlay(message) {
+    const overlay = document.createElement("div");
+    overlay.innerText = message;
+    overlay.style.position = "fixed";
+    overlay.style.top = "20px";
+    overlay.style.left = "50%";
+    overlay.style.transform = "translateX(-50%)";
+    overlay.style.backgroundColor = "#ff4444";
+    overlay.style.color = "white";
+    overlay.style.padding = "12px 20px";
+    overlay.style.borderRadius = "8px";
+    overlay.style.zIndex = "9999";
+    overlay.style.boxShadow = "0 0 10px rgba(0,0,0,0.3)";
+    overlay.style.fontWeight = "bold";
+    overlay.style.fontSize = "16px";
+
+    document.body.appendChild(overlay);
+    setTimeout(() => overlay.remove(), 2000);
+}
 
 
 /**
