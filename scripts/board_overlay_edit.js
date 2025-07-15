@@ -637,26 +637,34 @@ async function handleEditFileUpload(event, taskId) {
     let images = task.files.filter(f => f.base64?.startsWith('data:image/')).length;
     let pdfs = task.files.filter(f => f.base64?.startsWith('data:application/pdf')).length;
 
+    let invalidFiles = [];
+    let tooManyImages = false;
+    let tooManyPDFs = false;
+
     for (let file of files) {
         const fileName = file.name.toLowerCase();
-        const isImage = file.type === 'image/png' || file.type === 'image/jpeg';
-        const isPDF = file.type === 'application/pdf';
+        const mimeType = file.type;
 
-        const validExtension = /\.(png|jpe?g|pdf)$/.test(fileName);
-        const validMime = isImage || isPDF;
+        
+        const isValidExtension = /\.(png|jpe?g|pdf)$/.test(fileName);
+        const isValidMime = mimeType === 'image/png' || mimeType === 'image/jpeg' || mimeType === 'application/pdf';
 
-        if (!validExtension || !validMime) {
-            alert(`❌ Ungültiges Dateiformat: "${file.name}". Nur PNG, JPG, JPEG und PDF sind erlaubt.`);
+        const isImage = mimeType.startsWith('image/');
+        const isPDF = mimeType === 'application/pdf';
+
+       
+        if (!isValidExtension || !isValidMime) {
+            invalidFiles.push(file.name);
             continue;
         }
 
         if (isImage && images >= 4) {
-            alert(`⚠️ Du kannst nur 4 Bilder anhängen. "${file.name}" wurde nicht hochgeladen.`);
+            tooManyImages = true;
             continue;
         }
 
         if (isPDF && pdfs >= 2) {
-            alert(`⚠️ Du kannst nur 2 PDFs anhängen. "${file.name}" wurde nicht hochgeladen.`);
+            tooManyPDFs = true;
             continue;
         }
 
@@ -673,7 +681,32 @@ async function handleEditFileUpload(event, taskId) {
         if (isImage) images++;
         if (isPDF) pdfs++;
     }
+
+   
+    if (invalidFiles.length > 0) {
+        showUploadWarningOverlay(`❌ Ungültiges Dateiformat: ${invalidFiles.join(', ')}`);
+    }
+    if (tooManyImages) {
+        showUploadWarningOverlay(`⚠️ Maximal 4 Bilder erlaubt.`);
+    }
+    if (tooManyPDFs) {
+        showUploadWarningOverlay(`⚠️ Maximal 2 PDFs erlaubt.`);
+    }
 }
 
+
+function showUploadWarningOverlay(message) {
+  const overlay = document.getElementById('upload-warning-overlay');
+  const msgContainer = document.getElementById('upload-warning-message');
+
+  msgContainer.textContent = message;
+  overlay.classList.remove('hidden');
+  overlay.classList.add('show');
+
+  setTimeout(() => {
+    overlay.classList.remove('show');
+    overlay.classList.add('hidden');
+  }, 2000);
+}
 
 
