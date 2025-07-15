@@ -561,7 +561,7 @@ function resizeAndConvertImage(file, maxWidth, maxHeight, quality = 0.8) {
                 let width = img.width;
                 let height = img.height;
 
-              
+
                 if (width > maxWidth || height > maxHeight) {
                     if (width > height) {
                         height = height * (maxWidth / width);
@@ -597,7 +597,13 @@ function showUploadPreview(newFiles) {
     const container = document.getElementById('file-preview-container');
     const warningContainer = document.getElementById('file-limit-warning');
 
-  
+    // Reset
+    container.innerHTML = '';
+    if (container.viewer) {
+        container.viewer.destroy();
+    }
+
+    // Neue Dateien hinzufügen
     for (let file of newFiles) {
         const isPDF = file.name.toLowerCase().endsWith('.pdf');
         const isImage = file.type.startsWith('image/');
@@ -615,20 +621,16 @@ function showUploadPreview(newFiles) {
         }
     }
 
-    
-    container.innerHTML = '';
-
+    // Vorschau generieren
     uploadedFiles.forEach((file, index) => {
         const fileName = file.name.toLowerCase();
 
         if (fileName.endsWith('.pdf')) {
             container.innerHTML += `
-        <div class="file-preview">
-            <span style="cursor:pointer;" onclick="openPdfViewerAdd('${URL.createObjectURL(file)}')">📎 ${file.name}</span>
-            <button onclick="removePreviewFile(${index})">X</button>
-        </div>`;
-
-
+                <div class="file-preview">
+                    <span style="cursor:pointer;" onclick="openPdfViewerAdd('${URL.createObjectURL(file)}')">📎 ${file.name}</span>
+                    <button onclick="removePreviewFile(${index})">X</button>
+                </div>`;
         } else if (fileName.match(/\.(png|jpe?g)$/)) {
             const reader = new FileReader();
             reader.onload = () => {
@@ -638,24 +640,23 @@ function showUploadPreview(newFiles) {
                         <button onclick="removePreviewFile(${index})">X</button>
                     </div>`;
 
-             
+                // Viewer.js nach dem letzten Bild initialisieren
                 if (index === uploadedFiles.length - 1) {
-                    if (container.viewer) {
-                        container.viewer.destroy();
-                    }
-                    container.viewer = new Viewer(container, {
-                        toolbar: true,
-                        navbar: false,
-                        title: true,
-                        tooltip: true
-                    });
+                    setTimeout(() => {
+                        container.viewer = new Viewer(container, {
+                            toolbar: true,
+                            navbar: false,
+                            title: true,
+                            tooltip: true
+                        });
+                    }, 0);
                 }
             };
             reader.readAsDataURL(file);
         }
     });
 
-    
+    // Warnung
     const pdfs = uploadedFiles.filter(f => f.name.toLowerCase().endsWith('.pdf')).length;
     const imgs = uploadedFiles.filter(f => f.type.startsWith('image/')).length;
 
@@ -665,6 +666,7 @@ function showUploadPreview(newFiles) {
 
     warningContainer.innerText = warnings.join(' • ');
 }
+
 
 
 function removePreviewFile(index) {
@@ -741,7 +743,23 @@ function closePdfModalAdd() {
     const iframe = document.getElementById("pdf-frame-add");
     iframe.src = "";
     modal.style.display = "none";
+    const container = document.getElementById('file-preview-container');
+    const images = container.querySelectorAll('img.viewer-image');
+    if (images.length > 0) {
+        if (container.viewer) {
+            container.viewer.destroy();
+        }
+        setTimeout(() => {
+            container.viewer = new Viewer(container, {
+                toolbar: true,
+                navbar: false,
+                title: true,
+                tooltip: true
+            });
+        }, 10);
+    }
 }
+
 
 
 
