@@ -257,6 +257,20 @@
             <img class="success-icon" src="./assets/icons/board_icon.png" alt="boardicon">
         </div>
     </div>
+
+    <div id="image-viewer-overlay" class="image-viewer hidden">
+        <span id="image-viewer-close" onclick="closeImageViewer()">×</span>
+        <img id="image-viewer-img" src="" alt="Preview">
+        <div id="image-dimensions" class="dimensions-info"></div>
+    </div>
+
+    <div id="pdf-modal-add" class="modal" onclick="closePdfModalAdd()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <iframe id="pdf-frame-add" src="" frameborder="0"></iframe>
+        </div>
+    </div>
+
+
     <script src="scripts/add_task.js"></script>
 </body>
 

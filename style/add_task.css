@@ -877,3 +877,69 @@ label[for="file-select"] img:hover {
     padding: 0;
     margin: 0;
 }
+
+
+
+.image-viewer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  flex-direction: column;
+}
+.image-viewer img {
+  max-width: 90%;
+  max-height: 80%;
+  border: 2px solid white;
+  box-shadow: 0 0 10px #000;
+}
+.image-viewer.hidden {
+  display: none;
+}
+#image-viewer-close {
+  color: white;
+  font-size: 32px;
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  cursor: pointer;
+}
+#image-dimensions {
+  color: white;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+#pdf-modal-add {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+#pdf-modal-add .modal-content {
+    width: 80%;
+    height: 90%;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#pdf-frame-add {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
