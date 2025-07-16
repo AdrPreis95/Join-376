@@ -415,8 +415,8 @@
 .delete-btn-edit {
 
     position: absolute;
-    top: -2px;
-    right: -2px;
+    top: -5px;
+    right: -5px;
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -433,6 +433,10 @@
     padding: 0;
     margin: 0;
 
+    &:hover {
+        color: #29ABE2;
+        filter: drop-shadow(0px 0px 2px black);
+    }
 }
 
 .file-controls {
@@ -442,9 +446,17 @@
     justify-content: center;
 }
 
+.file-name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    max-width: 120px;
+}
+
 svg {
     z-index: 10000;
-   
+
 }
 
 svg :hover {
