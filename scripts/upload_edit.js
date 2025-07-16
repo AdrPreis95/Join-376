@@ -15,7 +15,9 @@ function renderEditFile(task) {
 
         if (isImage) {
             wrapper.innerHTML = `
+              <button class="delete-btn-edit" onclick="event.stopPropagation(); removeFileFromTask(${task.id}, ${i})">X</button>
                 <div class="pdf-preview-wrapper">
+    
                     <span class="file-type-label">Type: Image</span>
                     <img src="${f.base64}" alt="${f.name}" class="edit-file-image" />
                     <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${f.base64}', '${f.name}')">
@@ -23,14 +25,15 @@ function renderEditFile(task) {
                             <path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z"/>
                         </svg>
                     </button>
-                    <button class="delete-btn" onclick="event.stopPropagation(); removeFileFromTask(${task.id}, ${i})">🗑</button>
                     <div class="file-name">${f.name}</div>
                 </div>`;
         }
 
         else if (isPDF) {
             wrapper.innerHTML = `
+             <button class="delete-btn-edit" onclick="event.stopPropagation(); removeFileFromTask(${task.id}, ${i})">X</button>
                 <div class="pdf-preview-wrapper" onclick="openPdfPreview('${f.base64}')">
+                 
                     <span class="file-type-label">Type: PDF</span>
                     <embed src="${f.base64}" type="application/pdf" />
                     <div class="file-controls">
@@ -42,7 +45,7 @@ function renderEditFile(task) {
                                 <path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z"/>
                             </svg>
                         </button>
-                        <button class="delete-btn" onclick="event.stopPropagation(); removeFileFromTask(${task.id}, ${i})">🗑</button>
+                      
                     </div>
                     <div class="file-name">${f.name}</div>
                 </div>`;
@@ -51,11 +54,20 @@ function renderEditFile(task) {
         viewer.appendChild(wrapper);
     });
 
-    container.innerHTML += `
-        <div style="margin-top:20px;">
-            <label for="edit-file-upload" style="cursor:pointer;color:#0057ff;text-decoration:underline;">📎 Datei anhängen</label>
-            <input type="file" id="edit-file-upload" multiple accept=".jpg,.jpeg,.png,.pdf" style="display:none;" onchange="handleEditFileUpload(event, ${task.id})">
-        </div>`;
+   container.innerHTML += `
+    <div style="margin-top: 20px; display: flex; align-items: center; gap: 8px;">
+        <label for="edit-file-upload" style="cursor: pointer;">
+            <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+                viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                <path d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+                    fill="currentcolor" />
+            </svg>
+        </label>
+        <input type="file" id="edit-file-upload" multiple accept=".jpg,.jpeg,.png,.pdf"
+            style="display:none;" onchange="handleEditFileUpload(event, ${task.id})">
+    </div>
+`;
+
 
     if (document.getElementById(`viewer-${task.id}`)) {
         new Viewer(document.getElementById(`viewer-${task.id}`));

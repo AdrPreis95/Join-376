@@ -412,11 +412,11 @@
     display: none;
 }
 
-.delete-btn {
+.delete-btn-edit {
 
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: -2px;
+    right: -2px;
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -433,4 +433,24 @@
     padding: 0;
     margin: 0;
 
+}
+
+.file-controls {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: center;
+}
+
+svg {
+    z-index: 10000;
+   
+}
+
+svg :hover {
+    color: #29ABE2 !important;
+    color: #29ABE2;
+    font-size: 16px;
+    font-weight: 400;
+    fill: #29ABE2;
 }
