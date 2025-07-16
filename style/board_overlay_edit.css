@@ -449,6 +449,16 @@
     overflow: hidden;
     width: 100%;
     max-width: 120px;
+    font-size: 11px;
+    text-align: center;
+    color: #555;
+    margin-top: 6px;
+    word-break: break-word;
+}
+
+.file-type-label {
+    font-size: 0.85rem;
+    color: #777;
 }
 
 svg {
