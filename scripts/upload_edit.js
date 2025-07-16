@@ -38,7 +38,7 @@ function renderEditFile(task) {
                     <embed src="${f.base64}" type="application/pdf" />
                     <div class="file-controls">
                         <button class="preview-btn" onclick="event.stopPropagation(); openPdfPreview('${f.base64}')">
-                            <svg viewBox="0 0 24 24"><path d="M12 5c-4.1 0-7.7 3.1-9.9 6.5a1.1 1.1 0 000 1c2.2 3.4 5.8 6.5 9.9 6.5s7.7-3.1 9.9-6.5a1.1 1.1 0 000-1C19.7 8.1 16.1 5 12 5zm0 10a4 4 0 110-8 4 4 0 010 8z"/></svg>
+                        <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z" fill-rule="nonzero"/></svg>
                         </button>
                         <button class="download-btn" onclick="event.stopPropagation(); downloadFile('${f.base64}', '${f.name}')">
                             <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
