@@ -373,23 +373,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-/**
- * This function selects the selected users and saves them in an array.
- * @param {number} id 
- */
-// async function selectedUserEdit(id) {
-//     let responseJson = await loadTaskWithID(id);
-//     let usersFirstLetters = [];
-//     let colors = [];
-//     for (let i = 0; i < responseJson.assignedTo.length; i++) {
-//         let firstName = responseJson.assignedTo[i].firstName[0];
-//         let lastName = responseJson.assignedTo[i].lastName[0];
-//         let firstLetter = firstName + lastName;
-//         usersFirstLetters.push(firstLetter);
-//         colors.push(responseJson.assignedTo[i].color);
-//     }
-//     renderOverlayEditUser(usersFirstLetters, colors)
-// }
+
 async function selectedUserEdit(id) {
     let responseJson = await loadTaskWithID(id);
     let usersFirstLetters = [];
@@ -587,38 +571,36 @@ function renderEditFile(task) {
 
         if (isImage) {
             wrapper.innerHTML = `
-        <div class="pdf-preview-wrapper" style="position:relative;">
-            <img src="${f.base64}" alt="${f.name}" style="width:100%; height:80px; object-fit:cover; border-radius:6px; cursor:zoom-in;" />
-            
-            <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${f.base64}', '${f.name}')">
-                <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
-                    <path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z"/>
-                </svg>
-            </button>
-
-            <button class="delete-btn" onclick="event.stopPropagation(); removeFileFromTask(${task.id}, ${i})"
-                style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.5);color:white;border:none;padding:2px 6px;border-radius:4px;cursor:pointer;">
-                🗑
-            </button>
-        </div>
-    `;
-        }
- 
-        else if (isPDF) {
-            wrapper.innerHTML = `
-                <div class="pdf-preview-wrapper" onclick="openPdfPreview('${f.base64}')">
-                    <embed src="${f.base64}" type="application/pdf" />
-                </div>
-                <div class="file-controls">
-                    <button class="preview-btn" onclick="event.stopPropagation(); openPdfPreview('${f.base64}')">
-                        <svg viewBox="0 0 24 24"><path d="M12 5c-4.1 0-7.7 3.1-9.9 6.5a1.1 1.1 0 000 1c2.2 3.4 5.8 6.5 9.9 6.5s7.7-3.1 9.9-6.5a1.1 1.1 0 000-1C19.7 8.1 16.1 5 12 5zm0 10a4 4 0 110-8 4 4 0 010 8z"/></svg>
-                    </button>
-                    <button class="download-btn" onclick="event.stopPropagation(); downloadFile('${f.base64}', '${f.name}')">
+                <div class="pdf-preview-wrapper">
+                    <span class="file-type-label">Type: Image</span>
+                    <img src="${f.base64}" alt="${f.name}" class="edit-file-image" />
+                    <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${f.base64}', '${f.name}')">
                         <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
                             <path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z"/>
                         </svg>
                     </button>
                     <button class="delete-btn" onclick="event.stopPropagation(); removeFileFromTask(${task.id}, ${i})">🗑</button>
+                    <div class="file-name">${f.name}</div>
+                </div>`;
+        }
+
+        else if (isPDF) {
+            wrapper.innerHTML = `
+                <div class="pdf-preview-wrapper" onclick="openPdfPreview('${f.base64}')">
+                    <span class="file-type-label">Type: PDF</span>
+                    <embed src="${f.base64}" type="application/pdf" />
+                    <div class="file-controls">
+                        <button class="preview-btn" onclick="event.stopPropagation(); openPdfPreview('${f.base64}')">
+                            <svg viewBox="0 0 24 24"><path d="M12 5c-4.1 0-7.7 3.1-9.9 6.5a1.1 1.1 0 000 1c2.2 3.4 5.8 6.5 9.9 6.5s7.7-3.1 9.9-6.5a1.1 1.1 0 000-1C19.7 8.1 16.1 5 12 5zm0 10a4 4 0 110-8 4 4 0 010 8z"/></svg>
+                        </button>
+                        <button class="download-btn" onclick="event.stopPropagation(); downloadFile('${f.base64}', '${f.name}')">
+                            <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+                                <path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z"/>
+                            </svg>
+                        </button>
+                        <button class="delete-btn" onclick="event.stopPropagation(); removeFileFromTask(${task.id}, ${i})">🗑</button>
+                    </div>
+                    <div class="file-name">${f.name}</div>
                 </div>`;
         }
 
@@ -634,9 +616,7 @@ function renderEditFile(task) {
     if (document.getElementById(`viewer-${task.id}`)) {
         new Viewer(document.getElementById(`viewer-${task.id}`));
     }
-
 }
-
 
 
 async function removeFileFromTask(id, index) {
