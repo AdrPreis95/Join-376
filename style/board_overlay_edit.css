@@ -412,8 +412,8 @@
 .delete-btn-edit {
 
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: -2px;
+    right: -2px;
     width: 24px;
     height: 24px;
     border-radius: 50%;

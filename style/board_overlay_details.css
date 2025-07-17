@@ -216,7 +216,7 @@
     height: 128px;
     border-radius: 8px;
     background-color: #fff;
-    /* overflow: hidden; */
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -238,6 +238,10 @@
     object-fit: cover;
     object-position: center;
     cursor: zoom-in;
+
+    &:hover {
+        transform: scale(2.5) !important;
+    }
 }
 
 
