@@ -226,6 +226,7 @@
     /* box-shadow: 0 0 8px #29ABE2; */
     filter: drop-shadow(0px 0px 4px #D1D1D1);
     position: relative;
+    cursor: default !important;
 }
 
 .task-file.viewer-gallery>div img {
@@ -315,11 +316,12 @@
     position: relative;
     border-radius: 10px;
     background: white;
-    cursor: pointer;
+    cursor: default !important;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
+
 }
 
 
