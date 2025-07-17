@@ -359,6 +359,27 @@
         height: 0px;
         background-color: #D1D1D1;
     }
+
+   
+}
+
+@media (max-width: 900px) {
+    #file-preview-container {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+        justify-items: center;
+    }
+}
+
+
+@media (max-width: 400px) {
+    #file-preview-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 16px;
+        justify-items: center;
+    }
 }
 
 /* ⬇️⬇️⬇️SUMMARY-RESPONSIVE⬇️⬇️⬇️ */

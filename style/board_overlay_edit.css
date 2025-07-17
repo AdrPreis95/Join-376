@@ -454,6 +454,7 @@
     color: #555;
     margin-top: 6px;
     word-break: break-word;
+    cursor: default;
 }
 
 .file-type-label {

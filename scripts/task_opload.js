@@ -276,3 +276,11 @@ function showFileTypeWarning(extension) {
     }, 2000);
 }
 
+const container = document.getElementById('file-preview-container');
+const previews = container.querySelectorAll('.file-preview');
+
+if (previews.length >= 4) { 
+  container.classList.add('full');
+} else {
+  container.classList.remove('full');
+}

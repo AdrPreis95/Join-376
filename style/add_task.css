@@ -809,7 +809,11 @@ select {
     gap: 8px;
     max-width: 100%;
     align-items: center;
-    /* flex-wrap: wrap; später mit responsive nachfügen  */
+    justify-content: flex-start;
+}
+
+#file-preview-container.full {
+    justify-content: space-between;
 }
 
 .file-preview {
@@ -820,11 +824,14 @@ select {
     background-color: #FFFFFF;
     filter: drop-shadow(0px 0px 4px #D1D1D1);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    /* overflow: hidden; */
     font-size: 14px;
+    /* padding: 4px;  */
 }
+
 
 
 .file-preview img {
@@ -837,19 +844,24 @@ select {
 
 
 .file-preview span {
-    display: block;
-    padding: 4px;
-    max-width: 90%;
+    width: 100%;
+    font-size: 12px;
+    padding: 4px 2px 0;
     text-align: center;
-    white-space: nowrap !important;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-size: 12px;
+    display: block;
+    background-color: transparent;
+    color: #000;
 }
+
 
 
 label[for="file-select"] img {
     transition: 0.2s;
+    margin-top: 28px;
+    margin-bottom: 28px;
 }
 
 label[for="file-select"] img:hover {
@@ -859,8 +871,8 @@ label[for="file-select"] img:hover {
 
 .file-preview button {
     position: absolute;
-    top: -1px;
-    right: -2px;
+    top: -5px;
+    right: -5px;
     width: 24px;
     height: 24px;
     border-radius: 50%;
@@ -876,44 +888,53 @@ label[for="file-select"] img:hover {
     z-index: 1;
     padding: 0;
     margin: 0;
+
+    &:hover {
+        color: #29ABE2;
+        filter: drop-shadow(0px 0px 2px black);
+    }
 }
 
 
 
 .image-viewer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0,0,0,0.9);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-  flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    flex-direction: column;
 }
+
 .image-viewer img {
-  max-width: 90%;
-  max-height: 80%;
-  border: 2px solid white;
-  box-shadow: 0 0 10px #000;
+    max-width: 90%;
+    max-height: 80%;
+    border: 2px solid white;
+    box-shadow: 0 0 10px #000;
 }
+
 .image-viewer.hidden {
-  display: none;
+    display: none;
 }
+
 #image-viewer-close {
-  color: white;
-  font-size: 32px;
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  cursor: pointer;
+    color: white;
+    font-size: 32px;
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    cursor: pointer;
 }
+
 #image-dimensions {
-  color: white;
-  margin-top: 10px;
-  font-size: 16px;
+    color: white;
+    margin-top: 10px;
+    font-size: 16px;
 }
 
 #pdf-modal-add {
@@ -945,30 +966,36 @@ label[for="file-select"] img:hover {
 
 
 .warning-overlay {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: #ff2e2e;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: bold;
-  box-shadow: 0 0 10px rgba(0,0,0,0.3);
-  display: none;
-  z-index: 9999;
-  opacity: 0;
-  transition: opacity 0.3s ease;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ff2e2e;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    display: none;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
+
 .warning-overlay.show {
-  display: block;
-  opacity: 1;
+    display: block;
+    opacity: 1;
 }
-.overlay-upload-warning{
+
+.overlay-upload-warning {
     height: 100vh;
     width: 100%;
-   background-color: rgba(255, 46, 46, 0.8); 
+    background-color: rgba(255, 46, 46, 0.8);
 
 }
 
-
+#file-limit-warning {
+    text-align: left !important;
+    margin-top: 18px !important;
+    margin-bottom: 18px !important;
+}

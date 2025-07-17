@@ -54,7 +54,7 @@ function renderEditFile(task) {
         viewer.appendChild(wrapper);
     });
 
-   container.innerHTML += `
+    container.innerHTML += `
     <div style="margin-top: 20px; display: flex; align-items: center; gap: 8px;">
         <label for="edit-file-upload" style="cursor: pointer;">
             <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -154,13 +154,14 @@ async function handleEditFileUpload(event, taskId) {
 
 
     if (invalidFiles.length > 0) {
-        showUploadWarningOverlay(`❌ Ungültiges Dateiformat: ${invalidFiles.join(', ')}`);
+        showUploadWarningOverlay(`Invalid file format – not allowed: ${invalidFiles.join(', ')}`);
     }
     if (tooManyImages) {
-        showUploadWarningOverlay(`⚠️ Maximal 4 Bilder erlaubt.`);
+        showUploadWarningOverlay(`Maximum of 4 images reached!!!
+`);
     }
     if (tooManyPDFs) {
-        showUploadWarningOverlay(`⚠️ Maximal 2 PDFs erlaubt.`);
+        showUploadWarningOverlay(` Maximum of 2 PDFs reached!!!`);
     }
 }
 
@@ -176,7 +177,7 @@ function showUploadWarningOverlay(message) {
     setTimeout(() => {
         overlay.classList.remove('show');
         overlay.classList.add('hidden');
-    }, 2000);
+    }, 3000);
 }
 
 
