@@ -308,3 +308,15 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     top: 168px;
     display: none;
 }
+
+.viewer-backdrop {
+    background-color: rgba(0, 0, 0, .96) !important;
+}
+
+.viewer-footer {
+    background-color: #29abe2 !important;
+}
+
+.viewer-title {
+    color: black !important;
+}
