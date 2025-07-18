@@ -81,6 +81,7 @@ function renderOverlay(responseTaskJson) {
                     <path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z"/>
                 </svg>
             </button>
+            <div class="file-name" style="font-size: 11px; text-align: center; color: #555; margin-top: 6px; word-break: break-word;">${file.name}</div>
         </div>
     `;
             }

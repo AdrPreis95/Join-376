@@ -30,7 +30,7 @@ function renderEditFile(task) {
     if (fileName.endsWith(".pdf")) {
         container.innerHTML = `
             <object data="${task.file.base64}" type="application/pdf" width="100%" height="300px">
-                <p>PDF kann nicht angezeigt werden. <a href="${task.file.base64}" target="_blank">PDF öffnen</a></p>
+                <p>PDF cannot showed. <a href="${task.file.base64}" target="_blank">PDF öffnen</a></p>
             </object>
             <button onclick="removeFileFromTask(${task.id})">Anhang entfernen</button>
         `;
@@ -84,21 +84,7 @@ function resizeAndConvertImage(file, maxWidth, maxHeight, quality = 0.8) {
     });
 }
 
-
-const MAX_IMAGES = 4;
-const MAX_PDFS = 2;
-
-function showUploadPreview(newFiles) {
-    const container = document.getElementById('file-preview-container');
-    const warningContainer = document.getElementById('file-limit-warning');
-
-    // Reset
-    container.innerHTML = '';
-    if (container.viewer) {
-        container.viewer.destroy();
-    }
-
-    // Neue Dateien hinzufügen
+function handleNewFiles(newFiles) {
     for (let file of newFiles) {
         const isPDF = file.name.toLowerCase().endsWith('.pdf');
         const isImage = file.type.startsWith('image/');
@@ -116,15 +102,20 @@ function showUploadPreview(newFiles) {
             continue;
         }
 
-
         if (isPDF && pdfCount < MAX_PDFS) {
             uploadedFiles.push(file);
         } else if (isImage && imageCount < MAX_IMAGES) {
             uploadedFiles.push(file);
         }
     }
+}
 
-    // Vorschau generieren
+function renderUploadPreview() {
+    const container = document.getElementById('file-preview-container');
+    container.innerHTML = '';
+
+    const imageReaders = [];
+
     uploadedFiles.forEach((file, index) => {
         const fileName = file.name.toLowerCase();
 
@@ -136,45 +127,67 @@ function showUploadPreview(newFiles) {
                 </div>`;
         } else if (fileName.match(/\.(png|jpe?g)$/)) {
             const reader = new FileReader();
-            reader.onload = () => {
-                container.innerHTML += `
-                    <div class="file-preview">
-                        <img src="${reader.result}" alt="${file.name}" class="viewer-image" style="max-width: 100px; cursor: pointer;">
-                        <button onclick="removePreviewFile(${index})">X</button>
-                    </div>`;
 
-                // Viewer.js nach dem letzten Bild initialisieren
-                if (index === uploadedFiles.length - 1) {
-                    setTimeout(() => {
-                        container.viewer = new Viewer(container, {
-                            toolbar: true,
-                            navbar: false,
-                            title: true,
-                            tooltip: true
-                        });
-                    }, 0);
-                }
-            };
+            const readPromise = new Promise((resolve) => {
+                reader.onload = () => {
+                    container.innerHTML += `
+                        <div class="file-preview">
+                            <img src="${reader.result}" alt="${file.name}" class="viewer-image" style="max-width: 100px; cursor: pointer;">
+                            <button onclick="removePreviewFile(${index})">X</button>
+                        </div>`;
+                    resolve();
+                };
+            });
+
             reader.readAsDataURL(file);
+            imageReaders.push(readPromise);
         }
     });
 
-    // Warnung
+    // Jetzt warten wir auf alle Bilder – DANN wird Viewer initialisiert
+    Promise.all(imageReaders).then(() => {
+        container.viewer = new Viewer(container, {
+            toolbar: true,
+            navbar: false,
+            title: true,
+            tooltip: true
+        });
+    });
+}
+
+
+function updateUploadWarnings() {
+    const warningContainer = document.getElementById('file-limit-warning');
     const pdfs = uploadedFiles.filter(f => f.name.toLowerCase().endsWith('.pdf')).length;
     const imgs = uploadedFiles.filter(f => f.type.startsWith('image/')).length;
 
     let warnings = [];
-    if (imgs >= MAX_IMAGES) warnings.push(`Maximal ${MAX_IMAGES} Bilder erlaubt`);
-    if (pdfs >= MAX_PDFS) warnings.push(`Maximal ${MAX_PDFS} PDFs erlaubt`);
+    if (imgs >= MAX_IMAGES) warnings.push(`Maximum ${MAX_IMAGES} images allowed`);
+    if (pdfs >= MAX_PDFS) warnings.push(`Maximum ${MAX_PDFS} PDFs allowed`);
 
     warningContainer.innerText = warnings.join(' • ');
+}
+
+const MAX_IMAGES = 4;
+const MAX_PDFS = 2;
+
+function showUploadPreview(newFiles) {
+    const container = document.getElementById('file-preview-container');
+    if (container.viewer) {
+        container.viewer.destroy();
+    }
+    container.innerHTML = '';
+
+    handleNewFiles(newFiles);
+    renderUploadPreview();
+    updateUploadWarnings();
 }
 
 
 
 function removePreviewFile(index) {
     uploadedFiles.splice(index, 1);
-    showUploadPreview([]); // ruft nur die Vorschau neu auf
+    showUploadPreview([]); 
 }
 
 
@@ -199,17 +212,19 @@ async function processFiles(files) {
 
     return [...images, ...pdfs];
 }
+
+
 function validateFileLimits(files) {
     const imageCount = files.filter(f => f.type.startsWith('image/')).length;
     const pdfCount = files.filter(f => f.type === 'application/pdf').length;
 
     if (imageCount > 4) {
-        alert("Maximal 4 Bilder erlaubt.");
+        alert("Maximum 4 Images allowed.");
         return false;
     }
 
     if (pdfCount > 2) {
-        alert("Maximal 2 PDFs erlaubt.");
+        alert("Maximum 2 PDFs allowed.");
         return false;
     }
 
@@ -222,17 +237,18 @@ function validateFileLimits(files) {
     const pdfs = files.filter(file => file.type === 'application/pdf');
 
     if (images.length > 4) {
-        alert("Maximal 4 Bilder erlaubt!");
+        alert("Maximum 4 Images allowed!");
         return false;
     }
 
     if (pdfs.length > 2) {
-        alert("Maximal 2 PDFs erlaubt!");
+        alert("Maximum 2 PDFs allowed!");
         return false;
     }
 
     return true;
 }
+
 
 function openPdfViewerAdd(base64Url) {
     const modal = document.getElementById("pdf-modal-add");
@@ -240,6 +256,7 @@ function openPdfViewerAdd(base64Url) {
     iframe.src = base64Url;
     modal.style.display = "flex";
 }
+
 
 function closePdfModalAdd() {
     const modal = document.getElementById("pdf-modal-add");
@@ -273,7 +290,7 @@ function showFileTypeWarning(extension) {
 
     setTimeout(() => {
         overlay.classList.remove('show');
-    }, 2000);
+    }, 3000);
 }
 
 const container = document.getElementById('file-preview-container');

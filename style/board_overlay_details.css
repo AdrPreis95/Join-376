@@ -238,9 +238,11 @@
     object-fit: cover;
     object-position: center;
     cursor: zoom-in;
+    margin-top: 0px !important;
 
     &:hover {
         transform: scale(2.5) !important;
+        transition: transform 0.5s ease-in-out !important;
     }
 }
 
@@ -382,4 +384,18 @@ button:hover svg {
     font-size: 16px;
     font-weight: 400;
     fill: #29ABE2;
+}
+
+.file-name {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 100%;
+    max-width: 120px;
+    font-size: 11px;
+    text-align: center;
+    color: #555;
+    margin-top: 6px;
+    word-break: break-word;
+    cursor: default;
 }

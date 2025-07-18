@@ -138,16 +138,16 @@ function showSecurityOverlay(message) {
  */
 function convertToBase64(file) {
     return new Promise((resolve, reject) => {
-        const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf']; // beliebig erweiterbar
-        const maxSize = 1 * 1024 * 1024; // max. 1 MB
+        const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf'];
+        const maxSize = 1 * 1024 * 1024; 
 
         if (!allowedTypes.includes(file.type)) {
-            alert(`Dateityp ${file.type} wird nicht unterstützt.`);
+            alert(`File type ${file.type} is not supported.`);
             return resolve({ base64: "", name: file.name });
         }
 
         if (file.size > maxSize) {
-            alert("Datei ist zu groß. Maximal erlaubt: 1 MB.");
+            alert("File size too large. Maximum allowed: 1 MB.");
             return resolve({ base64: "", name: file.name });
         }
 
@@ -159,11 +159,12 @@ function convertToBase64(file) {
         };
 
         reader.onerror = (error) => {
-            console.error("Fehler beim Einlesen der Datei:", error);
+            console.error("Error reading file:", error);
             resolve({ base64: "", name: file.name });
         };
     });
 }
+
 
 
 /**
@@ -242,7 +243,6 @@ async function saveTask(newTask) {
             body: JSON.stringify(newTask),
         });
 
-        // Erfolgsmeldung anzeigen
         const successOverlay = document.getElementById('success-overlay');
         if (successOverlay) {
             successOverlay.style.display = 'flex';
@@ -263,7 +263,7 @@ async function saveTask(newTask) {
             console.error('Element mit der ID "success-overlay" wurde nicht gefunden.');
         }
     } catch (error) {
-        console.error("Fehler beim Speichern des Tasks:", error);
+        console.error(" Task Save Error:", error);
     }
 }
 
