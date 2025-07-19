@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: board.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: board.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+let BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
+let currentDraggedElement;
+let activePriority = '';
+let titles = [];
+let descriptions = [];
+let loadedTasks = [];
+
+
+/**
+ * This function loads all tasks from Firebase at the start and renders them into the HTML template.
+ */
+async function loadTasks() {
+    let tasks = await fetch(BASE_URL + "/tasks.json")
+    let tasksJson = await tasks.json();
+    clearLists();
+    renderTasks(tasksJson);
+    saveInArray(tasksJson);
+}
+
+/**
+ * This function uses the index to search for the ID of the object in order to load the correct data from Firebase.
+ * @param {number} id 
+ * @returns Returns the ID of the object
+ */
+async function findKey(id) {
+    let response = await fetch(BASE_URL + "/tasks.json");
+    let responseJson = await response.json();
+    let keys = Object.keys(responseJson);
+    let key = keys[id];
+    return key;
+}
+
+/**
+ * This function saves the title and description of the tasks in an array for the search function.
+ * @param {object} tasksJson - The tasks are all transferred in this object.
+ */
+function saveInArray(tasksJson) {
+    loadedTasks = tasksJson;
+    for (let i = 0; i &lt; tasksJson.length; i++) {
+        titles.push(tasksJson[i].title);
+        descriptions.push(tasksJson[i].description);
+    }
+}
+
+/**
+ * The function searches for a match in the title or description and then renders the task found.
+ */
+async function searchTask(type, e) {
+    var keynum = pressedKey(e); // To check if the backspace key is pressed  
+    let keyword = getKeyWord(type); 
+    let response = await fetch(BASE_URL + "/tasks.json");
+    let responseJson = await response.json();
+
+    const matchedTasks = responseJson.filter((task) => (task.title.toLowerCase().includes(keyword) || 
+                                                        task.description.toLowerCase().includes(keyword)));
+
+    showSearchResults(matchedTasks, responseJson, keynum);
+}
+
+function pressedKey(e) {
+    if(window.e) { // IE                  
+        return keynum = e.keyCode;
+    } else if(e.which){ // Netscape/Firefox/Opera                 
+        return keynum = e.which;
+    }
+}
+
+function getKeyWord(type){
+    if (type == "responsive") {
+        document.getElementById('find-task').value = document.getElementById('find-task-responsive').value;
+        return document.getElementById('find-task-responsive').value.toLowerCase();
+    } else {
+        document.getElementById('find-task-responsive').value = document.getElementById('find-task').value;
+        return keyword = document.getElementById('find-task').value.toLowerCase();
+    } 
+}
+
+function showSearchResults(matchedTasks, responseJson, keynum) {
+    if (matchedTasks.length > 0 &amp;&amp; keynum != 8) {
+        clearLists();
+        renderTasks(matchedTasks);
+    } else {
+        clearLists();
+        renderTasks(responseJson);
+        if (keyword != ""  &amp;&amp; keynum != 8)
+            noResults();
+    }
+}
+
+function noResults() {
+    let popUp = document.getElementById("search-notification");
+    popUp.classList.remove("d-none");
+    setTimeout(() => {
+        popUp.classList.add("d-none");
+      }, "1500");
+}
+
+/**
+ * This function initially empties all lists.
+ */
+function clearLists() {
+    document.getElementById('to-do').innerHTML = "";
+    document.getElementById('in-progress').innerHTML = "";
+    document.getElementById('await-feedback').innerHTML = "";
+    document.getElementById('done').innerHTML = "";
+}
+
+/**
+ * This function renders the tasks in the HTML template.
+ * @param {object} tasksJson - The tasks are all transferred in this object.
+ */
+function renderTasks(tasksJson) {
+    for (let i = 0; i &lt; Object.keys(tasksJson).length; i++) {
+        let tasksArray = Object.values(tasksJson);
+        let id = tasksArray[i].id;
+        let list = tasksArray[i].list;
+        let category = tasksArray[i].category;
+        let classCategory = checkCategory(category);
+        let title = tasksArray[i].title;
+        let description = tasksArray[i].description;
+        let prioIcon = findPrio(tasksArray[i].prio);
+
+        let selectList = document.getElementById(`${list}`);
+        if (selectList)
+            selectList.innerHTML += getTask(id, category, classCategory, title, description, prioIcon);
+
+        if (tasksArray[i].subtasks != undefined) {
+            calculateSubtaskProgress(tasksArray[i].subtasks, id);
+        }
+        renderFirstLetter(tasksArray[i].assignedTo, id);
+    }
+    checkEmptyList();
+}
+
+/**
+ * This function checks whether a list is empty. If this is the case, a placeholder is rendered.
+ */
+function checkEmptyList() {
+    let toDoRef = document.getElementById('to-do');
+    let inProgressRef = document.getElementById('in-progress');
+    let awaitFeedbackRef = document.getElementById('await-feedback');
+    let doneRef = document.getElementById('done');
+    let ref = [toDoRef, inProgressRef, awaitFeedbackRef, doneRef];
+    let listNames = ['to do', 'in progress', 'await feedback', 'done']
+
+    for (let i = 0; i &lt; ref.length; i++) {
+        if (ref[i].innerHTML == '') {
+            ref[i].innerHTML = getClearList(listNames[i]);
+        }
+    }
+}
+
+/**
+ * This function checks which category a task belongs to in order to display the label correctly.
+ */
+function checkCategory(category) {
+    if (category == 'Technical Task') {
+        classCategory = 'technical-task';
+    } else {
+        classCategory = 'user-story';
+    }
+    return classCategory;
+}
+
+/**
+ * This function calculates the progress of the processing of the individual subtasks and renders them.
+ * @param {array} subtasks - The subtasks are transferred to calculate the progress.
+ * @param {number} id - The Id shows which subtasks belong to which task.
+ */
+function calculateSubtaskProgress(subtasks, id) {
+    let allSubtasks = subtasks.length;
+    let doneTasks = 0;
+    let notDoneTasks = 0;
+
+    for (let i = 0; i &lt; subtasks.length; i++) {
+        if (subtasks[i].status == 'done') {
+            doneTasks++;
+        } else if (subtasks[i].status == 'not done') {
+            notDoneTasks++;
+        }
+    }
+    let progress = doneTasks / allSubtasks * 100;
+    document.getElementById('subtask-' + id).innerHTML = getSubtask(doneTasks, allSubtasks, progress)
+}
+
+/**
+ * This function searches for the first letter of the first name and the last name and renders these letters respectively.
+ * @param {array} user - All users are transferred in an array.
+ * @param {number} id - The Id to render the correct letters.
+ */
+function renderFirstLetter(user, id) {
+    let firstLetters = [];
+    let colors = [];
+
+    if (user !== undefined){
+        for (let i = 0; i &lt; user.length; i++) {
+            let firstName = user[i].firstName[0];
+            let lastName = user[i].lastName[0];
+            let color = user[i].color;
+            let firstLetter = firstName + lastName;
+            firstLetters.push(firstLetter);
+            colors.push(color);
+        }
+    }
+    if (firstLetters.length &lt;= 5) {
+        for (let j = 0; j &lt; firstLetters.length; j++) {
+            document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);
+        }
+    } else {
+        for (let j = 0; j &lt; 5; j++) {
+            document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);
+        }
+        document.getElementById('more-user-' + id).innerHTML = getMoreUser(firstLetters.length - 5);
+    }
+}
+
+/**
+ * This function determines the priority and then returns the URL for the correct icon.
+ * @param {string} priority - The priority of the task.
+ * @returns URL from the priority icon.
+ */
+function findPrio(priority) {
+    if (priority == 'Urgent') {
+        prioIcon = './assets/icons/urgent_icon.png';
+    } else if (priority == 'Low') {
+        prioIcon = './assets/icons/low_icon.png';
+    } else if (priority == 'Medium') {
+        prioIcon = './assets/icons/medium_icon.png';
+    }
+    return prioIcon;
+}
+
+/**
+ * This function saves the task to be moved and adds a CSS class to high-light the task.
+ * @param {number} id - The Id of the element to be moved.
+ */
+function startDragging(id) {
+    currentDraggedElement = id;
+    document.getElementById(currentDraggedElement).classList.add('drag-area-highlight');
+}
+
+function removeDragging(id) {
+    document.getElementById(id).classList.remove('drag-area-highlight');
+}
+
+/**
+ * This function allows you to move the div-container.
+ * @param {event} ev - This is the event.
+ */
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+/**
+ * This function saves the new list in Firebase.
+ * @param {*} list - The current list is transferred here.
+ */
+async function changeList(list) {
+    currentDraggedElement--;
+    currentDraggedElement = await findKey(currentDraggedElement);
+    let task = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json")
+    let taskJson = await task.json();
+    taskJson.list = list;
+    let newList = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(taskJson)
+    });
+    loadTasks();
+}
+
+/**
+ * This function deletes a task.
+ * @param {number} id - Transfers the ID of the task to be deleted.
+ */
+async function deleteTask(id) {
+    let tasks = await fetch(BASE_URL + "/tasks.json");
+    let tasksJson = await tasks.json();
+    tasksJson = Array.isArray(tasksJson) ? tasksJson : Object.values(tasksJson);
+    const removeTaskById = (tasksJson, id) =>
+    tasksJson.filter(task => task.id !== id);
+    let updatedTasks = removeTaskById(tasksJson, id);
+    var newId = 1;
+    for (var i in updatedTasks) {
+        updatedTasks[i].id = newId;
+        newId++;
+    }
+    let responseTask = await fetch(BASE_URL + "/tasks.json", {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedTasks)
+    });
+    closeOverlay();
+    loadTasks();
+}
+
+function openAddTask() {
+    let btnAddTaskResponsive = document.querySelector(".add-task-button-responsive");
+    if (window.getComputedStyle(btnAddTaskResponsive).display == 'none') {
+        openTaskOverlay();
+    } else {
+        window.location.href = "./add_task.html";
+    }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#allowDrop">allowDrop</a></li><li><a href="global.html#calculateSubtaskProgress">calculateSubtaskProgress</a></li><li><a href="global.html#changeList">changeList</a></li><li><a href="global.html#checkCategory">checkCategory</a></li><li><a href="global.html#checkEmptyList">checkEmptyList</a></li><li><a href="global.html#clearLists">clearLists</a></li><li><a href="global.html#deleteTask">deleteTask</a></li><li><a href="global.html#determineUserInfo">determineUserInfo</a></li><li><a href="global.html#findKey">findKey</a></li><li><a href="global.html#findPrio">findPrio</a></li><li><a href="global.html#loadTasks">loadTasks</a></li><li><a href="global.html#renderFirstLetter">renderFirstLetter</a></li><li><a href="global.html#renderOverlay">renderOverlay</a></li><li><a href="global.html#renderOverlaySubtasks">renderOverlaySubtasks</a></li><li><a href="global.html#renderOverlayUser">renderOverlayUser</a></li><li><a href="global.html#renderTasks">renderTasks</a></li><li><a href="global.html#saveInArray">saveInArray</a></li><li><a href="global.html#searchTask">searchTask</a></li><li><a href="global.html#showOverlayDetailsTask">showOverlayDetailsTask</a></li><li><a href="global.html#startDragging">startDragging</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Sun Nov 17 2024 14:00:05 GMT+0100 (Mitteleuropäische Normalzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
