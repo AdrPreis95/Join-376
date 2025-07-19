@@ -1006,3 +1006,7 @@ label[for="file-select"] img:hover {
     margin-top: 18px !important;
     margin-bottom: 18px !important;
 }
+
+.overlay-close {
+    display: none;
+}

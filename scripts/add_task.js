@@ -532,7 +532,13 @@ function formatContact(contact) {
     return { ...contact, firstName, lastName };
 }
 
-
+  function closeOverlayFromIframe() {
+      if (window.parent && typeof window.parent.closeTaskOverlay === 'function') {
+        window.parent.closeTaskOverlay();
+      } else {
+        console.warn("❌ closeTaskOverlay() not available in parent window");
+      }
+    }
 
 
 

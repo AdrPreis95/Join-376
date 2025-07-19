@@ -1,4 +1,32 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: upload_edit.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: upload_edit.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  * Renders the file preview section in edit mode.
  * Initializes image viewer and upload input.
  * @param {Object} task - The task object containing file data.
@@ -8,7 +36,7 @@ function renderEditFile(task) {
     if (!container) return;
     if (!Array.isArray(task.files)) task.files = [];
 
-    container.innerHTML = `<div class="task-file viewer-gallery" id="viewer-${task.id}"></div>`;
+    container.innerHTML = `&lt;div class="task-file viewer-gallery" id="viewer-${task.id}">&lt;/div>`;
     const viewer = document.getElementById(`viewer-${task.id}`);
     renderEachFile(task, viewer);
     renderUploadInput(container, task.id);
@@ -47,15 +75,15 @@ function renderEachFile(task, viewer) {
  */
 function getImageMarkup(file, index, taskId) {
     return `
-      <button class="delete-btn-edit" onclick="event.stopPropagation(); removeFileFromTask(${taskId}, ${index})">X</button>
-      <div class="pdf-preview-wrapper">
-          <span class="file-type-label">Type: Image</span>
-          <img src="${file.base64}" alt="${file.name}" class="edit-file-image" />
-          <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${file.base64}', '${file.name}')">
+      &lt;button class="delete-btn-edit" onclick="event.stopPropagation(); removeFileFromTask(${taskId}, ${index})">X&lt;/button>
+      &lt;div class="pdf-preview-wrapper">
+          &lt;span class="file-type-label">Type: Image&lt;/span>
+          &lt;img src="${file.base64}" alt="${file.name}" class="edit-file-image" />
+          &lt;button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${file.base64}', '${file.name}')">
               ${getDownloadIcon()}
-          </button>
-          <div class="file-name">${file.name}</div>
-      </div>`;
+          &lt;/button>
+          &lt;div class="file-name">${file.name}&lt;/div>
+      &lt;/div>`;
 }
 
 
@@ -68,20 +96,20 @@ function getImageMarkup(file, index, taskId) {
  */
 function getPdfMarkup(file, index, taskId) {
     return `
-      <button class="delete-btn-edit" onclick="event.stopPropagation(); removeFileFromTask(${taskId}, ${index})">X</button>
-      <div class="pdf-preview-wrapper" onclick="openPdfPreview('${file.base64}')">
-          <span class="file-type-label">Type: PDF</span>
-          <embed src="${file.base64}" type="application/pdf" />
-          <div class="file-controls">
-              <button class="preview-btn" onclick="event.stopPropagation(); openPdfPreview('${file.base64}')">
+      &lt;button class="delete-btn-edit" onclick="event.stopPropagation(); removeFileFromTask(${taskId}, ${index})">X&lt;/button>
+      &lt;div class="pdf-preview-wrapper" onclick="openPdfPreview('${file.base64}')">
+          &lt;span class="file-type-label">Type: PDF&lt;/span>
+          &lt;embed src="${file.base64}" type="application/pdf" />
+          &lt;div class="file-controls">
+              &lt;button class="preview-btn" onclick="event.stopPropagation(); openPdfPreview('${file.base64}')">
                   ${getEyeIcon()}
-              </button>
-              <button class="download-btn" onclick="event.stopPropagation(); downloadFile('${file.base64}', '${file.name}')">
+              &lt;/button>
+              &lt;button class="download-btn" onclick="event.stopPropagation(); downloadFile('${file.base64}', '${file.name}')">
                   ${getDownloadIcon()}
-              </button>
-          </div>
-          <div class="file-name">${file.name}</div>
-      </div>`;
+              &lt;/button>
+          &lt;/div>
+          &lt;div class="file-name">${file.name}&lt;/div>
+      &lt;/div>`;
 }
 
 
@@ -92,13 +120,13 @@ function getPdfMarkup(file, index, taskId) {
  */
 function renderUploadInput(container, taskId) {
     container.innerHTML += `
-      <div style="margin-top: 20px; display: flex; align-items: center; gap: 8px;">
-          <label for="edit-file-upload" style="cursor: pointer;">
+      &lt;div style="margin-top: 20px; display: flex; align-items: center; gap: 8px;">
+          &lt;label for="edit-file-upload" style="cursor: pointer;">
               ${getPlusIcon()}
-          </label>
-          <input type="file" id="edit-file-upload" multiple accept=".jpg,.jpeg,.png,.pdf"
+          &lt;/label>
+          &lt;input type="file" id="edit-file-upload" multiple accept=".jpg,.jpeg,.png,.pdf"
               style="display:none;" onchange="handleEditFileUpload(event, ${taskId})">
-      </div>
+      &lt;/div>
     `;
 }
 
@@ -118,9 +146,9 @@ function initViewer(taskId) {
  */
 function getDownloadIcon() {
     return `
-    <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
-        <path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z" />
-    </svg>`
+    &lt;svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
+        &lt;path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z" />
+    &lt;/svg>`
 }
 
 
@@ -130,10 +158,10 @@ function getDownloadIcon() {
  */
 function getEyeIcon() {
     return `
-    <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+    &lt;svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z" fill-rule="nonzero" />
-    </svg>`
+        &lt;path d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z" fill-rule="nonzero" />
+    &lt;/svg>`
 }
 
 /**
@@ -142,11 +170,11 @@ function getEyeIcon() {
  */
 function getPlusIcon() {
     return `
-    <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
+    &lt;svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
         viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
-        <path d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
+        &lt;path d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z"
             fill="currentcolor" />
-    </svg>`
+    &lt;/svg>`
 }
 
 
@@ -234,12 +262,12 @@ async function processSelectedFiles({ files, task, id, counters, flags }) {
             continue;
         }
 
-        if (isImage && counters.images >= 4) {
+        if (isImage &amp;&amp; counters.images >= 4) {
             flags.tooManyImages = true;
             continue;
         }
 
-        if (isPDF && counters.pdfs >= 2) {
+        if (isPDF &amp;&amp; counters.pdfs >= 2) {
             flags.tooManyPDFs = true;
             continue;
         }
@@ -303,3 +331,26 @@ function showUploadWarningOverlay(message) {
 }
 
 
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#MAX_IMAGES">MAX_IMAGES</a></li><li><a href="global.html#MAX_PDFS">MAX_PDFS</a></li><li><a href="global.html#closePdfModalAdd">closePdfModalAdd</a></li><li><a href="global.html#container">container</a></li><li><a href="global.html#convertToBase64">convertToBase64</a></li><li><a href="global.html#countFilesOfType">countFilesOfType</a></li><li><a href="global.html#createResizedCanvas">createResizedCanvas</a></li><li><a href="global.html#finalizeImageViewer">finalizeImageViewer</a></li><li><a href="global.html#getDownloadIcon">getDownloadIcon</a></li><li><a href="global.html#getEyeIcon">getEyeIcon</a></li><li><a href="global.html#getImageMarkup">getImageMarkup</a></li><li><a href="global.html#getPdfMarkup">getPdfMarkup</a></li><li><a href="global.html#getPlusIcon">getPlusIcon</a></li><li><a href="global.html#handleEditFileUpload">handleEditFileUpload</a></li><li><a href="global.html#handleImageLoad">handleImageLoad</a></li><li><a href="global.html#handleNewFiles">handleNewFiles</a></li><li><a href="global.html#initViewer">initViewer</a></li><li><a href="global.html#isValidFileType">isValidFileType</a></li><li><a href="global.html#openPdfViewerAdd">openPdfViewerAdd</a></li><li><a href="global.html#processFiles">processFiles</a></li><li><a href="global.html#processSelectedFiles">processSelectedFiles</a></li><li><a href="global.html#readAndRenderImage">readAndRenderImage</a></li><li><a href="global.html#readAndSaveFile">readAndSaveFile</a></li><li><a href="global.html#removeFileFromTask">removeFileFromTask</a></li><li><a href="global.html#removePreviewFile">removePreviewFile</a></li><li><a href="global.html#renderEachFile">renderEachFile</a></li><li><a href="global.html#renderEditFile">renderEditFile</a></li><li><a href="global.html#renderPDFPreview">renderPDFPreview</a></li><li><a href="global.html#renderUploadInput">renderUploadInput</a></li><li><a href="global.html#renderUploadPreview">renderUploadPreview</a></li><li><a href="global.html#resizeAndConvertImage">resizeAndConvertImage</a></li><li><a href="global.html#showFileTypeWarning">showFileTypeWarning</a></li><li><a href="global.html#showUploadPreview">showUploadPreview</a></li><li><a href="global.html#showUploadWarningOverlay">showUploadWarningOverlay</a></li><li><a href="global.html#showUploadWarnings">showUploadWarnings</a></li><li><a href="global.html#updateUploadWarnings">updateUploadWarnings</a></li><li><a href="global.html#validateFileLimits">validateFileLimits</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.4</a> on Sat Jul 19 2025 20:44:01 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
