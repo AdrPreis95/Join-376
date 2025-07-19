@@ -123,6 +123,7 @@ header {
     background-color: #F6F7F8;
     overflow: auto;
     text-align: left;
+    position: relative;
 }
 
 .main-content h1 {

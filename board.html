@@ -212,10 +212,11 @@
   <script src="./scripts/drag_drop.js"></script>
 
   <div id="taskoverlay" class="overlay hidden">
-    <iframe src="./add_task.html" id="overlayContent"></iframe>
-    <button class="overlay-close" id="closeOverlay" onclick="closeTaskOverlay()">
+     <button class="overlay-close" id="closeOverlay" onclick="closeTaskOverlay()">
       <img class="closebttn" src="./assets/icons/clear-icon.png" alt="ClearIcon">
     </button>
+    <iframe src="./add_task.html" id="overlayContent"></iframe>
+   
   </div>
   <div id="pdf-modal" class="modal" onclick="closeModal()">
     <div class="modal-content" onclick="event.stopPropagation()">

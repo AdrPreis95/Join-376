@@ -13,16 +13,16 @@ function monitorMediaQuery() {
   function handleMediaChange(e) {
       if (e.matches && isOverlayModeActive()) {
           console.log("Screen width > 1150px and overlay is active. Redirecting to the main page.");
-          window.location.href = 'main.html'; // Adjust URL to your main page
+          window.location.href = 'main.html'; 
       }
   }
 
-  mediaQueryListener = handleMediaChange; // Store listener for cleanup
+  mediaQueryListener = handleMediaChange; 
   mediaQuery.addEventListener('change', handleMediaChange);
 
-  // Initial check if media query matches and overlay is active
+  
   if (mediaQuery.matches && isOverlayModeActive()) {
-      window.location.href = 'main.html'; // Adjust URL to your main page
+      window.location.href = 'main.html'; 
   }
 }
 

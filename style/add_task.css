@@ -840,20 +840,27 @@ select {
     object-fit: cover;
     border-radius: 10px;
     display: block;
+    cursor: zoom-in !important;
 }
 
 
 .file-preview span {
-    width: 100%;
+    width: 68px;
     font-size: 12px;
     padding: 4px 2px 0;
     text-align: center;
-    white-space: nowrap;
+    /* white-space: nowrap; */
     overflow: hidden;
     text-overflow: ellipsis;
     display: block;
     background-color: transparent;
-    color: #000;
+    color: black;
+    text-overflow: ellipsis;
+    cursor: zoom-in !important;
+
+    &:hover {
+        color: #29ABE2;
+    }
 }
 
 

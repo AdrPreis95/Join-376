@@ -239,6 +239,7 @@
     object-position: center;
     cursor: zoom-in;
     margin-top: 0px !important;
+    background-color: darkgray;
 
     &:hover {
         transform: scale(2.5) !important;

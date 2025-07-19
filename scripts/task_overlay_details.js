@@ -28,8 +28,8 @@ function applyStylesToIframe(iframe, cssContent) {
 function closeTaskOverlay() {
     const overlay = document.getElementById('task-overlay');
     if (overlay) {
-        overlay.style.display = 'none'; // Hide the overlay
-        clearTask(); // Reset the overlay contents
+        overlay.style.display = 'none'; 
+        clearTask(); 
     }
 }
 
