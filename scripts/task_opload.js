@@ -219,12 +219,18 @@ function renderPDFPreview(file, index, container) {
  */
 function readAndRenderImage(file, index, container) {
     const reader = new FileReader();
-
     const promise = new Promise((resolve) => {
         reader.onload = () => {
+            const size = formatBytes(file.size);
+            const type = file.type;
+            const total = uploadedFiles.filter(f => f.type.startsWith('image/')).length;
             container.innerHTML += `
                 <div class="file-preview">
-                    <img src="${reader.result}" alt="${file.name}" class="viewer-image" style="max-width: 100px; cursor: pointer;">
+                    <img 
+                        src="${reader.result}" 
+                        alt="${file.name} | ${type} | ${size} " 
+                        class="viewer-image" 
+                        style="max-width: 100px; cursor: pointer;">
                     <button onclick="removePreviewFile(${index})">X</button>
                 </div>`;
             resolve();
@@ -234,6 +240,15 @@ function readAndRenderImage(file, index, container) {
     reader.readAsDataURL(file);
     return promise;
 }
+
+
+function formatBytes(bytes) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    if (bytes === 0) return '0 Bytes';
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+}
+
 
 
 /**

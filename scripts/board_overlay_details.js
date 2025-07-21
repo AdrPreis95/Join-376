@@ -73,8 +73,10 @@ function renderOverlay(responseTaskJson) {
             }
 
             else if (isIMG) {
-                preview = `
-        <img src="${base64}" alt="${file.name}" style="max-width: 100px; border-radius: 4px; margin-top: 6px;">
+                preview = `<img src="${base64}" 
+    alt="${file.name} | ${file.type} | ${formatBytes(file.size)}" 
+    style="max-width: 100px; border-radius: 4px; margin-top: 6px;">
+
         <div class="file-controls">
             <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${base64}', '${file.name}')">
                 <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
@@ -100,6 +102,12 @@ function renderOverlay(responseTaskJson) {
     }
 }
 
+function formatBytes(bytes) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    if (bytes === 0) return '0 Bytes';
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+}
 
 
 /**

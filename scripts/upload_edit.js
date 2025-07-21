@@ -50,7 +50,11 @@ function getImageMarkup(file, index, taskId) {
       <button class="delete-btn-edit" onclick="event.stopPropagation(); removeFileFromTask(${taskId}, ${index})">X</button>
       <div class="pdf-preview-wrapper">
           <span class="file-type-label">Type: Image</span>
-          <img src="${file.base64}" alt="${file.name}" class="edit-file-image" />
+         <img 
+  src="${file.base64}" 
+  alt="${file.name} | ${file.type || 'image/jpeg'} | ${formatBytes(file.size || 0)}" 
+  class="edit-file-image" />
+
           <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${file.base64}', '${file.name}')">
               ${getDownloadIcon()}
           </button>
@@ -58,6 +62,12 @@ function getImageMarkup(file, index, taskId) {
       </div>`;
 }
 
+function formatBytes(bytes) {
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    if (bytes === 0) return '0 Bytes';
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
+}
 
 /**
  * Returns HTML markup for a PDF file with preview and download options.
@@ -259,7 +269,13 @@ async function readAndSaveFile(file, task, id) {
         const reader = new FileReader();
         reader.onload = async function (e) {
             const base64 = e.target.result;
-            task.files.push({ name: file.name, base64 });
+            task.files.push({
+                name: file.name,
+                base64,
+                size: file.size,
+                type: file.type
+            });
+
             await updateTaskInFirebase(`${BASE_URL}/tasks/${id}.json`, { files: task.files });
             renderEditFile(task);
             resolve();
