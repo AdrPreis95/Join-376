@@ -365,10 +365,17 @@ function addLetterHeader(container, letter) {
     `;
 }
 
+// function getInitials(name) {
+//     const nameParts = name.split(' ');
+//     return nameParts[0][0].toUpperCase() + (nameParts[1] ? nameParts[1][0].toUpperCase() : '');
+// }
+
 function getInitials(name) {
-    const nameParts = name.split(' ');
-    return nameParts[0][0].toUpperCase() + (nameParts[1] ? nameParts[1][0].toUpperCase() : '');
+    if (!name || typeof name !== 'string') return '';
+    const nameParts = name.trim().split(' ');
+    return nameParts[0]?.[0]?.toUpperCase() + (nameParts[1]?.[0]?.toUpperCase() || '');
 }
+
 
 function getRandomColor() {
     const colors = ['#ff7a00', '#9327ff', '#6e52ff', '#fc71ff', '#ffbb2b', '#1fd7c1', '#462f8a', '#ff4646', '#00bee8'];

@@ -195,9 +195,7 @@ async function signUpUser() {
  * @param {Array} users
  */
 function checkFoundUser(email, users) {
-    // Use Object.values() to get an array of user objects.
     const userArray = Object.values(users);
-    // Use .find() to locate the user with the desired email.
     const foundUser = userArray.find(u => u.email === email.value);
 
     return foundUser != undefined;
@@ -221,7 +219,7 @@ function checkPrivacyPolicy(inputCheckbox) {
     if (privacyAccepted.value == 'true') {
         return true;
     } else {
-        //privacy policy must be accepted
+    
         notificationPopUp("Privacy policy must be accepted!");
         inputCheckbox.classList.add('unchecked-privacy');
         privacyAccepted.focus();
