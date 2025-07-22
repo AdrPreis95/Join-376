@@ -17,7 +17,7 @@ let allContacts = [];
 /** @type {Array<Object>} */
 let selectedContacts = [];
 
-let uploadedFiles = [];
+window.uploadedFiles = [];
 
 
 /**
@@ -105,7 +105,6 @@ async function createTask() {
 
     let newTask = buildNewTask(newID, title, description, dueDate, category, color, processedFiles);
     await saveTask(newTask);
-
 
 }
 

@@ -72,13 +72,20 @@ function renderEditFile(task) {
  */
 function resizeAndConvertImage(file, maxWidth, maxHeight, quality = 0.8) {
     return new Promise((resolve, reject) => {
+        if (!(file instanceof File)) {
+            console.error(" resizeAndConvertImage → Ungültiger Dateityp übergeben:", file);
+            return reject(new TypeError("Kein gültiges File-Objekt übergeben"));
+        }
+
         const reader = new FileReader();
         reader.readAsDataURL(file);
 
-        reader.onload = (event) => handleImageLoad(event, file, maxWidth, maxHeight, quality, resolve, reject);
+        reader.onload = (event) =>
+            handleImageLoad(event, file, maxWidth, maxHeight, quality, resolve, reject);
         reader.onerror = (error) => reject(error);
     });
 }
+
 
 
 /**
@@ -101,16 +108,20 @@ function handleImageLoad(event, file, maxWidth, maxHeight, quality, resolve, rej
         ctx.drawImage(img, 0, 0, width, height);
 
         const base64 = canvas.toDataURL("image/jpeg", quality);
+        const newName = file.name.replace(/\.(png|jpeg|jpg)$/i, '.jpg');
+
         resolve({
             base64,
-            name: file.name,
-            size: file.size,
-            type: file.type
+            name: newName,
+            size: Math.round((base64.length * 3) / 4),
+            type: "image/jpeg"
         });
     };
 
     img.onerror = (error) => reject(error);
 }
+
+
 
 
 /**
@@ -145,31 +156,30 @@ function createResizedCanvas(img, maxWidth, maxHeight) {
  * Handles new file uploads: validates and adds images or PDFs to uploadedFiles.
  * @param {FileList|File[]} newFiles - List of selected files.
  */
-function handleNewFiles(newFiles) {
+async function handleNewFiles(newFiles) {
     for (let file of newFiles) {
         const isPDF = file.name.toLowerCase().endsWith('.pdf');
         const isImage = file.type.startsWith('image/');
-
         const pdfCount = uploadedFiles.filter(f => f.name.toLowerCase().endsWith('.pdf')).length;
         const imageCount = uploadedFiles.filter(f => f.type.startsWith('image/')).length;
-
         const alreadyExists = uploadedFiles.some(f => f.name === file.name);
         if (alreadyExists) continue;
-
         if (!isValidFileType(file)) {
             const extMatch = file.name.match(/\.\w+$/);
             const extension = extMatch ? extMatch[0] : "unknown";
             showFileTypeWarning(extension);
             continue;
         }
-
         if (isPDF && pdfCount < MAX_PDFS) {
-            uploadedFiles.push(file);
+            const converted = await convertToBase64(file);
+            uploadedFiles.push(converted);
         } else if (isImage && imageCount < MAX_IMAGES) {
-            uploadedFiles.push(file);
+            const compressed = await resizeAndConvertImage(file, 800, 800, 0.8);
+            uploadedFiles.push(compressed);
         }
     }
 }
+
 
 
 /**
@@ -181,11 +191,9 @@ function renderUploadPreview() {
     const imageReaders = [];
 
     uploadedFiles.forEach((file, index) => {
-        const fileName = file.name.toLowerCase();
-
-        if (fileName.endsWith('.pdf')) {
+        if (file.type === 'application/pdf') {
             renderPDFPreview(file, index, container);
-        } else if (fileName.match(/\.(png|jpe?g)$/)) {
+        } else if (file.type === 'image/jpeg') {
             const promise = readAndRenderImage(file, index, container);
             imageReaders.push(promise);
         }
@@ -193,6 +201,7 @@ function renderUploadPreview() {
 
     finalizeImageViewer(container, imageReaders);
 }
+
 
 
 /**
@@ -204,10 +213,11 @@ function renderUploadPreview() {
 function renderPDFPreview(file, index, container) {
     container.innerHTML += `
         <div class="file-preview">
-            <span style="cursor:pointer;" onclick="openPdfViewerAdd('${URL.createObjectURL(file)}')">📎 ${file.name}</span>
+            <span style="cursor:pointer;" onclick="openPdfViewerAdd('${file.base64}')">📎 ${file.name}</span>
             <button onclick="removePreviewFile(${index})">X</button>
         </div>`;
 }
+
 
 
 /**
@@ -218,28 +228,22 @@ function renderPDFPreview(file, index, container) {
  * @returns {Promise<void>} Resolves when image is rendered.
  */
 function readAndRenderImage(file, index, container) {
-    const reader = new FileReader();
-    const promise = new Promise((resolve) => {
-        reader.onload = () => {
-            const size = formatBytes(file.size);
-            const type = file.type;
-            const total = uploadedFiles.filter(f => f.type.startsWith('image/')).length;
-            container.innerHTML += `
-                <div class="file-preview">
-                    <img 
-                        src="${reader.result}" 
-                        alt="${file.name} | ${type} | ${size} " 
-                        class="viewer-image" 
-                        style="max-width: 100px; cursor: pointer;">
-                    <button onclick="removePreviewFile(${index})">X</button>
-                </div>`;
-            resolve();
-        };
-    });
+    const size = formatBytes(file.size);
+    const type = file.type;
 
-    reader.readAsDataURL(file);
-    return promise;
+    container.innerHTML += `
+        <div class="file-preview">
+            <img 
+                src="${file.base64}" 
+                alt="${file.name} | ${type} | ${size}" 
+                class="viewer-image" 
+                style="max-width: 100px; cursor: pointer;">
+            <button onclick="removePreviewFile(${index})">X</button>
+        </div>`;
+
+    return Promise.resolve(); // damit imageReaders in renderUploadPreview weiter funktioniert
 }
+
 
 
 function formatBytes(bytes) {
@@ -296,17 +300,18 @@ const MAX_PDFS = 2;
  * and updates file limit warnings.
  * @param {FileList} newFiles - List of selected files.
  */
-function showUploadPreview(newFiles) {
+async function showUploadPreview(newFiles) {
     const container = document.getElementById('file-preview-container');
     if (container.viewer) {
         container.viewer.destroy();
     }
     container.innerHTML = '';
 
-    handleNewFiles(newFiles);
+    await handleNewFiles(newFiles);
     renderUploadPreview();
     updateUploadWarnings();
 }
+
 
 
 /**
@@ -325,6 +330,11 @@ function removePreviewFile(index) {
  * @returns {Promise<Object[]>} Array of processed file objects (base64, name, size, type).
  */
 async function processFiles(files) {
+
+    if (!(files[0] instanceof File)) {
+        return files; 
+    }
+
     const images = [];
     const pdfs = [];
 
