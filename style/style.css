@@ -320,4 +320,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .viewer-title {
     color: black !important;
+    white-space: unset !important;
+}
+
+
+.viewer-toolbar>ul {
+    display: flex !important;
+    margin: 0 auto 5px;
+    overflow: hidden;
+    padding: 6px 3px;
+    justify-content: center;
 }
