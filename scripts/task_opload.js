@@ -87,7 +87,6 @@ function resizeAndConvertImage(file, maxWidth, maxHeight, quality = 0.8) {
 }
 
 
-
 /**
  * Handles image load, resizes it and returns base64 data.
  * @param {Event} event - FileReader load event.
@@ -120,8 +119,6 @@ function handleImageLoad(event, file, maxWidth, maxHeight, quality, resolve, rej
 
     img.onerror = (error) => reject(error);
 }
-
-
 
 
 /**
@@ -181,7 +178,6 @@ async function handleNewFiles(newFiles) {
 }
 
 
-
 /**
  * Renders file previews (images and PDFs) and initializes image viewer.
  */
@@ -203,7 +199,6 @@ function renderUploadPreview() {
 }
 
 
-
 /**
  * Renders a single PDF preview with open and delete options.
  * @param {File} file - The PDF file to preview.
@@ -217,7 +212,6 @@ function renderPDFPreview(file, index, container) {
             <button onclick="removePreviewFile(${index})">X</button>
         </div>`;
 }
-
 
 
 /**
@@ -241,11 +235,19 @@ function readAndRenderImage(file, index, container) {
             <button onclick="removePreviewFile(${index})">X</button>
         </div>`;
 
-    return Promise.resolve(); // damit imageReaders in renderUploadPreview weiter funktioniert
+    return Promise.resolve(); 
 }
 
 
-
+/**
+ * Converts a byte value into a human-readable string using appropriate units (Bytes, KB, MB, GB).
+ * @param {number} bytes - The size in bytes to be converted.
+ * @returns {string} A formatted string representing the size in the most suitable unit (e.g., "1.2 MB").
+ * @example
+ * formatBytes(0); // "0 Bytes"
+ * formatBytes(1024); // "1.0 KB"
+ * formatBytes(1048576); // "1.0 MB"
+ */
 function formatBytes(bytes) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     if (bytes === 0) return '0 Bytes';
@@ -341,16 +343,14 @@ async function processFiles(files) {
     for (let file of files) {
         if (!isValidFileType(file)) {
             alert(`${file.name} hat ein ungültiges Format.`);
-            continue;
-        }
+            continue;}
 
         if (file.type.startsWith('image/') && images.length < 4) {
             const img = await resizeAndConvertImage(file, 800, 800);
             images.push(img);
         } else if (file.type === 'application/pdf' && pdfs.length < 2) {
             const pdf = await convertToBase64(file);
-            pdfs.push(pdf);
-        }
+            pdfs.push(pdf);}
     }
 
     return [...images, ...pdfs];

@@ -51,14 +51,13 @@ function getImageMarkup(file, index, taskId) {
       <div class="pdf-preview-wrapper">
           <span class="file-type-label">Type: Image</span>
          <img 
-  src="${file.base64}" 
-  alt="${file.name} | ${file.type || 'image/jpeg'} | ${formatBytes(file.size || 0)}" 
-  class="edit-file-image" />
-
-          <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${file.base64}', '${file.name}')">
+        src="${file.base64}" 
+        alt="${file.name} | ${file.type || 'image/jpeg'} | ${formatBytes(file.size || 0)}" 
+        class="edit-file-image" />
+        <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${file.base64}', '${file.name}')">
               ${getDownloadIcon()}
-          </button>
-          <div class="file-name">${file.name}</div>
+        </button>
+        <div class="file-name">${file.name}</div>
       </div>`;
 }
 
@@ -189,7 +188,6 @@ async function removeFileFromTask(id, index) {
 async function handleEditFileUpload(event, taskId) {
     const files = event.target.files;
     if (!files || files.length === 0) return;
-
     const id = taskId - 1;
     const task = await loadTaskWithID(id);
     if (!task) return;
@@ -197,7 +195,6 @@ async function handleEditFileUpload(event, taskId) {
 
     let images = countFilesOfType(task.files, 'image/');
     let pdfs = countFilesOfType(task.files, 'application/pdf');
-
     let invalidFiles = [];
     let tooManyImages = false;
     let tooManyPDFs = false;
@@ -205,8 +202,7 @@ async function handleEditFileUpload(event, taskId) {
     await processSelectedFiles({
         files, task, id,
         counters: { images, pdfs },
-        flags: { invalidFiles, tooManyImages, tooManyPDFs }
-    });
+        flags: { invalidFiles, tooManyImages, tooManyPDFs }});
 
     showUploadWarnings(invalidFiles, tooManyImages, tooManyPDFs);
 }
@@ -228,35 +224,37 @@ function countFilesOfType(fileArray, typePrefix) {
  * Filters and processes valid image/PDF files, respecting file type and count limits.
  * Saves each valid file to the task and updates image/PDF counters accordingly.
  */
+function shouldSkipFile(file, counters, flags) {
+    const fileName = file.name.toLowerCase();
+    const mimeType = file.type;
+    const isValidExt = /\.(png|jpe?g|pdf)$/.test(fileName);
+    const isValidMime = ['image/png', 'image/jpeg', 'application/pdf'].includes(mimeType);
+    const isImage = mimeType.startsWith('image/');
+    const isPDF = mimeType === 'application/pdf';
+
+    if (!isValidExt || !isValidMime) {
+        flags.invalidFiles.push(file.name);
+        return true;
+    }
+    if (isImage && counters.images >= 4) return flags.tooManyImages = true;
+    if (isPDF && counters.pdfs >= 2) return flags.tooManyPDFs = true;
+    return false;
+}
+
+
+/**
+ * Filters and processes valid image/PDF files, respecting file type and count limits.
+ * Saves each valid file to the task and updates image/PDF counters accordingly.
+ */
 async function processSelectedFiles({ files, task, id, counters, flags }) {
     for (let file of files) {
-        const fileName = file.name.toLowerCase();
-        const mimeType = file.type;
-
-        const isValidExtension = /\.(png|jpe?g|pdf)$/.test(fileName);
-        const isValidMime = ['image/png', 'image/jpeg', 'application/pdf'].includes(mimeType);
-
-        const isImage = mimeType.startsWith('image/');
-        const isPDF = mimeType === 'application/pdf';
-
-        if (!isValidExtension || !isValidMime) {
-            flags.invalidFiles.push(file.name);
-            continue;
-        }
-
-        if (isImage && counters.images >= 4) {
-            flags.tooManyImages = true;
-            continue;
-        }
-
-        if (isPDF && counters.pdfs >= 2) {
-            flags.tooManyPDFs = true;
-            continue;
-        }
+        if (shouldSkipFile(file, counters, flags)) continue;
 
         await readAndSaveFile(file, task, id);
-        if (isImage) counters.images++;
-        if (isPDF) counters.pdfs++;
+
+        const mime = file.type;
+        if (mime.startsWith('image/')) counters.images++;
+        if (mime === 'application/pdf') counters.pdfs++;
     }
 }
 

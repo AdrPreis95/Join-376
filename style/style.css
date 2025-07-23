@@ -321,6 +321,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .viewer-title {
     color: black !important;
     white-space: unset !important;
+    font-size: 15px !important;
 }
 
 
