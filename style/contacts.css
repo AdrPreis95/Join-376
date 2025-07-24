@@ -477,8 +477,6 @@
   div,
   th,
   td,
-  li,
-  ul,
   ol,
   [contenteditable="true"] {
       font-size: 16px !important;

@@ -130,7 +130,7 @@ async function loadUser() {
  * @param {HTMLElement} email
  * @returns {boolean}
  */
-function checkInputEmail(email){
+function checkInputEmail(email) {
     if (email.value != "") {
         email.classList.remove("wrong-input");
         return true;
@@ -163,7 +163,7 @@ function checkInputPassword(password) {
  * @param {HTMLElement} email
  * @param {HTMLElement} password
  */
-function redirectToSummary(gettedUser, email, password){
+function redirectToSummary(gettedUser, email, password) {
     loggedUser = gettedUser;
     sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
     checkRememberMe(); //The user's email will be stored in a storage, if checkbox Remember me is checked 
@@ -218,56 +218,81 @@ function editEmailToKey(email = "") {
 }
 
 
+/**
+ * Handles the complete sign-up process:
+ * - Resets error states
+ * - Validates inputs
+ * - Checks privacy policy confirmation
+ * - Registers the user if validations pass
+ * - Shows success message or errors
+ * @returns {Promise<void>}
+ */
 async function signUpUser() {
     resetConfirmCheckBoxMsgError();
+    clearSignUpErrors();
 
     const name = nameSignUp.value.trim();
     const email = emailSignUp.value.trim();
     const password = passwordSignUp.value;
     const confirmPassword = confirmSignUp.value;
 
-   
+    if (!validateInputs(name, email, password, confirmPassword)) return;
+    if (!checkPrivacyPolicy(inputCheckboxSignUp)) return;
+
+    await handleUserSignUp(name, email, password);
+}
+
+function clearSignUpErrors() {
     nameSignUp.classList.remove('wrong-input');
     emailSignUp.classList.remove('wrong-input');
     passwordSignUp.classList.remove('wrong-input');
     confirmSignUp.classList.remove('wrong-input');
     errorMsgSignUp.classList.add('hidden');
+}
 
-    
+function validateInputs(name, email, password, confirmPassword) {
+    if (!validateName(name)) return false;
+    if (!validateEmail(email)) return false;
+    if (!validatePassword(password)) return false;
+    if (!matchingPassword(password, confirmPassword)) {
+        errorPasswords(errorMsgSignUp, passwordSignUp, confirmSignUp);
+        return false;
+    }
+    return true;
+}
+
+function validateName(name) {
     if (!name || name.length < 2) {
         nameSignUp.classList.add('wrong-input');
         nameSignUp.focus();
         notificationPopUp("Please enter your full name (at least 2 characters)");
-        return;
+        return false;
     }
+    return true;
+}
 
-    
+
+function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         emailSignUp.classList.add("wrong-input");
         emailSignUp.focus();
         notificationPopUp("Please enter a valid email address");
-        return;
+        return false;
     }
-
-   
+    return true;
+}
+function validatePassword(password) {
     if (password.length < 6) {
         passwordSignUp.classList.add('wrong-input');
         passwordSignUp.focus();
         notificationPopUp("Password must be at least 6 characters long");
-        return;
+        return false;
     }
+    return true;
+}
 
-   
-    if (!matchingPassword(password, confirmPassword)) {
-        errorPasswords(errorMsgSignUp, passwordSignUp, confirmPasswordSignUp);
-        return;
-    }
-
-   
-    if (!checkPrivacyPolicy(inputCheckboxSignUp)) return;
-
-    
+async function handleUserSignUp(name, email, password) {
     setSignedUser(nameSignUp, emailSignUp, passwordSignUp);
     let users = await loadData("users");
 
@@ -276,7 +301,6 @@ async function signUpUser() {
         return;
     }
 
-   
     await patchData("users/" + editEmailToKey(email), signedUser);
     resetSignUpInputs(emailSignUp, nameSignUp, passwordSignUp, confirmSignUp);
     showSucessSignedUp();
@@ -294,6 +318,7 @@ function checkFoundUser(email, users) {
 
     return foundUser != undefined;
 }
+
 
 /**
  * This function resets the error messages
@@ -313,7 +338,7 @@ function checkPrivacyPolicy(inputCheckbox) {
     if (privacyAccepted.value == 'true') {
         return true;
     } else {
-    
+
         notificationPopUp("Privacy policy must be accepted!");
         inputCheckbox.classList.add('unchecked-privacy');
         privacyAccepted.focus();
@@ -327,7 +352,7 @@ function checkPrivacyPolicy(inputCheckbox) {
  * @param {HTMLElement} name  
  * @param {HTMLElement} password 
  */
-function setSignedUser (name, email, password) {
+function setSignedUser(name, email, password) {
     signedUser.name = capitalizeNames(name.value);
     signedUser.email = email.value;
     signedUser.password = password.value;

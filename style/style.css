@@ -333,5 +333,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     justify-content: center;
 }
 
-
-
+.viewer-toolbar>ul>li{
+    font-size: unset !important;
+}
