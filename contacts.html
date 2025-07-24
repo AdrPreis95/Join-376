@@ -86,23 +86,25 @@
                                 src="assets/icons/close.png" alt="Close" onclick="closeAddContactForm()">
 
                             <div style="position: relative;">
-                                <input required class="addName" type="text" id="addName" name="name" placeholder="Name" maxlength="30"
-                                    pattern="^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ '\-]{1,}$"
+                                <input required class="addName" type="text" id="addName" name="name" placeholder="Name"
+                                    maxlength="30" pattern="^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ '\-]{1,}$"
                                     title="Please enter a valid name. Only letters, spaces, hyphens, and apostrophes are allowed." />
 
-                                <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
+                                <img id="inp-img"
+                                    style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
                                     src="assets/icons/person_icon.png" alt="Person">
                             </div>
 
                             <div style="position: relative;">
-                                <input required class="addEmail" type="email" id="addEmail" name="email" maxlength="40"
+                                <input required class="addEmail" type="email" id="addEmail" name="email" maxlength="60"
                                     placeholder="Email"
-                                    pattern="^[a-zA-Z0-9._%+\-]+@(gmail\.com|gmail\.de|outlook\.com|outlook\.de|yahoo\.com|yahoo\.de)$"
-                                    title="Only Gmail, Outlook or Yahoo addresses (.com/.de) are allowed." />
+                                    pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$"
+                                    title="Please enter a valid Email Adress" />
 
 
 
-                                <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
+                                <img id="inp-img"
+                                    style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
                                     src="assets/icons/mail_icon.png" alt="Email">
                             </div>
 
@@ -112,7 +114,8 @@
                                     title="Please enter a valid phone number. Must start with 0, + or 00 and contain 10 to 20 digits." />
 
 
-                                <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
+                                <img id="inp-img"
+                                    style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
                                     src="assets/icons/phone_icon.png" alt="Phone">
                             </div>
 

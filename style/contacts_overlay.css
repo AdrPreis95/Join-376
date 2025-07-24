@@ -16,7 +16,7 @@
 
 .addContactContainer { position: absolute; flex-direction: column; display: flex; right: 32px; width: 422px; gap: 32px; height: 100%; align-items: center; justify-content: center; }
 
-.addName, .addPhone, .addEmail { width: 422px; border: 1px solid #D1D1D1; padding: 13px 21px; border-radius: 8px; height: 48px; font-size: 18px; 
+.addName, .addPhone, .addEmail { width: 422px; border: 1px solid #D1D1D1; padding: 13px 21px; padding-right: 50px !important; border-radius: 8px; height: 48px; font-size: 18px; 
     font-weight: 400; line-height: 24px; text-align: left; transition: border-color 0.3s; }
 
 .addName:focus, .addPhone:focus, .addEmail:focus { border: 1px solid #29ABE2; outline: none; }

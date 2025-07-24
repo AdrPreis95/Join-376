@@ -51,6 +51,14 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
 }
 
 /**
+ * Fügt <wbr> nach jedem Punkt und rund um @ ein,
+ * um weiche Zeilenumbrüche bei langen E-Mails zu ermöglichen.
+ * @param {string} email
+ * @returns {string}
+ */
+
+
+/**
  * Displays the list of contacts in the DOM, grouped alphabetically.
  * @param {Contact[]} contacts - The array of contact objects to display.
  */

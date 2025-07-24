@@ -58,21 +58,70 @@ async function patchData(path = "", data = {}) {
 /**
  * This function loads an user
  */
+// async function loadUser() {
+//     errorMsgLogin.classList.add('hidden');
+//     if (checkInputEmail(emailLogin)) {
+//         if (checkInputPassword(passwordLogin)) {
+//             let gettedUser = await loadData("users/" + editEmailToKey(emailLogin.value));
+//             if (gettedUser) {
+//                 if (matchingPassword(gettedUser.password, passwordLogin.value)) {
+//                     redirectToSummary(gettedUser, emailLogin, passwordLogin);
+//                 } else {                    
+//                     showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); //because passwords do not match
+//                 }
+//             } else {                
+//                 showErrorMsg(errorMsgLogin, passwordLogin, emailLogin);//beacuse user does not exist
+//             }
+//         }
+//     }
+// }
 async function loadUser() {
+    // Fehleranzeige zurücksetzen
     errorMsgLogin.classList.add('hidden');
-    if (checkInputEmail(emailLogin)) {
-        if (checkInputPassword(passwordLogin)) {
-            let gettedUser = await loadData("users/" + editEmailToKey(emailLogin.value));
-            if (gettedUser) {
-                if (matchingPassword(gettedUser.password, passwordLogin.value)) {
-                    redirectToSummary(gettedUser, emailLogin, passwordLogin);
-                } else {                    
-                    showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); //because passwords do not match
-                }
-            } else {                
-                showErrorMsg(errorMsgLogin, passwordLogin, emailLogin);//beacuse user does not exist
-            }
+    emailLogin.classList.remove("wrong-input");
+    passwordLogin.classList.remove("wrong-input");
+
+    const email = emailLogin.value.trim();
+    const password = passwordLogin.value;
+
+    // Prüfe auf leeres Feld
+    if (!email) {
+        emailLogin.classList.add("wrong-input");
+        emailLogin.focus();
+        errorMsgLogin.textContent = "Please enter your email.";
+        errorMsgLogin.classList.remove("hidden");
+        return;
+    }
+
+    // E-Mail-Format prüfen
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        emailLogin.classList.add("wrong-input");
+        emailLogin.focus();
+        errorMsgLogin.textContent = "Please enter a valid email address.";
+        errorMsgLogin.classList.remove("hidden");
+        return;
+    }
+
+    // Passwort prüfen
+    if (!password) {
+        passwordLogin.classList.add("wrong-input");
+        passwordLogin.focus();
+        errorMsgLogin.textContent = "Please enter your password.";
+        errorMsgLogin.classList.remove("hidden");
+        return;
+    }
+
+    // Lade Benutzer aus Firebase
+    let gettedUser = await loadData("users/" + editEmailToKey(email));
+    if (gettedUser) {
+        if (matchingPassword(gettedUser.password, password)) {
+            redirectToSummary(gettedUser, emailLogin, passwordLogin);
+        } else {
+            showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); // falsches Passwort
         }
+    } else {
+        showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); // Benutzer nicht gefunden
     }
 }
 
@@ -168,26 +217,71 @@ function editEmailToKey(email = "") {
     return editedEmail;
 }
 
-/**
- * This function saves the signed up user to firebase
- */
+
 async function signUpUser() {
     resetConfirmCheckBoxMsgError();
-    if (checkPrivacyPolicy(inputCheckboxSignUp)) {
-        if (matchingPassword(passwordSignUp.value, confirmSignUp.value)) {
-            setSignedUser (nameSignUp, emailSignUp, passwordSignUp);
-            let users = await loadData("users");// Load users data
-            if (checkFoundUser(emailSignUp, users)) {
-                emailAlreadyLinked(emailSignUp);
-            } else {
-                await patchData("users/" + editEmailToKey(emailSignUp.value), signedUser);
-                resetSignUpInputs(emailSignUp, nameSignUp, passwordSignUp, confirmSignUp);
-                showSucessSignedUp();
-            }
-        } else
-            errorPasswords(errorMsgSignUp, passwordSignUp, confirmPasswordSignUp);
+
+    const name = nameSignUp.value.trim();
+    const email = emailSignUp.value.trim();
+    const password = passwordSignUp.value;
+    const confirmPassword = confirmSignUp.value;
+
+   
+    nameSignUp.classList.remove('wrong-input');
+    emailSignUp.classList.remove('wrong-input');
+    passwordSignUp.classList.remove('wrong-input');
+    confirmSignUp.classList.remove('wrong-input');
+    errorMsgSignUp.classList.add('hidden');
+
+    
+    if (!name || name.length < 2) {
+        nameSignUp.classList.add('wrong-input');
+        nameSignUp.focus();
+        notificationPopUp("Please enter your full name (at least 2 characters)");
+        return;
     }
+
+    
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        emailSignUp.classList.add("wrong-input");
+        emailSignUp.focus();
+        notificationPopUp("Please enter a valid email address");
+        return;
+    }
+
+   
+    if (password.length < 6) {
+        passwordSignUp.classList.add('wrong-input');
+        passwordSignUp.focus();
+        notificationPopUp("Password must be at least 6 characters long");
+        return;
+    }
+
+   
+    if (!matchingPassword(password, confirmPassword)) {
+        errorPasswords(errorMsgSignUp, passwordSignUp, confirmPasswordSignUp);
+        return;
+    }
+
+   
+    if (!checkPrivacyPolicy(inputCheckboxSignUp)) return;
+
+    
+    setSignedUser(nameSignUp, emailSignUp, passwordSignUp);
+    let users = await loadData("users");
+
+    if (checkFoundUser(emailSignUp, users)) {
+        emailAlreadyLinked(emailSignUp);
+        return;
+    }
+
+   
+    await patchData("users/" + editEmailToKey(email), signedUser);
+    resetSignUpInputs(emailSignUp, nameSignUp, passwordSignUp, confirmSignUp);
+    showSucessSignedUp();
 }
+
 
 /**
  * This function checks if a user already exists
