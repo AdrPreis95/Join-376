@@ -474,3 +474,31 @@ svg :hover {
     font-weight: 400;
     fill: #29ABE2;
 }
+
+
+@media screen and (min-width: 540px) {
+  body,
+  p,
+  span,
+  a,
+  label,
+  button,
+  input,
+  textarea,
+  select,
+  div,
+  th,
+  td,
+  li,
+  ul,
+  ol,
+  [contenteditable="true"] {
+      font-size: 16px !important;
+      /* line-height: 1.5 !important; */
+  }
+
+  input::placeholder,
+  textarea::placeholder {
+      font-size: 16px !important;
+  }
+}
