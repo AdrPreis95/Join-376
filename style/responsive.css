@@ -271,10 +271,6 @@
 
 /*⬇️⬇️⬇️ ADD-TASK-RESPONSIVE⬇️⬇️⬇️  */
 @media (min-width: 1200px) {
-    .content-right {
-        /* height: auto !important; */
-    }
-
     #main-page .required-p {
         margin-top: -24px !important;
         margin-bottom: 10px;
@@ -324,7 +320,7 @@
 }
 
 
-@media (max-width: 1200px) {
+@media (max-width: 1280px) {
     #main-page .content-container {
         display: flex;
         padding-left: 0px;
