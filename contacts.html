@@ -86,7 +86,7 @@
                                 src="assets/icons/close.png" alt="Close" onclick="closeAddContactForm()">
 
                             <div style="position: relative;">
-                                <input required class="addName" type="text" id="addName" name="name" placeholder="Name"
+                                <input required class="addName" type="text" id="addName" name="name" placeholder="Name" maxlength="30"
                                     pattern="^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ '\-]{1,}$"
                                     title="Please enter a valid name. Only letters, spaces, hyphens, and apostrophes are allowed." />
 
@@ -95,7 +95,7 @@
                             </div>
 
                             <div style="position: relative;">
-                                <input required class="addEmail" type="email" id="addEmail" name="email"
+                                <input required class="addEmail" type="email" id="addEmail" name="email" maxlength="40"
                                     placeholder="Email"
                                     pattern="^[a-zA-Z0-9._%+\-]+@(gmail\.com|gmail\.de|outlook\.com|outlook\.de|yahoo\.com|yahoo\.de)$"
                                     title="Only Gmail, Outlook or Yahoo addresses (.com/.de) are allowed." />
