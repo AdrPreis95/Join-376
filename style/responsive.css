@@ -928,7 +928,7 @@
 }
 
 
-@media(max-width:580px) {
+@media(max-width:620px) {
     .summary-content-container {
         width: -webkit-fill-available !important;
         padding: 36px 4% 0px 4% !important;
