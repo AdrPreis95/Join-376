@@ -356,7 +356,7 @@
         background-color: #D1D1D1;
     }
 
-   
+
 }
 
 @media (max-width: 900px) {
@@ -388,8 +388,8 @@
     .greeting-user {
         position: absolute;
         background: #f6f7f8;
-        width: 67%;
-        height: 84.4%;
+        width: 100%;
+        height: 100vh;
         top: 99px;
         display: flex;
         flex-direction: column;
@@ -928,7 +928,7 @@
 }
 
 
-@media(max-width:320px) {
+@media(max-width:580px) {
     .summary-content-container {
         width: -webkit-fill-available !important;
         padding: 36px 4% 0px 4% !important;
@@ -1018,6 +1018,3 @@
     }
 
 }
-
-
-
