@@ -303,7 +303,7 @@
 
     #main-page .picked-user-avatar {
         z-index: 1 !important;
-        width: 440px !important;
+        width: 100% !important;
         height: 96px !important;
         background-color: #F6F7F8 !important;
         border-radius: 20px 20px 20px 20px !important;
@@ -312,6 +312,7 @@
         gap: 4px !important;
         overflow: auto !important;
         align-items: center !important;
+        justify-content: space-between !important;
     }
 
     #main-page #prio-p {
@@ -356,6 +357,9 @@
         background-color: #D1D1D1;
     }
 
+    #picked-user-avatar {
+        width: 100% !important;
+    }
 
 }
 
@@ -598,6 +602,12 @@
     }
 }
 
+@media(max-width:800px) {
+    #picked-user-avatar {
+        display: none !important;
+    }
+}
+
 @media(max-width:720px) {
     .greeting-user {
         width: 100%;
@@ -657,10 +667,6 @@
     #show-tasks-progress,
     #show-tasks-await-feedback {
         font-size: 38px;
-    }
-
-    #picked-user-avatar {
-        display: none !important;
     }
 
     .urgent-date-container {

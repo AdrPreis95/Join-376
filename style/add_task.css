@@ -437,6 +437,8 @@ select {
 .button-container {
     display: flex;
     gap: 16px;
+    margin-top: 28px;
+    margin-bottom: 28px !important;
 }
 
 .subtask-button {
@@ -578,11 +580,19 @@ select {
     height: auto;
     width: 100%;
     align-items: center;
+    justify-content: space-between;
 }
 
 .picked-user-name {
+    display: inline-block;
+    max-width: 58px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     font-size: 14px;
     text-align: center;
+    vertical-align: middle;
+
 }
 
 .error-border {
