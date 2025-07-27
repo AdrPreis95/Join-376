@@ -436,6 +436,10 @@
     display: none;
 }
 
+#addContactHeadline{
+    font-size: 61px !important;
+}
+
 .addHeaderText {
     color: white;
     font-size: 18px;
