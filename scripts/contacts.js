@@ -43,10 +43,10 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
     clone.querySelector('.initialsCircle').textContent = initials;
     clone.querySelector('.initialsCircle').style.backgroundColor = bgColor;
     clone.querySelector('.contactName').textContent = contact.name;
-    clone.querySelector('.contactEmail').innerHTML = contact.email 
-        ? `<a style="color: #007cee;" href="#">${contact.email}</a>` 
+    clone.querySelector('.contactEmail').innerHTML = contact.email
+        ? `<a style="color: #007cee;" href="#">${contact.email}</a>`
         : 'No email available';
-        contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}'); toggleDetails();`);
+    contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}'); toggleDetails();`);
     container.appendChild(clone);
 }
 
@@ -106,13 +106,13 @@ function updateContactDetails(contact, initials, bgColor) {
     const detailsInitials = document.getElementById('detailsInitials');
     detailsInitials.textContent = initials;
     detailsInitials.style.backgroundColor = bgColor;
-    
+
     document.getElementById('contactId').innerHTML = contact.id;
     document.getElementById('detailsName').textContent = contact.name;
-    document.getElementById('detailsEmail').innerHTML = contact.email 
-        ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>` 
+    document.getElementById('detailsEmail').innerHTML = contact.email
+        ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>`
         : 'No email available';
-    
+
     document.getElementById('detailsPhone').textContent = contact.phone ? contact.phone : 'No phone available';
 }
 
@@ -152,7 +152,7 @@ function updateContactDisplay() {
         const firstLetter = contact.name.charAt(0).toUpperCase();
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
-            if(container)
+            if (container)
                 addLetterHeader(container, currentLetter);
         }
         const initials = getInitials(contact.name);
@@ -175,7 +175,7 @@ function getNewContactId() {
  */
 async function deleteContact(del) {
     let id = + document.getElementById('contactId').innerHTML;
-    
+
     let updatedContacts = removeContactById(contacts, id);
     updatedContacts = updateID(updatedContacts);
 
@@ -197,7 +197,7 @@ async function deleteContact(del) {
  * @param {number} id - ID of the contact to remove.
  * @returns {Contact[]} Updated array of contacts.
  */
-function removeContactById (contactsJson, id) {
+function removeContactById(contactsJson, id) {
     return contactsJson.filter(c => c.id !== id);
 }
 
@@ -206,7 +206,7 @@ function removeContactById (contactsJson, id) {
  * @param {Contact[]} updatedContacts - Array of contact objects to update.
  * @returns {Contact[]} Updated array of contacts with new IDs.
  */
-function updateID (updatedContacts) {
+function updateID(updatedContacts) {
     var newId = 1;
     for (var i in updatedContacts) {
         updatedContacts[i].id = newId;
@@ -223,7 +223,7 @@ function updateDelChanges(del) {
     updateContactDisplay();
     closeContactDetails();
     if (window.innerWidth < 1250) hideDetails();
-    if(del == "editForm") {
+    if (del == "editForm") {
         closeEditContactForm();
     }
 }
@@ -231,24 +231,49 @@ function updateDelChanges(del) {
 /**
  * Saves changes made to a contact and updates the server and UI.
  */
+
 async function saveEditChanges() {
-    const id = +document.getElementById('contactId').innerHTML;
-    const updatedContact = {
-        id,
-        email: document.getElementById('editEmail').value, 
-        name: document.getElementById('editName').value, 
-        phone: document.getElementById('editPhone').value
-    };
-    contacts = contacts.map(contact => contact.id === id ? updatedContact : contact);
+    const id = +contactId.innerText, name = editName.value.trim();
+    const email = editEmail.value.trim(), phone = editPhone.value.trim();
+    resetErrorStyles();
+
+    const nameOk = /^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ '\-]{1,}$/;
+    const mailOk = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]{2,}\.[a-zA-Z]{2,}$/;
+    const phoneOk = /^(?:\+|00|0)[0-9]{9,19}$/;
+
+    if (!nameOk.test(name)) return markInvalid(editName, " Please enter a valid name<br>Min. 2 letters, no numbers");
+    if (!mailOk.test(email)) return markInvalid(editEmail, " Please enter a valid email address<br>Example: name@example.com");
+    if (!phoneOk.test(phone)) return markInvalid(editPhone, " Please enter a valid phone number<br>Starts with +, 00 or 0 (min. 10 digits)");
+
+
+    const updated = { id, name, email, phone };
+    contacts = contacts.map(c => c.id === id ? updated : c);
     await fetch(`${BASE_URL}contacts/${id - 1}.json`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updatedContact)
-    });
-    updateContactDetails(updatedContact, getInitials(updatedContact.name), getRandomColor());
-    closeEditContactForm(); updateContactDisplay();
-    if (window.innerWidth < 1250) showFooter();
+        method: "PUT", headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(updated)
+    }); updateContactDetails(updated, getInitials(name), getRandomColor());
+    closeEditContactForm(); updateContactDisplay(); if (innerWidth < 1250) showFooter();
 }
+function markInvalid(input, msg) {
+    input.classList.add('input-error');
+    const errorBox = document.getElementById(`error-${input.id}`);
+    if (errorBox) {
+        errorBox.innerHTML = msg;
+        errorBox.style.display = 'block';
+    }
+    input.focus();
+}
+
+
+function resetErrorStyles() {
+    [editName, editEmail, editPhone].forEach(i => {
+        i.classList.remove('input-error');
+        const msg = document.getElementById(`error-${i.id}`);
+        if (msg) msg.style.display = 'none';
+    });
+}
+
+
 
 /**
  * Updates the edit contact form with the given contact details.
@@ -260,7 +285,7 @@ function updateEditContactForm(contact, initials, bgColor) {
     document.getElementById('editName').value = contact.name;
     document.getElementById('editEmail').value = contact.email || '';
     document.getElementById('editPhone').value = contact.phone || '';
-    
+
     const editInitialsCircle = document.getElementById('editDetailsInitials');
     editInitialsCircle.textContent = initials;
     editInitialsCircle.style.backgroundColor = bgColor;
@@ -272,7 +297,7 @@ function closeEditContactForm() {
 
     setTimeout(() => {
         editContactForm.classList.remove('visible');
-        editContactForm.style.display = 'none'; 
+        editContactForm.style.display = 'none';
     }, 700);
 }
 
@@ -281,8 +306,9 @@ function openEditContactForm() {
     editContactForm.style.display = 'flex';
     setTimeout(() => {
         editContactForm.classList.add('visible');
-        editContactForm.style.opacity = '1'; 
+        editContactForm.style.opacity = '1';
     }, 10);
+    initEditInputValidation();
 }
 
 function closeAddContactForm(contactCreated = false) {
@@ -306,16 +332,16 @@ function openAddContactForm() {
     addContactForm.style.display = 'flex';
     setTimeout(() => {
         addContactForm.classList.add('visible');
-        addContactForm.style.opacity = '1'; 
+        addContactForm.style.opacity = '1';
     }, 10);
 }
 
 function hideFooter() {
     const footer = document.querySelector('.responsive-footer');
     if (footer) {
-      footer.classList.add('hide-contacts');
+        footer.classList.add('hide-contacts');
     }
-  }
+}
 
 function showFooter() {
     const footer = document.querySelector('.responsive-footer');
@@ -344,7 +370,7 @@ function toggleDetails() {
 
 function toggleContactDetails() {
     const detailsButtons = document.querySelector('.responsiveContactDetailsButtons');
-    
+
     if (detailsButtons.classList.contains('hide-contacts')) {
         detailsButtons.classList.remove('hide-contacts');
         detailsButtons.classList.add('show-details');
@@ -373,10 +399,6 @@ function addLetterHeader(container, letter) {
     `;
 }
 
-// function getInitials(name) {
-//     const nameParts = name.split(' ');
-//     return nameParts[0][0].toUpperCase() + (nameParts[1] ? nameParts[1][0].toUpperCase() : '');
-// }
 
 function getInitials(name) {
     if (!name || typeof name !== 'string') return '';
@@ -390,7 +412,7 @@ function getRandomColor() {
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
-function closeContactDetails(){
+function closeContactDetails() {
     const detailsSection = document.getElementById('selectedContactDetails');
     detailsSection.classList.remove('visible');
     detailsSection.classList.remove('active');
@@ -403,3 +425,18 @@ fetchContacts().then(() => {
     sortContacts();
     displayContacts(contacts);
 });
+
+/**
+ * checks the validation of the inputs.
+ */
+function initEditInputValidation() {
+    ['editName', 'editEmail', 'editPhone'].forEach(id => {
+        const input = document.getElementById(id);
+        if (!input) return;
+        input.addEventListener('input', () => {
+            input.classList.remove('input-error');
+            const msg = document.getElementById(`error-${input.id}`);
+            if (msg) msg.style.display = 'none';
+        });
+    });
+}
