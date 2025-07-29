@@ -184,9 +184,9 @@
     display: block !important;
 }
 
-#overlay-mode #picked-user-avatar {
+/* #overlay-mode #picked-user-avatar {
     display: none !important;
-}
+} */
 
 #overlay-mode #file-preview-container {
     display: grid !important;

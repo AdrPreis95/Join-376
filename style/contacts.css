@@ -480,6 +480,18 @@
     display: block;
 }
 
+
+.input-error {
+    border: 2px solid red !important;
+}
+
+.error-message {
+    font-size: 13px;
+    color: red;
+    margin-top: 2px;
+    display: none;
+}
+
 .input-icon {
     position: absolute;
     top: 12px;

@@ -1,14 +1,6 @@
 let contacts = [];
 
 /**
- * @typedef {Object} Contact
- * @property {number} id - Unique identifier for the contact.
- * @property {string} name - Name of the contact.
- * @property {string} email - Email address of the contact.
- * @property {string} phone - Phone number of the contact.
- */
-
-/**
  * Fetches all contacts from the server and updates the global `contacts` array.
  * @returns {Promise<Contact[]>} A promise resolving to an array of contact objects.
  */
@@ -49,13 +41,6 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
     contactWrapper.setAttribute('onclick', `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}'); toggleDetails();`);
     container.appendChild(clone);
 }
-
-/**
- * Fügt <wbr> nach jedem Punkt und rund um @ ein,
- * um weiche Zeilenumbrüche bei langen E-Mails zu ermöglichen.
- * @param {string} email
- * @returns {string}
- */
 
 
 /**
@@ -118,21 +103,75 @@ function updateContactDetails(contact, initials, bgColor) {
 
 /**
  * Creates a new contact and updates the server and UI.
+ * checks the form validation for Name,Phone and Email
  */
 function createContact() {
-    const newContact = {
-        name: document.getElementById('addName').value,
-        email: document.getElementById('addEmail').value,
-        phone: document.getElementById('addPhone').value,
-    };
+    const name = getInputValue('addName');
+    const email = getInputValue('addEmail');
+    const phone = getInputValue('addPhone');
+
+    resetAddErrorStyles();
+
+    if (!isValidName(name)) return markAddInvalid('addName', 'Please enter a valid name<br>Min. 2 letters');
+    if (!isValidEmail(email)) return markAddInvalid('addEmail', 'Please enter a valid email address<br>Example: name@example.com');
+    if (!isValidPhone(phone)) return markAddInvalid('addPhone', 'Please enter a valid phone number<br>Starts with +, 00 or 0 (min. 10 digits)');
+
+    const newContact = { name, email, phone };
     const newId = getNewContactId();
-    fetch(BASE_URL + `contacts/${newId}.json`, {
+    saveContactToFirebase(newContact, newId);
+}
+
+
+function isValidName(name) {
+    return /^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ '\-]{1,}$/.test(name);
+}
+
+
+function isValidEmail(email) {
+    return /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/.test(email);
+}
+
+
+function isValidPhone(phone) {
+    return /^(?:0|\+|00)[0-9]{9,19}$/.test(phone);
+}
+
+
+function markAddInvalid(id, msg) {
+    const input = document.getElementById(id);
+    input.classList.add('input-error');
+    const box = document.getElementById(`error-${id}`);
+    if (box) {
+        box.innerHTML = msg;
+        box.style.display = 'block';
+    }
+    input.focus();
+}
+
+
+function resetAddErrorStyles() {
+    ['addName', 'addEmail', 'addPhone'].forEach(id => {
+        const input = document.getElementById(id);
+        input.classList.remove('input-error');
+        const box = document.getElementById(`error-${id}`);
+        if (box) box.style.display = 'none';
+    });
+}
+
+
+function getInputValue(id) {
+    return document.getElementById(id).value.trim();
+}
+
+
+function saveContactToFirebase(contact, id) {
+    fetch(`${BASE_URL}contacts/${id}.json`, {
         method: 'PUT',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...newContact, id: (newId + 1) })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...contact, id: id + 1 })
     }).then(() => {
-        newContact.id = newId + 1;
-        contacts.push(newContact);
+        contact.id = id + 1;
+        contacts.push(contact);
         updateContactDisplay();
         closeAddContactForm(true);
         if (window.innerWidth < 1250) showFooter();
@@ -254,6 +293,8 @@ async function saveEditChanges() {
     }); updateContactDetails(updated, getInitials(name), getRandomColor());
     closeEditContactForm(); updateContactDisplay(); if (innerWidth < 1250) showFooter();
 }
+
+
 function markInvalid(input, msg) {
     input.classList.add('input-error');
     const errorBox = document.getElementById(`error-${input.id}`);
@@ -274,12 +315,8 @@ function resetErrorStyles() {
 }
 
 
-
 /**
  * Updates the edit contact form with the given contact details.
- * @param {Contact} contact - The contact to display.
- * @param {string} initials - Initials of the contact.
- * @param {string} bgColor - Background color for the initials circle.
  */
 function updateEditContactForm(contact, initials, bgColor) {
     document.getElementById('editName').value = contact.name;

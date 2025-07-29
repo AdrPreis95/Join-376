@@ -59,7 +59,7 @@
         <main class="main-content">
 
             <div id="addContactForm">
-                <form onsubmit="createContact(); return false;">
+                <form onsubmit="createContact(); return false;" novalidate>
                     <div class="leftContactOverlay">
                         <img class="addContactLogo" src="assets/img/join_logo.png" alt="Join-Logo">
                         <div class="leftContactText">
@@ -93,6 +93,7 @@
                                 <img id="inp-img"
                                     style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
                                     src="assets/icons/person_icon.png" alt="Person">
+                                    <div id="error-addName" class="error-message"></div>
                             </div>
 
                             <div style="position: relative;">
@@ -106,6 +107,7 @@
                                 <img id="inp-img"
                                     style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
                                     src="assets/icons/mail_icon.png" alt="Email">
+                                    <div id="error-addEmail" class="error-message"></div>
                             </div>
 
                             <div style="position: relative;">
@@ -117,6 +119,7 @@
                                 <img id="inp-img"
                                     style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
                                     src="assets/icons/phone_icon.png" alt="Phone">
+                                    <div id="error-addPhone" class="error-message"></div>
                             </div>
 
 
