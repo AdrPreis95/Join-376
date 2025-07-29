@@ -1,3 +1,5 @@
+/**
+ * saves all contacts from the server and updates the global `contacts` array.*/
 let contacts = [];
 
 /**
