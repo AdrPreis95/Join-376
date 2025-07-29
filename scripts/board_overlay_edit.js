@@ -113,13 +113,7 @@ function generateChangeTask(responseJson) {
     }
 
     responseJson.prio = activePriorityButton();
-
-    // const fileContainer = document.getElementById('edit-overlay-file-preview');
-    // if (!fileContainer || fileContainer.innerHTML.trim() === '') {
-    //     responseJson.file = { base64: "", name: "" };
-    // }
-
-    return responseJson;
+return responseJson;
 }
 
 

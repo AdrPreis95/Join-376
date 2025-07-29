@@ -451,4 +451,12 @@ function handleTaskCreation() {
     });
 }
 
+document.addEventListener('click', function (event) {
+    const dropdown = document.getElementById('dropdown-user');
+    const input = document.getElementById('dropdown-input');
+
+    if (!dropdown || dropdown.style.display !== 'flex') return;
+    if (dropdown.contains(event.target) || input.contains(event.target)) return;
+    dropdown.style.display = 'none';
+});
 
