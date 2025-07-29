@@ -196,17 +196,7 @@ function getTaskInputs() {
 }
 
 /**
- * Builds a new task object.
- * @param {number} id - Task ID.
- * @param {string} title - Task title.
- * @param {string} description - Task description.
- * @param {string} dueDate - Task due date.
- * @param {string} category - Task category.
- * @param {string} color - Task color.
- * @returns {Object} The new task object.
- */
-
-
+ * Builds a new task object.*/
 function buildNewTask(id, title, description, dueDate, category, color, files = []) {
     return {
         id,
@@ -222,8 +212,6 @@ function buildNewTask(id, title, description, dueDate, category, color, files = 
         files
     };
 }
-
-
 
 /**
  * Saves the task to the backend.
@@ -382,10 +370,7 @@ function confirmSubtask() {
 }
 
 /**
- * Adds a new subtask to the list.
- * @param {HTMLElement} subtaskList - The HTML element containing the subtask list.
- * @param {string} subtaskValue - The value of the new subtask.
- */
+ * Adds a new subtask to the list..*/
 function addSubtaskToList(subtaskList, subtaskValue) {
     let li = createSubtaskElement(subtaskValue);
     subtaskList.appendChild(li);
@@ -394,10 +379,7 @@ function addSubtaskToList(subtaskList, subtaskValue) {
 }
 
 /**
- * Creates an HTML element for a new subtask.
- * @param {string} subtaskValue - The value of the subtask.
- * @returns {HTMLElement} The new subtask element.
- */
+ * Creates an HTML element for a new subtask. */
 function createSubtaskElement(subtaskValue) {
     let li = document.createElement('li');
     li.innerHTML = `<div>
@@ -463,8 +445,7 @@ function editSubtask(editBtn) {
 
 /**
  * Deletes a subtask from the list.
- * @param {HTMLElement} deleteBtn - The button element used to trigger the delete.
- */
+ * @param {HTMLElement} deleteBtn - The button element used to trigger the delete.*/
 function deleteSubtask(deleteBtn) {
     let subtaskToDelete = deleteBtn.parentElement.parentElement;
     subtaskToDelete.remove();
@@ -472,17 +453,13 @@ function deleteSubtask(deleteBtn) {
 
 /**
  * Generates a random color.
- * @returns {string} A randomly generated color.
- */
+ * @returns {string} A randomly generated color.*/
 function getRandomColor() {
     return generateColor();
 }
 
 /**
- * Loads all contacts from the backend and processes them.
- * @async
- * @returns {Promise<void>}
- */
+ * Loads all contacts from the backend and processes them.*/
 async function loadContacts() {
     let userAsContact = createUserAsContact();
 
@@ -500,8 +477,7 @@ async function loadContacts() {
 
 /**
  * Creates a contact representation for the logged-in user.
- * @returns {Object} The logged-in user as a contact object.
- */
+ * @returns {Object} The logged-in user as a contact object.*/
 function createUserAsContact() {
     return {
         email: loggedUser.email,
@@ -513,10 +489,7 @@ function createUserAsContact() {
 }
 
 /**
- * Formats a contact object by splitting the name into first and last names.
- * @param {Object} contact - The contact object to format.
- * @returns {Object} The formatted contact object.
- */
+ * Formats a contact object by splitting the name into first and last names.*/
 function formatContact(contact) {
     let firstName = '';
     let lastName = '';
@@ -535,7 +508,7 @@ function formatContact(contact) {
       if (window.parent && typeof window.parent.closeTaskOverlay === 'function') {
         window.parent.closeTaskOverlay();
       } else {
-        console.warn("❌ closeTaskOverlay() not available in parent window");
+        console.warn(" closeTaskOverlay() not available in parent window");
       }
     }
 
