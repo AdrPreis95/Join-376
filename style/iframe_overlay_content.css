@@ -184,6 +184,13 @@
     display: block !important;
 }
 
+#overlay-mode .error-message{
+font-size: 14px !important
+}
+#overlay-mode .form-field{
+    margin-bottom: 20px
+}
+ 
 /* #overlay-mode #picked-user-avatar {
     display: none !important;
 } */
