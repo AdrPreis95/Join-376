@@ -328,6 +328,7 @@
     line-height: 24px;
     text-align: left;
     transition: border-color 0.3s;
+    padding-right: 58px !important;
 }
 
 .editName:focus,
@@ -436,7 +437,7 @@
     display: none;
 }
 
-#addContactHeadline{
+#addContactHeadline {
     font-size: 61px !important;
 }
 
@@ -468,48 +469,56 @@
 }
 
 .input-error-msg {
-  color: #ff4646;
-  font-size: 13px;
-  margin-top: 4px;
-  padding-left: 4px;
-  display: none;
+    color: #ff4646;
+    font-size: 13px;
+    margin-top: 4px;
+    padding-left: 4px;
+    display: none;
 }
 
-.input-error + .input-error-msg {
-  display: block;
+.input-error+.input-error-msg {
+    display: block;
 }
 
 .input-icon {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  height: 24px;
-  width: 24px;
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    height: 24px;
+    width: 24px;
+    background-color: #FFFFFF !important;
+}
+
+#editEmailcont img,
+#editNamecont img,
+#editPhonecont img {
+    background-color: #FFFFFF !important;
 }
 
 
 
 @media screen and (min-width: 540px) {
-  body,
-  p,
-  span,
-  a,
-  label,
-  button,
-  input,
-  textarea,
-  select,
-  div,
-  th,
-  td,
-  ol,
-  [contenteditable="true"] {
-      font-size: 16px !important;
-      /* line-height: 1.5 !important; */
-  }
 
-  input::placeholder,
-  textarea::placeholder {
-      font-size: 16px !important;
-  }
+    body,
+    p,
+    span,
+    a,
+    label,
+    button,
+    input,
+    textarea,
+    select,
+    div,
+    th,
+    td,
+    ol,
+    [contenteditable="true"] {
+        font-size: 16px !important;
+        /* line-height: 1.5 !important; */
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        font-size: 16px !important;
+    }
 }
