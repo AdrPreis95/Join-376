@@ -507,7 +507,7 @@ select {
 
 #subtask-list {
     cursor: pointer !important;
-    max-height: 90px !important;
+    /* max-height: 90px !important; */
     overflow-y: hidden !important;
     overflow: hidden !important;
     list-style: none !important;
@@ -517,7 +517,7 @@ select {
 }
 
 #subtask-list li {
-    height: 24px;
+    height: 58px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -525,18 +525,32 @@ select {
     margin-top: 6px;
     border-radius: 10px;
     font-size: 16px;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow: hidden;
+    background-color: #FFFF;
+    filter: drop-shadow(0px 0px 1px #D1D1D1);
 }
 
-#subtask-list li:hover {
-    background-color: #D1D1D1;
+.limit-cont {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: left;
 }
+
+/* #subtask-list li :hover {
+    background-color: #D1D1D1 !important;
+    z-index: 99999;
+} */
 
 .icons {
     opacity: 0;
     pointer-events: none;
 }
 
-#subtask-list li:hover .icons {
+#subtask-list :hover .icons {
     opacity: 1;
     pointer-events: auto;
     display: flex;
@@ -745,12 +759,25 @@ select {
 
 }
 
-.subtask-text[contenteditable="true"] {
+/* .subtask-text[contenteditable="true"] {
     outline: 1px solid red;
     background-color: #f0f8ff;
     border-radius: 2px;
     white-space: nowrap;
     overflow: hidden;
+} */
+
+.subtask-text[contenteditable="true"] {
+    outline: 1px solid red;
+    background-color: #f0f8ff;
+    border-radius: 2px;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow: visible;
+    max-width: 100%;
+    /* display: inline-block;        */
+    /* padding: 4px;                 */
 }
 
 

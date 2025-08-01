@@ -283,7 +283,7 @@
 
     #subtask-list {
         cursor: pointer !important;
-        height: 90px !important;
+        /* height: 90px !important; */
         overflow-y: hidden !important;
         overflow: hidden !important;
         list-style: none !important;
@@ -602,9 +602,11 @@
     }
 }
 
-@media(max-width:800px) {
+@media(max-width:500px) {
     #picked-user-avatar {
-        display: none !important;
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        justify-items: center !important;
     }
 }
 
@@ -878,11 +880,11 @@
         height: 36px;
     }
 
-    #main-page .input-container,
+    /* #main-page .input-container,
     #main-page .subtask-p,
     #main-page #addsubtasks {
         display: none;
-    }
+    } */
 
     #main-page #create {
         height: 48px;
@@ -1001,9 +1003,9 @@
         bottom: 70px;
     }
 
-    #main-page #picked-user-avatar {
+    /* #main-page #picked-user-avatar {
         display: none;
-    }
+    } */
 
     #main-page #create {
         height: 42px;

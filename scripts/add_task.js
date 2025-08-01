@@ -382,7 +382,7 @@ function addSubtaskToList(subtaskList, subtaskValue) {
  * Creates an HTML element for a new subtask. */
 function createSubtaskElement(subtaskValue) {
     let li = document.createElement('li');
-    li.innerHTML = `<div>
+    li.innerHTML = `<div class="limit-cont">
                         <span class="dot">•</span>
                         <span class="subtask-text">${subtaskValue}</span>
                     </div>
