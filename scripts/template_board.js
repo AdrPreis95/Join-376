@@ -256,7 +256,7 @@ function getOverlayEdit(id, title, description, dueDate) {
             <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="assigned-to">Assigned to</label>
                 <div onclick="openDropdownAssigned(${id})" id="assigned-container" class="assigned-menu-overlay">
-                    <input type="text" placeholder="Select contacts to assign"></input>
+                    <input type="text" placeholder="Select contacts"></input>
                     <img id="arrow-dropdown" src="./assets/icons/arrow_drop_down.png">
                 </div>
             </div>          
@@ -280,7 +280,7 @@ function getOverlayEdit(id, title, description, dueDate) {
 <div class="overlay-edit-container">
                 <label class="edit-overlay-label" for="subtask-edit">Subtasks</label>
                 <div class="overlay-edit-subtask">
-                    <input class="overlay-input-field" placeholder="Add new subtask" type="text" name="subtask-edit" id="subtask-edit" maxlength="20"/>
+                    <input class="overlay-input-field" placeholder="Add subtask" type="text" name="subtask-edit" id="subtask-edit" maxlength="20"/>
                     <div id="create-subtask-overlay" onclick="editMode(${id})">
                         <img class="hover-container" id="add-subtask-overlay-edit" src="./assets/icons/add_subtask.png" alt="add">
                     </div>

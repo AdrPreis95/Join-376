@@ -185,7 +185,7 @@
 }
 
 .user-initials-overlay {
-    margin-left: 16px;
+    /* margin-left: 16px; */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -205,6 +205,7 @@
 #user-names-edit-overlay {
     display: flex;
     flex-direction: row;
+    justify-content:center;
 }
 
 .overlay-edit-subtask {
@@ -213,7 +214,7 @@
     justify-content: space-between;
     border-radius: 10px;
     border: 1px solid #D1D1D1;
-    padding: 12px 16px 12px 16px;
+    padding: 12px 16px 12px 12px;
 }
 
 .hover-container {

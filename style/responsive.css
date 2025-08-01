@@ -211,7 +211,7 @@
 
     header {
         position: fixed;
-        z-index: 1;
+        z-index: 2 !important;
     }
 
     .contactsSection,
@@ -608,6 +608,15 @@
         grid-template-columns: repeat(3, 1fr) !important;
         justify-items: center !important;
     }
+
+    #user-names-edit-overlay {
+        display:grid !important;
+        background-color: transparent !important;
+        border-radius: 10px;
+        grid-template-columns: 1fr 1fr 1fr !important;
+        justify-items: center !important;
+        gap: 8px !important;
+    }
 }
 
 @media(max-width:720px) {
@@ -750,6 +759,7 @@
         cursor: pointer;
         justify-content: center !important;
         align-items: center !important;
+        padding-bottom: 20px;
     }
 
     .overlay-edit-container {
@@ -778,22 +788,22 @@
     }
 
     #subtask-edit {
-        width: 170px !important;
+        width: 150px !important;
     }
 
-    .assigned-menu-overlay {
+    /* .assigned-menu-overlay {
         padding: 10px 4px 12px 0px !important;
 
-    }
+    } */
 
-    #user-names-edit-overlay {
+    /* #user-names-edit-overlay {
         display: flex;
         flex-direction: row;
         justify-content: center;
         width: -webkit-fill-available;
         background-color: #2A3647;
         border-radius: 10px;
-    }
+    } */
 
 
 
