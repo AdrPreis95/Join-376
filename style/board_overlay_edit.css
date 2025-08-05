@@ -248,7 +248,9 @@
     display: flex;
     justify-content: space-between;
 }
-
+.overlay-edit-subtask-list li {
+   word-break: break-all !important;
+}
 .overlay-edit-subtask-list:hover {
     background-color: #D1D1D1;
     border-radius: 10px;

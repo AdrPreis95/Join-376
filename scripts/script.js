@@ -3,7 +3,7 @@
  * it occurs a redirection to index.html, the login page.
  */
 let loggedUser = {};
-if (sessionStorage.loggedUser != undefined){
+if (sessionStorage.loggedUser != undefined) {
     loggedUser = JSON.parse(sessionStorage.loggedUser);
 } else {
     window.location.href = "./index.html";
@@ -36,7 +36,7 @@ function setUserInitials() {
 function getUserInitials(name) {
     // Remove whitespaces
     name = name.trim();
-    
+
     // Get names
     const words = name.split(' ');
 
@@ -45,7 +45,7 @@ function getUserInitials(name) {
     initials += words[0].charAt(0).toUpperCase();
     if (words.length > 1) {
         initials += words[words.length - 1].charAt(0).toUpperCase();
-    } 
+    }
 
     return initials;
 }
@@ -54,12 +54,12 @@ function toggleSubmenu() {
     const submenu = document.querySelector('.submenu');
     const submenuContent = document.querySelector('.submenu-content');
     const userIcon = document.querySelector('.user-icon');
-    
+
     submenuContent.classList.toggle('opened');
     submenuContent.classList.toggle('closed');
 
     submenu.classList.toggle('d-none');
-    
+
     userIcon.classList.toggle('user-icon-activated');
 }
 
@@ -87,7 +87,7 @@ function convertDateFormat(date) {
  * @param {String} date - Gets the input value as yyyy-mm-dd.
  * @returns the value as dd/mm/yyyy.
  */
-function dateFormatter(date){
+function dateFormatter(date) {
     return date.split("-").reverse().join("/");
 }
 
@@ -102,15 +102,15 @@ function formatDueDate(e) {
 
     var keynum;
 
-    if(window) { // IE                  
+    if (window) { // IE                  
         keynum = e.keyCode;
-    } else if(e.which){ // Netscape/Firefox/Opera                 
+    } else if (e.which) { // Netscape/Firefox/Opera                 
         keynum = e.which;
     }
 
     let lastChar = String.fromCharCode(keynum);
 
-    if(lastChar != "/" && (date.value.length == 2|| date.value.length == 5)){
+    if (lastChar != "/" && (date.value.length == 2 || date.value.length == 5)) {
         date.value += '/';
     }
 }
@@ -122,7 +122,11 @@ async function loadTaskWithID(id) {
 }
 
 function closeOverlay() {
-    document.getElementById('task-details').style = 'display: none;';
-    document.getElementById('all-content').style = 'filter: brightness(1);';
+
+    document.getElementById('task-details').style.display = 'none';
+    document.getElementById('all-content').style.filter = 'brightness(1)';
+    document.getElementById('overlay-blocker').classList.add('hidden');
+
     loadTasks();
 }
+

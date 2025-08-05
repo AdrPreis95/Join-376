@@ -3,14 +3,19 @@
  * @param {number} id - The ID is transferred when the function is called so that the correct task can be loaded from Firebase.
  */
 async function showOverlayDetailsTask(id) {
-    id--
-    document.getElementById('all-content').style = 'filter: brightness(0.5);';
+    id--;
+document.getElementById('all-content').style = 'filter: brightness(0.5);';
+document.getElementById('overlay-blocker').classList.remove('hidden');
+
     let responseTask = await fetch(BASE_URL + "/tasks.json");
     let responseTaskJson = await responseTask.json();
     let tasksArray = Object.values(responseTaskJson);
     tasksArray = tasksArray[id];
+
+    
     renderOverlay(tasksArray);
 }
+
 
 
 

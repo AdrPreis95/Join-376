@@ -401,3 +401,14 @@ function resetToMainPage() {
         }
     }
 }
+
+
+function openTaskDetails() {
+  document.getElementById('task-details').style.display = 'flex';
+  document.getElementById('overlay-blocker').classList.remove('hidden');
+}
+
+function closeTaskDetails() {
+  document.getElementById('task-details').style.display = 'none';
+  document.getElementById('overlay-blocker').classList.add('hidden');
+}

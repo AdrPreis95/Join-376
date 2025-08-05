@@ -283,10 +283,12 @@
 
 .assigned-task {
     display: flex;
+    overflow: hidden !important;
 }
 
 .assigned-user-container {
     display: flex;
+    
 }
 
 .assigned-user {
@@ -349,4 +351,16 @@
   textarea::placeholder {
       font-size: 16px !important;
   }
+}
+
+.overlay-blocker {
+  position: fixed;
+  inset: 0;
+  z-index: 9998; 
+  background: transparent;
+  pointer-events: auto;
+}
+
+.hidden {
+  display: none !important;
 }

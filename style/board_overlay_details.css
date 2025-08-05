@@ -23,7 +23,7 @@
 .task-details {
     display: none;
     position: fixed;
-    z-index: 1000;
+    z-index: 9999 !important;
     top: 50%;
     left: 50%;
     transform: translate(100%, -50%);
