@@ -227,6 +227,7 @@
     flex-direction: column;
     gap: 24px;
     cursor: pointer;
+    word-break: break-all !important;
 }
 
 .task-card:active {

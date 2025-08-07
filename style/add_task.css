@@ -599,7 +599,8 @@ select {
 
 .picked-user-name {
     display: inline-block;
-    max-width: 58px;
+    /* max-width: 58px; */
+    width: 38px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -615,6 +616,7 @@ select {
 }
 
 .picked-user-info {
+    width: 60px;
     position: relative;
     display: inline-flex;
     flex-direction: column;

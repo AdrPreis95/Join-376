@@ -269,6 +269,8 @@
     }
 }
 
+
+
 /*⬇️⬇️⬇️ ADD-TASK-RESPONSIVE⬇️⬇️⬇️  */
 @media (min-width: 1200px) {
     #main-page .required-p {
@@ -296,7 +298,7 @@
         display: none;
         position: fixed !important;
         width: 440px !important;
-        top: 626px !important;
+        top: 638px !important;
         height: 290px !important;
         z-index: 1 !important;
     }
@@ -361,6 +363,15 @@
         width: 100% !important;
     }
 
+    #main-page #dropdown-user {
+        filter: drop-shadow(0px 0px 4px #D1D1D1);
+        display: none;
+        position: unset !important;
+        width: unset !important;
+        top: unset !important;
+        height: auto;
+
+    }
 }
 
 @media (max-width: 900px) {
@@ -610,7 +621,7 @@
     }
 
     #user-names-edit-overlay {
-        display:grid !important;
+        display: grid !important;
         background-color: transparent !important;
         border-radius: 10px;
         grid-template-columns: 1fr 1fr 1fr !important;
