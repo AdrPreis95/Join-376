@@ -72,20 +72,41 @@ function synchronizeCheckboxes() {
  * @param {Object} contact - The contact object.
  */
 
+// function createContactElement(dropdown, contact) {
+//     if (!contact) return;
+//     let userContainer = document.createElement('div');
+//     userContainer.classList.add('user-container');
+//     let avatarContainer = createAvatarContainer(contact);
+//     let checkbox = createCheckbox(contact);
+//     userContainer.appendChild(avatarContainer);
+//     userContainer.appendChild(checkbox);
+//     userContainer.addEventListener('click', function (event) {
+//         if (event.target !== checkbox) {
+//             checkbox.checked = !checkbox.checked;
+//             checkbox.dispatchEvent(new Event('change'));
+//         }
+//     });
+//     dropdown.appendChild(userContainer);
+// }
 function createContactElement(dropdown, contact) {
     if (!contact) return;
-    let userContainer = document.createElement('div');
+let userContainer = document.createElement('div');
     userContainer.classList.add('user-container');
-    let avatarContainer = createAvatarContainer(contact);
+const isSelected = selectedContacts.some(c => c.email === contact.email);
+    if (isSelected) {
+        userContainer.classList.add('selected'); }
+let avatarContainer = createAvatarContainer(contact);
     let checkbox = createCheckbox(contact);
-    userContainer.appendChild(avatarContainer);
+ userContainer.appendChild(avatarContainer);
     userContainer.appendChild(checkbox);
+
     userContainer.addEventListener('click', function (event) {
         if (event.target !== checkbox) {
             checkbox.checked = !checkbox.checked;
             checkbox.dispatchEvent(new Event('change'));
         }
     });
+
     dropdown.appendChild(userContainer);
 }
 

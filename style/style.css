@@ -336,3 +336,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .viewer-toolbar>ul>li{
     font-size: unset !important;
 }
+
+
+#pdf-modal {
+  z-index: 2147483640 !important; 
+  position: fixed;     
+}
+.viewer-container  {
+  z-index: 2147483647 !important;
+  position: fixed;
+}
