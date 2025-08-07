@@ -375,16 +375,18 @@ async function selectedUserEdit(id) {
 
     if (Array.isArray(responseJson.assignedTo)) {
         for (let i = 0; i < responseJson.assignedTo.length; i++) {
-            let firstName = responseJson.assignedTo[i].firstName[0];
-            let lastName = responseJson.assignedTo[i].lastName[0];
-            let firstLetter = firstName + lastName;
-            usersFirstLetters.push(firstLetter);
+            let firstName = responseJson.assignedTo[i].firstName || '';
+            let lastName = responseJson.assignedTo[i].lastName || '';
+            let fullName = `${firstName} ${lastName}`.trim();
+            let initials = getInitials(fullName);
+            usersFirstLetters.push(initials);
             colors.push(responseJson.assignedTo[i].color);
         }
     }
 
     renderOverlayEditUser(usersFirstLetters, colors);
 }
+
 
 /**
  * This function renders the respective users.

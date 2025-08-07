@@ -146,18 +146,22 @@ function renderOverlayUser(responseTaskJson) {
  * @returns The whole name, the initial letters and the color for the icon are returned.
  */
 function determineUserInfo(responseTaskJson, names, firstLetters, colors) {
-    if (responseTaskJson.assignedTo != undefined) {
+    if (responseTaskJson.assignedTo && Array.isArray(responseTaskJson.assignedTo)) {
         for (let i = 0; i < responseTaskJson.assignedTo.length; i++) {
-            let name = responseTaskJson.assignedTo[i].firstName + " " + responseTaskJson.assignedTo[i].lastName;
-            let firstLetter = responseTaskJson.assignedTo[i].firstName[0] + responseTaskJson.assignedTo[i].lastName[0];
-            let color = responseTaskJson.assignedTo[i].color;
-            names.push(name);
-            firstLetters.push(firstLetter.replace("(", ""));
+            const user = responseTaskJson.assignedTo[i];
+
+            // Sichere Namensbildung
+            const fullName = user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim();
+            const initials = (window.getInitials) ? window.getInitials(fullName) : '?';
+            const color = user.color || '#ccc';
+
+            names.push(fullName);
+            firstLetters.push(initials);
             colors.push(color);
         }
     }
-    return names, firstLetters, colors;
 }
+
 
 /**
  * This function renders the subtasks and the corresponding icon, which indicates whether the subtask is completed or open.

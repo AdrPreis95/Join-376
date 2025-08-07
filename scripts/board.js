@@ -209,18 +209,22 @@ function calculateSubtaskProgress(subtasks, id) {
 function getFirstLetter(user, id) {
     let firstLetters = [];
     let colors = [];
-    if (user !== undefined) {
+
+    if (Array.isArray(user)) {
         for (let i = 0; i < user.length; i++) {
-            let firstName = user[i].firstName[0];
-            let lastName = user[i].lastName[0];
-            let color = user[i].color;
-            let firstLetter = firstName + lastName;
-            firstLetters.push(firstLetter);
+            const fullName = user[i].name || `${user[i].firstName || ''} ${user[i].lastName || ''}`.trim();
+           const initials = window.getInitials(fullName);
+
+            const color = user[i].color || '#cccccc';
+
+            firstLetters.push(initials);
             colors.push(color);
         }
     }
+
     renderFirstLetter(firstLetters, colors, id);
 }
+
 
 /**
  * This function renders the initial letters of the names in the map.

@@ -164,21 +164,27 @@ function convertToBase64(file) {
     });
 }
 
-
-
-/**
- * Prepares subtasks and contacts for saving.
- */
 function prepareSubtasksAndContacts() {
     subtasksArray = subtasksArray.map(subtask => ({
         ...subtask,
         status: subtask.status || 'not done'
     }));
-    selectedContacts = selectedContacts.map(contact => ({
-        firstName: contact.firstName || '',
-        lastName: contact.lastName || '',
-        color: generateColor()
-    }));
+
+    selectedContacts = selectedContacts.map(contact => {
+        let firstName = contact.firstName || '';
+        let lastName = contact.lastName || '';
+        let name = contact.name || `${firstName} ${lastName}`;
+        let color = contact.color || generateColor();
+
+        return {
+            name,
+            firstName,
+            lastName,
+            color,
+            email: contact.email || '',
+            phone: contact.phone || ''
+        };
+    });
 }
 
 /**

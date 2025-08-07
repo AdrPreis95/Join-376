@@ -369,7 +369,7 @@
         position: unset !important;
         width: unset !important;
         top: unset !important;
-        height: auto;
+        /* height: auto !important; */
 
     }
 }
