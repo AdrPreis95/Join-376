@@ -1,29 +1,18 @@
 /**
- * @type {string}
  * @description This parameter sets the default priority to "Medium". 
- * It ensures that the priority button starts with "Medium" as the selected state
- * unless explicitly changed by the user.
- */
+ * It ensures that the priority button starts with "Medium" as the selected state */
 let currentPriority = 'Medium';
 /**
  * Global variables to manage priorities, subtasks, and contacts.
- * @type {string}
  */
 let priority = '';
-/** @type {Array<Object>} */
 let subtasksArray = [];
-/** @type {Array<Object>} */
 let allContacts = [];
-/** @type {Array<Object>} */
 let selectedContacts = [];
-
 window.uploadedFiles = [];
-
 
 /**
  * Fetches all task IDs from the backend.
- * @async
- * @returns {Promise<number[]>} Array of task IDs.
  */
 async function getAllTaskIDs() {
     try {
@@ -222,7 +211,6 @@ function buildNewTask(id, title, description, dueDate, category, color, files = 
 /**
  * Saves the task to the backend.
  * @async
- * @param {Object} newTask - The task object to save.
  * @returns {Promise<void>}
  */
 async function saveTask(newTask) {
@@ -261,8 +249,7 @@ async function saveTask(newTask) {
 }
 
 /**
- * Resets the styles of all priority buttons.
- */
+ * Resets the styles of all priority buttons. */
 function resetPriorityButtons() {
     resetButton('prio-red');
     resetButton('prio-orange');
@@ -271,7 +258,6 @@ function resetPriorityButtons() {
 
 /**
  * Resets the styles of a single button.
- * @param {string} buttonId - The ID of the button to reset.
  */
 function resetButton(buttonId) {
     let button = document.getElementById(buttonId);
@@ -283,8 +269,6 @@ function resetButton(buttonId) {
 
 /**
  * Changes the color of the selected priority button.
- * @param {HTMLElement} element - The priority button element.
- * @param {string} color - The color to apply.
  */
 function changeColor(element, color) {
     resetPriorityButtons();
@@ -308,8 +292,6 @@ window.addEventListener('DOMContentLoaded', function () {
 
 /**
  * Applies styles to the selected priority button.
- * @param {HTMLElement} element - The priority button element.
- * @param {string} color - The color to apply.
  */
 function applyButtonColor(element, color) {
     element.style.backgroundColor = color;
@@ -319,8 +301,7 @@ function applyButtonColor(element, color) {
 }
 
 /**
- * Toggles the visibility of the subtask input and buttons.
- */
+ * Toggles the visibility of the subtask input and buttons. */
 function addSubtask() {
     toggleShowIcons(true);
     toggleAddSubtaskButton(false);
@@ -328,7 +309,6 @@ function addSubtask() {
 
 /**
  * Toggles the visibility of the icons for adding subtasks.
- * @param {boolean} show - Whether to show or hide the icons.
  */
 function toggleShowIcons(show) {
     let showIcons = document.getElementById('show-icons');
@@ -336,25 +316,21 @@ function toggleShowIcons(show) {
 }
 
 /**
- * Toggles the visibility of the "Add Subtask" button.
- * @param {boolean} show - Whether to show or hide the button.
- */
+ * Toggles the visibility of the "Add Subtask" button. */
 function toggleAddSubtaskButton(show) {
     let addSubtaskButton = document.getElementById('add-subtask');
     if (addSubtaskButton) addSubtaskButton.style.display = show ? "inline-block" : "none";
 }
 
 /**
- * Clears the subtask input field.
- */
+ * Clears the subtask input field. */
 function clearSubtaskInput() {
     let subtaskInput = document.getElementById('addsubtasks');
     if (subtaskInput) subtaskInput.value = '';
 }
 
 /**
- * Validates and confirms a new subtask. Adds it to the subtask list if valid.
- */
+ * Validates and confirms a new subtask. Adds it to the subtask list if valid. */
 function confirmSubtask() {
     let subtaskList = document.getElementById('subtask-list');
     let subtaskCount = subtaskList.getElementsByTagName('li').length;
@@ -405,8 +381,7 @@ function createSubtaskElement(subtaskValue) {
 }
 
 /**
- * Resets the subtask input field and toggles buttons back to their default state.
- */
+ * Resets the subtask input field and toggles buttons back to their default state. */
 function resetSubtaskInputs() {
     document.getElementById('addsubtasks').value = '';
     toggleShowIcons(false);
@@ -414,9 +389,7 @@ function resetSubtaskInputs() {
 }
 
 /**
- * Edits an existing subtask.
- * @param {HTMLElement} editBtn - The button element used to trigger the edit.
- */
+ * Edits an existing subtask. */
 function editSubtask(editBtn) {
     let subtaskText = editBtn.parentElement.previousElementSibling.querySelector('.subtask-text');
     subtaskText.contentEditable = "true";
