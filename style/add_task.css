@@ -337,7 +337,7 @@ select {
     display: none;
     background-color: #FFFF;
     flex-direction: column;
-    padding: 6px 0px 6px 6px;
+    padding: 6px 6px 6px 6px;
     gap: 8px;
     overflow: scroll;
     overflow-y: scroll;
