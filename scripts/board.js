@@ -400,18 +400,23 @@ function resetToMainPage() {
             const body = iframeDocument.body;
             if (body) {
                 console.log("Resetting body ID to 'main-page'");
-                body.id = 'main-page'; // Resets the ID to indicate the main page mode
+                body.id = 'main-page'; 
             }
         }
     }
 }
 
-
+/**
+ * This function opens the overlayblocker in the background of the task.
+ */
 function openTaskDetails() {
   document.getElementById('task-details').style.display = 'flex';
   document.getElementById('overlay-blocker').classList.remove('hidden');
 }
 
+/**
+ * This function close the overlayblocker.
+ */
 function closeTaskDetails() {
   document.getElementById('task-details').style.display = 'none';
   document.getElementById('overlay-blocker').classList.add('hidden');

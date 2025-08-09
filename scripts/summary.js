@@ -1,3 +1,6 @@
+/**
+ Initialize the tasks,users,sets the user initials and greets ervery user
+ */
 function onLoadFunc() {
     updateGreeting(); 
     setUserInitials();
@@ -5,6 +8,10 @@ function onLoadFunc() {
     showTasksOnList();
 }
 
+
+/**
+ This funtion updates the greeting message for every login 
+ */
 function updateGreeting(){
     const greeting = document.querySelector(".greeting");
     const user = document.querySelector(".user");
@@ -24,6 +31,9 @@ function updateGreeting(){
     setTimeout(updateGreeting, timeUntilNextHour);
 }
 
+/**
+ This function updated the time for the greeting message (Good Morning , Afternoon aso.)
+ */
 function getTimeOfDay() {
     const times = [
         { greet: 'Morning', start: 5, end: 12 },
@@ -42,13 +52,14 @@ function getTimeOfDay() {
     return currentTime.greet;
 }
 
+
+/**
+ This function displays urgent tasks in summary upcomming date ,by priority
+ */
 async function showUrgentTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
-    // If tasksJson is an object, convert it to an array
     tasksJson = Array.isArray(tasksJson) ? tasksJson : Object.values(tasksJson);
-
-    /* Takes a list of tasks, and priority Urgent to filter */
     const getUrgentTasks = (tasksJson, prio) =>
     tasksJson.filter(task => task.prio == prio);
 
@@ -74,6 +85,9 @@ async function showUrgentTasks() {
     }    
 }
 
+/**
+ checks the date time 
+ */
 function compareDates(d1, d2){
     let date1 = new Date(d1).getTime();
     let date2 = new Date(d2).getTime();
@@ -85,13 +99,14 @@ function compareDates(d1, d2){
     }
 }
 
+
+/**
+ Shows all the tasks and stats and prioritys of all the tasks
+ */
 async function showTasksOnList() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
-    // If tasksJson is an object, convert it to an array
     tasksJson = Array.isArray(tasksJson) ? tasksJson : Object.values(tasksJson);
-
-    /* Takes a list of tasks, and priority Urgent to filter */
     const getTasksOnList = (tasksJson, list) =>
     tasksJson.filter(task => task.list == list);
 
@@ -107,6 +122,10 @@ async function showTasksOnList() {
     document.getElementById("show-tasks-await-feedback").innerHTML = awaitFeedbackTasks.length;
 }
 
+
+/**
+ Redirect to the Board HTML 
+ */
 function redirectToBoard() {
     window.location.href = "./board.html";
 }

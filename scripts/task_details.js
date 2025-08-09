@@ -71,23 +71,6 @@ function synchronizeCheckboxes() {
  * @param {HTMLElement} dropdown - The dropdown element where the contact will be added.
  * @param {Object} contact - The contact object.
  */
-
-// function createContactElement(dropdown, contact) {
-//     if (!contact) return;
-//     let userContainer = document.createElement('div');
-//     userContainer.classList.add('user-container');
-//     let avatarContainer = createAvatarContainer(contact);
-//     let checkbox = createCheckbox(contact);
-//     userContainer.appendChild(avatarContainer);
-//     userContainer.appendChild(checkbox);
-//     userContainer.addEventListener('click', function (event) {
-//         if (event.target !== checkbox) {
-//             checkbox.checked = !checkbox.checked;
-//             checkbox.dispatchEvent(new Event('change'));
-//         }
-//     });
-//     dropdown.appendChild(userContainer);
-// }
 function createContactElement(dropdown, contact) {
     if (!contact) return;
 let userContainer = document.createElement('div');

@@ -9,6 +9,9 @@ if (sessionStorage.loggedUser != undefined) {
     window.location.href = "./index.html";
 }
 
+/**
+ Array with farbcodes for the usercolors
+ */
 const colors = [
     "#FF7F00", "#FF66CC", "#A349A4",
     "#8A2BE2", "#00C5CD", "#00CED1",
@@ -17,6 +20,9 @@ const colors = [
     "#FFFF00", "#FF4040", "#FFA500"
 ];
 
+/**
+ This function adds a random color for any user
+ */
 function generateColor() {
     const colors = ["#FF7A00", "#FF5EB3", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1", "#FF745E", "#FFA35E", "#FC71FF", "#FFC701", "#0038FF", "#C3FF2B", "#FFE62B", "#FF4646", "#FFBB2B"];
     let length = colors.length;
@@ -24,23 +30,31 @@ function generateColor() {
     return color;
 }
 
+/**
+ This Function initializes alls the Task 
+ */
 function init() {
     loadTasks();
 }
 
+
+/**
+ This Function sets the user Initials
+ */
 function setUserInitials() {
     const userInitiials = document.getElementById('user-initials');
     userInitiials.innerHTML = getUserInitials(loggedUser.name);
 }
 
+
+/**
+ This functon sets the user initials by the name and lastname for the usericon
+ */
 function getUserInitials(name) {
-    // Remove whitespaces
+
     name = name.trim();
 
-    // Get names
     const words = name.split(' ');
-
-    // Get first char from First and Last name
     let initials = '';
     initials += words[0].charAt(0).toUpperCase();
     if (words.length > 1) {
@@ -49,6 +63,10 @@ function getUserInitials(name) {
 
     return initials;
 }
+
+/**
+ Function for toggling the user submenu
+ */
 
 function toggleSubmenu() {
     const submenu = document.querySelector('.submenu');
@@ -63,6 +81,10 @@ function toggleSubmenu() {
     userIcon.classList.toggle('user-icon-activated');
 }
 
+
+/**
+ This function logs out the user and bring him to the mainpage for login and sign in
+ */
 function logOut() {
     loggedUser = {};
     sessionStorage.removeItem("loggedUser");
@@ -102,9 +124,9 @@ function formatDueDate(e) {
 
     var keynum;
 
-    if (window) { // IE                  
+    if (window) {                  
         keynum = e.keyCode;
-    } else if (e.which) { // Netscape/Firefox/Opera                 
+    } else if (e.which) {               
         keynum = e.which;
     }
 
@@ -115,11 +137,20 @@ function formatDueDate(e) {
     }
 }
 
+
+/**
+ This Function loads all the task by the id
+ */
+
 async function loadTaskWithID(id) {
     let response = await fetch(BASE_URL + "/tasks/" + id + ".json");
     let responseJson = await response.json();
     return responseJson;
 }
+
+/**
+ closes the Overlay in Board after clicking the close button
+ */
 
 function closeOverlay() {
 

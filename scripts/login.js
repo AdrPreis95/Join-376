@@ -34,13 +34,13 @@ var password = true;
 passwordIcon.addEventListener('click', function(){
     if (inputPassword.value !== "") {
         if(password) {
-            // change the input type attribute from "password" to "text"
+          
             inputPassword.setAttribute('type','text'); 
             passwordIcon.classList.remove('eye-icon');
             passwordIcon.classList.add('eye-slash-icon');
             inputPassword.focus();
         } else {
-            // change the input type attribute from "text" to "password"
+        
             inputPassword.setAttribute('type','password');
             passwordIcon.classList.remove('eye-slash-icon');
             passwordIcon.classList.add('eye-icon');

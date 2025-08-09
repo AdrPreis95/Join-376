@@ -314,8 +314,6 @@ async function showUploadPreview(newFiles) {
     updateUploadWarnings();
 }
 
-
-
 /**
  * Removes a file from the uploaded list by index and updates the preview.
  * @param {number} index - Index of the file to remove.
@@ -422,10 +420,7 @@ function closePdfModalAdd() {
 
 
 /**
- * Displays a temporary overlay warning when a user selects an unsupported file type.
- *
- * @param {string} extension - The rejected file extension (e.g., ".exe", ".docx").
- */
+ * Displays a temporary overlay warning when a user selects an unsupported file type. */
 function showFileTypeWarning(extension) {
     const overlay = document.getElementById('filetype-warning-overlay');
     const typeSpan = document.getElementById('rejected-filetype');

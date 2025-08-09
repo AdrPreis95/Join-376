@@ -149,8 +149,6 @@ function determineUserInfo(responseTaskJson, names, firstLetters, colors) {
     if (responseTaskJson.assignedTo && Array.isArray(responseTaskJson.assignedTo)) {
         for (let i = 0; i < responseTaskJson.assignedTo.length; i++) {
             const user = responseTaskJson.assignedTo[i];
-
-            // Sichere Namensbildung
             const fullName = user.name || `${user.firstName || ''} ${user.lastName || ''}`.trim();
             const initials = (window.getInitials) ? window.getInitials(fullName) : '?';
             const color = user.color || '#ccc';

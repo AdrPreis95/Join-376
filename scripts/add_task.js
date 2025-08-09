@@ -1,19 +1,15 @@
-/**
- * @description This parameter sets the default priority to "Medium". 
- * It ensures that the priority button starts with "Medium" as the selected state */
+/*This parameter sets the default priority to "Medium". 
+ *It ensures that the priority button starts with "Medium" as the selected state */
 let currentPriority = 'Medium';
-/**
- * Global variables to manage priorities, subtasks, and contacts.
- */
+
+/*Global variables to manage priorities, subtasks, and contacts. */
 let priority = '';
 let subtasksArray = [];
 let allContacts = [];
 let selectedContacts = [];
 window.uploadedFiles = [];
 
-/**
- * Fetches all task IDs from the backend.
- */
+/*Fetches all task IDs from the backend.*/
 async function getAllTaskIDs() {
     try {
         let response = await fetch(`${BASE_URL}/tasks.json`);
@@ -25,39 +21,24 @@ async function getAllTaskIDs() {
     }
 }
 
-/**
- * Extracts IDs from the tasks data object.
- * @param {Object} tasksData - Tasks data from backend.
- * @returns {number[]} Array of task IDs.
- */
+/*** Extracts IDs from the tasks data object. */
 function extractIDs(tasksData) {
     let ids = Object.keys(tasksData).map(key => parseInt(tasksData[key].id));
     return ids.filter(Number.isInteger);
 }
 
-/**
- * Generates a new task ID.
- * @async
- * @returns {Promise<number>} The new task ID.
- */
+/*Generates a new task ID.*/
 async function generateNewID() {
     let existingIDs = await getAllTaskIDs();
     return Math.max(...existingIDs, 0) + 1;
 }
 
-/**
- * Sets the priority for the task.
- * @param {string} prio - The priority level.
- */
+/**Sets the priority for the task.*/
 function setPriority(prio) {
     priority = prio;
 }
 
-/**
- * Creates a new task with all inputs and saves it to the backend.
- * @async
- * @returns {Promise<void>}
- */
+/*Creates a new task with all inputs and saves it to the backend.*/
 async function createTask() {
     validateInput();
     validateDateInput();
@@ -128,29 +109,19 @@ function convertToBase64(file) {
     return new Promise((resolve, reject) => {
         const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf'];
         const maxSize = 1 * 1024 * 1024; 
-
         if (!allowedTypes.includes(file.type)) {
             alert(`File type ${file.type} is not supported.`);
-            return resolve({ base64: "", name: file.name });
-        }
-
+            return resolve({ base64: "", name: file.name });}
         if (file.size > maxSize) {
             alert("File size too large. Maximum allowed: 1 MB.");
-            return resolve({ base64: "", name: file.name });
-        }
-
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-
-        reader.onload = () => {
-            resolve({ base64: reader.result, name: file.name });
-        };
-
-        reader.onerror = (error) => {
+            return resolve({ base64: "", name: file.name });}
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+            resolve({ base64: reader.result, name: file.name });};
+            reader.onerror = (error) => {
             console.error("Error reading file:", error);
-            resolve({ base64: "", name: file.name });
-        };
-    });
+            resolve({ base64: "", name: file.name });};});
 }
 
 function prepareSubtasksAndContacts() {
