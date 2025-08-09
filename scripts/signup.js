@@ -58,13 +58,11 @@ var password = true;
 passwordIcon.addEventListener('click', function(){
     if (inputPassword.value !== "") {
         if(password) {
-            // change the input type attribute from "password" to "text"
             inputPassword.setAttribute('type','text'); 
             passwordIcon.classList.remove('eye-icon');
             passwordIcon.classList.add('eye-slash-icon');
             inputPassword.focus();
         } else {
-            // change the input type attribute from "text" to "password"
             inputPassword.setAttribute('type','password');
             passwordIcon.classList.remove('eye-slash-icon');
             passwordIcon.classList.add('eye-icon');
@@ -81,13 +79,12 @@ var confirmPass = true;
 confirmIcon.addEventListener('click', function(){
     if (confirmPassword.value !== "") {
         if(confirmPass) {
-            // change the input type attribute from "password" to "text"
+           
             confirmPassword.setAttribute('type','text'); 
             confirmIcon.classList.remove('eye-icon');
             confirmIcon.classList.add('eye-slash-icon');
             confirmPassword.focus();
         } else {
-            // change the input type attribute from "text" to "password"
             confirmPassword.setAttribute('type','password');
             confirmIcon.classList.remove('eye-slash-icon');
             confirmIcon.classList.add('eye-icon');

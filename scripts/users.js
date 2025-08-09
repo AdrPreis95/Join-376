@@ -58,25 +58,7 @@ async function patchData(path = "", data = {}) {
 /**
  * This function loads an user
  */
-// async function loadUser() {
-//     errorMsgLogin.classList.add('hidden');
-//     if (checkInputEmail(emailLogin)) {
-//         if (checkInputPassword(passwordLogin)) {
-//             let gettedUser = await loadData("users/" + editEmailToKey(emailLogin.value));
-//             if (gettedUser) {
-//                 if (matchingPassword(gettedUser.password, passwordLogin.value)) {
-//                     redirectToSummary(gettedUser, emailLogin, passwordLogin);
-//                 } else {                    
-//                     showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); //because passwords do not match
-//                 }
-//             } else {                
-//                 showErrorMsg(errorMsgLogin, passwordLogin, emailLogin);//beacuse user does not exist
-//             }
-//         }
-//     }
-// }
 async function loadUser() {
-    // Fehleranzeige zurücksetzen
     errorMsgLogin.classList.add('hidden');
     emailLogin.classList.remove("wrong-input");
     passwordLogin.classList.remove("wrong-input");
@@ -84,7 +66,7 @@ async function loadUser() {
     const email = emailLogin.value.trim();
     const password = passwordLogin.value;
 
-    // Prüfe auf leeres Feld
+
     if (!email) {
         emailLogin.classList.add("wrong-input");
         emailLogin.focus();
@@ -93,7 +75,7 @@ async function loadUser() {
         return;
     }
 
-    // E-Mail-Format prüfen
+    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         emailLogin.classList.add("wrong-input");
@@ -103,7 +85,7 @@ async function loadUser() {
         return;
     }
 
-    // Passwort prüfen
+    
     if (!password) {
         passwordLogin.classList.add("wrong-input");
         passwordLogin.focus();
@@ -112,16 +94,16 @@ async function loadUser() {
         return;
     }
 
-    // Lade Benutzer aus Firebase
+   
     let gettedUser = await loadData("users/" + editEmailToKey(email));
     if (gettedUser) {
         if (matchingPassword(gettedUser.password, password)) {
             redirectToSummary(gettedUser, emailLogin, passwordLogin);
         } else {
-            showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); // falsches Passwort
+            showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); 
         }
     } else {
-        showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); // Benutzer nicht gefunden
+        showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); 
     }
 }
 
@@ -377,7 +359,6 @@ function errorPasswords(errorMsg, password, confirmPassword) {
  * @param {HTMLElement} email
  */
 function emailAlreadyLinked(email) {
-    //Email is already linked to an account
     notificationPopUp("Email is already linked to an account!");
     email.classList.add('wrong-input');
     email.focus();
@@ -414,12 +395,10 @@ function showSucessSignedUp() {
     // Show success message on successful sign-up
     const successMessage = document.querySelector('.success-signed');
     successMessage.style.display = 'flex';
-
-    // Hide the success message after a few seconds
     setTimeout(() => {
         successMessage.style.display = 'none';
         window.location.href = "./index.html";
-    }, 2000); // Duration as needed
+    }, 2000); 
 }
 
 /**
@@ -427,17 +406,15 @@ function showSucessSignedUp() {
  * @param {String} msg
  */
 function notificationPopUp(msg = "") {
-    // Show notification
     const notificationMessage = document.querySelector('.notification');
     let spanMessage = document.getElementById("pop-up-notification");
 
     spanMessage.innerHTML = msg;
     notificationMessage.style.display = 'flex';
 
-    // Hide the notification after a few seconds
     setTimeout(() => {
         notificationMessage.style.display = 'none';
-    }, 1500); // Duration as needed
+    }, 1500); 
 }
 
 /**
