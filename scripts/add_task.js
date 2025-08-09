@@ -49,24 +49,18 @@ async function createTask() {
     const isDescriptionValid = description.trim() !== "";
     const isDueDateValid = dueDate.match(/^\d{2}\/\d{2}\/\d{4}$/);
     const isCategoryValid = category !== "";
-
     if (!isTitleValid || !isDueDateValid || !isCategoryValid) return;
-
     const files = uploadedFiles;
     if (!validateFileLimits(files)) return;
-
     const allTypesValid = files.every(file => {
         const type = file.type;
         const name = file.name.toLowerCase();
         const validImage = type.startsWith('image/') && /\.(png|jpe?g)$/.test(name);
         const validPdf = type === 'application/pdf' && name.endsWith('.pdf');
-        return validImage || validPdf;
-    });
-
+        return validImage || validPdf;});
     if (!allTypesValid) {
         showSecurityOverlay("File type not allowed due to security restrictions.");
-        return;
-    }
+        return;}
 
     prepareSubtasksAndContacts();
     let newID = await generateNewID();
@@ -78,7 +72,8 @@ async function createTask() {
 
 }
 
-
+/**
+ Shows the Secure overlay if tryed to upload a .exe or js or php file */
 function showSecurityOverlay(message) {
     const overlay = document.createElement("div");
     overlay.innerText = message;
