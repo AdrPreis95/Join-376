@@ -1,552 +1,315 @@
-/**
- * This function is called as soon as a task is to be processed. All parameters are first collected and transferred to other functions.
- * @param {number} id - Transfers the ID of the task in question.
- * @param {string} title - Hands over the title.
- * @param {string} description - Transfers the description.
- * @param {Date} dueDate - Transfers the completion date.
- * @param {string} priority - Transfers the priority.
- */
+let _fpInstance;
+
 async function editTask(id, title, description, dueDate, priority) {
-    id--;
-    let refOverlay = document.getElementById('task-details');
-    refOverlay.innerHTML = "";
-    refOverlay.innerHTML = getOverlayEdit(id, title, description, dueDate);
-    document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
-    checkActivePriority(priority);
-    selectedUserEdit(id);
-    renderOverlayEditSubtasks(id);
-    loadContacts(id);
-    activeFlatPickr();
-    const task = await loadTaskWithID(id);
-    renderEditFile(task);
-
+  id--; const box = document.getElementById('task-details');
+  box.innerHTML = getOverlayEdit(id, title, description, dueDate);
+  document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
+  checkActivePriority(priority); selectedUserEdit(id); renderOverlayEditSubtasks(id);
+  loadContacts(id); activeFlatPickr(); const task = await loadTaskWithID(id);
+  renderEditFile(task);
 }
 
-/**
- * This function calls up the calendar for the dueDate.
- */
 function activeFlatPickr() {
-    const datePickerInput = document.getElementById('due-date-input');
-    const openCalendar = document.getElementById('calendar-icon');
-    const calendar = flatpickr(datePickerInput, {
-        minDate: "today",
-        dateFormat: "Y-m-d",
-    });
-    openCalendar.addEventListener('click', () => {
-        calendar.open();
-    });
+  const input = document.getElementById('due-date-input');
+  const btn = document.getElementById('calendar-icon'); if (!input || !btn) return;
+  if (!_fpInstance) { _fpInstance = flatpickr(input,{minDate:'today',dateFormat:'Y-m-d'});
+    btn.addEventListener('click',()=>_fpInstance.open(),{passive:true});
+  } else { _fpInstance.input = input; }
 }
 
-/**
- * This function changes the icon for the priority, depending on how it is.
- * @param {string} priority - Transfers the priority.
- */
 function checkActivePriority(priority) {
-    if (priority == 'Urgent') {
-        document.getElementById('urgent-label').style.backgroundColor = '#FF3D00';
-        document.getElementById('urgent-text').style = 'color: #FFFFFF;';
-        document.getElementById('urgent-icon').setAttribute("src", './assets/icons/urgent_icon_active.png');
-    } else if (priority == 'Medium') {
-        document.getElementById('medium-label').style.backgroundColor = '#FFA800';
-        document.getElementById('medium-text').style = 'color: #FFFFFF;';
-        document.getElementById('medium-icon').setAttribute("src", './assets/icons/medium_icon_active.png');
-    } else if (priority == 'Low') {
-        document.getElementById('low-label').style.backgroundColor = '#7AE229';
-        document.getElementById('low-text').style = 'color: #FFFFFF;';
-        document.getElementById('low-icon').setAttribute("src", './assets/icons/low_icon_active.png');
-    }
-    activePriority = priority;
+  const map = {Urgent:['urgent','#FF3D00'],Medium:['medium','#FFA800'],Low:['low','#7AE229']};
+  ['urgent','medium','low'].forEach(p=>{document.getElementById(p+'-label').style.backgroundColor='#FFFFFF';
+    document.getElementById(p+'-text').style.color='#000';
+    document.getElementById(p+'-icon').src=`./assets/icons/${p}_icon.png`;});
+  const [k,col] = map[priority] || ['medium','#FFA800'];
+  document.getElementById(k+'-label').style.backgroundColor = col;
+  document.getElementById(k+'-text').style.color = '#FFFFFF';
+  document.getElementById(k+'-icon').src = `./assets/icons/${k}_icon_active.png`; activePriority = priority;
 }
 
-/**
- * This function changes an icon if the priority is changed by the user.
- * @param {string} newPriority - Receives the new priority.
- */
 function changePriority(newPriority) {
-    let prioArr = ['urgent', 'medium', 'low'];
-    for (let i = 0; i < prioArr.length; i++) {
-        document.getElementById(prioArr[i] + '-label').style.backgroundColor = '#FFFFFF';
-        document.getElementById(prioArr[i] + '-text').style = 'color: #000000;';
-        let pictureUrl = './assets/icons/' + prioArr[i] + '_icon.png'
-        document.getElementById(prioArr[i] + '-icon').setAttribute("src", pictureUrl);
-    }
-    checkActivePriority(newPriority);
+  ['urgent','medium','low'].forEach(p=>{document.getElementById(p+'-label').style.backgroundColor='#FFFFFF';
+    document.getElementById(p+'-text').style.color='#000';
+    document.getElementById(p+'-icon').src=`./assets/icons/${p}_icon.png`;});
+  checkActivePriority(newPriority);
 }
 
-/**
- * This function saves the respective changes and loads them into Firebase.
- * @param {number} id - Transfers the ID to save the changes to the correct object.
- */
 async function saveEdit(id) {
-    id = await findKey(id);
-    let responseJson = await loadTaskWithID(id);
-    responseJson = generateChangeTask(responseJson);
-    let responseTask = await fetch(BASE_URL + "/tasks/" + id + ".json", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(responseJson)
-    });
-    closeOverlay();
-    loadTasks();
+  id = await findKey(id); const url = `${BASE_URL}/tasks/${id}.json`;
+  const cur = await loadTaskWithID(id); const ch = generateChangeTask({...cur});
+  const p = {}; if (ch.title!==cur.title) p.title = ch.title;
+  if (ch.description!==cur.description) p.description = ch.description;
+  if (ch.dueDate!==cur.dueDate) p.dueDate = ch.dueDate;
+  if (ch.prio!==cur.prio) p.prio = ch.prio;
+  if (Object.keys(p).length) await fetch(url,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(p)});
+  showEditConfirm('Changes saved'); closeOverlay(); loadTasks();
 }
 
-/**
- * This function loads the existing information into the placeholders.
- * @param {Object} responseJson - The entire task is transferred as an object.
- * @returns Object Task
- */
+function showEditConfirm(msg){
+  const o=document.createElement('div');
+  o.id='edit-confirm-overlay';
+  o.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);z-index:9999;opacity:0;transition:opacity .2s ease';
+  o.innerHTML=`<div style="background:#111;color:#fff;padding:18px 20px;border-radius:12px;display:flex;gap:12px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.3)">
+    <div style="width:32px;height:32px;border-radius:50%;background:#22c55e;display:flex;align-items:center;justify-content:center">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div><span style="font-weight:600">${msg}</span></div>`;
+  document.body.appendChild(o); requestAnimationFrame(()=>{o.style.opacity='1';});
+  setTimeout(()=>{ o.style.opacity='0'; setTimeout(()=>o.remove(),200); },1400);
+}
+
+
 function generateChangeTask(responseJson) {
-    let title = document.getElementById('overlay-title').value;
-    let description = document.getElementById('overlay-description').value;
-    let dueDate = document.getElementById('due-date-input').value;
-
-    if (title != "") {
-        responseJson.title = title;
-    }
-    if (description != "") {
-        responseJson.description = description;
-    }
-    if (dueDate != "") {
-        responseJson.dueDate = convertDateFormat(dueDate);
-    }
-
-    responseJson.prio = activePriorityButton();
-return responseJson;
+  const t = document.getElementById('overlay-title').value;
+  const d = document.getElementById('overlay-description').value;
+  const due = document.getElementById('due-date-input').value;
+  if (t) responseJson.title = t; if (d) responseJson.description = d;
+  if (due) responseJson.dueDate = convertDateFormat(due);
+  responseJson.prio = activePriorityButton(); return responseJson;
 }
 
-
-/**
- * This function highlights the priority already selected.
- * @returns Returns the active element.
- */
 function activePriorityButton() {
-    let lowLabel = window.getComputedStyle(document.getElementById('low-label')).getPropertyValue("background-color");
-    let mediumLabel = window.getComputedStyle(document.getElementById('medium-label')).getPropertyValue("background-color");
-    let urgentLabel = window.getComputedStyle(document.getElementById('urgent-label')).getPropertyValue("background-color");
-    let activeElement;
-
-    if (lowLabel == "rgb(122, 226, 41)") {
-        activeElement = "Low";
-    }
-    if (mediumLabel == "rgb(255, 168, 0)") {
-        activeElement = "Medium";
-    }
-    if (urgentLabel == "rgb(255, 61, 0)") {
-        activeElement = "Urgent";
-    }
-    return activeElement;
+  const bg = id => window.getComputedStyle(document.getElementById(id)).getPropertyValue('background-color');
+  if (bg('low-label')==='rgb(122, 226, 41)') return 'Low';
+  if (bg('medium-label')==='rgb(255, 168, 0)') return 'Medium';
+  if (bg('urgent-label')==='rgb(255, 61, 0)') return 'Urgent';
+  return 'Medium';
 }
 
-/**
- * This function loads the contacts from Firebase.
- * @param {number} id - Transfers the ID of the respective task.
- */
 async function loadContacts(id) {
-    let userAsContact = {
-        email: loggedUser.email,
-        id: 0,
-        name: loggedUser.name + " (You)",
-        phone: '000000'
-    }
-    let activeUser = await loadActiveUser(id);
-    let response = await fetch(BASE_URL + "/contacts.json");
-    let responseJson = await response.json();
-    let activeUserIndex = checkActiveUser(activeUser, responseJson);
-    activeUserIndex.sort();
-    responseJson.unshift(userAsContact);
-    renderOverlayContacts(id, responseJson, activeUserIndex);
+  const me = {email: loggedUser.email, id:0, name: `${loggedUser.name} (You)`, phone:'000000'};
+  const active = await loadActiveUser(id);
+  const res = await fetch(BASE_URL + "/contacts.json"); const json = await res.json();
+  const contacts = Array.isArray(json)? json : Object.values(json||{});
+  const idx = checkActiveUser(active, contacts).sort(); contacts.unshift(me);
+  renderOverlayContacts(id, contacts, idx);
 }
 
-/**
- * This function renders the existing contacts when the drop-down is opened.
- * @param {number} id - Transfers the ID of the respective task.
- * @param {object} responseJson - Contains all contacts as an object.
- * @param {number} activeUserIndex - Contains the index of the users who are active, if there are any.
- */
+function safeIdFromName(name) {
+  return 'contact-row-' + encodeURIComponent(name);
+}
+
 function renderOverlayContacts(id, responseJson, activeUserIndex) {
-    for (let i = 0; i < responseJson.length; i++) {
-        let urlIcon = './assets/icons/unchecked_icon.png';
-        for (let k = 0; k < activeUserIndex.length; k++) {
-            if (activeUserIndex[k] == [i - 1]) {
-                urlIcon = './assets/icons/checked_icon.png';
-            }
-        }
-        let color = generateColor();
-        let firstLetterFirstName = responseJson[i].name[0];
-        let position = responseJson[i].name.indexOf(" ");
-        let firstLetterLastName = responseJson[i].name[position + 1];
-        document.getElementById('user-dropdown').innerHTML += getContactName(id, responseJson[i].name, color, firstLetterFirstName, firstLetterLastName, urlIcon);
-    }
+  const set = new Set(activeUserIndex.map(i => i + 1));
+  let html = '';
+
+  for (let i = 0; i < responseJson.length; i++) {
+    const c = responseJson[i];
+    const pos = c.name.indexOf(' ');
+    const isActive = set.has(i);
+    const icon = isActive ? './assets/icons/checked_icon.png' : './assets/icons/unchecked_icon.png';
+
+    const rowId = safeIdFromName(c.name);
+    const selectedClass = isActive ? ' selected' : '';
+    html += `
+      <div id="${rowId}" class="user-container${selectedClass}">
+        ${getContactName(id, c.name, generateColor(), c.name[0], c.name[pos + 1] || '', icon)}
+      </div>
+    `;
+  }
+
+  document.getElementById('user-dropdown').innerHTML = html;
+}
+function isCheckedIcon(src) {
+  return src && src.indexOf('checked_icon.png') > -1;
 }
 
-/**
- * This function determines the users that have been entered for this task.
- * @param {number} id - The ID is transferred in order to find the correct task.
- * @returns An array is returned in which the active users.
- */
+async function toggleAssignedTo(name, id) {
+  const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
+  const task = await loadTaskWithID(id);
+
+  const [firstName, ...rest] = name.split(' ');
+  const lastName = rest.join(' ');
+
+  updateAssignedTo(task, firstName, lastName);
+  await updateTaskInFirebase(taskRefUrl, { assignedTo: task.assignedTo });
+
+  // Icon toggeln
+  const ref = document.getElementById('checkbox-contact-' + name);
+  toggleIcon(ref, './assets/icons/checked_icon.png', './assets/icons/unchecked_icon.png');
+
+  // Blaue Hinterlegung toggeln
+  const rowId = safeIdFromName(name);
+  const row = document.getElementById(rowId);
+  if (row && ref) {
+    const nowChecked = isCheckedIcon(ref.getAttribute('src'));
+    row.classList.toggle('selected', nowChecked);
+  }
+
+  // Avatare oben neu rendern
+  document.getElementById('user-names-edit-overlay').innerHTML = '';
+  selectedUserEdit(id);
+}
+
 
 async function loadActiveUser(id) {
-    let task = await loadTaskWithID(id);
-    let activeUser = [];
-
-    if (Array.isArray(task.assignedTo)) {
-        for (let i = 0; i < task.assignedTo.length; i++) {
-            let name = task.assignedTo[i].firstName + " " + task.assignedTo[i].lastName;
-            activeUser.push(name);
-        }
-    }
-
-    return activeUser;
+  const task = await loadTaskWithID(id); const arr = [];
+  if (Array.isArray(task.assignedTo)) task.assignedTo.forEach(u=>arr.push(`${u.firstName||''} ${u.lastName||''}`.trim()));
+  return arr;
 }
 
-
-/**
- * This function uses the name to check which index the users have.
- * @param {array} activeUser - The array in which the names are stored is transferred.
- * @param {object} responseJson - The task is transferred as an object.
- * @returns An array is returned in which the index of the active users has been saved.
- */
 function checkActiveUser(activeUser, responseJson) {
-    let allContacts = [];
-    let activeUserIndex = [];
-    for (let i = 0; i < responseJson.length; i++) {
-        allContacts.push(responseJson[i].name);
-    }
-    for (let i = 0; i < allContacts.length; i++) {
-        if (allContacts.indexOf(activeUser[i]) != -1) {
-            activeUserIndex.push(allContacts.indexOf(activeUser[i]));
-        }
-    }
-    return activeUserIndex;
+  const names = responseJson.map(c=>c.name), idx=[];
+  activeUser.forEach(n=>{ const i=names.indexOf(n); if(i>-1) idx.push(i);}); return idx;
 }
-
-/**
- * This function saves the change when a user is changed in the task.
- * @param {object} task - The task is transferred as an object.
- * @param {string} firstName - The first name is transferred.
- * @param {string} lastName - The surname is transferred.
- */
 
 function updateAssignedTo(task, firstName, lastName) {
-    if (!Array.isArray(task.assignedTo)) {
-        task.assignedTo = [];
-    }
-
-    const index = task.assignedTo.findIndex(user =>
-        user.firstName === firstName && user.lastName === lastName
-    );
-
-    if (index === -1) {
-        task.assignedTo.push({ firstName, lastName, color: generateColor() });
-    } else {
-        task.assignedTo.splice(index, 1);
-    }
+  if (!Array.isArray(task.assignedTo)) task.assignedTo = [];
+  const i = task.assignedTo.findIndex(u=>u.firstName===firstName && u.lastName===lastName);
+  if (i===-1) task.assignedTo.push({firstName,lastName,color:generateColor()}); else task.assignedTo.splice(i,1);
 }
 
-
-/**
- * This function saves the change in Firebase.
- * @param {string} taskRefUrl 
- * @param {object} updatedTask 
- */
 async function updateTaskInFirebase(taskRefUrl, updatedField) {
-    try {
-        const response = await fetch(taskRefUrl);
-        const currentTask = await response.json();
-        if (!currentTask) {
-            return;
-        }
-        const updatedTask = { ...currentTask, ...updatedField };
-        await fetch(taskRefUrl, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(updatedTask),
-        });
-    } catch (error) {
-        console.error("Fehler beim Aktualisieren der Aufgabe:", error);
-    }
+  try {
+    const cur = await fetch(taskRefUrl).then(r=>r.json()); if (!cur) return;
+    await fetch(taskRefUrl,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify(updatedField)});
+  } catch(e){ console.error('Fehler beim Aktualisieren der Aufgabe:', e); }
 }
 
-/**
- * This function changes the icon when a user is selected or deselected.
- * @param {string} contactRef 
- * @param {string} checkedIcon 
- * @param {string} uncheckedIcon 
- */
 function toggleIcon(contactRef, checkedIcon, uncheckedIcon) {
-    const isChecked = contactRef.getAttribute("src") === checkedIcon;
-    contactRef.setAttribute("src", isChecked ? uncheckedIcon : checkedIcon);
+  const isChecked = contactRef.getAttribute('src') === checkedIcon;
+  contactRef.setAttribute('src', isChecked ? uncheckedIcon : checkedIcon);
 }
 
-/**
- * This function changes the user.
- * @param {string} name 
- * @param {number} id 
- */
+function isCheckedIconSrc(src) {
+  return src && src.indexOf('checked_icon.png') !== -1;
+}
+
+// EINMAL nach dem Rendern binden:
+const list = document.getElementById('user-dropdown');
+if (list && !list._rowClickBound) {
+  list.addEventListener('click', (e) => {
+    const row = e.target.closest('.user-container');
+    if (!row) return;
+
+    // Wenn direkt das Icon geklickt wurde -> NICHT nochmal triggern
+    if (e.target.closest('img[id^="checkbox-contact-"]')) return;
+
+    // Sonst Klick auf Icon auslösen (ruft dein toggleAssignedTo auf)
+    const icon = row.querySelector('img[id^="checkbox-contact-"]');
+    if (icon) icon.click();
+  });
+  list._rowClickBound = true;
+}
+
 async function toggleAssignedTo(name, id) {
-    const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
-    const task = await loadTaskWithID(id);
-    const [firstName, ...lastNameParts] = name.split(" ");
-    const lastName = lastNameParts.join(" ");
-    updateAssignedTo(task, firstName, lastName);
-    await updateTaskInFirebase(taskRefUrl, { assignedTo: task.assignedTo });
-    const contactRef = document.getElementById('checkbox-contact-' + name);
-    toggleIcon(contactRef, './assets/icons/checked_icon.png', './assets/icons/unchecked_icon.png');
-    document.getElementById('user-names-edit-overlay').innerHTML = "";
-    selectedUserEdit(id);
+  const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
+  const task = await loadTaskWithID(id);
+
+  const [firstName, ...rest] = name.trim().split(/\s+/);
+  const lastName = rest.join(' ');
+
+  // Zustand lokal toggeln
+  updateAssignedTo(task, firstName, lastName);
+
+  // Backend aktualisieren
+  await updateTaskInFirebase(taskRefUrl, { assignedTo: task.assignedTo });
+
+  // Icon umschalten (deine bestehende Logik)
+  const ref = document.getElementById('checkbox-contact-' + name);
+  if (ref) toggleIcon(ref, './assets/icons/checked_icon.png', './assets/icons/unchecked_icon.png');
+
+  // >>> HIER: Blau abhängig vom tatsächlichen Zustand nach dem Update
+  const row = ref?.closest('.user-container');
+  if (row) {
+    const isSelected = task.assignedTo?.some(u => u.firstName === firstName && u.lastName === lastName);
+    row.classList.toggle('selected', !!isSelected);
+  }
+
+  // Avatare oben neu rendern
+  const box = document.getElementById('user-names-edit-overlay');
+  if (box) box.innerHTML = '';
+  selectedUserEdit(id);
 }
 
-/**
- * This function changes the status of a subtask.
- * @param {number} id 
- * @param {number} subtaskId 
- * @param {string} status 
- */
+
 async function changeStatusSubtask(id, subtaskId, status) {
-    id--;
-    id = await findKey(id);
-    let responseJson = await loadTaskWithID(id);
-    if (status == 'done') {
-        responseJson.subtasks[subtaskId].status = 'not done'
-    } else if (status == 'not done') {
-        responseJson.subtasks[subtaskId].status = 'done';
-    }
-    await fetch(BASE_URL + "/tasks/" + id + ".json", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(responseJson)
-    });
-    document.getElementById('subtasks-overlay').innerHTML = "";
-    renderOverlaySubtasks(responseJson);
+  id--; id = await findKey(id);
+  const newStatus = status==='done' ? 'not done' : 'done';
+  await fetch(`${BASE_URL}/tasks/${id}/subtasks/${subtaskId}/status.json`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(newStatus)});
+  document.getElementById('subtasks-overlay').innerHTML = '';
+  const t = await loadTaskWithID(id); renderOverlaySubtasks(t);
 }
 
-/**
- * This function opens the drop-down menu with the users.
- */
 function openDropdownAssigned() {
-    let dropdownRef = document.getElementById('selected-user-dropdown');
-    let arrowRef = document.getElementById('arrow-dropdown');
-    let assignedUserRef = document.getElementById('user-names-edit-overlay');
-    if (dropdownRef.className == 'd-none') {
-        dropdownRef.classList.remove('d-none');
-        dropdownRef.classList.add('d_block');
-        arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down_top.png");
-        assignedUserRef.classList.add('d-none');
-    } else {
-        dropdownRef.classList.add('d-none');
-        dropdownRef.classList.remove('d_block');
-        arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down.png");
-        assignedUserRef.classList.remove('d-none');
-    }
+  const dd = document.getElementById('selected-user-dropdown');
+  const arr = document.getElementById('arrow-dropdown');
+  const box = document.getElementById('user-names-edit-overlay'); if (!dd||!arr||!box) return;
+  const open = dd.className==='d-none'; dd.classList.toggle('d-none',!open);
+  dd.classList.toggle('d_block',open); arr.src = open? './assets/icons/arrow_drop_down_top.png':'./assets/icons/arrow_drop_down.png';
+  box.classList.toggle('d-none',open);
 }
 
-/**
- * This function closes the drop-down menu.
- */
-document.addEventListener('DOMContentLoaded', () => {
-    document.addEventListener('click', (event) => {
-        const dropdown = document.getElementById('selected-user-dropdown');
-        const dropdownButton = document.getElementById('assigned-container');
-        const arrowRef = document.getElementById('arrow-dropdown');
-        const assignedUserRef = document.getElementById('user-names-edit-overlay');
-
-        if (dropdown && dropdownButton && arrowRef && assignedUserRef) {
-            if (!dropdown.contains(event.target) && !dropdownButton.contains(event.target)) {
-                if (!assignedUserRef.classList.contains('d-none')) {
-                    dropdown.classList.add('d-none');
-                    dropdown.classList.remove('d_block');
-                    arrowRef.setAttribute("src", "./assets/icons/arrow_drop_down.png");
-                    assignedUserRef.classList.remove('d-none');
-                }
-            }
-        }
-    });
+document.addEventListener('DOMContentLoaded',()=>{
+  document.addEventListener('click',(e)=>{
+    const dd=document.getElementById('selected-user-dropdown');
+    const btn=document.getElementById('assigned-container');
+    const arr=document.getElementById('arrow-dropdown');
+    const box=document.getElementById('user-names-edit-overlay');
+    if(dd&&btn&&arr&&box && !dd.contains(e.target) && !btn.contains(e.target)){
+      dd.classList.add('d-none'); dd.classList.remove('d_block');
+      arr.src='./assets/icons/arrow_drop_down.png'; box.classList.remove('d-none');
+    }
+  });
 });
 
-
 async function selectedUserEdit(id) {
-    let responseJson = await loadTaskWithID(id);
-    let usersFirstLetters = [];
-    let colors = [];
-
-    if (Array.isArray(responseJson.assignedTo)) {
-        for (let i = 0; i < responseJson.assignedTo.length; i++) {
-            let firstName = responseJson.assignedTo[i].firstName || '';
-            let lastName = responseJson.assignedTo[i].lastName || '';
-            let fullName = `${firstName} ${lastName}`.trim();
-            let initials = getInitials(fullName);
-            usersFirstLetters.push(initials);
-            colors.push(responseJson.assignedTo[i].color);
-        }
-    }
-
-    renderOverlayEditUser(usersFirstLetters, colors);
+  const t = await loadTaskWithID(id); const init=[], colors=[];
+  (t.assignedTo||[]).forEach(u=>{ const n=`${u.firstName||''} ${u.lastName||''}`.trim(); init.push(getInitials(n)); colors.push(u.color);});
+  renderOverlayEditUser(init, colors);
 }
 
-
-/**
- * This function renders the respective users.
- * @param {array} usersFirstLetters 
- * @param {array} colors 
- */
 function renderOverlayEditUser(usersFirstLetters, colors) {
-    if (usersFirstLetters.length >= 8) {
-        for (let i = 0; i < 8; i++) {
-            document.getElementById('user-names-edit-overlay').innerHTML += getUserInititalsOverlayEdit(colors[i], usersFirstLetters[i]);
-        }
-        let userslength = usersFirstLetters.length - 8;
-        document.getElementById('user-names-edit-overlay').innerHTML += getMoreUserOverlayEdit(userslength);
-    } else {
-        for (let i = 0; i < usersFirstLetters.length; i++) {
-            document.getElementById('user-names-edit-overlay').innerHTML += getUserInititalsOverlayEdit(colors[i], usersFirstLetters[i]);
-        }
-    }
+  const box = document.getElementById('user-names-edit-overlay'); if (!box) return; let html='';
+  const n = Math.min(usersFirstLetters.length,8);
+  for (let i=0;i<n;i++) html += getUserInititalsOverlayEdit(colors[i], usersFirstLetters[i]);
+  if (usersFirstLetters.length>8) html += getMoreUserOverlayEdit(usersFirstLetters.length-8);
+  box.innerHTML = html;
 }
 
-/**
- * This function renders the edit mode for the subtasks.
- * @param {number} id 
- */
 function editMode(id) {
-    let createContainer = document.getElementById('create-subtask-overlay');
-    if (document.getElementById('add-subtask-overlay-edit').getAttribute("src") == "./assets/icons/add_subtask.png") {
-        createContainer.innerHTML = getSubtaskOverlayIcons(id);
-    } else {
-        createContainer.innerHTML = getSubtaskOverlayAddIcon();
-    }
+  const c = document.getElementById('create-subtask-overlay');
+  const add = document.getElementById('add-subtask-overlay-edit').getAttribute('src')==="./assets/icons/add_subtask.png";
+  c.innerHTML = add ? getSubtaskOverlayIcons(id) : getSubtaskOverlayAddIcon();
 }
 
-/**
- * This function creates a new subtask.
- * @param {number} id 
- */
 async function createSubtaskOverlay(id) {
-    let inputRef = document.getElementById('subtask-edit');
-    let task = await loadTaskWithID(id);
-    if (!task.subtasks) {
-        task.subtasks = [];
-    }
-    let idSubtask = task.subtasks.length;
-    if (inputRef.value !== "") {
-        let newSubtask = {
-            status: "not done",
-            title: inputRef.value
-        };
-
-        await fetch(`${BASE_URL}/tasks/${id}/subtasks/${idSubtask}.json`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newSubtask)
-        });
-    }
-    renderOverlayEditSubtasks(id);
-    clearSubtaskInput();
+  const input = document.getElementById('subtask-edit'); const title = (input?.value||'').trim();
+  const task = await loadTaskWithID(id); if (!title) { return renderOverlayEditSubtasks(id), clearSubtaskInput(); }
+  const idx = (task.subtasks?.length||0);
+  await fetch(`${BASE_URL}/tasks/${id}/subtasks/${idx}.json`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:'not done',title})});
+  renderOverlayEditSubtasks(id); clearSubtaskInput();
 }
 
-/**
- * This function clears the input field after a new subtask has been created.
- */
-function clearSubtaskInput() {
-    document.getElementById('subtask-edit').value = "";
-}
+function clearSubtaskInput() { const i = document.getElementById('subtask-edit'); if (i) i.value = ""; }
 
-/**
- * This function renders the editing of subtasks.
- * @param {number} id 
- */
 async function renderOverlayEditSubtasks(id) {
-    let responseJson = await loadTaskWithID(id);
-    document.getElementById('subtasks-overlay-edit').innerHTML = "";
-    if (responseJson.subtasks != undefined) {
-        for (let i = 0; i < responseJson.subtasks.length; i++) {
-            document.getElementById('subtasks-overlay-edit').innerHTML += getSubtasksOverlayEdit(responseJson.subtasks[i].title, id, i);
-        }
-    }
+  const t = await loadTaskWithID(id); const box = document.getElementById('subtasks-overlay-edit'); if (!box) return;
+  if (!Array.isArray(t.subtasks)) return box.innerHTML = '';
+  let html=''; for (let i=0;i<t.subtasks.length;i++) html += getSubtasksOverlayEdit(t.subtasks[i].title, id, i);
+  box.innerHTML = html;
 }
 
-/**
- * This function allows you to edit a subtask.
- * @param {number} id 
- * @param {array} subtask 
- */
 async function editSubtask(id, subtask) {
-    let task = await loadTaskWithID(id);
-    let subtaskId = findSubtask(task, subtask);
-    for (let i = 0; i < task.subtasks.length; i++) {
-        if (subtaskId == i) {
-            document.getElementById('list-' + subtaskId).innerHTML = "";
-            document.getElementById('list-' + subtaskId).innerHTML += getSubtasksOverlayEditInput(task.subtasks[i].title, id);
-        }
-    }
+  const t = await loadTaskWithID(id); const i = findSubtask(t, subtask);
+  if (i!=null) document.getElementById('list-'+i).innerHTML = getSubtasksOverlayEditInput(t.subtasks[i].title, id);
 }
 
-/**
- * This function deletes a subtask.
- * @param {number} taskId 
- * @param {string} subtaskName 
- */
 async function deleteSubtask(taskId, subtaskName) {
-    let task = await loadTaskWithID(taskId);
-    let subtaskIndex = findSubtask(task, subtaskName);
-    if (subtaskIndex !== -1) {
-        task.subtasks.splice(subtaskIndex, 1);
-        await fetch(BASE_URL + "/tasks/" + taskId + ".json", {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(task),
-        });
-    }
-    renderOverlayEditSubtasks(taskId);
+  const t = await loadTaskWithID(taskId); const i = findSubtask(t, subtaskName);
+  if (i!==-1) { t.subtasks.splice(i,1); await fetch(BASE_URL+"/tasks/"+taskId+".json",{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(t)}); }
+  renderOverlayEditSubtasks(taskId);
 }
 
-/**
- * This function finds the relevant subtask.
- * @param {object} task 
- * @param {array} subtask 
- * @returns {any}
- */
 function findSubtask(task, subtask) {
-    let subtaskId;
-    for (let i = 0; i < task.subtasks.length; i++) {
-        if (task.subtasks[i].title == subtask) {
-            subtaskId = i;
-        }
-    }
-    return subtaskId;
+  if (!Array.isArray(task.subtasks)) return -1;
+  for (let i=0;i<task.subtasks.length;i++) if (task.subtasks[i].title===subtask) return i; return -1;
 }
 
-/**
- * This function saves the change to the processing of the subtask.
- * @param {number} id 
- * @param {array} subtask 
- */
 async function saveEditSubtask(id, subtask) {
-    let task = await loadTaskWithID(id);
-    let subtaskId = findSubtask(task, subtask);
-    let inputTitle = document.getElementById('change-subtask-input').value;
-    if (inputTitle != "") {
-        let newSubtask = {
-            status: "not done",
-            title: inputTitle
-        }
-        await fetch(`${BASE_URL}/tasks/${id}/subtasks/${subtaskId}.json`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(newSubtask)
-        });
-    } else {
-        document.getElementById('warn-emptyinput-container').innerHTML = getWarningEmptyInput();
-    }
-    renderOverlayEditSubtasks(id);
+  const t = await loadTaskWithID(id); const i = findSubtask(t, subtask);
+  const val = document.getElementById('change-subtask-input').value.trim();
+  if (!val) { document.getElementById('warn-emptyinput-container').innerHTML = getWarningEmptyInput(); return; }
+  await fetch(`${BASE_URL}/tasks/${id}/subtasks/${i}.json`,{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({status:'not done',title:val})});
+  renderOverlayEditSubtasks(id);
 }
-

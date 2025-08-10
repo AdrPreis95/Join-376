@@ -57,10 +57,12 @@ async function createTask() {
         const name = file.name.toLowerCase();
         const validImage = type.startsWith('image/') && /\.(png|jpe?g)$/.test(name);
         const validPdf = type === 'application/pdf' && name.endsWith('.pdf');
-        return validImage || validPdf;});
+        return validImage || validPdf;
+    });
     if (!allTypesValid) {
         showSecurityOverlay("File type not allowed due to security restrictions.");
-        return;}
+        return;
+    }
 
     prepareSubtasksAndContacts();
     let newID = await generateNewID();
@@ -103,20 +105,23 @@ function showSecurityOverlay(message) {
 function convertToBase64(file) {
     return new Promise((resolve, reject) => {
         const allowedTypes = ['image/png', 'image/jpeg', 'application/pdf'];
-        const maxSize = 1 * 1024 * 1024; 
+        const maxSize = 1 * 1024 * 1024;
         if (!allowedTypes.includes(file.type)) {
             alert(`File type ${file.type} is not supported.`);
-            return resolve({ base64: "", name: file.name });}
+            return resolve({ base64: "", name: file.name });
+        }
         if (file.size > maxSize) {
             alert("File size too large. Maximum allowed: 1 MB.");
-            return resolve({ base64: "", name: file.name });}
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => {
-            resolve({ base64: reader.result, name: file.name });};
-            reader.onerror = (error) => {
+            return resolve({ base64: "", name: file.name });
+        }
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+            resolve({ base64: reader.result, name: file.name });
+        };
+        reader.onerror = (error) => {
             console.error("Error reading file:", error);
-            resolve({ base64: "", name: file.name });};});
+            resolve({ base64: "", name: file.name }); };});
 }
 
 function prepareSubtasksAndContacts() {
@@ -299,23 +304,15 @@ function clearSubtaskInput() {
  * Validates and confirms a new subtask. Adds it to the subtask list if valid. */
 function confirmSubtask() {
     let subtaskList = document.getElementById('subtask-list');
-    let subtaskCount = subtaskList.getElementsByTagName('li').length;
     let subtaskMessage = document.getElementById('subtask-limit-message');
-    if (subtaskCount >= 3) {
-        subtaskMessage.classList.add('blink');
-        subtaskMessage.style.display = "block";
-        setTimeout(() => {
-            subtaskMessage.classList.remove('blink');
-            subtaskMessage.style.display = "none";
-        }, 2000);
-        return;
-    }
     subtaskMessage.style.display = "none";
+
     let subtaskValue = document.getElementById('addsubtasks').value.trim();
     if (subtaskValue !== "") {
         addSubtaskToList(subtaskList, subtaskValue);
     }
 }
+
 
 /**
  * Adds a new subtask to the list..*/
@@ -449,13 +446,13 @@ function formatContact(contact) {
     return { ...contact, firstName, lastName };
 }
 
-  function closeOverlayFromIframe() {
-      if (window.parent && typeof window.parent.closeTaskOverlay === 'function') {
+function closeOverlayFromIframe() {
+    if (window.parent && typeof window.parent.closeTaskOverlay === 'function') {
         window.parent.closeTaskOverlay();
-      } else {
+    } else {
         console.warn(" closeTaskOverlay() not available in parent window");
-      }
     }
+}
 
 
 

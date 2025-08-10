@@ -505,14 +505,17 @@ select {
     align-items: center;
 }
 
+
 #subtask-list {
     cursor: pointer !important;
-    /* max-height: 90px !important; */
-    overflow-y: hidden !important;
-    overflow: hidden !important;
+    max-height: 220px;
+    overflow: scroll;
+   
+    /* overflow-y: hidden !important; */
+    /* overflow: hidden !important; */
     list-style: none !important;
-    margin: 0 !important;
-    padding: 0 !important;
+    margin-top: 6px !important;
+    padding: 0px !important;
     background-color: transparent !important;
 }
 

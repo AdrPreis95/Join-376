@@ -119,21 +119,14 @@ function setPickUpPosition(e, moving) {
  * @param {Event} event 
  */
 function move(event) {
-    if (!event.target.classList.contains('task-card'))
-        return;
-    if (moving) {
-        event.stopImmediatePropagation();
-        if (event.clientX) {
-           
-            moving.style.left = event.clientX 
-            moving.style.top = event.clientY
-        } else {
-            
-            moving.style.left = event.changedTouches[0].clientX 
-            moving.style.top = event.changedTouches[0].clientY 
-        }
-    }
+  if (!moving) return;
+  const p = event.changedTouches ? event.changedTouches[0] : event;
+  event.stopImmediatePropagation?.();
+  moving.style.left = (p.clientX ?? p.pageX) + 'px';
+  moving.style.top  = (p.clientY ?? p.pageY) + 'px';
 }
+window.move = move; 
+
 
 /**
  * This function gets the element according to the point

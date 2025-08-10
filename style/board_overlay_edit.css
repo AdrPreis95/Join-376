@@ -3,6 +3,13 @@
     justify-content: flex-end;
 }
 
+#subtasks-overlay-edit {
+    overflow: scroll;
+    max-height: 120px;
+    background-color: aliceblue;
+    border-radius: 12px;
+}
+
 .edit-overlay-label {
     font-size: 20px;
     font-weight: 400;
@@ -38,10 +45,26 @@
     max-width: 445px;
     border-radius: 10px;
     border: 1px solid #D1D1D1;
-    padding: 18px 16px 18px 16px;
+    padding: 18px 16px;
     font-size: 20px;
     font-weight: 400;
+    font-family: 'Inter', sans-serif !important;
+    resize: none !important;             
+    overflow: auto;           
 }
+
+
+.overlay-textarea::placeholder {
+    font-size: inherit;        
+    font-family: 'Inter', sans-serif !important;      
+    color: #aaa;               
+}
+
+
+.no-resize {
+    resize: none !important;
+}
+
 
 .overlay-textarea::placeholder {
     color: #000000;
@@ -205,7 +228,7 @@
 #user-names-edit-overlay {
     display: flex;
     flex-direction: row;
-    justify-content:center;
+    justify-content: center;
 }
 
 .overlay-edit-subtask {
@@ -248,9 +271,11 @@
     display: flex;
     justify-content: space-between;
 }
+
 .overlay-edit-subtask-list li {
-   word-break: break-all !important;
+    word-break: break-all !important;
 }
+
 .overlay-edit-subtask-list:hover {
     background-color: #D1D1D1;
     border-radius: 10px;
@@ -480,26 +505,44 @@ svg :hover {
 
 
 @media screen and (min-width: 540px) {
-  body,
-  p,
-  span,
-  a,
-  label,
-  button,
-  input,
-  textarea,
-  select,
-  div,
-  th,
-  td,
-  ol,
-  [contenteditable="true"] {
-      font-size: 16px !important;
-      /* line-height: 1.5 !important; */
-  }
 
-  input::placeholder,
-  textarea::placeholder {
-      font-size: 16px !important;
-  }
+    body,
+    p,
+    span,
+    a,
+    label,
+    button,
+    input,
+    textarea,
+    select,
+    div,
+    th,
+    td,
+    ol,
+    [contenteditable="true"] {
+        font-size: 16px !important;
+        /* line-height: 1.5 !important; */
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        font-size: 16px !important;
+    }
+}
+
+/* Standard: Container hat keinen Hintergrund */
+.user-container { background: transparent; }
+
+/* Blau auf Container ODER innerem Wrapper */
+.user-container.selected,
+.user-row.selected {
+  background-color: rgba(41,171,226,0.5) !important;
+  border-radius: 30px;
+  transition: background-color .3s ease, border .3s ease;
+}
+
+/* Innere Elemente sollen das Blau nicht übermalen */
+.user-container.selected * ,
+.user-row.selected * {
+  background: transparent !important;
 }

@@ -304,27 +304,31 @@ async function changeList(list) {
  * @param {number} id - Transfers the ID of the task to be deleted.
  */
 async function deleteTask(id) {
-    let tasks = await fetch(BASE_URL + "/tasks.json");
-    let tasksJson = await tasks.json();
-    tasksJson = Array.isArray(tasksJson) ? tasksJson : Object.values(tasksJson);
-    const removeTaskById = (tasksJson, id) =>
-        tasksJson.filter(task => task.id !== id);
-    let updatedTasks = removeTaskById(tasksJson, id);
-    var newId = 1;
-    for (var i in updatedTasks) {
-        updatedTasks[i].id = newId;
-        newId++;
-    }
-    let responseTask = await fetch(BASE_URL + "/tasks.json", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedTasks)
-    });
-    closeOverlay();
-    loadTasks();
+  let tasks = await fetch(BASE_URL + "/tasks.json");
+  let tasksJson = await tasks.json();
+  tasksJson = Array.isArray(tasksJson) ? tasksJson : Object.values(tasksJson);
+  const updatedTasks = tasksJson.filter(task => task.id !== id).map((t, i) => ({...t, id: i + 1}));
+  await fetch(BASE_URL + "/tasks.json", {
+    method: "PUT", headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(updatedTasks)
+  });
+  showDeleteConfirm('Task deleted');  
+  closeOverlay(); loadTasks();
 }
+
+
+function showDeleteConfirm(msg){
+  const o=document.createElement('div');
+  o.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);z-index:9999;opacity:0;transition:opacity .2s';
+  o.innerHTML=`<div style="background:#111;color:#fff;padding:18px 20px;border-radius:12px;display:flex;gap:12px;align-items:center;box-shadow:0 10px 30px rgba(0,0,0,.3)">
+    <div style="width:32px;height:32px;border-radius:50%;background:#ef4444;display:flex;align-items:center;justify-content:center">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </div><span style="font-weight:600">${msg}</span></div>`;
+  document.body.appendChild(o); requestAnimationFrame(()=>o.style.opacity='1');
+  setTimeout(()=>{o.style.opacity='0'; setTimeout(()=>o.remove(),200);},1400);
+}
+
+
 
 /**
  * Opens the "Add Task" overlay, allowing the user to add a new task to the list.
@@ -381,10 +385,10 @@ function setOverlayMode() {
                     const body = iframeDocument.body;
                     if (body) {
                         console.log("Changing body ID to 'overlay-mode'");
-                        body.id = "overlay-mode"; // Sets the ID to indicate overlay mode
+                        body.id = "overlay-mode"; 
                     }
                 }
-            }, 100); // Delay to ensure iframe content has loaded
+            }, 100); 
         };
     }
 }

@@ -286,8 +286,8 @@
     #subtask-list {
         cursor: pointer !important;
         /* height: 90px !important; */
-        overflow-y: hidden !important;
-        overflow: hidden !important;
+        /* overflow-y: hidden !important;
+        overflow: hidden !important; */
         list-style: none !important;
         margin: 0 !important;
         padding: 0 !important;
@@ -750,7 +750,6 @@
 
     .content-overlay p {
         font-size: 17px !important;
-        color: #000000;
         font-weight: 400;
         word-break: break-all !important;
     }
