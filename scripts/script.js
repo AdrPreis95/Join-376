@@ -67,32 +67,17 @@ function getUserInitials(name) {
 /**
  Function for toggling the user submenu
  */
-const q = s => document.querySelector(s);
 
-function setMenuState(open) {
-  const sm = q('.submenu'), sc = q('.submenu-content'), ui = q('.user-icon');
-  if (!sm || !sc || !ui) return;
-  sc.classList.toggle('opened', open);
-  sc.classList.toggle('closed', !open);
-  sm.classList.toggle('d-none', !open);
-  ui.classList.toggle('user-icon-activated', open);
-}
-
-function toggleSubmenu() {
-  const isOpen = q('.submenu-content')?.classList.contains('opened');
-  setMenuState(!isOpen);
-}
-
-function closeSubmenu() { setMenuState(false); }
-
-function initSubmenuClose() {
-  document.addEventListener('click', e => { if (!e.target.closest('.submenu, .user-icon')) closeSubmenu(); });
-  q('.submenu-content')?.addEventListener('click', e => { if (e.target.closest('a')) closeSubmenu(); });
-  ['popstate','pageshow'].forEach(ev => window.addEventListener(ev, closeSubmenu));
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSubmenu(); });
-}
-
-document.addEventListener('DOMContentLoaded', initSubmenuClose);
+(()=>{const q=s=>document.querySelector(s);
+const set=o=>{const sm=q('.submenu'),sc=q('.submenu-content'),ui=q('.user-icon');if(!sm||!sc||!ui)return;sc.classList.toggle('opened',o);sc.classList.toggle('closed',!o);sm.classList.toggle('d-none',!o);ui.classList.toggle('user-icon-activated',o);};
+window.toggleSubmenu=()=>set(!q('.submenu-content')?.classList.contains('opened'));
+window.closeSubmenu=()=>set(false);
+const init=()=>{if(window.__submenuInit)return;window.__submenuInit=1;
+addEventListener('click',e=>{const t=e.target;if(t.closest('.submenu-content a'))return closeSubmenu(); if(!t.closest('.submenu, .user-icon'))closeSubmenu();},true);
+['popstate','pageshow'].forEach(ev=>addEventListener(ev,closeSubmenu));
+addEventListener('keydown',e=>{if(e.key==='Escape')closeSubmenu();});};
+document.readyState!=='loading'?init():addEventListener('DOMContentLoaded',init,{once:true});
+})();
 
 /**
  This function logs out the user and bring him to the mainpage for login and sign in
