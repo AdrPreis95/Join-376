@@ -67,20 +67,32 @@ function getUserInitials(name) {
 /**
  Function for toggling the user submenu
  */
+const q = s => document.querySelector(s);
 
-function toggleSubmenu() {
-    const submenu = document.querySelector('.submenu');
-    const submenuContent = document.querySelector('.submenu-content');
-    const userIcon = document.querySelector('.user-icon');
-
-    submenuContent.classList.toggle('opened');
-    submenuContent.classList.toggle('closed');
-
-    submenu.classList.toggle('d-none');
-
-    userIcon.classList.toggle('user-icon-activated');
+function setMenuState(open) {
+  const sm = q('.submenu'), sc = q('.submenu-content'), ui = q('.user-icon');
+  if (!sm || !sc || !ui) return;
+  sc.classList.toggle('opened', open);
+  sc.classList.toggle('closed', !open);
+  sm.classList.toggle('d-none', !open);
+  ui.classList.toggle('user-icon-activated', open);
 }
 
+function toggleSubmenu() {
+  const isOpen = q('.submenu-content')?.classList.contains('opened');
+  setMenuState(!isOpen);
+}
+
+function closeSubmenu() { setMenuState(false); }
+
+function initSubmenuClose() {
+  document.addEventListener('click', e => { if (!e.target.closest('.submenu, .user-icon')) closeSubmenu(); });
+  q('.submenu-content')?.addEventListener('click', e => { if (e.target.closest('a')) closeSubmenu(); });
+  ['popstate','pageshow'].forEach(ev => window.addEventListener(ev, closeSubmenu));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeSubmenu(); });
+}
+
+document.addEventListener('DOMContentLoaded', initSubmenuClose);
 
 /**
  This function logs out the user and bring him to the mainpage for login and sign in
