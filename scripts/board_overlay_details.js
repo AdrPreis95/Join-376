@@ -1,3 +1,4 @@
+/**Shows the task overlay with details for the given task ID and renders it. */
 async function showOverlayDetailsTask(id) {
   id--;
   const all = document.getElementById('all-content');
@@ -7,23 +8,12 @@ async function showOverlayDetailsTask(id) {
   const res = await fetch(BASE_URL + "/tasks.json");
   const json = await res.json();
   const arr = Array.isArray(json) ? json : Object.values(json||{});
-  const task = arr[id]; if (!task) return;
+  const task = arr[id];
+  if (!task) return;
   renderOverlay(task);
 }
 
-async function showOverlayDetailsTask(id) {
-  id--;
-  const all = document.getElementById('all-content');
-  const blocker = document.getElementById('overlay-blocker');
-  if (all) all.style.filter = 'brightness(0.5)';
-  blocker?.classList.remove('hidden');
-  const res = await fetch(BASE_URL + "/tasks.json");
-  const json = await res.json();
-  const arr = Array.isArray(json) ? json : Object.values(json||{});
-  const task = arr[id]; if (!task) return;
-  renderOverlay(task);
-}
-
+/**Renders the contact list inside the overlay including checked state.*/
 function renderOverlayContacts(id, responseJson, activeUserIndex) {
   const checkedIdx = new Set((activeUserIndex||[])
     .filter(i => i >= 0)
@@ -43,6 +33,7 @@ function renderOverlayContacts(id, responseJson, activeUserIndex) {
   document.getElementById('user-dropdown').innerHTML = html;
 }
 
+/**Renders the overlay container with task core data and sub-sections. */
 function renderOverlay(responseTaskJson) {
   const box = document.getElementById('task-details');
   if (!box) return; box.style.display = 'flex'; box.innerHTML = '';
@@ -57,6 +48,7 @@ function renderOverlay(responseTaskJson) {
   renderOverlayFiles(responseTaskJson);
 }
 
+/**Renders file previews (images/PDFs) and initializes Viewer.js. */
 function renderOverlayFiles(responseTaskJson){
   const files = responseTaskJson.files; if (!Array.isArray(files)||!files.length) return;
   const wrap = document.getElementById(`viewer-${responseTaskJson.id}`); if(!wrap) return;
@@ -66,6 +58,7 @@ function renderOverlayFiles(responseTaskJson){
   wrap.appendChild(frag); new Viewer(wrap,{navbar:true,toolbar:true,title:true});
 }
 
+/**Creates a simple label element indicating detected file type. */
 function fileInfoLabel(file){
   const isPDF=/\.pdf$/i.test(file.name||''); const isIMG=/\.(png|jpe?g)$/i.test(file.name||'');
   const t=isPDF? 'Type: PDF': isIMG? 'Type: Image': 'Type: File';
@@ -73,6 +66,7 @@ function fileInfoLabel(file){
   info.textContent=t; return info;
 }
 
+/**Returns minimal HTML preview markup for a file (image/PDF/link fallback).*/
 function filePreviewHTML(file){
   const base64=file.base64, name=(file.name||'').toLowerCase();
   const isPDF=/\.pdf$/i.test(name), isIMG=/\.(png|jpe?g)$/i.test(name);
@@ -94,12 +88,14 @@ function filePreviewHTML(file){
   return `<a href="${base64}" target="_blank" download="${file.name}">📎 ${file.name}</a>`;
 }
 
+/**Formats byte size numbers into human-readable units. */
 function formatBytes(bytes){
   const s=['Bytes','KB','MB','GB']; if(!bytes) return '0 Bytes';
   const i=Math.floor(Math.log(bytes)/Math.log(1024));
   return (bytes/Math.pow(1024,i)).toFixed(1)+' '+s[i];
 }
 
+/**Renders assigned users (names, initials, colors) in the overlay. */
 function renderOverlayUser(responseTaskJson){
   const names=[], initials=[], colors=[]; determineUserInfo(responseTaskJson, names, initials, colors);
   const box=document.getElementById('user-names-overlay'); if(!box) return; let html='';
@@ -109,6 +105,7 @@ function renderOverlayUser(responseTaskJson){
   if(more) more.innerHTML = names.length>3? getMoreUserOverlay(names.length-3): '';
 }
 
+/**Extracts user display information from task and populates target arrays. */
 function determineUserInfo(responseTaskJson, names, firstLetters, colors){
   const arr=responseTaskJson.assignedTo; if(!Array.isArray(arr)) return;
   arr.forEach(u=>{ const full=u.name || `${u.firstName||''} ${u.lastName||''}`.trim();
@@ -117,6 +114,7 @@ function determineUserInfo(responseTaskJson, names, firstLetters, colors){
   });
 }
 
+/**Renders all subtasks with their status icons into the overlay. */
 async function renderOverlaySubtasks(responseTaskJson){
   const box=document.getElementById('subtasks-overlay'); if(!box) return; let html='';
   for(let i=0;i<responseTaskJson.subtasks.length;i++){
@@ -125,16 +123,19 @@ async function renderOverlaySubtasks(responseTaskJson){
   } box.innerHTML += html;
 }
 
+/**Opens the PDF modal and sets the viewer source.*/
 function openPdfPreview(base64){
   const m=document.getElementById('pdf-modal'); const f=document.getElementById('pdf-frame');
   if (!m||!f) return; f.src=base64; m.style.display='flex';
 }
 
+/**Closes the PDF modal and clears the viewer source. */
 function closeModal(){
   const m=document.getElementById('pdf-modal'); const f=document.getElementById('pdf-frame');
   if (!m||!f) return; m.style.display='none'; f.src='';
 }
 
+/**Triggers a browser download for the given base64 file. */
 function downloadFile(base64, filename){
   const a=document.createElement('a'); a.href=base64; a.download=filename; a.click();
 }

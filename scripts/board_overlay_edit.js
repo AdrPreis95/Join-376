@@ -1,7 +1,6 @@
-
-
 let _fpInstance;
 
+/**Opens the edit overlay for a given task.*/
 async function editTask(id, title, description, dueDate, priority) {
   id--;
   const box = document.getElementById('task-details');
@@ -18,13 +17,14 @@ async function editTask(id, title, description, dueDate, priority) {
   renderEditFile(task);
 }
 
+/**Initializes the date picker with an optional default date.*/
 function initDate(dueDateISO) {
   const input = document.getElementById('due-date-input');
   const btn   = document.getElementById('calendar-icon');
   if (!input || !btn) return;
 
   if (_fpInstance) { _fpInstance.destroy(); _fpInstance = null; }
-  input.value = (dueDateISO || '').slice(0, 10); // "YYYY-MM-DD"
+  input.value = (dueDateISO || '').slice(0, 10);
 
   _fpInstance = flatpickr(input, {
     minDate: 'today',
@@ -36,6 +36,7 @@ function initDate(dueDateISO) {
   btn.onclick = () => _fpInstance && _fpInstance.open();
 }
 
+/**Highlights the active priority option. */
 function checkActivePriority(priority) {
   const map = {Urgent:['urgent','#FF3D00'],Medium:['medium','#FFA800'],Low:['low','#7AE229']};
   ['urgent','medium','low'].forEach(p=>{
@@ -50,6 +51,7 @@ function checkActivePriority(priority) {
   activePriority = priority;
 }
 
+/**Changes the current priority and updates the UI. */
 function changePriority(newPriority) {
   ['urgent','medium','low'].forEach(p=>{
     document.getElementById(p+'-label').style.backgroundColor='#FFFFFF';
@@ -59,6 +61,7 @@ function changePriority(newPriority) {
   checkActivePriority(newPriority);
 }
 
+/**Saves changes made to a task in edit mode. */
 async function saveEdit(id) {
   id = await findKey(id);
   const url = `${BASE_URL}/tasks/${id}.json`;
@@ -79,6 +82,7 @@ async function saveEdit(id) {
   loadTasks();
 }
 
+/**Shows a confirmation overlay for saved changes. */
 function showEditConfirm(msg){
   const o=document.createElement('div');
   o.id='edit-confirm-overlay';
@@ -92,6 +96,7 @@ function showEditConfirm(msg){
   setTimeout(()=>{ o.style.opacity='0'; setTimeout(()=>o.remove(),200); },1400);
 }
 
+/**Generates an updated task object from the edit overlay values. */
 function generateChangeTask(responseJson) {
   const t   = document.getElementById('overlay-title').value;
   const d   = document.getElementById('overlay-description').value;
@@ -104,6 +109,7 @@ function generateChangeTask(responseJson) {
   return responseJson;
 }
 
+/**Returns the currently active priority from the UI.*/
 function activePriorityButton() {
   const bg = id => window.getComputedStyle(document.getElementById(id)).getPropertyValue('background-color');
   if (bg('low-label')==='rgb(122, 226, 41)') return 'Low';
@@ -112,22 +118,28 @@ function activePriorityButton() {
   return 'Medium';
 }
 
-/***** === ASSIGNED-TO: SINGLE SOURCE OF TRUTH (Firebase) === *****/
 const CHECKED   = './assets/icons/checked_icon.png';
 const UNCHECKED = './assets/icons/unchecked_icon.png';
 let _contactsCache = null;
 
+/**Normalizes a string for comparison. */
 function canon(s){ return (s||'').toLowerCase().replace(/\s*\(you\)\s*$/,'').trim(); }
+
+/**Removes "(You)" from a display name. */
 function cleanDisplayName(n){ return (n||'').replace(/\s*\(You\)\s*$/,'').trim(); }
+
+/**Compares two user names for equality. */
 function sameUser(aFN,aLN,bFN,bLN){ return canon(`${aFN} ${aLN}`) === canon(`${bFN} ${bLN}`); }
+
+/**Generates a safe HTML id from a name. */
 function safeIdFromName(name){ return 'contact-row-' + encodeURIComponent(name); }
 
+/**Returns the display name for UI elements */
 function displayForUI(name, email){
-  // Falls du "(You)" anzeigen willst, hier aktivieren:
-  // if (email && loggedUser && email === loggedUser.email) return `${name} (You)`;
   return name;
 }
 
+/**Loads all contacts and renders the assigned-to list.*/
 async function loadContacts(id) {
   const key  = await findKey(id);
   const task = await fetch(`${BASE_URL}/tasks/${key}.json`).then(r=>r.json()) || {};
@@ -141,6 +153,7 @@ async function loadContacts(id) {
   selectedUserEdit(id);
 }
 
+/**Refreshes the assigned-to UI from backend state.*/
 async function refreshAssignedUI(id){
   const key  = await findKey(id);
   const task = await fetch(`${BASE_URL}/tasks/${key}.json`).then(r=>r.json()) || {};
@@ -148,6 +161,7 @@ async function refreshAssignedUI(id){
   selectedUserEdit(id);
 }
 
+/**Renders the contact list for the overlay assigned-to section.*/
 function renderOverlayContacts(id, contacts, assignedList){
   const box = document.getElementById('user-dropdown');
   if (!box) return;
@@ -173,6 +187,7 @@ function renderOverlayContacts(id, contacts, assignedList){
   bindDropdownRowClicks();
 }
 
+/**Binds click events for selecting/deselecting assigned users. */
 function bindDropdownRowClicks(){
   const list = document.getElementById('user-dropdown');
   if (!list || list._rowClickBound) return;
@@ -186,6 +201,7 @@ function bindDropdownRowClicks(){
   list._rowClickBound = true;
 }
 
+/**Toggles a contact's assigned-to state in the backend. */
 async function toggleAssignedTo(name, id){
   const key = await findKey(id);
   const url = `${BASE_URL}/tasks/${key}.json`;
@@ -206,10 +222,10 @@ async function toggleAssignedTo(name, id){
   await fetch(url,{method:'PATCH',headers:{'Content-Type':'application/json'},
                    body: JSON.stringify({ assignedTo: task.assignedTo })});
 
-  await refreshAssignedUI(id); // UI strikt nach Backend-Zustand setzen
+  await refreshAssignedUI(id);
 }
 
-/***** === AVATAR-CHIPS MIT "X" === *****/
+/**Loads assigned users and renders them as chips in the edit overlay. */
 async function selectedUserEdit(id) {
   const t = await loadTaskWithID(id);
   const items = (t.assignedTo || []).map(u => {
@@ -219,6 +235,7 @@ async function selectedUserEdit(id) {
   renderOverlayEditUser(items, id);
 }
 
+/**Renders assigned user chips in the edit overlay.*/
 function renderOverlayEditUser(items, id) {
   const box = document.getElementById('user-names-edit-overlay');
   if (!box) return;
@@ -243,6 +260,7 @@ function renderOverlayEditUser(items, id) {
   box.innerHTML = html;
 }
 
+/**Removes an assigned user from a task. */
 async function removeAssignedUser(displayName, id){
   const key = await findKey(id);
   const url = `${BASE_URL}/tasks/${key}.json`;
@@ -260,7 +278,7 @@ async function removeAssignedUser(displayName, id){
   await refreshAssignedUI(id);
 }
 
-/***** === SUBTASKS & DROPDOWN OPEN/CLOSE ===*****/
+/**Changes the status of a subtask between done and not done. */
 async function changeStatusSubtask(id, subtaskId, status) {
   id--; id = await findKey(id);
   const newStatus = status==='done' ? 'not done' : 'done';
@@ -272,6 +290,7 @@ async function changeStatusSubtask(id, subtaskId, status) {
   renderOverlaySubtasks(t);
 }
 
+/**Toggles the assigned-to dropdown visibility in the edit overlay. */
 function openDropdownAssigned() {
   const dd  = document.getElementById('selected-user-dropdown');
   const arr = document.getElementById('arrow-dropdown');
@@ -297,13 +316,14 @@ document.addEventListener('DOMContentLoaded',()=>{
   });
 });
 
-
+/**Toggles between subtask add mode and icon mode in the edit overlay. */
 function editMode(id) {
   const c = document.getElementById('create-subtask-overlay');
   const add = document.getElementById('add-subtask-overlay-edit').getAttribute('src')==="./assets/icons/add_subtask.png";
   c.innerHTML = add ? getSubtaskOverlayIcons(id) : getSubtaskOverlayAddIcon();
 }
 
+/**Creates a new subtask from the edit overlay input. */
 async function createSubtaskOverlay(id) {
   const input = document.getElementById('subtask-edit'); const title = (input?.value||'').trim();
   const task = await loadTaskWithID(id);
@@ -316,8 +336,10 @@ async function createSubtaskOverlay(id) {
   renderOverlayEditSubtasks(id); clearSubtaskInput();
 }
 
+/**Clears the subtask input field.*/
 function clearSubtaskInput() { const i = document.getElementById('subtask-edit'); if (i) i.value = ""; }
 
+/**Renders all subtasks for the edit overlay. */
 async function renderOverlayEditSubtasks(id) {
   const t = await loadTaskWithID(id);
   const box = document.getElementById('subtasks-overlay-edit');
@@ -327,12 +349,14 @@ async function renderOverlayEditSubtasks(id) {
   box.innerHTML = html;
 }
 
+/**Switches a subtask into edit mode in the overlay. */
 async function editSubtask(id, subtask) {
   const t = await loadTaskWithID(id);
   const i = findSubtask(t, subtask);
   if (i!=null) document.getElementById('list-'+i).innerHTML = getSubtasksOverlayEditInput(t.subtasks[i].title, id);
 }
 
+/**Deletes a subtask from a task. */
 async function deleteSubtask(taskId, subtaskName) {
   const t = await loadTaskWithID(taskId);
   const i = findSubtask(t, subtaskName);
@@ -343,12 +367,14 @@ async function deleteSubtask(taskId, subtaskName) {
   renderOverlayEditSubtasks(taskId);
 }
 
+/**Finds the index of a subtask in a task object. */
 function findSubtask(task, subtask) {
   if (!Array.isArray(task.subtasks)) return -1;
   for (let i=0;i<task.subtasks.length;i++) if (task.subtasks[i].title===subtask) return i;
   return -1;
 }
 
+/**Saves changes to a subtask title.*/
 async function saveEditSubtask(id, subtask) {
   const t = await loadTaskWithID(id);
   const i = findSubtask(t, subtask);

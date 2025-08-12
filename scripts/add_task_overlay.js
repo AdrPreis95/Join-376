@@ -1,13 +1,8 @@
-/**
- * Monitors media query changes and redirects to the main page if the overlay is active
- * and the screen width exceeds 1150px. */
+/**Monitors media query changes and redirects to the main page if the overlay is active and the screen width exceeds 1150px. */
 function monitorMediaQuery() {
   const mediaQuery = window.matchMedia('(min-width: 1150px)');
 
-  /**
-   * Handles media query changes.
-   * Redirects to 'main.html' if overlay mode is active and media query matches.
-   */
+  /**Handles media query changes.Redirects to 'main.html' if overlay mode is active and media query matches.*/
   function handleMediaChange(e) {
       if (e.matches && isOverlayModeActive()) {
           console.log("Screen width > 1150px and overlay is active. Redirecting to the main page.");
@@ -24,9 +19,7 @@ function monitorMediaQuery() {
   }
 }
 
-/**
-* Stops monitoring media query changes by removing the event listener.
-*/
+/**Stops monitoring media query changes by removing the event listener.*/
 function stopMediaQueryMonitoring() {
   const mediaQuery = window.matchMedia('(min-width: 1150px)');
   if (mediaQueryListener) {
@@ -35,11 +28,7 @@ function stopMediaQueryMonitoring() {
   }
 }
 
-/**
-* Checks if the overlay mode is active by inspecting the ID of the `<body>` element
-* inside the iframe.
-* @returns {boolean} - True if overlay mode is active, false otherwise.
-*/
+/**Checks if the overlay mode is active by inspecting the ID of the `<body>` element inside the iframe.*/
 function isOverlayModeActive() {
   const iframe = document.getElementById("overlayContent");
   if (iframe) {
@@ -50,18 +39,14 @@ function isOverlayModeActive() {
   return false;
 }
 
-/**
-* Opens the task overlay by showing the overlay and applying necessary styles.
-*/
+/**Opens the task overlay by showing the overlay and applying necessary styles.*/
 function openTaskOverlay() {
   showOverlay();
   setOverlayStyles();
   hideUnnecessaryElementsInIframe();
 }
 
-/**
-* Closes the task overlay by hiding the overlay and resetting styles.
-*/
+/**Closes the task overlay by hiding the overlay and resetting styles.*/
 function closeTaskOverlay() {
   hideOverlay();
   removeOverlayActiveClass();
@@ -69,9 +54,7 @@ function closeTaskOverlay() {
   
 }
 
-/**
-* Shows the task overlay by adding necessary classes to display it.
-*/
+/**Shows the task overlay by adding necessary classes to display it.*/
 function showOverlay() {
   const overlay = document.getElementById("taskoverlay");
   if (overlay) {
@@ -80,9 +63,7 @@ function showOverlay() {
   document.body.classList.add("overlay-active");
 }
 
-/**
-* Hides the task overlay by toggling visibility-related classes.
-*/
+/**Hides the task overlay by toggling visibility-related classes.*/
 function hideOverlay() {
   const overlay = document.getElementById("taskoverlay");
   if (overlay) {
@@ -91,20 +72,14 @@ function hideOverlay() {
   }
 }
 
-/**
-* Applies necessary styles to the overlay containers.
-*/
+/**Applies necessary styles to the overlay containers.*/
 function setOverlayStyles() {
   adjustContainerStyle("#taskoverlay #cont-left.content-left", "column");
   adjustContainerStyle("#taskoverlay .content-right", "column");
   adjustTaskOverlayContainer();
 }
 
-/**
-* Adjusts the style of a container to the specified flex direction.
-* @param {string} selector - The CSS selector for the container.
-* @param {string} flexDirection - The desired flex direction.
-*/
+/**Adjusts the style of a container to the specified flex direction.*/
 function adjustContainerStyle(selector, flexDirection) {
   const element = document.querySelector(selector);
   if (element) {
@@ -114,9 +89,7 @@ function adjustContainerStyle(selector, flexDirection) {
   }
 }
 
-/**
-* Adjusts styles for the main task overlay container.
-*/
+/**Adjusts styles for the main task overlay container.*/
 function adjustTaskOverlayContainer() {
   const taskoverCont = document.querySelector("#taskoverlay #taskover-cont");
   if (taskoverCont) {
@@ -128,9 +101,7 @@ function adjustTaskOverlayContainer() {
   }
 }
 
-/**
-* Hides unnecessary elements inside all iframes of the overlay.
-*/
+/**Hides unnecessary elements inside all iframes of the overlay.*/
 function hideUnnecessaryElementsInIframe() {
   const iframes = document.querySelectorAll("#overlayContent");
   iframes.forEach(function (iframe) {
@@ -144,16 +115,12 @@ function hideUnnecessaryElementsInIframe() {
   });
 }
 
-/**
-* Removes the overlay-active class from the body element.
-*/
+/**Removes the overlay-active class from the body element.*/
 function removeOverlayActiveClass() {
   document.body.classList.remove("overlay-active");
 }
 
-/**
-* Refreshes tasks if a task loading function is available.
-*/
+/**Refreshes tasks if a task loading function is available.*/
 function refreshTasksIfAvailable() {
   if (typeof loadTasks === "function") {
       loadTasks();
@@ -165,9 +132,7 @@ document.addEventListener("DOMContentLoaded", function () {
   loadIframeStyles();
 });
 
-/**
-* Initializes the close button for the overlay.
-*/
+/**Initializes the close button for the overlay.*/
 function initializeCloseOverlayButton() {
   const closeOverlayButton = document.getElementById("closeOverlay");
   if (closeOverlayButton) {
@@ -175,9 +140,7 @@ function initializeCloseOverlayButton() {
   }
 }
 
-/**
-* Loads and applies styles for the iframe content.
-*/
+/**Loads and applies styles for the iframe content.*/
 function loadIframeStyles() {
   const iframe = document.getElementById("overlayContent");
   if (iframe) {
@@ -195,9 +158,7 @@ function loadIframeStyles() {
   }
 }
 
-/**
-* Applies the given CSS content to the iframe.
-*/
+/**Applies the given CSS content to the iframe.*/
 function applyStylesToIframe(iframe, cssContent) {
   iframe.onload = function () {
       const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
@@ -217,9 +178,7 @@ function applyStylesToIframe(iframe, cssContent) {
   };
 }
 
-/**
-* adds the uploaded file .
-*/
+/** adds the uploaded file */
 function uploadFile(){
   let data = document.getElementById('file-select');
 }

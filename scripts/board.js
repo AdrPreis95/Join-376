@@ -1,4 +1,4 @@
-
+/**Arrays and Strings for the added values in add task*/
 let BASE_URL = 'https://join376-5c0e7-default-rtdb.europe-west1.firebasedatabase.app/';
 let currentDraggedElement;
 let activePriority = '';
@@ -6,9 +6,7 @@ let titles = [];
 let descriptions = [];
 let loadedTasks = [];
 
-/**
- * This function loads all tasks from Firebase at the start and renders them into the HTML template.
- */
+/**This function loads all tasks from Firebase at the start and renders them into the HTML template. */
 async function loadTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
@@ -17,11 +15,7 @@ async function loadTasks() {
     saveInArray(tasksJson);
 }
 
-/**
- * This function uses the index to search for the ID of the object in order to load the correct data from Firebase.
- * @param {number} id 
- * @returns Returns the ID of the object
- */
+/**This function uses the index to search for the ID of the object in order to load the correct data from Firebase. */
 async function findKey(id) {
     let response = await fetch(BASE_URL + "/tasks.json");
     let responseJson = await response.json();
@@ -30,10 +24,7 @@ async function findKey(id) {
     return key;
 }
 
-/**
- * This function saves the title and description of the tasks in an array for the search function.
- * @param {object} tasksJson - The tasks are all transferred in this object.
- */
+/**This function saves the title and description of the tasks in an array for the search function. */
 function saveInArray(tasksJson) {
     loadedTasks = tasksJson;
     for (let i = 0; i < tasksJson.length; i++) {
@@ -42,9 +33,7 @@ function saveInArray(tasksJson) {
     }
 }
 
-/**
- * The function searches for a match in the title or description and then renders the task found.
- */
+/**The function searches for a match in the title or description and then renders the task found. */
 async function searchTask(type, e) {
     var keynum = pressedKey(e); // To check if the backspace key is pressed  
     let keyword = getKeyWord(type);
@@ -57,11 +46,7 @@ async function searchTask(type, e) {
     showSearchResults(matchedTasks, responseJson, keynum);
 }
 
-/**
- * This function checks which button has been pressed and returns the key code.
- * @param {event} e - The event object is transferred.
- * @returns The function returns the key code (keynum) of the key pressed.
- */
+/**This function checks which button has been pressed and returns the key code. */
 function pressedKey(e) {
     if (window.e) { // IE                  
         return keynum = e.keyCode;
@@ -70,11 +55,7 @@ function pressedKey(e) {
     }
 }
 
-/**
- * The function synchronizes the value of two input fields and returns the entered text as lower case letters. 
- * @param {string} type 
- * @returns The function returns the text of the relevant input field in lower case.
- */
+/**The function synchronizes the value of two input fields and returns the entered text as lower case letters.  */
 function getKeyWord(type) {
     if (type == "responsive") {
         document.getElementById('find-task').value = document.getElementById('find-task-responsive').value;
@@ -85,12 +66,8 @@ function getKeyWord(type) {
     }
 }
 
-/**
- * The function processes and displays search results based on an input. It checks whether there are matches to a search and renders either the filtered results or the entire list, depending on the input.
- * @param {string} matchedTasks 
- * @param {object} responseJson 
- * @param {number} keynum 
- */
+/**The function processes and displays search results based on an input.
+*It checks whether there are matches to a search and renders either the filtered results or the entire list, depending on the input.*/
 function showSearchResults(matchedTasks, responseJson, keynum) {
     if (matchedTasks.length > 0 && keynum != 8) {
         clearLists();
@@ -103,9 +80,7 @@ function showSearchResults(matchedTasks, responseJson, keynum) {
     }
 }
 
-/**
- * This function provides user feedback if no results were found for the entry.
- */
+/**This function provides user feedback if no results were found for the entry. */
 function noResults() {
     let popUp = document.getElementById("search-notification");
     popUp.classList.remove("d-none");
@@ -114,9 +89,7 @@ function noResults() {
     }, "1500");
 }
 
-/**
- * This function initially empties all lists.
- */
+/**This function initially empties all lists. */
 function clearLists() {
     document.getElementById('to-do').innerHTML = "";
     document.getElementById('in-progress').innerHTML = "";
@@ -124,10 +97,7 @@ function clearLists() {
     document.getElementById('done').innerHTML = "";
 }
 
-/**
- * This function renders the tasks in the HTML template.
- * @param {object} tasksJson - The tasks are all transferred in this object.
- */
+/**This function renders the tasks in the HTML template.*/
 function renderTasks(tasksJson) {
     for (let i = 0; i < Object.keys(tasksJson).length; i++) {
         let tasksArray = Object.values(tasksJson);
@@ -150,9 +120,7 @@ function renderTasks(tasksJson) {
     checkEmptyList();
 }
 
-/**
- * This function checks whether a list is empty. If this is the case, a placeholder is rendered.
- */
+/**This function checks whether a list is empty. If this is the case, a placeholder is rendered.*/
 function checkEmptyList() {
     let toDoRef = document.getElementById('to-do');
     let inProgressRef = document.getElementById('in-progress');
@@ -168,9 +136,7 @@ function checkEmptyList() {
     }
 }
 
-/**
- * This function checks which category a task belongs to in order to display the label correctly.
- */
+/**This function checks which category a task belongs to in order to display the label correctly. */
 function checkCategory(category) {
     if (category == 'Technical Task') {
         classCategory = 'technical-task';
@@ -180,11 +146,7 @@ function checkCategory(category) {
     return classCategory;
 }
 
-/**
- * This function calculates the progress of the processing of the individual subtasks and renders them.
- * @param {array} subtasks - The subtasks are transferred to calculate the progress.
- * @param {number} id - The Id shows which subtasks belong to which task.
- */
+/**This function calculates the progress of the processing of the individual subtasks and renders them.*/
 function calculateSubtaskProgress(subtasks, id) {
     let allSubtasks = subtasks.length;
     let doneTasks = 0;
@@ -201,11 +163,7 @@ function calculateSubtaskProgress(subtasks, id) {
     document.getElementById('subtask-' + id).innerHTML = getSubtask(doneTasks, allSubtasks, progress)
 }
 
-/**
- * This function searches for the first letter of the first name and the last name.
- * @param {array} user - All users are transferred in an array.
- * @param {number} id - The Id to render the correct letters.
- */
+/**This function searches for the first letter of the first name and the last name.*/
 function getFirstLetter(user, id) {
     let firstLetters = [];
     let colors = [];
@@ -226,9 +184,7 @@ function getFirstLetter(user, id) {
 }
 
 
-/**
- * This function renders the initial letters of the names in the map.
- */
+/**This function renders the initial letters of the names in the map. */
 function renderFirstLetter(firstLetters, colors, id) {
     if (firstLetters.length <= 5) {
         for (let j = 0; j < firstLetters.length; j++) {
@@ -242,11 +198,7 @@ function renderFirstLetter(firstLetters, colors, id) {
     }
 }
 
-/**
- * This function determines the priority and then returns the URL for the correct icon.
- * @param {string} priority - The priority of the task.
- * @returns URL from the priority icon.
- */
+/**This function determines the priority and then returns the URL for the correct icon. */
 function findPrio(priority) {
     if (priority == 'Urgent') {
         prioIcon = './assets/icons/urgent_icon.png';
@@ -258,31 +210,23 @@ function findPrio(priority) {
     return prioIcon;
 }
 
-/**
- * This function saves the task to be moved and adds a CSS class to high-light the task.
- * @param {number} id - The Id of the element to be moved.
- */
+/**This function saves the task to be moved and adds a CSS class to high-light the task. */
 function startDragging(id) {
     currentDraggedElement = id;
     document.getElementById(currentDraggedElement).classList.add('drag-area-highlight');
 }
 
+/**This function removes Dragging highlighting. */
 function removeDragging(id) {
     document.getElementById(id).classList.remove('drag-area-highlight');
 }
 
-/**
- * This function allows you to move the div-container.
- * @param {event} ev - This is the event.
- */
+/**This function allows you to move the div-container.*/
 function allowDrop(ev) {
     ev.preventDefault();
 }
 
-/**
- * This function saves the new list in Firebase.
- * @param {*} list - The current list is transferred here.
- */
+/**This function saves the new list in Firebase.*/
 async function changeList(list) {
     currentDraggedElement--;
     currentDraggedElement = await findKey(currentDraggedElement);
@@ -299,10 +243,7 @@ async function changeList(list) {
     loadTasks();
 }
 
-/**
- * This function deletes a task.
- * @param {number} id - Transfers the ID of the task to be deleted.
- */
+/**This function deletes a task. */
 async function deleteTask(id) {
   let tasks = await fetch(BASE_URL + "/tasks.json");
   let tasksJson = await tasks.json();
@@ -316,7 +257,7 @@ async function deleteTask(id) {
   closeOverlay(); loadTasks();
 }
 
-
+/**This function shows the delete overlay message */
 function showDeleteConfirm(msg){
   const o=document.createElement('div');
   o.style.cssText='position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.35);z-index:9999;opacity:0;transition:opacity .2s';
@@ -328,31 +269,14 @@ function showDeleteConfirm(msg){
   setTimeout(()=>{o.style.opacity='0'; setTimeout(()=>o.remove(),200);},1400);
 }
 
-
-
-/**
- * Opens the "Add Task" overlay, allowing the user to add a new task to the list.
- * 
- * This function performs the following actions:
- * 1. Displays the overlay where the "Add Task" interface is presented.
- * 2. Adjusts the styles of the overlay for proper positioning and layout.
- * 3. Hides unnecessary elements (e.g., `aside`, `footer`, `header`) within the iframe context 
- *    to ensure a clean and focused user interface.
- * 
- * @function openAddTask
- * @returns {void}
- */
+/**Opens the "Add Task" overlay, allowing the user to add a new task to the list. */
 function openAddTask() {
     showOverlay(); // Displays the overlay.
     setOverlayStyles(); // Configures styles for the overlay.
     hideUnnecessaryElementsInIframe(); // Hides irrelevant elements in the iframe.
 }
 
-
-
-/**
- * This Function opens the overlay, activates the overlay class, and sets the overlay mode.
- */
+/**This Function opens the overlay, activates the overlay class, and sets the overlay mode. */
 function openOverlay() {
     const overlay = document.getElementById('overlayContent');
     if (overlay) {
@@ -361,9 +285,7 @@ function openOverlay() {
     }
 }
 
-/**
- * This Function close the task overlay, removes the overlay class, and resets the mode to the main page.
- */
+/**This Function close the task overlay, removes the overlay class, and resets the mode to the main page. */
 function closeTaskOverlay() {
     const overlay = document.getElementById('taskoverlay');
     if (overlay) {
@@ -372,9 +294,7 @@ function closeTaskOverlay() {
     }
 }
 
-/**
- * This Function activate the overlay mode by setting the <body> element ID inside the iframe to "overlay-mode".
- */
+/**This Function activate the overlay mode by setting the <body> element ID inside the iframe to "overlay-mode". */
 function setOverlayMode() {
     const iframe = document.getElementById("overlayContent");
     if (iframe) {
@@ -393,9 +313,7 @@ function setOverlayMode() {
     }
 }
 
-/**
- * This Function resets the state inside the iframe to the main page by setting the `<body>` element ID to "main-page".
- */
+/**This Function resets the state inside the iframe to the main page by setting the `<body>` element ID to "main-page". */
 function resetToMainPage() {
     const iframe = document.getElementById('overlayContent');
     if (iframe) {
@@ -410,17 +328,13 @@ function resetToMainPage() {
     }
 }
 
-/**
- * This function opens the overlayblocker in the background of the task.
- */
+/**This function opens the overlayblocker in the background of the task. */
 function openTaskDetails() {
   document.getElementById('task-details').style.display = 'flex';
   document.getElementById('overlay-blocker').classList.remove('hidden');
 }
 
-/**
- * This function close the overlayblocker.
- */
+/**This function close the overlayblocker. */
 function closeTaskDetails() {
   document.getElementById('task-details').style.display = 'none';
   document.getElementById('overlay-blocker').classList.add('hidden');

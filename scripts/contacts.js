@@ -1,35 +1,21 @@
-/**
- * saves all contacts from the server and updates the global `contacts` array.*/
+/**saves all contacts from the server and updates the global `contacts` array.*/
 let contacts = [];
 
-/**
- * Fetches all contacts from the server and updates the global `contacts` array.
- * @returns {Promise<Contact[]>} A promise resolving to an array of contact objects.
- */
+/**Fetches all contacts from the server and updates the global `contacts` array. */
 function fetchContacts() {
     return fetch(BASE_URL + 'contacts.json')
         .then(response => response.json())
         .then(data => {
             contacts = Object.values(data).filter(contact => contact && contact.name);
-            return contacts;
-        });
+            return contacts;});
 }
 
-/**
- * Sorts the global `contacts` array alphabetically by contact name.
- */
+/**Sorts the global `contacts` array alphabetically by contact name. */
 function sortContacts() {
     contacts.sort((a, b) => a.name.localeCompare(b.name));
 }
 
-/**
- * Adds a contact card to the specified container using the provided template.
- * @param {HTMLElement} container - The container to append the contact card to.
- * @param {Contact} contact - The contact to display.
- * @param {string} initials - Initials of the contact.
- * @param {string} bgColor - Background color for the initials circle.
- * @param {HTMLTemplateElement} template - The template for the contact card.
- */
+/**Adds a contact card to the specified container using the provided template. */
 function addContactToContainer(container, contact, initials, bgColor, template) {
     if (!template || !template.content) return;
     const clone = template.content.cloneNode(true);
@@ -44,11 +30,7 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
     container.appendChild(clone);
 }
 
-
-/**
- * Displays the list of contacts in the DOM, grouped alphabetically.
- * @param {Contact[]} contacts - The array of contact objects to display.
- */
+/**Displays the list of contacts in the DOM, grouped alphabetically. */
 function displayContacts(contacts) {
     const container = document.querySelector('.createdContacts');
     const template = document.getElementById('contactTemplate');
@@ -58,19 +40,11 @@ function displayContacts(contacts) {
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
             if (container)
-                addLetterHeader(container, currentLetter);
-        }
-        addContactToContainer(container, contact, getInitials(contact.name), getRandomColor(), template);
-    });
+                addLetterHeader(container, currentLetter);}
+        addContactToContainer(container, contact, getInitials(contact.name), getRandomColor(), template);});
 }
 
-/**
- * Loads contact details into the details section and updates the UI state.
- * @param {HTMLElement} contactWrapper - The wrapper element for the selected contact.
- * @param {Contact} contact - The contact to display details for.
- * @param {string} initials - Initials of the contact.
- * @param {string} bgColor - Background color for the initials circle.
- */
+/**Loads contact details into the details section and updates the UI state. */
 function loadContactDetails(contactWrapper, contact, initials, bgColor) {
     const detailsSection = document.getElementById('selectedContactDetails');
     detailsSection.classList.add('visible');
@@ -83,35 +57,25 @@ function loadContactDetails(contactWrapper, contact, initials, bgColor) {
     updateEditContactForm(contact, initials, bgColor);
 }
 
-/**
- * Updates the contact details section in the DOM with the provided contact information.
- * @param {Contact} contact - The contact to display.
- * @param {string} initials - Initials of the contact.
- * @param {string} bgColor - Background color for the initials circle.
- */
+/**Updates the contact details section in the DOM with the provided contact information. */
 function updateContactDetails(contact, initials, bgColor) {
     const detailsInitials = document.getElementById('detailsInitials');
     detailsInitials.textContent = initials;
     detailsInitials.style.backgroundColor = bgColor;
-
     document.getElementById('contactId').innerHTML = contact.id;
     document.getElementById('detailsName').textContent = contact.name;
     document.getElementById('detailsEmail').innerHTML = contact.email
         ? `<a style="color: #007cee;" href="mailto:${contact.email}">${contact.email}</a>`
         : 'No email available';
-
     document.getElementById('detailsPhone').textContent = contact.phone ? contact.phone : 'No phone available';
 }
 
-/**
- * Creates a new contact and updates the server and UI.
- * checks the form validation for Name,Phone and Email
- */
+/**Creates a new contact and updates the server and UI.
+ * checks the form validation for Name,Phone and Email */
 function createContact() {
     const name = getInputValue('addName');
     const email = getInputValue('addEmail');
     const phone = getInputValue('addPhone');
-
     resetAddErrorStyles();
 
     if (!isValidName(name)) return markAddInvalid('addName', 'Please enter a valid name<br>Min. 2 letters');
@@ -123,49 +87,47 @@ function createContact() {
     saveContactToFirebase(newContact, newId);
 }
 
-
+/**checks for valid name Input */
 function isValidName(name) {
     return /^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ '\-]{1,}$/.test(name);
 }
 
-
+/**checks for valid Mail Input */
 function isValidEmail(email) {
     return /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/.test(email);
 }
 
-
+/**checks for valid Phone Number Input */
 function isValidPhone(phone) {
     return /^(?:0|\+|00)[0-9]{9,19}$/.test(phone);
 }
 
-
+/**Shows Invalid Message for Inputs*/
 function markAddInvalid(id, msg) {
     const input = document.getElementById(id);
     input.classList.add('input-error');
     const box = document.getElementById(`error-${id}`);
     if (box) {
         box.innerHTML = msg;
-        box.style.display = 'block';
-    }
+        box.style.display = 'block';}
     input.focus();
 }
 
-
+/**Resets the Error Borders of Inputs */
 function resetAddErrorStyles() {
     ['addName', 'addEmail', 'addPhone'].forEach(id => {
         const input = document.getElementById(id);
         input.classList.remove('input-error');
         const box = document.getElementById(`error-${id}`);
-        if (box) box.style.display = 'none';
-    });
+        if (box) box.style.display = 'none';});
 }
 
-
+/**checks InputValue*/
 function getInputValue(id) {
     return document.getElementById(id).value.trim();
 }
 
-
+/**Saves added Contacts in Firebase*/
 function saveContactToFirebase(contact, id) {
     fetch(`${BASE_URL}contacts/${id}.json`, {
         method: 'PUT',
@@ -176,13 +138,10 @@ function saveContactToFirebase(contact, id) {
         contacts.push(contact);
         updateContactDisplay();
         closeAddContactForm(true);
-        if (window.innerWidth < 1250) showFooter();
-    });
+        if (window.innerWidth < 1250) showFooter();});
 }
 
-/**
- * Updates the UI to reflect the current state of the `contacts` array.
- */
+/**Updates the UI to reflect the current state of the `contacts` array. */
 function updateContactDisplay() {
     sortContacts();
     const container = document.querySelector('.createdContacts');
@@ -194,90 +153,59 @@ function updateContactDisplay() {
         if (firstLetter !== currentLetter) {
             currentLetter = firstLetter;
             if (container)
-                addLetterHeader(container, currentLetter);
-        }
+                addLetterHeader(container, currentLetter);}
         const initials = getInitials(contact.name);
         const bgColor = getRandomColor();
-        addContactToContainer(container, contact, initials, bgColor, template);
-    });
+        addContactToContainer(container, contact, initials, bgColor, template);});
 }
 
-/**
- * Generates a new contact ID based on the current length of the `contacts` array.
- * @returns {number} The new contact ID.
- */
+/**Generates a new contact ID based on the current length of the `contacts` array. */
 function getNewContactId() {
     return contacts.length;
 }
 
-/**
- * Deletes a contact by ID and updates the server and UI.
- * @param {string} del - Context of deletion (e.g., "editForm").
- */
+/**Deletes a contact by ID and updates the server and UI. */
 async function deleteContact(del) {
     let id = + document.getElementById('contactId').innerHTML;
-
     let updatedContacts = removeContactById(contacts, id);
     updatedContacts = updateID(updatedContacts);
-
     let responseContact = await fetch(BASE_URL + 'contacts.json', {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(updatedContacts)
-    });
-    contacts = updatedContacts;
-
+            "Content-Type": "application/json",},
+        body: JSON.stringify(updatedContacts)});
+        contacts = updatedContacts;
     updateDelChanges(del);
 }
 
-/**
- * Removes a contact from an array by its ID.
- * @param {Contact[]} contactsJson - Array of contact objects.
- * @param {number} id - ID of the contact to remove.
- * @returns {Contact[]} Updated array of contacts.
- */
+/**Removes a contact from an array by its ID. */
 function removeContactById(contactsJson, id) {
     return contactsJson.filter(c => c.id !== id);
 }
 
-/**
- * Reassigns sequential IDs to the given contacts.
- * @param {Contact[]} updatedContacts - Array of contact objects to update.
- * @returns {Contact[]} Updated array of contacts with new IDs.
- */
+/**Reassigns sequential IDs to the given contacts. */
 function updateID(updatedContacts) {
     var newId = 1;
     for (var i in updatedContacts) {
         updatedContacts[i].id = newId;
-        newId++;
-    }
+        newId++;}
     return updatedContacts;
 }
 
-/**
- * Updates the UI after a contact is deleted.
- * @param {string} del - Context of deletion (e.g., "editForm").
- */
+/**Updates the UI after a contact is deleted. */
 function updateDelChanges(del) {
     updateContactDisplay();
     closeContactDetails();
     if (window.innerWidth < 1250) hideDetails();
     if (del == "editForm") {
-        closeEditContactForm();
-    }
+        closeEditContactForm();}
 }
 
-/**
- * Saves changes made to a contact and updates the server and UI.
- */
-
+/**Saves changes made to a contact and updates the server and UI. */
 async function saveEditChanges() {
     const id = +contactId.innerText, name = editName.value.trim();
     const email = editEmail.value.trim(), phone = editPhone.value.trim();
     resetErrorStyles();
-
     const nameOk = /^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ '\-]{1,}$/;
     const mailOk = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]{2,}\.[a-zA-Z]{2,}$/;
     const phoneOk = /^(?:\+|00|0)[0-9]{9,19}$/;
@@ -285,7 +213,6 @@ async function saveEditChanges() {
     if (!nameOk.test(name)) return markInvalid(editName, " Please enter a valid name<br>Min. 2 letters, no numbers");
     if (!mailOk.test(email)) return markInvalid(editEmail, " Please enter a valid email address<br>Example: name@example.com");
     if (!phoneOk.test(phone)) return markInvalid(editPhone, " Please enter a valid phone number<br>Starts with +, 00 or 0 (min. 10 digits)");
-
 
     const updated = { id, name, email, phone };
     contacts = contacts.map(c => c.id === id ? updated : c);
@@ -296,50 +223,46 @@ async function saveEditChanges() {
     closeEditContactForm(); updateContactDisplay(); if (innerWidth < 1250) showFooter();
 }
 
-
+/**displays invalid  border (Inputs)*/
 function markInvalid(input, msg) {
     input.classList.add('input-error');
     const errorBox = document.getElementById(`error-${input.id}`);
     if (errorBox) {
         errorBox.innerHTML = msg;
-        errorBox.style.display = 'block';
-    }
+        errorBox.style.display = 'block';}
     input.focus();
 }
 
-
+/**Resets the Error Styles */
 function resetErrorStyles() {
     [editName, editEmail, editPhone].forEach(i => {
         i.classList.remove('input-error');
         const msg = document.getElementById(`error-${i.id}`);
-        if (msg) msg.style.display = 'none';
-    });
+        if (msg) msg.style.display = 'none';});
 }
 
 
-/**
- * Updates the edit contact form with the given contact details.
- */
+/**Updates the edit contact form with the given contact details. */
 function updateEditContactForm(contact, initials, bgColor) {
     document.getElementById('editName').value = contact.name;
     document.getElementById('editEmail').value = contact.email || '';
     document.getElementById('editPhone').value = contact.phone || '';
-
     const editInitialsCircle = document.getElementById('editDetailsInitials');
     editInitialsCircle.textContent = initials;
     editInitialsCircle.style.backgroundColor = bgColor;
 }
 
+/**cloes the Contacrform Edit Overlay*/
 function closeEditContactForm() {
     const editContactForm = document.getElementById('editContactForm');
     editContactForm.style.opacity = '0';
-
     setTimeout(() => {
         editContactForm.classList.remove('visible');
         editContactForm.style.display = 'none';
     }, 700);
 }
 
+/**Open the Contacrform Edit Overlay*/
 function openEditContactForm() {
     const editContactForm = document.getElementById('editContactForm');
     editContactForm.style.display = 'flex';
@@ -350,6 +273,7 @@ function openEditContactForm() {
     initEditInputValidation();
 }
 
+/**cloes the Add-Contactform Overlay*/
 function closeAddContactForm(contactCreated = false) {
     const form = document.getElementById('addContactForm');
     const overlay = document.getElementById('successfullycreatedContactOverlay');
@@ -366,6 +290,7 @@ function closeAddContactForm(contactCreated = false) {
     }, 1000);
 }
 
+/**Open the Add-Contactform Overlay*/
 function openAddContactForm() {
     const addContactForm = document.getElementById('addContactForm');
     addContactForm.style.display = 'flex';
@@ -375,38 +300,37 @@ function openAddContactForm() {
     }, 10);
 }
 
+/**Hides the Footer for Responsiveness*/
 function hideFooter() {
     const footer = document.querySelector('.responsive-footer');
     if (footer) {
-        footer.classList.add('hide-contacts');
-    }
+        footer.classList.add('hide-contacts');}
 }
 
+/**Shows the Footer for Responsiveness*/
 function showFooter() {
     const footer = document.querySelector('.responsive-footer');
     if (footer) {
         footer.classList.remove('hide-contacts');
-        footer.classList.add('show-details');
-    }
+        footer.classList.add('show-details');}
 }
 
+/**Styles for Contacts Responsiveness*/
 function toggleDetails() {
     if (window.innerWidth < 1250) {
         const detailsContainer = document.querySelector('.detailsContainer');
         const contactsContainer = document.querySelector('.contactsSection');
         const backArrow = document.querySelector('.backArrow');
-
         detailsContainer.classList.toggle('show-details');
         contactsContainer.classList.toggle('hide-contacts');
 
         if (detailsContainer.classList.contains('show-details')) {
             backArrow.classList.add('show-details');
         } else {
-            backArrow.classList.remove('show-details');
-        }
-    }
+            backArrow.classList.remove('show-details');}}
 }
 
+/**Toggles Contact Details*/
 function toggleContactDetails() {
     const detailsButtons = document.querySelector('.responsiveContactDetailsButtons');
 
@@ -419,54 +343,49 @@ function toggleContactDetails() {
     }
 }
 
+/**Hides Contact Details after Edit*/
 function hideDetails() {
     const detailsContainer = document.querySelector('.detailsContainer');
     const contactsContainer = document.querySelector('.contactsSection');
     const backArrow = document.querySelector('.backArrow');
-
     detailsContainer.classList.remove('show-details');
     contactsContainer.classList.remove('hide-contacts');
-
     backArrow.classList.add('show-details');
 }
 
+/**Function for the Letter in the User/Contact Avatar-Container*/
 function addLetterHeader(container, letter) {
     container.innerHTML += `
         <div class="contactHeaderWrapper">
             <div class="contactHeader">${letter}</div>
-        </div>
-    `;
+        </div>`;
 }
-
-
 window.getInitials = function(name) {
     if (!name || typeof name !== 'string') return '';
     const nameParts = name.trim().split(' ');
     return nameParts[0]?.[0]?.toUpperCase() + (nameParts[1]?.[0]?.toUpperCase() || '');
 };
 
+/**Adds a Random Color for thew Contact Avatar Background*/
 function getRandomColor() {
     const colors = ['#ff7a00', '#9327ff', '#6e52ff', '#fc71ff', '#ffbb2b', '#1fd7c1', '#462f8a', '#ff4646', '#00bee8'];
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
+/**Closes the Contact Deatils*/
 function closeContactDetails() {
     const detailsSection = document.getElementById('selectedContactDetails');
     detailsSection.classList.remove('visible');
     detailsSection.classList.remove('active');
 }
 
-/**
- * Fetches and displays the contacts when the page is loaded.
- */
+/**Fetches and displays the contacts when the page is loaded. */
 fetchContacts().then(() => {
     sortContacts();
     displayContacts(contacts);
 });
 
-/**
- * checks the validation of the inputs.
- */
+/**checks the validation of the inputs. */
 function initEditInputValidation() {
     ['editName', 'editEmail', 'editPhone'].forEach(id => {
         const input = document.getElementById(id);
@@ -474,7 +393,6 @@ function initEditInputValidation() {
         input.addEventListener('input', () => {
             input.classList.remove('input-error');
             const msg = document.getElementById(`error-${input.id}`);
-            if (msg) msg.style.display = 'none';
-        });
+            if (msg) msg.style.display = 'none';});
     });
 }
