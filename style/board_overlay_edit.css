@@ -594,3 +594,17 @@ svg :hover {
     flex-shrink: 0;
     cursor: pointer;
 }
+
+.assigned-user-chip{
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  margin: 0 8px 8px 0;
+}
+.delete-user-button{
+  position:absolute; top:-5px; right:-5px;
+  width:24px;height:24px;border-radius:50%;
+  background:#2A3647;color:#fff;border:2px solid #fff;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;padding:0;margin:0;z-index:1;
+}
