@@ -1,21 +1,46 @@
 let _fpInstance;
 
+// async function editTask(id, title, description, dueDate, priority) {
+//   id--; const box = document.getElementById('task-details');
+//   box.innerHTML = getOverlayEdit(id, title, description, dueDate);
+//   document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
+//   checkActivePriority(priority); selectedUserEdit(id); renderOverlayEditSubtasks(id);
+//   loadContacts(id); activeFlatPickr(); const task = await loadTaskWithID(id);
+//   renderEditFile(task);
+// }
 async function editTask(id, title, description, dueDate, priority) {
-  id--; const box = document.getElementById('task-details');
+  id--;
+  const box = document.getElementById('task-details');
   box.innerHTML = getOverlayEdit(id, title, description, dueDate);
-  document.getElementById('due-date-input').defaultValue = dateFormatter(dueDate);
-  checkActivePriority(priority); selectedUserEdit(id); renderOverlayEditSubtasks(id);
-  loadContacts(id); activeFlatPickr(); const task = await loadTaskWithID(id);
+
+  checkActivePriority(priority);
+  selectedUserEdit(id);
+  renderOverlayEditSubtasks(id);
+  loadContacts(id);
+
+  initDate(dueDate);                 
+  const task = await loadTaskWithID(id);
   renderEditFile(task);
 }
 
-function activeFlatPickr() {
+
+
+function initDate(dueDateISO) {
   const input = document.getElementById('due-date-input');
-  const btn = document.getElementById('calendar-icon'); if (!input || !btn) return;
-  if (!_fpInstance) { _fpInstance = flatpickr(input,{minDate:'today',dateFormat:'Y-m-d'});
-    btn.addEventListener('click',()=>_fpInstance.open(),{passive:true});
-  } else { _fpInstance.input = input; }
+  const btn   = document.getElementById('calendar-icon');
+  if (!input || !btn) return;
+  if (_fpInstance) { _fpInstance.destroy(); _fpInstance = null; }
+  input.value = (dueDateISO || '').slice(0, 10); 
+_fpInstance = flatpickr(input, {
+    minDate: 'today',
+    dateFormat: 'Y-m-d',           
+    defaultDate: input.value || null,
+    allowInput: true
+  });
+
+  btn.onclick = () => _fpInstance && _fpInstance.open();
 }
+
 
 function checkActivePriority(priority) {
   const map = {Urgent:['urgent','#FF3D00'],Medium:['medium','#FFA800'],Low:['low','#7AE229']};
@@ -59,14 +84,21 @@ function showEditConfirm(msg){
 }
 
 
+
 function generateChangeTask(responseJson) {
   const t = document.getElementById('overlay-title').value;
   const d = document.getElementById('overlay-description').value;
-  const due = document.getElementById('due-date-input').value;
-  if (t) responseJson.title = t; if (d) responseJson.description = d;
-  if (due) responseJson.dueDate = convertDateFormat(due);
-  responseJson.prio = activePriorityButton(); return responseJson;
+  const due = document.getElementById('due-date-input').value.trim();
+
+  if (t) responseJson.title = t;
+  if (d) responseJson.description = d;
+  if (due) {
+    responseJson.dueDate = /^\d{4}-\d{2}-\d{2}$/.test(due) ? due : convertDateFormat(due);
+  }
+  responseJson.prio = activePriorityButton();
+  return responseJson;
 }
+
 
 function activePriorityButton() {
   const bg = id => window.getComputedStyle(document.getElementById(id)).getPropertyValue('background-color');
@@ -117,18 +149,17 @@ function isCheckedIcon(src) {
 async function toggleAssignedTo(name, id) {
   const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
   const task = await loadTaskWithID(id);
-
   const [firstName, ...rest] = name.split(' ');
   const lastName = rest.join(' ');
 
   updateAssignedTo(task, firstName, lastName);
   await updateTaskInFirebase(taskRefUrl, { assignedTo: task.assignedTo });
 
-  // Icon toggeln
+  
   const ref = document.getElementById('checkbox-contact-' + name);
   toggleIcon(ref, './assets/icons/checked_icon.png', './assets/icons/unchecked_icon.png');
 
-  // Blaue Hinterlegung toggeln
+  
   const rowId = safeIdFromName(name);
   const row = document.getElementById(rowId);
   if (row && ref) {
@@ -136,7 +167,7 @@ async function toggleAssignedTo(name, id) {
     row.classList.toggle('selected', nowChecked);
   }
 
-  // Avatare oben neu rendern
+  
   document.getElementById('user-names-edit-overlay').innerHTML = '';
   selectedUserEdit(id);
 }
@@ -175,17 +206,13 @@ function isCheckedIconSrc(src) {
   return src && src.indexOf('checked_icon.png') !== -1;
 }
 
-// EINMAL nach dem Rendern binden:
+
 const list = document.getElementById('user-dropdown');
 if (list && !list._rowClickBound) {
   list.addEventListener('click', (e) => {
     const row = e.target.closest('.user-container');
     if (!row) return;
-
-    // Wenn direkt das Icon geklickt wurde -> NICHT nochmal triggern
     if (e.target.closest('img[id^="checkbox-contact-"]')) return;
-
-    // Sonst Klick auf Icon auslösen (ruft dein toggleAssignedTo auf)
     const icon = row.querySelector('img[id^="checkbox-contact-"]');
     if (icon) icon.click();
   });
@@ -195,28 +222,19 @@ if (list && !list._rowClickBound) {
 async function toggleAssignedTo(name, id) {
   const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
   const task = await loadTaskWithID(id);
-
   const [firstName, ...rest] = name.trim().split(/\s+/);
   const lastName = rest.join(' ');
 
-  // Zustand lokal toggeln
   updateAssignedTo(task, firstName, lastName);
-
-  // Backend aktualisieren
   await updateTaskInFirebase(taskRefUrl, { assignedTo: task.assignedTo });
-
-  // Icon umschalten (deine bestehende Logik)
   const ref = document.getElementById('checkbox-contact-' + name);
   if (ref) toggleIcon(ref, './assets/icons/checked_icon.png', './assets/icons/unchecked_icon.png');
-
-  // >>> HIER: Blau abhängig vom tatsächlichen Zustand nach dem Update
   const row = ref?.closest('.user-container');
   if (row) {
     const isSelected = task.assignedTo?.some(u => u.firstName === firstName && u.lastName === lastName);
     row.classList.toggle('selected', !!isSelected);
   }
 
-  // Avatare oben neu rendern
   const box = document.getElementById('user-names-edit-overlay');
   if (box) box.innerHTML = '';
   selectedUserEdit(id);

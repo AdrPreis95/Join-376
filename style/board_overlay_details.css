@@ -163,11 +163,13 @@
 .subtask-overlay {
     display: flex;
     gap: 16px;
+    align-items: center;
 }
 
 .subtask-overlay:hover {
-    border-radius: 10px;
+
     background-color: #F1F1F1;
+    
 }
 
 .footer-overlay {
@@ -413,26 +415,27 @@ button:hover svg {
 
 
 @media screen and (min-width: 540px) {
-  body,
-  p,
-  span,
-  a,
-  label,
-  button,
-  input,
-  textarea,
-  select,
-  div,
-  th,
-  td,
-  ol,
-  [contenteditable="true"] {
-      font-size: 16px !important;
-      /* line-height: 1.5 !important; */
-  }
 
-  input::placeholder,
-  textarea::placeholder {
-      font-size: 16px !important;
-  }
+    body,
+    p,
+    span,
+    a,
+    label,
+    button,
+    input,
+    textarea,
+    select,
+    div,
+    th,
+    td,
+    ol,
+    [contenteditable="true"] {
+        font-size: 16px !important;
+        /* line-height: 1.5 !important; */
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        font-size: 16px !important;
+    }
 }

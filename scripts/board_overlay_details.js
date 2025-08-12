@@ -11,6 +11,38 @@ async function showOverlayDetailsTask(id) {
   renderOverlay(task);
 }
 
+async function showOverlayDetailsTask(id) {
+  id--;
+  const all = document.getElementById('all-content');
+  const blocker = document.getElementById('overlay-blocker');
+  if (all) all.style.filter = 'brightness(0.5)';
+  blocker?.classList.remove('hidden');
+  const res = await fetch(BASE_URL + "/tasks.json");
+  const json = await res.json();
+  const arr = Array.isArray(json) ? json : Object.values(json||{});
+  const task = arr[id]; if (!task) return;
+  renderOverlay(task);
+}
+
+function renderOverlayContacts(id, responseJson, activeUserIndex) {
+  const checkedIdx = new Set((activeUserIndex||[])
+    .filter(i => i >= 0)
+    .map(i => i + 1));
+  let html = '';
+  for (let i = 0; i < responseJson.length; i++) {
+    const c = responseJson[i];
+    const pos = c.name.indexOf(' ');
+    const icon = checkedIdx.has(i)
+      ? './assets/icons/checked_icon.png'
+      : './assets/icons/unchecked_icon.png';
+    html += getContactName(
+      id, c.name, generateColor(),
+      c.name[0], c.name[pos + 1] || '', icon
+    );
+  }
+  document.getElementById('user-dropdown').innerHTML = html;
+}
+
 function renderOverlay(responseTaskJson) {
   const box = document.getElementById('task-details');
   if (!box) return; box.style.display = 'flex'; box.innerHTML = '';

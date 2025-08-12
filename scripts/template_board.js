@@ -312,15 +312,18 @@ function getOverlayEdit(id, title, description, dueDate) {
  */
 function getContactName(id, name, color, firstLetterFirstName, firstLetterLastName, urlIcon) {
     return `
-    <div class="contact-container-overlay" onclick="toggleAssignedTo('${name}', ${id})">
-        <div class="user-edit-overlay">
-            <div class="user-name-overlay">
-                <div class="user-initials-overlay" style="background-color: ${color}"><p>${firstLetterFirstName}${firstLetterLastName}</p></div>
-                <p>${name}</p>
-            </div>
-        </div>
-        <img id="checkbox-contact-${name}" src="${urlIcon}" class="toggle-icon">
+   <div class="contact-container-overlay" onclick="toggleAssignedTo('${name}', ${id})">
+  <div class="user-name-overlay">
+    <div class="user-initials-overlay" style="background-color:${color}">
+      <p>${firstLetterFirstName}${firstLetterLastName}</p>
     </div>
+    <p class="user-name-text">${name}</p>
+  </div>
+  <div class="checkbox-cont">
+    <img id="checkbox-contact-${name}" src="${urlIcon}" class="toggle-icon" alt="">
+  </div>
+</div>
+
     `
 }
 
