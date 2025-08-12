@@ -1,20 +1,21 @@
 /**This if statement checks if the user is logged in and
- * redirect the user to the summary page.*/
+* redirect the user to the summary page.*/
 let loggedUser = {};
 if (sessionStorage.loggedUser != undefined) {
     window.location.href = "./summary.html";
 }
 
+/**Mail,Name,Password of the Signed Users Value */
 let signedUser = {
     "email": "",
     "name": "",
     "password": ""
 };
 
+/**All Inputs,Checkboxes,Errormessages Handling and the Base URL of Firebase */
 const emailLogin = document.getElementById("login-email");
 const passwordLogin = document.getElementById("login-password");
 const errorMsgLogin = document.getElementById("check-email-password");
-
 const nameSignUp = document.getElementById("signup-name");
 const emailSignUp = document.getElementById("signup-email");
 const passwordSignUp = document.getElementById("signup-password");
@@ -22,7 +23,6 @@ const confirmSignUp = document.getElementById("confirm-password");
 const errorMsgSignUp = document.getElementById("check-password");
 const confirmPasswordSignUp = document.querySelector(".password-confirm");
 const inputCheckboxSignUp = document.querySelector(".input-checkbox");
-
 const BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
 
 /**This function loads tasks from Firebase according to their path. */
