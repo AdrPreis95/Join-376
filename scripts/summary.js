@@ -1,6 +1,4 @@
-/**
- Initialize the tasks,users,sets the user initials and greets ervery user
- */
+/**Initialize the tasks,users,sets the user initials and greets ervery user*/
 function onLoadFunc() {
     updateGreeting(); 
     setUserInitials();
@@ -8,10 +6,7 @@ function onLoadFunc() {
     showTasksOnList();
 }
 
-
-/**
- This funtion updates the greeting message for every login 
- */
+/**This funtion updates the greeting message for every login */
 function updateGreeting(){
     const greeting = document.querySelector(".greeting");
     const user = document.querySelector(".user");
@@ -31,9 +26,7 @@ function updateGreeting(){
     setTimeout(updateGreeting, timeUntilNextHour);
 }
 
-/**
- This function updated the time for the greeting message (Good Morning , Afternoon aso.)
- */
+/**This function updated the time for the greeting message (Good Morning , Afternoon aso.)*/
 function getTimeOfDay() {
     const times = [
         { greet: 'Morning', start: 5, end: 12 },
@@ -53,41 +46,31 @@ function getTimeOfDay() {
 }
 
 
-/**
- This function displays urgent tasks in summary upcomming date ,by priority
- */
+/**This function displays urgent tasks in summary upcomming date ,by priority*/
 async function showUrgentTasks() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
     tasksJson = Array.isArray(tasksJson) ? tasksJson : Object.values(tasksJson);
     const getUrgentTasks = (tasksJson, prio) =>
     tasksJson.filter(task => task.prio == prio);
-
     let urgentTasks = getUrgentTasks(tasksJson, "Urgent");
-
     document.getElementById("show-urgent").innerHTML = urgentTasks.length;
 
     if (urgentTasks.length > 0) {
         let deadline = "";
     
         for(var i = 0 ; i < urgentTasks.length; i++){
-            deadline = compareDates(deadline, urgentTasks[i].dueDate);
-        }
+            deadline = compareDates(deadline, urgentTasks[i].dueDate);}
 
         const formattedDate = new Date(deadline)
         .toLocaleDateString({},
-        {timeZone:"UTC",month:"long", day:"2-digit", year:"numeric"}
-        );
-
+        {timeZone:"UTC",month:"long", day:"2-digit", year:"numeric"});
         document.getElementById("priory-date").innerHTML = formattedDate;
-    } else {
-        document.getElementById("priory-date").innerHTML = "--";
-    }    
+        } else {
+        document.getElementById("priory-date").innerHTML = "--";}    
 }
 
-/**
- checks the date time 
- */
+/**checks the date time */
 function compareDates(d1, d2){
     let date1 = new Date(d1).getTime();
     let date2 = new Date(d2).getTime();
@@ -100,9 +83,7 @@ function compareDates(d1, d2){
 }
 
 
-/**
- Shows all the tasks and stats and prioritys of all the tasks
- */
+/**Shows all the tasks and stats and prioritys of all the tasks*/
 async function showTasksOnList() {
     let tasks = await fetch(BASE_URL + "/tasks.json")
     let tasksJson = await tasks.json();
@@ -123,9 +104,7 @@ async function showTasksOnList() {
 }
 
 
-/**
- Redirect to the Board HTML 
- */
+/**Redirect to the Board HTML */
 function redirectToBoard() {
     window.location.href = "./board.html";
 }

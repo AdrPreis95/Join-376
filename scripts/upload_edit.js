@@ -1,8 +1,4 @@
-/**
- * Renders the file preview section in edit mode.
- * Initializes image viewer and upload input.
- * @param {Object} task - The task object containing file data.
- */
+/**Renders the file preview section in edit mode.*/
 function renderEditFile(task) {
     const container = document.getElementById('edit-overlay-file-preview');
     if (!container) return;
@@ -15,12 +11,7 @@ function renderEditFile(task) {
     initViewer(task.id);
 }
 
-
-/**
- * Renders each file (image or PDF) into the viewer element.
- * @param {Object} task - The task containing file data.
- * @param {HTMLElement} viewer - The DOM element to append file previews to.
- */
+/**Renders each file (image or PDF) into the viewer element.*/
 function renderEachFile(task, viewer) {
     task.files.forEach((f, i) => {
         const isImage = f.base64?.startsWith('data:image/');
@@ -38,13 +29,7 @@ function renderEachFile(task, viewer) {
 }
 
 
-/**
- * Returns HTML markup for an image file with delete and download options.
- * @param {Object} file - The file object containing base64 and name.
- * @param {number} index - Index of the file in the task's file array.
- * @param {number} taskId - ID of the task the file belongs to.
- * @returns {string} HTML string for image preview.
- */
+/**Returns HTML markup for an image file with delete and download options.*/
 function getImageMarkup(file, index, taskId) {
     return `
       <button class="delete-btn-edit" onclick="event.stopPropagation(); removeFileFromTask(${taskId}, ${index})">X</button>
@@ -61,6 +46,7 @@ function getImageMarkup(file, index, taskId) {
       </div>`;
 }
 
+/**Format the Size for the uploaded Files*/
 function formatBytes(bytes) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     if (bytes === 0) return '0 Bytes';
@@ -68,13 +54,7 @@ function formatBytes(bytes) {
     return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
 }
 
-/**
- * Returns HTML markup for a PDF file with preview and download options.
- * @param {Object} file - The file object containing base64 and name.
- * @param {number} index - Index of the file in the task's file array.
- * @param {number} taskId - ID of the task the file belongs to.
- * @returns {string} HTML string for PDF preview.
- */
+/**Returns HTML markup for a PDF file with preview and download options.*/
 function getPdfMarkup(file, index, taskId) {
     return `
       <button class="delete-btn-edit" onclick="event.stopPropagation(); removeFileFromTask(${taskId}, ${index})">X</button>
@@ -94,11 +74,7 @@ function getPdfMarkup(file, index, taskId) {
 }
 
 
-/**
- * Renders a hidden file input with label for uploading images or PDFs in edit mode.
- * @param {HTMLElement} container - The container element to append the input to.
- * @param {number} taskId - ID of the task for associating uploaded files.
- */
+/**Renders a hidden file input with label for uploading images or PDFs in edit mode.*/
 function renderUploadInput(container, taskId) {
     container.innerHTML += `
       <div style="margin-top: 20px; display: flex; align-items: center; gap: 8px;">
@@ -112,19 +88,13 @@ function renderUploadInput(container, taskId) {
 }
 
 
-/**
- * Initializes the Viewer.js instance for a specific task.
- * @param {number} taskId - ID of the task whose viewer should be initialized.
- */
+/**Initializes the Viewer.js instance for a specific task.*/
 function initViewer(taskId) {
     const viewerEl = document.getElementById(`viewer-${taskId}`);
     if (viewerEl) new Viewer(viewerEl);
 }
 
-/**
- * Returns the SVG markup string for a download icon.
- * @returns {string} SVG string.
- */
+/**Returns the SVG markup string for a download icon.*/
 function getDownloadIcon() {
     return `
     <svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
@@ -133,10 +103,7 @@ function getDownloadIcon() {
 }
 
 
-/**
- * Returns the SVG markup string for a open  icon.
- * @returns {string} SVG string.
- */
+/**Returns the SVG markup string for a open  icon.*/
 function getEyeIcon() {
     return `
     <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -145,10 +112,7 @@ function getEyeIcon() {
     </svg>`
 }
 
-/**
- * Returns the SVG markup string for a add icon.
- * @returns {string} SVG string.
- */
+/**Returns the SVG markup string for a add icon.*/
 function getPlusIcon() {
     return `
     <svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
@@ -159,11 +123,7 @@ function getPlusIcon() {
 }
 
 
-/**
- * Removes a file from the given task by index and updates the Firebase entry.
- * @param {number} id - The ID of the task.
- * @param {number} index - The index of the file to remove from the task's file array.
- */
+/**Removes a file from the given task by index and updates the Firebase entry.*/
 async function removeFileFromTask(id, index) {
     id--;
     const taskRefUrl = `${BASE_URL}/tasks/${id}.json`;
@@ -178,13 +138,8 @@ async function removeFileFromTask(id, index) {
 }
 
 
-/**
- * Handles file uploads in edit mode, validates file types and limits,
- * updates the task in Firebase, and shows warnings if necessary.
- * 
- * @param {Event} event - The file input change event.
- * @param {number} taskId - The ID of the task to update.
- */
+/**Handles file uploads in edit mode, validates file types and limits,
+*updates the task in Firebase, and shows warnings if necessary.*/
 async function handleEditFileUpload(event, taskId) {
     const files = event.target.files;
     if (!files || files.length === 0) return;
@@ -208,22 +163,14 @@ async function handleEditFileUpload(event, taskId) {
 }
 
 
-/**
- * Counts files in an array that match a specific MIME type prefix.
- * 
- * @param {Array} fileArray - Array of file objects with base64 data.
- * @param {string} typePrefix - MIME type prefix to filter (e.g. "image/", "application/pdf").
- * @returns {number} Count of matching files.
- */
+/**Counts files in an array that match a specific MIME type prefix.*/
 function countFilesOfType(fileArray, typePrefix) {
     return fileArray.filter(f => f.base64?.startsWith(`data:${typePrefix}`)).length;
 }
 
 
-/**
- * Filters and processes valid image/PDF files, respecting file type and count limits.
- * Saves each valid file to the task and updates image/PDF counters accordingly.
- */
+/**Filters and processes valid image/PDF files, respecting file type and count limits.
+ * Saves each valid file to the task and updates image/PDF counters accordingly.*/
 function shouldSkipFile(file, counters, flags) {
     const fileName = file.name.toLowerCase();
     const mimeType = file.type;
@@ -242,10 +189,8 @@ function shouldSkipFile(file, counters, flags) {
 }
 
 
-/**
- * Filters and processes valid image/PDF files, respecting file type and count limits.
- * Saves each valid file to the task and updates image/PDF counters accordingly.
- */
+/**Filters and processes valid image/PDF files, respecting file type and count limits.
+ *Saves each valid file to the task and updates image/PDF counters accordingly.*/
 async function processSelectedFiles({ files, task, id, counters, flags }) {
     for (let file of files) {
         if (shouldSkipFile(file, counters, flags)) continue;
@@ -259,9 +204,7 @@ async function processSelectedFiles({ files, task, id, counters, flags }) {
 }
 
 
-/**
- * Converts file to base64, updates task in Firebase, and re-renders file preview.
- */
+/**Converts file to base64, updates task in Firebase, and re-renders file preview.*/
 async function readAndSaveFile(file, task, id) {
     return new Promise((resolve) => {
         const reader = new FileReader();
@@ -283,9 +226,7 @@ async function readAndSaveFile(file, task, id) {
 }
 
 
-/**
- * Displays upload warning overlays for invalid files and limit violations.
- */
+/**Displays upload warning overlays for invalid files and limit violations.*/
 function showUploadWarnings(invalidFiles, tooManyImages, tooManyPDFs) {
     if (invalidFiles.length > 0) {
         showUploadWarningOverlay(`Invalid file format – not allowed: ${invalidFiles.join(', ')}`);
@@ -299,9 +240,7 @@ function showUploadWarnings(invalidFiles, tooManyImages, tooManyPDFs) {
 }
 
 
-/**
- * Displays upload warning overlays for invalid files and limit violations.
- */
+/**Displays upload warning overlays for invalid files and limit violations.*/
 function showUploadWarningOverlay(message) {
     const overlay = document.getElementById('upload-warning-overlay');
     const msgContainer = document.getElementById('upload-warning-message');
@@ -316,7 +255,7 @@ function showUploadWarningOverlay(message) {
     }, 3000);
 }
 
-// Patch a task in Firebase (accepts URL or numeric id)
+/**Updates The Task from Firebase async for Displaying the newest Updates*/
 async function updateTaskInFirebase(ref, partial) {
   const url = (typeof ref === 'string')
     ? ref
@@ -335,7 +274,6 @@ async function updateTaskInFirebase(ref, partial) {
   }
   return res.json();
 }
-
 
 const await_updateTaskInFirebase = updateTaskInFirebase;
 

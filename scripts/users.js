@@ -1,7 +1,5 @@
-/**
- * This if statement checks if the user is logged in and
- * redirect the user to the summary page.
- */
+/**This if statement checks if the user is logged in and
+ * redirect the user to the summary page.*/
 let loggedUser = {};
 if (sessionStorage.loggedUser != undefined) {
     window.location.href = "./summary.html";
@@ -27,22 +25,13 @@ const inputCheckboxSignUp = document.querySelector(".input-checkbox");
 
 const BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatabase.app/';
 
-/**
- * This function loads tasks from Firebase according to their path.
- * @param {String} path 
- * @returns responseToJson
- */
+/**This function loads tasks from Firebase according to their path. */
 async function loadData(path = "") {
     let response = await fetch(BASE_URL + path + ".json");
     return responseToJson = await response.json();
 }
 
-/**
- * This function update tasks from Firebase according to their path.
- * @param {String} path 
- * @param {Object} data - new values from a task
- * @returns responseToJson
- */
+/**This function update tasks from Firebase according to their path.*/
 async function patchData(path = "", data = {}) {
     let response = await fetch(BASE_URL + path + ".json", {
         method: "PATCH",
@@ -55,9 +44,7 @@ async function patchData(path = "", data = {}) {
     return responseToJson = await response.json();
 }
 
-/**
- * This function loads an user
- */
+/**This function loads an user */
 async function loadUser() {
     errorMsgLogin.classList.add('hidden');
     emailLogin.classList.remove("wrong-input");
@@ -107,11 +94,7 @@ async function loadUser() {
     }
 }
 
-/**
- * This function checks if the email input field is not empty
- * @param {HTMLElement} email
- * @returns {boolean}
- */
+/**This function checks if the email input field is not empty*/
 function checkInputEmail(email) {
     if (email.value != "") {
         email.classList.remove("wrong-input");
@@ -123,11 +106,7 @@ function checkInputEmail(email) {
     }
 }
 
-/**
- * This function checks if the password input field is not empty
- * @param {HTMLElement} password
- * @returns {boolean}
- */
+/**This function checks if the password input field is not empty */
 function checkInputPassword(password) {
     if (password.value != "") {
         password.classList.remove("wrong-input");
@@ -139,12 +118,7 @@ function checkInputPassword(password) {
     }
 }
 
-/**
- * This function redirects the user to summary page
- * @param {Object} gettedUser
- * @param {HTMLElement} email
- * @param {HTMLElement} password
- */
+/**This function redirects the user to summary page*/
 function redirectToSummary(gettedUser, email, password) {
     loggedUser = gettedUser;
     sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
@@ -155,12 +129,7 @@ function redirectToSummary(gettedUser, email, password) {
     window.location.href = "./summary.html";
 }
 
-/**
- * This function shows the error message
- * @param {HTMLElement} errorMsg
- * @param {HTMLElement} password
- * @param {HTMLElement} email
- */
+/**This function shows the error message*/
 function showErrorMsg(errorMsg, password, email) {
     errorMsg.innerHTML = "Check your email and password. Please try again.";
     errorMsg.classList.remove('hidden');
@@ -169,46 +138,26 @@ function showErrorMsg(errorMsg, password, email) {
     sessionStorage.removeItem("loggedUser");
 }
 
-/**
- * This function loads user as guest
- */
+/**This function loads user as guest */
 async function loadGuestUser() {
     loggedUser = await loadData("users/guest");
     sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
     window.location.href = "./summary.html";
 }
 
-/**
- * This function matches two passwords input values.
- * @param {String} firstPassword 
- * @param {String} secondPassword 
- * @returns {boolean}
- */
+/**This function matches two passwords input values. */
 function matchingPassword(firstPassword = "", secondPassword = "") {
     return firstPassword === secondPassword;
 }
 
-/**
- * This function converts email input value to firebase key
- * by replacing . to , according to the firebase's rules.
- * @param {String} email
- * @returns {String}
- */
+/**This function converts email input value to firebase key */
 function editEmailToKey(email = "") {
     let editedEmail = email.replaceAll(".", ",");
     return editedEmail;
 }
 
 
-/**
- * Handles the complete sign-up process:
- * - Resets error states
- * - Validates inputs
- * - Checks privacy policy confirmation
- * - Registers the user if validations pass
- * - Shows success message or errors
- * @returns {Promise<void>}
- */
+/**Handles the complete sign-up process: */
 async function signUpUser() {
     resetConfirmCheckBoxMsgError();
     clearSignUpErrors();
@@ -224,6 +173,7 @@ async function signUpUser() {
     await handleUserSignUp(name, email, password);
 }
 
+/**Clears Signup Errors from all Inputs */
 function clearSignUpErrors() {
     nameSignUp.classList.remove('wrong-input');
     emailSignUp.classList.remove('wrong-input');
@@ -232,6 +182,7 @@ function clearSignUpErrors() {
     errorMsgSignUp.classList.add('hidden');
 }
 
+/**Validates the Values of Signup Inputs */
 function validateInputs(name, email, password, confirmPassword) {
     if (!validateName(name)) return false;
     if (!validateEmail(email)) return false;
@@ -243,6 +194,7 @@ function validateInputs(name, email, password, confirmPassword) {
     return true;
 }
 
+/**Validates the Namefield of Signup Input */
 function validateName(name) {
     if (!name || name.length < 2) {
         nameSignUp.classList.add('wrong-input');
@@ -253,7 +205,7 @@ function validateName(name) {
     return true;
 }
 
-
+/**Validates the Mailfield of Signup Input */
 function validateEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -264,6 +216,8 @@ function validateEmail(email) {
     }
     return true;
 }
+
+/**Validates the Password Value of Signup Input */
 function validatePassword(password) {
     if (password.length < 6) {
         passwordSignUp.classList.add('wrong-input');
@@ -274,6 +228,7 @@ function validatePassword(password) {
     return true;
 }
 
+/**Handles the User Signup (Name,Mail,Password) */
 async function handleUserSignUp(name, email, password) {
     setSignedUser(nameSignUp, emailSignUp, passwordSignUp);
     let users = await loadData("users");
@@ -289,11 +244,7 @@ async function handleUserSignUp(name, email, password) {
 }
 
 
-/**
- * This function checks if a user already exists
- * @param {HTMLElement} email 
- * @param {Array} users
- */
+/**This function checks if a user already exists*/
 function checkFoundUser(email, users) {
     const userArray = Object.values(users);
     const foundUser = userArray.find(u => u.email === email.value);
@@ -302,19 +253,14 @@ function checkFoundUser(email, users) {
 }
 
 
-/**
- * This function resets the error messages
- */
+/**This function resets the error messages*/
 function resetConfirmCheckBoxMsgError() {
     confirmPasswordSignUp.classList.remove('wrong-input');
     inputCheckboxSignUp.classList.remove('unchecked-privacy');
     errorMsgSignUp.classList.add('hidden');
 }
 
-/**
- * This function checks if the privacy policy is accepted
- * @param {HTMLElement} inputCheckbox 
- */
+/**This function checks if the privacy policy is accepted*/
 function checkPrivacyPolicy(inputCheckbox) {
     let privacyAccepted = document.getElementById("privacy-checkbox");
     if (privacyAccepted.value == 'true') {
@@ -328,49 +274,30 @@ function checkPrivacyPolicy(inputCheckbox) {
     }
 }
 
-/**
- * This function sets new values to the global object signedUser
- * @param {HTMLElement} email 
- * @param {HTMLElement} name  
- * @param {HTMLElement} password 
- */
+/**This function sets new values to the global object signedUser*/
 function setSignedUser(name, email, password) {
     signedUser.name = capitalizeNames(name.value);
     signedUser.email = email.value;
     signedUser.password = password.value;
 }
 
-/**
- * This function shows the error messages when the passwords do not match
- * @param {HTMLElement} errorMsg 
- * @param {HTMLElement} confirmPassword  
- * @param {HTMLElement} password 
- */
+/**This function shows the error messages when the passwords do not match*/
 function errorPasswords(errorMsg, password, confirmPassword) {
-    //passwords do not match
+    
     errorMsg.innerHTML = "Your passwords don't match. Please try again.";
     errorMsg.classList.remove('hidden');
     confirmPassword.classList.add('wrong-input');
     password.focus();
 }
 
-/**
- * This function shows error message if an email is already linked
- * @param {HTMLElement} email
- */
+/**This function shows error message if an email is already linked*/
 function emailAlreadyLinked(email) {
     notificationPopUp("Email is already linked to an account!");
     email.classList.add('wrong-input');
     email.focus();
 }
 
-/**
- * This function resets the sign up inputs values
- * @param {HTMLElement} confirm 
- * @param {HTMLElement} email 
- * @param {HTMLElement} name  
- * @param {HTMLElement} password 
- */
+/**This function resets the sign up inputs values*/
 function resetSignUpInputs(email, name, password, confirm) {
     email.classList.remove('wrong-input');
     name.value = "";
@@ -379,18 +306,12 @@ function resetSignUpInputs(email, name, password, confirm) {
     confirm.value = "";
 }
 
-/**
- * This function capitalizes the name value
- * @param {String} name
- */
+/**This function capitalizes the name value*/
 function capitalizeNames(name) {
     return name.split(' ').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
 }
 
-/**
- * This function shows the successful message of a new signed up user
- * and redirect the user to index.html, the login page.
- */
+/**This function shows the successful message of a new signed up user*/
 function showSucessSignedUp() {
     // Show success message on successful sign-up
     const successMessage = document.querySelector('.success-signed');
@@ -401,10 +322,7 @@ function showSucessSignedUp() {
     }, 2000); 
 }
 
-/**
- * This function shows a pop up notification with its message value.
- * @param {String} msg
- */
+/**This function shows a pop up notification with its message value.*/
 function notificationPopUp(msg = "") {
     const notificationMessage = document.querySelector('.notification');
     let spanMessage = document.getElementById("pop-up-notification");
@@ -417,9 +335,7 @@ function notificationPopUp(msg = "") {
     }, 1500); 
 }
 
-/**
- * This function checks and sets the last saved email address to the email input field.
- */
+/**This function checks and sets the last saved email address to the email input field.*/
 function rememberMe() {
     let savedEmail = localStorage.getItem("join-saved-email");
     if (savedEmail != null) {
@@ -428,9 +344,7 @@ function rememberMe() {
     }
 }
 
-/**
- * This function checks if remember me checkbox is checked.
- */
+/**This function checks if remember me checkbox is checked.*/
 function checkRememberMe() {
     const checkBox = document.querySelector(".checkbox-login");
     if (checkBox.checked) {
@@ -441,10 +355,7 @@ function checkRememberMe() {
     }
 }
 
-/**
- * This function checks if the typed email is valid.
- * @param {Event} event 
- */
+/**This function checks if the typed email is valid.*/
 function validateEmailInput(event) {
     const emailInput = event.target;
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

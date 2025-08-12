@@ -1,8 +1,4 @@
-/**
-* Applies the given CSS content to the iframe.
-* @param {HTMLIFrameElement} iframe - The target iframe.
-* @param {string} cssContent - The CSS content to apply.
-*/
+/**Applies the given CSS content to the iframe.*/
 function applyStylesToIframe(iframe, cssContent) {
     iframe.onload = function () {
         const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
@@ -17,14 +13,11 @@ function applyStylesToIframe(iframe, cssContent) {
                 console.error("Iframe head not found");
             }
         } else {
-            console.error("Iframe document not accessible");
-        }
-    };
+            console.error("Iframe document not accessible");}};
 }
-/**
- * Function: closeTaskOverlay
- * Description: Hides the task overlay and resets its contents.
- */
+
+/**Function: closeTaskOverlay
+ Description: Hides the task overlay and resets its contents.*/
 function closeTaskOverlay() {
     const overlay = document.getElementById('task-overlay');
     if (overlay) {
@@ -33,9 +26,7 @@ function closeTaskOverlay() {
     }
 }
 
-/**
- * Function to clear the overlay Inputs
- */
+/**Function to clear the overlay Inputs*/
 function clearInputsAndCloseOverlay() {
     const overlay = document.getElementById('taskoverlay');
     if (overlay) {
@@ -44,6 +35,8 @@ function clearInputsAndCloseOverlay() {
     }
     clearTask();
 }
+
+/**Opens the User Dropdown */
 function openDropdown() {
     let dropdown = document.getElementById('dropdown-user');
     dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
@@ -55,10 +48,7 @@ function openDropdown() {
     }
 }
 
-/**
-* Closes the dropdown when clicking outside.
-* @param {Event} event - The click event.
-*/
+/**Closes the dropdown when clicking outside.*/
 function closeDropdownOnClickOutside(event) {
     const dropdown = document.getElementById('dropdown-user');
     const container = document.querySelector('.dropdown');
@@ -69,11 +59,7 @@ function closeDropdownOnClickOutside(event) {
 }
 document.addEventListener('click', closeDropdownOnClickOutside);
 
-/**
- * Generates initials for a contact.
- * @param {Object} contact - The contact object.
- * @returns {string} The initials of the contact.
- */
+/**Generates initials for a contact.*/
 function getInitials(contact) {
     let initials = '';
     if (contact.firstName) initials += contact.firstName.charAt(0);
@@ -82,22 +68,12 @@ function getInitials(contact) {
     return initials;
 }
 
-/**
- * Gets the full name of a contact.
- * @param {Object} contact - The contact object.
- * @returns {string} The full name of the contact.
- */
+/**Gets the full name of a contact for the Avatar Icon Initials*/
 function getFullName(contact) {
     return `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
 }
 
-/**
- * Toggles the dropdown for user selection.
- */
-
-/**
- * Clears all task-related inputs and resets the form.
- */
+/**Clears all task-related inputs and resets the form.*/
 function clearTask() {
     clearInputs();
     clearSubtaskList();
@@ -107,10 +83,6 @@ function clearTask() {
     uploadedFiles = [];
     document.getElementById('file-preview-container').innerHTML = '';
     document.getElementById('file-limit-warning').style.display = 'none';
-
-
-
-
     const defaultButton = document.getElementById('prio-orange');
     if (defaultButton) {
         changeColor(defaultButton, 'orange');
@@ -118,9 +90,7 @@ function clearTask() {
     }
 }
 
-/**
- * Clears the input fields for the task.
- */
+/**Clears the input fields for the task.*/
 function clearInputs() {
     document.getElementById("title").value = '';
     document.getElementById("description").value = '';
@@ -130,26 +100,20 @@ function clearInputs() {
     document.getElementById("dropdown-input").value = '';
 
 }
-/**
- 
-* This function removes all content from the element with the ID "picked-user-avatar",
-*/
+
+/**This function removes all content from the element with the ID "picked-user-avatar",*/
 function clearAssignedContacts() {
     document.getElementById("picked-user-avatar").innerHTML = '';
 }
 
-/**
- * Clears the subtask list and resets the array.
- */
+/**Clears the subtask list and resets the array.*/
 function clearSubtaskList() {
     document.getElementById("subtask-list").innerHTML = '';
     subtasksArray = [];
     selectedContacts = [];
 }
 
-/**
- * Validates the title input field.
- */
+/**Validates the title input field.*/
 function validateInput() {
     const input = document.getElementById('title');
     const errorMessage = document.getElementById('error-message');
@@ -167,6 +131,7 @@ function validateInput() {
 
 document.getElementById('title').addEventListener('input', validateInput);
 
+/**Submits the Form Field*/
 function submitForm() {
     validateInput();
 
@@ -179,9 +144,7 @@ function submitForm() {
 document.getElementById('title').addEventListener('input', validateInput);
 
 
-/**
- * Validates the category selection input.
- */
+/**Validates the category selection input.*/
 function validateSelectCategory() {
     const selectCategory = document.getElementById('selectcategory');
     const categoryErrorMessage = document.getElementById('category-error-message');
@@ -193,60 +156,47 @@ function validateSelectCategory() {
     }
 }
 
+/**Displays Error if Value not Picked */
 function isCategoryEmpty(selectCategory) {
     return selectCategory.value === "";
 }
 
+/**Displays Error if Value not Picked */
 function showCategoryError(selectCategory, categoryErrorMessage) {
     selectCategory.classList.add('error');
     selectCategory.style.border = '2px solid red';
     categoryErrorMessage.style.display = 'block';
 }
 
+/**Displays Error if Value not Picked */
 function hideCategoryError(selectCategory, categoryErrorMessage) {
     selectCategory.classList.remove('error');
     selectCategory.style.border = 'none';
     categoryErrorMessage.style.display = 'none';
 }
-
-
 document.getElementById('selectcategory').addEventListener('change', validateSelectCategory);
 
 
-/**
- * Checks if the category selection is empty.
- * @param {HTMLElement} selectCategory - The category selection element.
- * @returns {boolean} True if the category is empty, otherwise false.
- */
+/**Checks if the category selection is empty.*/
 function isCategoryEmpty(selectCategory) {
     return selectCategory.value === "";
 }
 
-/**
- * Displays an error for the category selection input.
- * @param {HTMLElement} selectCategory - The category selection element.
- * @param {HTMLElement} categoryErrorMessage - The error message element.
- */
+/**Displays an error for the category selection input.*/
 function showCategoryError(selectCategory, categoryErrorMessage) {
     selectCategory.classList.add('error');
     selectCategory.style.border = '2px solid red';
     categoryErrorMessage.style.display = 'block';
 }
 
-/**
- * Hides the error for the category selection input.
- * @param {HTMLElement} selectCategory - The category selection element.
- * @param {HTMLElement} categoryErrorMessage - The error message element.
- */
+/**Hides the error for the category selection input.*/
 function hideCategoryError(selectCategory, categoryErrorMessage) {
     selectCategory.classList.remove('error');
     selectCategory.style.border = 'none';
     categoryErrorMessage.style.display = 'none';
 }
 
-/**
- * Sets the page mode based on whether it's in an overlay or not.
- */
+/**Sets the page mode based on whether it's in an overlay or not.*/
 document.addEventListener('DOMContentLoaded', function () {
     if (window !== window.top) {
         document.body.id = 'overlay-mode';

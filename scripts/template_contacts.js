@@ -1,3 +1,4 @@
+/** Template for the Contacts */
 function getTemplateContacts () {
     return `<template id="contactTemplate">
                 <div class="contactItem">
