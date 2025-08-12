@@ -1,5 +1,5 @@
 
-/***** === DATE / EDIT OVERLAY === *****/
+
 let _fpInstance;
 
 async function editTask(id, title, description, dueDate, priority) {
@@ -11,8 +11,8 @@ async function editTask(id, title, description, dueDate, priority) {
   selectedUserEdit(id);
   renderOverlayEditSubtasks(id);
 
-  await loadContacts(id);   // Kontakte + assignedTo laden + Dropdown/Avatare rendern
-  initDate(dueDate);        // Flatpickr neu initialisieren
+  await loadContacts(id);  
+  initDate(dueDate);       
 
   const task = await loadTaskWithID(id);
   renderEditFile(task);

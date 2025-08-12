@@ -1,14 +1,12 @@
 /**
  * Monitors media query changes and redirects to the main page if the overlay is active
- * and the screen width exceeds 1150px.
- */
+ * and the screen width exceeds 1150px. */
 function monitorMediaQuery() {
   const mediaQuery = window.matchMedia('(min-width: 1150px)');
 
   /**
    * Handles media query changes.
    * Redirects to 'main.html' if overlay mode is active and media query matches.
-   * @param {MediaQueryListEvent} e - The media query change event.
    */
   function handleMediaChange(e) {
       if (e.matches && isOverlayModeActive()) {
@@ -199,8 +197,6 @@ function loadIframeStyles() {
 
 /**
 * Applies the given CSS content to the iframe.
-* @param {HTMLIFrameElement} iframe - The target iframe.
-* @param {string} cssContent - The CSS content to apply.
 */
 function applyStylesToIframe(iframe, cssContent) {
   iframe.onload = function () {
@@ -221,6 +217,9 @@ function applyStylesToIframe(iframe, cssContent) {
   };
 }
 
+/**
+* adds the uploaded file .
+*/
 function uploadFile(){
   let data = document.getElementById('file-select');
 }

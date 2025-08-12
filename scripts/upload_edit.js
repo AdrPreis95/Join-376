@@ -316,4 +316,27 @@ function showUploadWarningOverlay(message) {
     }, 3000);
 }
 
+// Patch a task in Firebase (accepts URL or numeric id)
+async function updateTaskInFirebase(ref, partial) {
+  const url = (typeof ref === 'string')
+    ? ref
+    : `${BASE_URL}/tasks/${ref}.json`;
+
+  const res = await fetch(url, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(partial),
+  });
+
+  if (!res.ok) {
+    const msg = `Firebase update failed: ${res.status} ${res.statusText}`;
+    console.error(msg, { url, partial });
+    throw new Error(msg);
+  }
+  return res.json();
+}
+
+
+const await_updateTaskInFirebase = updateTaskInFirebase;
+
 
