@@ -12,6 +12,12 @@ async function showOverlayDetailsTask(id) {
   if (!task) return;
   renderOverlay(task);
 }
+function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
+function subsOf(t){return Array.isArray(t.subtasks)?t.subtasks:Object.values(t.subtasks||{});}
+function subItemHTML(id,i,st){const d=st.status==='done',ic=d?CHECKED:UNCHECKED;return '<li class="subtask-item '+(d?'done':'')+'" data-sub-index="'+i+'"><button class="subtask-toggle" type="button" aria-pressed="'+d+'" onclick="toggleSubtaskFromDetails('+id+','+i+')"><img class="subtask-check" src="'+ic+'" alt=""></button><span class="subtask-title" onclick="toggleSubtaskFromDetails('+id+','+i+')">'+esc(st.title)+'</span></li>';}
+function rerender(tid,subs){if(typeof renderOverlaySubtasks==='function')renderOverlaySubtasks({id:tid,subtasks:subs});else simpleRenderOverlaySubtasks({id:tid,subtasks:subs});}
+function board(tid,subs){if(typeof updateBoardSubtaskProgressUI==='function')updateBoardSubtaskProgressUI(tid,subs);}
+function toast(subs){if(typeof showSubtaskToast==='function')showSubtaskToast(subs.filter(s=>s.status==='done').length,subs.length);}
 
 /**Renders the contact list inside the overlay including checked state.*/
 function renderOverlayContacts(id, responseJson, activeUserIndex) {
@@ -36,17 +42,45 @@ function renderOverlayContacts(id, responseJson, activeUserIndex) {
 /**Renders the overlay container with task core data and sub-sections. */
 function renderOverlay(responseTaskJson) {
   const box = document.getElementById('task-details');
-  if (!box) return; box.style.display = 'flex'; box.innerHTML = '';
-  const cls = checkCategory(responseTaskJson.category);
+  if (!box) return;
+  box.style.display = 'flex';
+  box.innerHTML = '';
+
+  const cls  = checkCategory(responseTaskJson.category);
   const prio = findPrio(responseTaskJson.prio);
-  box.innerHTML = getOverlayDetails(responseTaskJson.id, cls, responseTaskJson.category,
+
+  box.innerHTML = getOverlayDetails(
+    responseTaskJson.id, cls, responseTaskJson.category,
     responseTaskJson.title, responseTaskJson.description, responseTaskJson.dueDate,
-    responseTaskJson.prio, prio);
+    responseTaskJson.prio, prio
+  );
+
   renderOverlayUser(responseTaskJson);
-  if (Array.isArray(responseTaskJson.subtasks)) renderOverlaySubtasks(responseTaskJson);
-  else { const h = document.getElementById('subtask-headline-overlay'); if (h) h.style.display='none'; }
+
+  if (Array.isArray(responseTaskJson.subtasks)) {
+    if (typeof renderOverlaySubtasks === 'function') {
+      renderOverlaySubtasks(responseTaskJson);
+    } else {
+      simpleRenderOverlaySubtasks(responseTaskJson); // Fallback in dieser Datei
+    }
+  } else {
+    const h = document.getElementById('subtask-headline-overlay');
+    if (h) h.style.display = 'none';
+  }
+
   renderOverlayFiles(responseTaskJson);
 }
+
+function simpleRenderOverlaySubtasks(task){
+  const box=document.getElementById('subtasks-overlay'); if(!box) return;
+  const subs=subsOf(task);
+  if(!subs.length){const h=document.getElementById('subtask-headline-overlay'); if(h) h.style.display='none'; box.innerHTML=''; return;}
+  let html='<ul class="subtasks-list">'; for(let i=0;i<subs.length;i++) html+=subItemHTML(task.id,i,subs[i]||{});
+  box.innerHTML=html+'</ul>';
+}
+
+
+
 
 /**Renders file previews (images/PDFs) and initializes Viewer.js. */
 function renderOverlayFiles(responseTaskJson){
@@ -115,12 +149,50 @@ function determineUserInfo(responseTaskJson, names, firstLetters, colors){
 }
 
 /**Renders all subtasks with their status icons into the overlay. */
-async function renderOverlaySubtasks(responseTaskJson){
-  const box=document.getElementById('subtasks-overlay'); if(!box) return; let html='';
-  for(let i=0;i<responseTaskJson.subtasks.length;i++){
-    const st=responseTaskJson.subtasks[i]; const icon= st.status==='done'? './assets/icons/checked_icon.png':'./assets/icons/unchecked_icon.png';
-    html+= getSubtasksOverlay(responseTaskJson.id, [i], st.status, st.title, icon);
-  } box.innerHTML += html;
+// async function renderOverlaySubtasks(responseTaskJson){
+//   const box=document.getElementById('subtasks-overlay'); if(!box) return; let html='';
+//   for(let i=0;i<responseTaskJson.subtasks.length;i++){
+//     const st=responseTaskJson.subtasks[i]; const icon= st.status==='done'? './assets/icons/checked_icon.png':'./assets/icons/unchecked_icon.png';
+//     html+= getSubtasksOverlay(responseTaskJson.id, [i], st.status, st.title, icon);
+//   } box.innerHTML += html;
+// }
+/**Renders all subtasks for the edit overlay (robust, normalisiert). */
+async function renderOverlayEditSubtasks(idOrKey) {
+  const key = await resolveKey(idOrKey);
+  const t = await fetch(`${BASE_URL}/tasks/${key}.json`).then(r=>r.json()) || {};
+  const subs = normalizeSubtasks(t.subtasks);
+
+  const box = document.getElementById('subtasks-overlay-edit');
+  if (!box) return;
+
+  let html = '<ul class="subtasks-list">';
+  for (let i = 0; i < subs.length; i++) {
+    const st = subs[i];
+    html += `
+      <li id="list-${i}" class="subtask-item ${st.status==='done'?'done':''}" data-sub-index="${i}">
+        <button class="subtask-toggle" type="button"
+                onclick="changeStatusSubtask(${t.id}, ${i}, '${st.status}')">
+          <img class="subtask-check" src="${st.status==='done'?CHECKED:UNCHECKED}" alt="">
+        </button>
+        <span class="subtask-title"
+              onclick="editSubtask('${key}', '${st.title.replace(/'/g,"\\'")}')">${st.title}</span>
+        <button class="subtask-delete" type="button"
+                onclick="deleteSubtask('${key}', '${st.title.replace(/'/g,"\\'")}')">🗑️</button>
+      </li>`;
+  }
+  html += '</ul>';
+  box.innerHTML = html;
+
+  // Progress sofort im Board aktualisieren
+  if (typeof t.id === 'number') updateBoardSubtaskProgressUI(t.id, subs);
+}
+async function toggleSubtaskFromDetails(displayId,subIndex){
+  const key=await findKey(displayId-1), url=`${BASE_URL}/tasks/${key}.json`;
+  const task=await fetch(url).then(r=>r.json())||{};
+  const subs=subsOf(task); if(!subs[subIndex]) return;
+  subs[subIndex].status=subs[subIndex].status==='done'?'not done':'done';
+  await fetch(url,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({subtasks:subs})});
+  rerender(task.id,subs); board(task.id,subs); toast(subs);
 }
 
 /**Opens the PDF modal and sets the viewer source.*/

@@ -1,3 +1,52 @@
+// --- helpers: einmalig einfügen ---
+const CHECKED   = './assets/icons/checked_icon.png';
+const UNCHECKED = './assets/icons/unchecked_icon.png';
+
+function asArray(d){ return Array.isArray(d) ? d : Object.values(d||{}); }
+function normalizeSubtasks(subs){
+  if (!subs) return [];
+  const list = Array.isArray(subs) ? subs : Object.values(subs);
+  return list.map(s => ({
+    title: (s.title ?? s.name ?? '').toString(),
+    status: s.status === 'done' ? 'done' : 'not done'
+  }));
+}
+
+// idOrKey kann 0-basierter Index ODER Firebase-Key sein
+async function resolveKey(idOrKey){
+  if (typeof idOrKey === 'string') return idOrKey;
+  return await findKey(idOrKey); // deine findKey(index)
+}
+
+function getInitials(name=''){
+  return name.trim().split(/\s+/).slice(0,2).map(p=>p[0]||'').join('').toUpperCase();
+}
+
+function updateBoardSubtaskProgressUI(taskId, list){
+  const total = list.length;
+  const done  = list.filter(s => s.status === 'done').length;
+  const progress = total ? Math.round((done / total) * 100) : 0;
+  const el = document.getElementById('subtask-' + taskId);
+  if (el && typeof getSubtask === 'function') el.innerHTML = getSubtask(done, total, progress);
+}
+
+function showSubtaskToast(done, total){
+  let el = document.getElementById('subtask-toast');
+  if (!el){
+    el = document.createElement('div');
+    el.id = 'subtask-toast';
+    el.style.cssText = 'position:fixed;left:50%;bottom:20px;transform:translateX(-50%);' +
+      'background:#111;color:#fff;padding:10px 14px;border-radius:10px;z-index:10000;' +
+      'opacity:0;transition:opacity .2s;font-weight:600';
+    document.body.appendChild(el);
+  }
+  el.textContent = `${done} von ${total} Subtasks erledigt`;
+  requestAnimationFrame(()=> el.style.opacity = '1');
+  clearTimeout(showSubtaskToast._t);
+  showSubtaskToast._t = setTimeout(()=> el.style.opacity = '0', 1400);
+}
+
+
 let _fpInstance;
 
 /**Opens the edit overlay for a given task.*/
@@ -118,8 +167,8 @@ function activePriorityButton() {
   return 'Medium';
 }
 
-const CHECKED   = './assets/icons/checked_icon.png';
-const UNCHECKED = './assets/icons/unchecked_icon.png';
+// const CHECKED   = './assets/icons/checked_icon.png';
+// const UNCHECKED = './assets/icons/unchecked_icon.png';
 let _contactsCache = null;
 
 /**Normalizes a string for comparison. */
@@ -279,15 +328,45 @@ async function removeAssignedUser(displayName, id){
 }
 
 /**Changes the status of a subtask between done and not done. */
-async function changeStatusSubtask(id, subtaskId, status) {
-  id--; id = await findKey(id);
-  const newStatus = status==='done' ? 'not done' : 'done';
-  await fetch(`${BASE_URL}/tasks/${id}/subtasks/${subtaskId}/status.json`,{
-    method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(newStatus)
+// async function changeStatusSubtask(id, subtaskId, status) {
+//   id--; id = await findKey(id);
+//   const newStatus = status==='done' ? 'not done' : 'done';
+//   await fetch(`${BASE_URL}/tasks/${id}/subtasks/${subtaskId}/status.json`,{
+//     method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(newStatus)
+//   });
+//   document.getElementById('subtasks-overlay').innerHTML = '';
+//   const t = await loadTaskWithID(id);
+//   renderOverlaySubtasks(t);
+// }
+async function changeStatusSubtask(displayId, subIndex, status) {
+  // displayId ist dein 1-basiger Task.id aus dem Task-Objekt -> für Key 0-basiert machen
+  const key = await findKey(displayId - 1);
+  const url = `${BASE_URL}/tasks/${key}.json`;
+
+  const task = await fetch(url).then(r=>r.json()) || {};
+  const subs = normalizeSubtasks(task.subtasks);
+
+  const nowDone = status !== 'done'; // toggle
+  if (subs[subIndex]) subs[subIndex].status = nowDone ? 'done' : 'not done';
+
+  await fetch(url, {
+    method: 'PATCH',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ subtasks: subs })
   });
-  document.getElementById('subtasks-overlay').innerHTML = '';
-  const t = await loadTaskWithID(id);
-  renderOverlaySubtasks(t);
+
+  // Edit-Overlay neu aufbauen
+  await renderOverlayEditSubtasks(key);
+
+  // Details-Overlay (falls offen) neu rendern
+  if (document.getElementById('subtasks-overlay') && typeof renderOverlaySubtasks === 'function') {
+    renderOverlaySubtasks({ id: task.id, subtasks: subs });
+  }
+
+  // Board-Progress & Toast
+  updateBoardSubtaskProgressUI(task.id, subs);
+  const done = subs.filter(s=>s.status==='done').length;
+  showSubtaskToast(done, subs.length);
 }
 
 /**Toggles the assigned-to dropdown visibility in the edit overlay. */
@@ -324,18 +403,39 @@ function editMode(id) {
 }
 
 /**Creates a new subtask from the edit overlay input. */
-async function createSubtaskOverlay(id) {
-  const input = document.getElementById('subtask-edit'); const title = (input?.value||'').trim();
-  const task = await loadTaskWithID(id);
-  if (!title) { renderOverlayEditSubtasks(id); return clearSubtaskInput(); }
-  const idx = (task.subtasks?.length||0);
-  await fetch(`${BASE_URL}/tasks/${id}/subtasks/${idx}.json`,{
-    method:'PUT',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({status:'not done',title})
-  });
-  renderOverlayEditSubtasks(id); clearSubtaskInput();
-}
+// async function createSubtaskOverlay(id) {
+//   const input = document.getElementById('subtask-edit'); const title = (input?.value||'').trim();
+//   const task = await loadTaskWithID(id);
+//   if (!title) { renderOverlayEditSubtasks(id); return clearSubtaskInput(); }
+//   const idx = (task.subtasks?.length||0);
+//   await fetch(`${BASE_URL}/tasks/${id}/subtasks/${idx}.json`,{
+//     method:'PUT',headers:{'Content-Type':'application/json'},
+//     body:JSON.stringify({status:'not done',title})
+//   });
+//   renderOverlayEditSubtasks(id); clearSubtaskInput();
+// }
+async function createSubtaskOverlay(idOrKey) {
+  const input = document.getElementById('subtask-edit');
+  const title = (input?.value || '').trim();
+  const key = await resolveKey(idOrKey);
+  if (!title) { renderOverlayEditSubtasks(key); return clearSubtaskInput(); }
 
+  const url = `${BASE_URL}/tasks/${key}.json`;
+  const task = await fetch(url).then(r=>r.json()) || {};
+  const subs = normalizeSubtasks(task.subtasks);
+  subs.push({ title, status: 'not done' });
+
+  await fetch(url, {
+    method: 'PATCH',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ subtasks: subs })
+  });
+
+  clearSubtaskInput();
+  await renderOverlayEditSubtasks(key);
+  updateBoardSubtaskProgressUI(task.id, subs);
+  showSubtaskToast(subs.filter(s=>s.status==='done').length, subs.length);
+}
 /**Clears the subtask input field.*/
 function clearSubtaskInput() { const i = document.getElementById('subtask-edit'); if (i) i.value = ""; }
 
@@ -357,16 +457,34 @@ async function editSubtask(id, subtask) {
 }
 
 /**Deletes a subtask from a task. */
-async function deleteSubtask(taskId, subtaskName) {
-  const t = await loadTaskWithID(taskId);
-  const i = findSubtask(t, subtaskName);
-  if (i!==-1) {
-    t.subtasks.splice(i,1);
-    await fetch(BASE_URL+"/tasks/"+taskId+".json",{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(t)});
-  }
-  renderOverlayEditSubtasks(taskId);
-}
+// async function deleteSubtask(taskId, subtaskName) {
+//   const t = await loadTaskWithID(taskId);
+//   const i = findSubtask(t, subtaskName);
+//   if (i!==-1) {
+//     t.subtasks.splice(i,1);
+//     await fetch(BASE_URL+"/tasks/"+taskId+".json",{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(t)});
+//   }
+//   renderOverlayEditSubtasks(taskId);
+// }
+async function deleteSubtask(idOrKey, subtaskName) {
+  const key = await resolveKey(idOrKey);
+  const url = `${BASE_URL}/tasks/${key}.json`;
+  const task = await fetch(url).then(r=>r.json()) || {};
+  const subs = normalizeSubtasks(task.subtasks);
 
+  const i = subs.findIndex(s => s.title === subtaskName);
+  if (i !== -1) subs.splice(i, 1);
+
+  await fetch(url, {
+    method: 'PATCH',
+    headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ subtasks: subs })
+  });
+
+  await renderOverlayEditSubtasks(key);
+  updateBoardSubtaskProgressUI(task.id, subs);
+  showSubtaskToast(subs.filter(s=>s.status==='done').length, subs.length);
+}
 /**Finds the index of a subtask in a task object. */
 function findSubtask(task, subtask) {
   if (!Array.isArray(task.subtasks)) return -1;
@@ -375,14 +493,39 @@ function findSubtask(task, subtask) {
 }
 
 /**Saves changes to a subtask title.*/
-async function saveEditSubtask(id, subtask) {
-  const t = await loadTaskWithID(id);
-  const i = findSubtask(t, subtask);
-  const val = document.getElementById('change-subtask-input').value.trim();
-  if (!val) { document.getElementById('warn-emptyinput-container').innerHTML = getWarningEmptyInput(); return; }
-  await fetch(`${BASE_URL}/tasks/${id}/subtasks/${i}.json`,{
-    method:'PUT',headers:{'Content-Type':'application/json'},
-    body:JSON.stringify({status:'not done',title:val})
+// async function saveEditSubtask(id, subtask) {
+//   const t = await loadTaskWithID(id);
+//   const i = findSubtask(t, subtask);
+//   const val = document.getElementById('change-subtask-input').value.trim();
+//   if (!val) { document.getElementById('warn-emptyinput-container').innerHTML = getWarningEmptyInput(); return; }
+//   await fetch(`${BASE_URL}/tasks/${id}/subtasks/${i}.json`,{
+//     method:'PUT',headers:{'Content-Type':'application/json'},
+//     body:JSON.stringify({status:'not done',title:val})
+//   });
+//   renderOverlayEditSubtasks(id);
+// }
+async function saveEditSubtask(idOrKey, oldTitle) {
+  const key = await resolveKey(idOrKey);
+  const val = (document.getElementById('change-subtask-input')?.value || '').trim();
+  if (!val) {
+    document.getElementById('warn-emptyinput-container').innerHTML = getWarningEmptyInput();
+    return;
+  }
+
+  const url = `${BASE_URL}/tasks/${key}.json`;
+  const task = await fetch(url).then(r=>r.json()) || {};
+  const subs = normalizeSubtasks(task.subtasks);
+
+  const i = subs.findIndex(s => s.title === oldTitle);
+  if (i !== -1) subs[i].title = val;
+
+  await fetch(url, {
+    method:'PATCH',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({ subtasks: subs })
   });
-  renderOverlayEditSubtasks(id);
+
+  await renderOverlayEditSubtasks(key);
+  updateBoardSubtaskProgressUI(task.id, subs);
 }
+window.editTask = editTask;

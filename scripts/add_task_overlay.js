@@ -127,6 +127,7 @@ function refreshTasksIfAvailable() {
   }
 }
 
+/**Eventlistener for the Overlay Button and the Iframe Styles*/
 document.addEventListener("DOMContentLoaded", function () {
   initializeCloseOverlayButton();
   loadIframeStyles();
