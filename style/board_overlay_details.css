@@ -64,6 +64,7 @@
     color: #000000;
     font-weight: 700;
     word-break: break-all !important;
+    filter: drop-shadow(0px 0px 4px #D1D1D1);
 }
 
 .content-overlay h4 {
@@ -94,6 +95,7 @@
     display: flex;
     justify-content: flex-start;
     gap: 25px;
+    align-items: center;
 }
 
 .priority-overlay {

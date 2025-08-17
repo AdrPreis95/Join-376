@@ -8,6 +8,11 @@
     max-height: 120px;
     background-color: aliceblue;
     border-radius: 12px;
+    filter: drop-shadow(0px 0px 4px #D1D1D1);
+    background-color: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .edit-overlay-label {
@@ -156,6 +161,7 @@
     border: 1px solid #D1D1D1;
     border-radius: 10px;
     cursor: pointer !important;
+    cursor: pointer;
 }
 
 .assigned-menu-overlay input {
@@ -164,6 +170,7 @@
     color: #000000;
     font-weight: 400;
     font-size: 20px;
+    cursor: pointer;
 }
 
 .assigned-menu-overlay input::placeholder {
@@ -278,6 +285,9 @@
     padding: 6px;
     display: flex;
     justify-content: space-between;
+    background-color: rgba(41, 171, 226, 0.5);
+    border: 1px solid rgba(41, 171, 226, 0.8);
+    border-radius: 20px;
 }
 
 .overlay-edit-subtask-list li {
@@ -286,7 +296,8 @@
 
 .overlay-edit-subtask-list:hover {
     background-color: #D1D1D1;
-    border-radius: 10px;
+    border-radius: 20px;
+    border: 1px solid #D1D1D1;
 }
 
 .overlay-edit-subtask-list:hover .subtask-edit-icons {
@@ -569,7 +580,7 @@ svg :hover {
 }
 
 .user-initials-overlay {
-   
+
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -595,16 +606,28 @@ svg :hover {
     cursor: pointer;
 }
 
-.assigned-user-chip{
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  margin: 0 8px 8px 0;
+.assigned-user-chip {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    margin: 0 8px 8px 0;
 }
-.delete-user-button{
-  position:absolute; top:-5px; right:-5px;
-  width:24px;height:24px;border-radius:50%;
-  background:#2A3647;color:#fff;border:2px solid #fff;
-  display:flex;align-items:center;justify-content:center;
-  cursor:pointer;padding:0;margin:0;z-index:1;
+
+.delete-user-button {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: #2A3647;
+    color: #fff;
+    border: 2px solid #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    z-index: 1;
 }

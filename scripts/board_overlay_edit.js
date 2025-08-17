@@ -12,16 +12,18 @@ function normalizeSubtasks(subs){
   }));
 }
 
-// idOrKey kann 0-basierter Index ODER Firebase-Key sein
+/**Checks the Index of the Sutasks*/
 async function resolveKey(idOrKey){
   if (typeof idOrKey === 'string') return idOrKey;
-  return await findKey(idOrKey); // deine findKey(index)
+  return await findKey(idOrKey); 
 }
 
+/**Checks the initials and trims the firsat and last Name for the Avatar Icon Initials*/
 function getInitials(name=''){
   return name.trim().split(/\s+/).slice(0,2).map(p=>p[0]||'').join('').toUpperCase();
 }
 
+/**updates the Board Subtask Progresses(checksa the length after every change and checkox click)*/
 function updateBoardSubtaskProgressUI(taskId, list){
   const total = list.length;
   const done  = list.filter(s => s.status === 'done').length;
@@ -30,6 +32,7 @@ function updateBoardSubtaskProgressUI(taskId, list){
   if (el && typeof getSubtask === 'function') el.innerHTML = getSubtask(done, total, progress);
 }
 
+/**shows the overlay for every done and not done sutask.*/
 function showSubtaskToast(done, total){
   let el = document.getElementById('subtask-toast');
   if (!el){
@@ -256,11 +259,9 @@ async function toggleAssignedTo(name, id){
   const url = `${BASE_URL}/tasks/${key}.json`;
   const task = await fetch(url).then(r=>r.json()) || {};
   if (!Array.isArray(task.assignedTo)) task.assignedTo = [];
-
   const clean = cleanDisplayName(name);
   const [fn, ...rest] = clean.split(/\s+/);
   const ln = rest.join(' ');
-
   const exists = task.assignedTo.some(u => sameUser(u.firstName,u.lastName,fn,ln));
   if (exists){
     task.assignedTo = task.assignedTo.filter(u => !sameUser(u.firstName,u.lastName,fn,ln));
@@ -270,7 +271,6 @@ async function toggleAssignedTo(name, id){
 
   await fetch(url,{method:'PATCH',headers:{'Content-Type':'application/json'},
                    body: JSON.stringify({ assignedTo: task.assignedTo })});
-
   await refreshAssignedUI(id);
 }
 
@@ -328,42 +328,24 @@ async function removeAssignedUser(displayName, id){
 }
 
 /**Changes the status of a subtask between done and not done. */
-// async function changeStatusSubtask(id, subtaskId, status) {
-//   id--; id = await findKey(id);
-//   const newStatus = status==='done' ? 'not done' : 'done';
-//   await fetch(`${BASE_URL}/tasks/${id}/subtasks/${subtaskId}/status.json`,{
-//     method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(newStatus)
-//   });
-//   document.getElementById('subtasks-overlay').innerHTML = '';
-//   const t = await loadTaskWithID(id);
-//   renderOverlaySubtasks(t);
-// }
 async function changeStatusSubtask(displayId, subIndex, status) {
-  // displayId ist dein 1-basiger Task.id aus dem Task-Objekt -> für Key 0-basiert machen
   const key = await findKey(displayId - 1);
   const url = `${BASE_URL}/tasks/${key}.json`;
-
   const task = await fetch(url).then(r=>r.json()) || {};
   const subs = normalizeSubtasks(task.subtasks);
-
-  const nowDone = status !== 'done'; // toggle
+  const nowDone = status !== 'done'; 
   if (subs[subIndex]) subs[subIndex].status = nowDone ? 'done' : 'not done';
 
   await fetch(url, {
     method: 'PATCH',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ subtasks: subs })
-  });
-
-  // Edit-Overlay neu aufbauen
+    body: JSON.stringify({ subtasks: subs })});
   await renderOverlayEditSubtasks(key);
 
-  // Details-Overlay (falls offen) neu rendern
   if (document.getElementById('subtasks-overlay') && typeof renderOverlaySubtasks === 'function') {
     renderOverlaySubtasks({ id: task.id, subtasks: subs });
   }
 
-  // Board-Progress & Toast
   updateBoardSubtaskProgressUI(task.id, subs);
   const done = subs.filter(s=>s.status==='done').length;
   showSubtaskToast(done, subs.length);
@@ -403,17 +385,6 @@ function editMode(id) {
 }
 
 /**Creates a new subtask from the edit overlay input. */
-// async function createSubtaskOverlay(id) {
-//   const input = document.getElementById('subtask-edit'); const title = (input?.value||'').trim();
-//   const task = await loadTaskWithID(id);
-//   if (!title) { renderOverlayEditSubtasks(id); return clearSubtaskInput(); }
-//   const idx = (task.subtasks?.length||0);
-//   await fetch(`${BASE_URL}/tasks/${id}/subtasks/${idx}.json`,{
-//     method:'PUT',headers:{'Content-Type':'application/json'},
-//     body:JSON.stringify({status:'not done',title})
-//   });
-//   renderOverlayEditSubtasks(id); clearSubtaskInput();
-// }
 async function createSubtaskOverlay(idOrKey) {
   const input = document.getElementById('subtask-edit');
   const title = (input?.value || '').trim();
@@ -428,14 +399,14 @@ async function createSubtaskOverlay(idOrKey) {
   await fetch(url, {
     method: 'PATCH',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ subtasks: subs })
-  });
+    body: JSON.stringify({ subtasks: subs })});
 
   clearSubtaskInput();
   await renderOverlayEditSubtasks(key);
   updateBoardSubtaskProgressUI(task.id, subs);
   showSubtaskToast(subs.filter(s=>s.status==='done').length, subs.length);
 }
+
 /**Clears the subtask input field.*/
 function clearSubtaskInput() { const i = document.getElementById('subtask-edit'); if (i) i.value = ""; }
 
@@ -457,15 +428,6 @@ async function editSubtask(id, subtask) {
 }
 
 /**Deletes a subtask from a task. */
-// async function deleteSubtask(taskId, subtaskName) {
-//   const t = await loadTaskWithID(taskId);
-//   const i = findSubtask(t, subtaskName);
-//   if (i!==-1) {
-//     t.subtasks.splice(i,1);
-//     await fetch(BASE_URL+"/tasks/"+taskId+".json",{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(t)});
-//   }
-//   renderOverlayEditSubtasks(taskId);
-// }
 async function deleteSubtask(idOrKey, subtaskName) {
   const key = await resolveKey(idOrKey);
   const url = `${BASE_URL}/tasks/${key}.json`;
@@ -478,13 +440,13 @@ async function deleteSubtask(idOrKey, subtaskName) {
   await fetch(url, {
     method: 'PATCH',
     headers: {'Content-Type':'application/json'},
-    body: JSON.stringify({ subtasks: subs })
-  });
+    body: JSON.stringify({ subtasks: subs })});
 
   await renderOverlayEditSubtasks(key);
   updateBoardSubtaskProgressUI(task.id, subs);
   showSubtaskToast(subs.filter(s=>s.status==='done').length, subs.length);
 }
+
 /**Finds the index of a subtask in a task object. */
 function findSubtask(task, subtask) {
   if (!Array.isArray(task.subtasks)) return -1;
@@ -493,24 +455,12 @@ function findSubtask(task, subtask) {
 }
 
 /**Saves changes to a subtask title.*/
-// async function saveEditSubtask(id, subtask) {
-//   const t = await loadTaskWithID(id);
-//   const i = findSubtask(t, subtask);
-//   const val = document.getElementById('change-subtask-input').value.trim();
-//   if (!val) { document.getElementById('warn-emptyinput-container').innerHTML = getWarningEmptyInput(); return; }
-//   await fetch(`${BASE_URL}/tasks/${id}/subtasks/${i}.json`,{
-//     method:'PUT',headers:{'Content-Type':'application/json'},
-//     body:JSON.stringify({status:'not done',title:val})
-//   });
-//   renderOverlayEditSubtasks(id);
-// }
 async function saveEditSubtask(idOrKey, oldTitle) {
   const key = await resolveKey(idOrKey);
   const val = (document.getElementById('change-subtask-input')?.value || '').trim();
   if (!val) {
     document.getElementById('warn-emptyinput-container').innerHTML = getWarningEmptyInput();
-    return;
-  }
+    return;}
 
   const url = `${BASE_URL}/tasks/${key}.json`;
   const task = await fetch(url).then(r=>r.json()) || {};
@@ -522,8 +472,7 @@ async function saveEditSubtask(idOrKey, oldTitle) {
   await fetch(url, {
     method:'PATCH',
     headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ subtasks: subs })
-  });
+    body: JSON.stringify({ subtasks: subs })});
 
   await renderOverlayEditSubtasks(key);
   updateBoardSubtaskProgressUI(task.id, subs);
