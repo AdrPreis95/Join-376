@@ -288,6 +288,7 @@
     background-color: rgba(41, 171, 226, 0.5);
     border: 1px solid rgba(41, 171, 226, 0.8);
     border-radius: 20px;
+    align-items: center;
 }
 
 .overlay-edit-subtask-list li {

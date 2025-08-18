@@ -237,22 +237,24 @@ function getOverlayEdit(id, title, description, dueDate) {
 }
 
 /**This function returns the HTML template for the contact bubble.*/
-function getContactName(id, name, color, firstLetterFirstName, firstLetterLastName, urlIcon) {
-    return `
-   <div class="contact-container-overlay" onclick="toggleAssignedTo('${name}', ${id})">
+function getContactName(id,name,color,f1,f2,urlIcon){
+  return `
+<div class="contact-container-overlay"
+     data-name="${name}" data-id="${id}"
+     onclick="rowToggleAssigned(this)">
   <div class="user-name-overlay">
     <div class="user-initials-overlay" style="background-color:${color}">
-      <p>${firstLetterFirstName}${firstLetterLastName}</p>
+      <p>${f1}${f2}</p>
     </div>
     <p class="user-name-text">${name}</p>
   </div>
   <div class="checkbox-cont">
-    <img id="checkbox-contact-${name}" src="${urlIcon}" class="toggle-icon" alt="">
+    <img id="checkbox-contact-${name}" src="${urlIcon}" class="toggle-icon" alt=""
+         onclick="event.stopPropagation(); rowToggleAssigned(this.closest('.contact-container-overlay'))">
   </div>
-</div>
-
-    `
+</div>`;
 }
+
 
 /**This function returns the HTML template for the initial letters of the user.*/
 function getUserInititalsOverlayEdit(color, firstLetter) {

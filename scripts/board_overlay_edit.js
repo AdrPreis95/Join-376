@@ -273,6 +273,15 @@ async function toggleAssignedTo(name, id){
                    body: JSON.stringify({ assignedTo: task.assignedTo })});
   await refreshAssignedUI(id);
 }
+function rowToggleAssigned(row){
+  const name=row.dataset.name, id=+row.dataset.id;
+  const img=row.querySelector('img.toggle-icon');
+  if(row.dataset.busy==='1') return; row.dataset.busy='1';
+  if(img) img.src=img.src.includes('checked_icon')?UNCHECKED:CHECKED;
+  row.classList.toggle('selected');
+  toggleAssignedTo(name,id).finally(()=>row.dataset.busy='0');
+}
+
 
 /**Loads assigned users and renders them as chips in the edit overlay. */
 async function selectedUserEdit(id) {

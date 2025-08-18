@@ -185,18 +185,32 @@ function getFirstLetter(user, id) {
 
 
 /**This function renders the initial letters of the names in the map. */
-function renderFirstLetter(firstLetters, colors, id) {
-    if (firstLetters.length <= 5) {
-        for (let j = 0; j < firstLetters.length; j++) {
-            document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);
-        }
-    } else {
-        for (let j = 0; j < 5; j++) {
-            document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);
-        }
-        document.getElementById('more-user-' + id).innerHTML = getMoreUser(firstLetters.length - 5);
-    }
+// function renderFirstLetter(firstLetters, colors, id) {
+//     if (firstLetters.length <= 5) {
+//         for (let j = 0; j < firstLetters.length; j++) {
+//             document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);
+//         }
+//     } else {
+//         for (let j = 0; j < 5; j++) {
+//             document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);
+//         }
+//         document.getElementById('more-user-' + id).innerHTML = getMoreUser(firstLetters.length - 5);
+//     }
+// }
+function renderFirstLetter(firstLetters, colors, id){
+  const box = document.getElementById('assigned-user-'+id);
+  const more = document.getElementById('more-user-'+id);
+  if (!box) return;                               
+  const fl = Array.isArray(firstLetters)?firstLetters:[]; 
+  const col = Array.isArray(colors)?colors:[];
+  const n = Math.min(fl.length, 5);               
+  for (let j=0; j<n; j++){
+    box.innerHTML += getFirstLetterName(fl[j], col[j] ?? col[0] ?? '#999');
+  }
+  if (fl.length > 5 && more) more.innerHTML = getMoreUser(fl.length - 5);
+  else if (more) more.innerHTML = '';
 }
+
 
 /**This function determines the priority and then returns the URL for the correct icon. */
 function findPrio(priority) {
@@ -271,17 +285,17 @@ function showDeleteConfirm(msg){
 
 /**Opens the "Add Task" overlay, allowing the user to add a new task to the list. */
 function openAddTask() {
-    showOverlay(); // Displays the overlay.
-    setOverlayStyles(); // Configures styles for the overlay.
-    hideUnnecessaryElementsInIframe(); // Hides irrelevant elements in the iframe.
+    showOverlay(); 
+    setOverlayStyles(); 
+    hideUnnecessaryElementsInIframe(); 
 }
 
 /**This Function opens the overlay, activates the overlay class, and sets the overlay mode. */
 function openOverlay() {
     const overlay = document.getElementById('overlayContent');
     if (overlay) {
-        overlay.classList.add('overlay-active'); // Adds the active class to the overlay
-        setOverlayMode(); // Sets the overlay mode
+        overlay.classList.add('overlay-active'); 
+        setOverlayMode(); 
     }
 }
 

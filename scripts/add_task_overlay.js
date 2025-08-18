@@ -109,10 +109,7 @@ function hideUnnecessaryElementsInIframe() {
       if (iframeDoc) {
           const elementsToHide = iframeDoc.querySelectorAll(".sidebar, .header, .responsive-footer");
           elementsToHide.forEach(function (element) {
-              element.style.display = "none";
-          });
-      }
-  });
+              element.style.display = "none";});}});
 }
 
 /**Removes the overlay-active class from the body element.*/
