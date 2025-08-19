@@ -72,13 +72,14 @@ async function toggleAssignedTo(name, id){
   if (exists){
     task.assignedTo = task.assignedTo.filter(u => !sameUser(u.firstName,u.lastName,fn,ln));
   } else {
-    task.assignedTo.push({ firstName: fn, lastName: ln, color: generateColor() });
-  }
+    task.assignedTo.push({ firstName: fn, lastName: ln, color: generateColor() });}
 
   await fetch(url,{method:'PATCH',headers:{'Content-Type':'application/json'},
                    body: JSON.stringify({ assignedTo: task.assignedTo })});
   await refreshAssignedUI(id);
 }
+
+/**Toggles the assigned to (users container) and checkbox*/
 function rowToggleAssigned(row){
   const name=row.dataset.name, id=+row.dataset.id;
   const img=row.querySelector('img.toggle-icon');

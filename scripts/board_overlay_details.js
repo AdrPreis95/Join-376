@@ -12,6 +12,7 @@ async function showOverlayDetailsTask(id) {
   if (!task) return;
   renderOverlay(task);
 }
+
 function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
 function subsOf(t){return Array.isArray(t.subtasks)?t.subtasks:Object.values(t.subtasks||{});}
 function subItemHTML(id,i,st){const d=st.status==='done',ic=d?CHECKED:UNCHECKED;return '<li class="subtask-item '+(d?'done':'')+'" data-sub-index="'+i+'"><button class="subtask-toggle" type="button" aria-pressed="'+d+'" onclick="toggleSubtaskFromDetails('+id+','+i+')"><img class="subtask-check" src="'+ic+'" alt=""></button><span class="subtask-title" onclick="toggleSubtaskFromDetails('+id+','+i+')">'+esc(st.title)+'</span></li>';}
@@ -71,6 +72,7 @@ function renderOverlay(responseTaskJson) {
   renderOverlayFiles(responseTaskJson);
 }
 
+/**Renders the subtasks list inside the overlay for the given task. */
 function simpleRenderOverlaySubtasks(task){
   const box=document.getElementById('subtasks-overlay'); if(!box) return;
   const subs=subsOf(task);
@@ -78,9 +80,6 @@ function simpleRenderOverlaySubtasks(task){
   let html='<ul class="subtasks-list">'; for(let i=0;i<subs.length;i++) html+=subItemHTML(task.id,i,subs[i]||{});
   box.innerHTML=html+'</ul>';
 }
-
-
-
 
 /**Renders file previews (images/PDFs) and initializes Viewer.js. */
 function renderOverlayFiles(responseTaskJson){
@@ -148,14 +147,6 @@ function determineUserInfo(responseTaskJson, names, firstLetters, colors){
   });
 }
 
-/**Renders all subtasks with their status icons into the overlay. */
-// async function renderOverlaySubtasks(responseTaskJson){
-//   const box=document.getElementById('subtasks-overlay'); if(!box) return; let html='';
-//   for(let i=0;i<responseTaskJson.subtasks.length;i++){
-//     const st=responseTaskJson.subtasks[i]; const icon= st.status==='done'? './assets/icons/checked_icon.png':'./assets/icons/unchecked_icon.png';
-//     html+= getSubtasksOverlay(responseTaskJson.id, [i], st.status, st.title, icon);
-//   } box.innerHTML += html;
-// }
 /**Renders all subtasks for the edit overlay (robust, normalisiert). */
 async function renderOverlayEditSubtasks(idOrKey) {
   const key = await resolveKey(idOrKey);
@@ -183,9 +174,11 @@ async function renderOverlayEditSubtasks(idOrKey) {
   html += '</ul>';
   box.innerHTML = html;
 
-  // Progress sofort im Board aktualisieren
+  
   if (typeof t.id === 'number') updateBoardSubtaskProgressUI(t.id, subs);
 }
+
+/***/
 async function toggleSubtaskFromDetails(displayId,subIndex){
   const key=await findKey(displayId-1), url=`${BASE_URL}/tasks/${key}.json`;
   const task=await fetch(url).then(r=>r.json())||{};
