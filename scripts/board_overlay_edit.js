@@ -1,4 +1,4 @@
-// --- helpers: einmalig einfügen ---
+/**Variables for thew Checked and Unchecked Icon (dropdown users)*/
 const CHECKED   = './assets/icons/checked_icon.png';
 const UNCHECKED = './assets/icons/unchecked_icon.png';
 
@@ -43,7 +43,7 @@ function showSubtaskToast(done, total){
       'opacity:0;transition:opacity .2s;font-weight:600';
     document.body.appendChild(el);
   }
-  el.textContent = `${done} von ${total} Subtasks erledigt`;
+  el.textContent = `${done} of ${total} Subtasks Done!`;
   requestAnimationFrame(()=> el.style.opacity = '1');
   clearTimeout(showSubtaskToast._t);
   showSubtaskToast._t = setTimeout(()=> el.style.opacity = '0', 1400);
@@ -169,8 +169,7 @@ function activePriorityButton() {
   return 'Medium';
 }
 
-// const CHECKED   = './assets/icons/checked_icon.png';
-// const UNCHECKED = './assets/icons/unchecked_icon.png';
+
 let _contactsCache = null;
 
 /**Normalizes a string for comparison. */
@@ -227,6 +226,7 @@ function openDropdownAssigned() {
   box.classList.toggle('d-none',open);
 }
 
+/**Eventlistener for the following containers */
 document.addEventListener('DOMContentLoaded',()=>{
   document.addEventListener('click',(e)=>{
     const dd=document.getElementById('selected-user-dropdown');

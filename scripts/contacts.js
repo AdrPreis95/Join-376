@@ -273,7 +273,7 @@ function openEditContactForm() {
     initEditInputValidation();
 }
 
-/**cloes the Add-Contactform Overlay*/
+/**closes the Add-Contactform Overlay*/
 function closeAddContactForm(contactCreated = false) {
     const form = document.getElementById('addContactForm');
     const overlay = document.getElementById('successfullycreatedContactOverlay');

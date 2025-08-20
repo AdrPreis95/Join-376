@@ -183,20 +183,7 @@ function getFirstLetter(user, id) {
     renderFirstLetter(firstLetters, colors, id);
 }
 
-
 /**This function renders the initial letters of the names in the map. */
-// function renderFirstLetter(firstLetters, colors, id) {
-//     if (firstLetters.length <= 5) {
-//         for (let j = 0; j < firstLetters.length; j++) {
-//             document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);
-//         }
-//     } else {
-//         for (let j = 0; j < 5; j++) {
-//             document.getElementById('assigned-user-' + id).innerHTML += getFirstLetterName(firstLetters[j], colors[j]);
-//         }
-//         document.getElementById('more-user-' + id).innerHTML = getMoreUser(firstLetters.length - 5);
-//     }
-// }
 function renderFirstLetter(firstLetters, colors, id){
   const box = document.getElementById('assigned-user-'+id);
   const more = document.getElementById('more-user-'+id);

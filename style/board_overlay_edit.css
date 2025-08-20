@@ -196,6 +196,11 @@
     filter: drop-shadow(0px 0px 2px #D1D1D1);
     display: flex;
     gap: 12px;
+    position: absolute;
+    z-index: 10;
+    width: 100%;
+    left: 0%;
+    right: 0%;
 }
 
 .contact-container-overlay {
@@ -632,3 +637,8 @@ svg :hover {
     margin: 0;
     z-index: 1;
 }
+
+/* #user-dropdown .user-initials-overlay{
+    background-color: #2A3647 !important;
+    border: 2px solid #FFFFFF !important;
+} */
