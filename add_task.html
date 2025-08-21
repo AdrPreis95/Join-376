@@ -104,14 +104,14 @@
                                 Title<span style="color: red;">*</span>
                             </p>
                             <div class="form-field">
-                                <input id="title" class="input-title" type="text" placeholder="Enter a title"
+                                <input id="title" class="input-title"  maxlength="32"  type="text" placeholder="Enter a title"
                                     onblur="validateInput()">
                                 <span class="error-message" id="error-message">Please select a Title</span>
                             </div>
 
                             <p id="description-p" style="margin-bottom: 10px; margin-top: 24px;">Description</p>
                             <div class="textarea">
-                                <input id="description" type="text" placeholder="Enter a Description">
+                                <input id="description" maxlength="200" type="text" placeholder="Enter a Description">
                                 <img src="./assets/icons/description-icon.png" alt="logo">
                             </div>
                             <div class="dropdown">
@@ -192,7 +192,7 @@
                             </p>
                             <div class="input-container">
                                 <input id="addsubtasks" name="addsubtasks" placeholder="Add new subtask" minlength="3"
-                                    maxlength="36">
+                                    maxlength="32">
                                 <img onclick="addSubtask()" id="add-subtask" class="input-icon"
                                     src="assets/icons/add_subtask.png" alt="AddSubtaskIcon">
                                 <div class="center-subtask-icons" id="show-icons" style="display: none;">

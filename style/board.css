@@ -264,6 +264,7 @@
 
 .subtasks p {
     font-size: 12px;
+    white-space: nowrap;
 }
 
 .progress-border {
