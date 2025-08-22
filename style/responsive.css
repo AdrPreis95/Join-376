@@ -859,7 +859,7 @@
 
     #main-page .textarea {
         width: 100%;
-        height: 48px;
+        max-height: 148px !important;
         background-color: #FFFFFF;
         border-radius: 12px;
         border-style: none;
@@ -867,7 +867,7 @@
     }
 
     #main-page #description {
-        height: 16px;
+        height: 100%;
         width: 100%;
         border: none;
         outline: none;

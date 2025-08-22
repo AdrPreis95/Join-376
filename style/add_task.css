@@ -144,6 +144,7 @@ select {
     /* padding: 8px; */
     font-family: inherit;
     font-size: 14px;
+    padding-right: 19px;
 }
 
 #due-date-input img,
@@ -234,6 +235,7 @@ select {
     border-style: none;
     padding: 10px;
     filter: drop-shadow(0px 0px 4px #D1D1D1);
+    padding-left: 2px;
 }
 
 .textarea input {
