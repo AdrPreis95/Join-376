@@ -130,6 +130,22 @@ select {
     cursor: pointer;
 }
 
+#description {
+    border-radius: 12px;
+    height: 100px;
+    width: 100%;
+    border-style: none;
+    resize: none !important;
+    resize: none;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    background: #FFFFFF;
+    /* padding: 8px; */
+    font-family: inherit;
+    font-size: 14px;
+}
+
 #due-date-input img,
 #title img,
 #description img,
@@ -236,6 +252,7 @@ select {
     right: 10px;
     width: 18px;
     height: auto;
+    background-color: #FFFFFF !important;
 }
 
 
@@ -510,7 +527,7 @@ select {
     cursor: pointer !important;
     max-height: 220px;
     overflow: scroll;
-   
+
     /* overflow-y: hidden !important; */
     /* overflow: hidden !important; */
     list-style: none !important;
@@ -1084,4 +1101,3 @@ label[for="file-select"] img:hover {
         font-size: 16px !important;
     }
 }
-
