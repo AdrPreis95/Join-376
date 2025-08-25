@@ -45,8 +45,8 @@
     height: 493px;
     border-radius: 30px;
     background-color: #ffffff;
-    -webkit-box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.01); 
-    box-shadow: 0px 0px 5px 5px rgba(0,0,0,0.01);
+    -webkit-box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.01);
+    box-shadow: 0px 0px 5px 5px rgba(0, 0, 0, 0.01);
 }
 
 .outer-login-span span {
@@ -69,7 +69,9 @@
     gap: 32px;
 }
 
-.login-field form input[type=email], input[type=password], input[type=text] {
+.login-field form input[type=email],
+input[type=password],
+input[type=text] {
     width: 422px;
     height: 48px;
     border: 1px solid #D1D1D1;
@@ -100,11 +102,11 @@
     align-items: center;
 }
 
-.input-password input{
+.input-password input {
     position: relative;
 }
 
-.input-password img{
+.input-password img {
     position: absolute;
     right: 4%;
 }
@@ -175,12 +177,13 @@
         align-items: center;
         opacity: 1;
     }
+
     to {
         display: none;
         justify-content: flex-start;
         align-items: flex-start;
         opacity: 0;
-    }  
+    }
 }
 
 .big-logo {
@@ -207,7 +210,7 @@
         left: 77px;
         width: 101px;
         height: 122px;
-    }     
+    }
 }
 
 .login-field form input.wrong-input {
@@ -261,7 +264,7 @@
         width: 101px;
         height: 121px;
     }
-    
+
     @keyframes BiglogoScreen {
 
         from {
@@ -270,13 +273,13 @@
             width: 101px;
             height: 121px;
         }
-    
+
         to {
             top: 37px;
             left: 38px;
             width: 64px;
             height: 78px;
-        }     
+        }
     }
 
     .signup-desktop {
@@ -306,7 +309,9 @@
         line-height: 56.4px;
     }
 
-    .login-field form input[type=email], input[type=password], input[type=text] {
+    .login-field form input[type=email],
+    input[type=password],
+    input[type=text] {
         width: 364px;
     }
 
@@ -330,7 +335,9 @@
         height: 515px;
     }
 
-    .login-field form input[type=email], input[type=password], input[type=text] {
+    .login-field form input[type=email],
+    input[type=password],
+    input[type=text] {
         width: 298px;
     }
 
@@ -351,7 +358,7 @@
         gap: 24px;
     }
 
-    .login-btns { 
+    .login-btns {
         gap: 18px;
     }
 }
@@ -362,7 +369,9 @@
         height: 475px;
     }
 
-    .login-field form input[type=email], input[type=password], input[type=text] {
+    .login-field form input[type=email],
+    input[type=password],
+    input[type=text] {
         width: 258px;
         font-size: 16px;
     }
@@ -384,7 +393,7 @@
         gap: 20px;
     }
 
-    .login-btns { 
+    .login-btns {
         gap: 14px;
     }
 }
@@ -395,7 +404,9 @@
         height: 435px;
     }
 
-    .login-field form input[type=email], input[type=password], input[type=text] {
+    .login-field form input[type=email],
+    input[type=password],
+    input[type=text] {
         width: 228px;
     }
 
@@ -416,10 +427,13 @@
         gap: 16px;
     }
 
-    .login-btns { 
+    .login-btns {
         gap: 10px;
     }
+
+    .login-signup span {
+
+        font-size: 16px;
+
+    }
 }
-
-
-

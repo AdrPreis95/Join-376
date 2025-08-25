@@ -792,8 +792,8 @@ select {
 } */
 
 .subtask-text[contenteditable="true"] {
-    outline: 1px solid red;
-    background-color: #f0f8ff;
+    outline: none;
+    border-bottom: 1px solid #29ABE2;
     border-radius: 2px;
     white-space: normal;
     word-break: break-word;

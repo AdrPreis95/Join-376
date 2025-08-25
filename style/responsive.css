@@ -23,7 +23,7 @@
     display: flex;
     width: 100%;
     justify-content: space-around;
-    z-index: 1000 !important;
+    z-index: 1000 ;
 }
 
 @media (max-width: 1354px) {

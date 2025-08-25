@@ -275,6 +275,7 @@
         transition: opacity 0.3s ease-in-out;
         cursor: pointer;
         display: flex;
+        z-index: 10 !important;
     }
 
     .responsiveEditContactDetails {
