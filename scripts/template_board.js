@@ -1,3 +1,12 @@
+// stabile Farbe aus script.js ziehen (fallback, falls mal nix da ist)
+function __colBy(name, email, id, color){
+  if (typeof color === 'string' && /^#?[0-9A-F]{6}$/i.test(color))
+    return color[0]==='#' ? color : ('#'+color);
+  if (typeof ensureColor === 'function')
+    return ensureColor({ name: name||'', email: email||'', id: id||'' });
+  return '#6E52FF';
+}
+
 /**This function contains the HTML template for a task as a card on the board.*/
 function getTask(id, category, classCategory, title, description, prioIcon) {
     return `
@@ -44,12 +53,20 @@ function getSubtask(doneTasks, allSubtasks, progress) {
 }
 
 /**This function creates the HTML template with the initial letters of the users and the color for the background.*/
+// function getFirstLetterName(firstLetters, color) {
+//     return `
+//     <div style="background-color: ${color};" class="assigned-user">
+//         <p>${firstLetters}</p>
+//     </div>
+//     `
+// }
 function getFirstLetterName(firstLetters, color) {
+    const col = __colBy(firstLetters, '', '', color);
     return `
-    <div style="background-color: ${color};" class="assigned-user">
+    <div style="background-color: ${col};" class="assigned-user">
         <p>${firstLetters}</p>
     </div>
-    `
+    `;
 }
 
 /**This function creates an HTML template if more users are specified that cannot be displayed due to a lack of space.*/
@@ -128,15 +145,26 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
 }
 
 /**This function creates an HTML template for the user in the overlay.*/
+// function getUserNamesOverlay(firstLetter, userName, color) {
+//     return `
+//     <div class="username-overlay">
+//         <div style="background-color: ${color};" id="assigned-user-overlay">
+//             <p>${firstLetter}</p>
+//         </div>
+//         <p class="username">${userName}</p>
+//     </div>
+//     `
+// }
 function getUserNamesOverlay(firstLetter, userName, color) {
+    const col = __colBy(userName, '', '', color);
     return `
     <div class="username-overlay">
-        <div style="background-color: ${color};" id="assigned-user-overlay">
+        <div style="background-color: ${col};" id="assigned-user-overlay">
             <p>${firstLetter}</p>
         </div>
         <p class="username">${userName}</p>
     </div>
-    `
+    `;
 }
 
 /**This function creates an HTML template if there are more users in the task that cannot all be displayed in the overlay.*/
@@ -237,13 +265,31 @@ function getOverlayEdit(id, title, description, dueDate) {
 }
 
 /**This function returns the HTML template for the contact bubble.*/
+// function getContactName(id,name,color,f1,f2,urlIcon){
+//   return `
+// <div class="contact-container-overlay"
+//      data-name="${name}" data-id="${id}"
+//      onclick="rowToggleAssigned(this)">
+//   <div class="user-name-overlay">
+//     <div class="user-initials-overlay" style="background-color:${color}">
+//       <p>${f1}${f2}</p>
+//     </div>
+//     <p class="user-name-text">${name}</p>
+//   </div>
+//   <div class="checkbox-cont">
+//     <img id="checkbox-contact-${name}" src="${urlIcon}" class="toggle-icon" alt=""
+//          onclick="event.stopPropagation(); rowToggleAssigned(this.closest('.contact-container-overlay'))">
+//   </div>
+// </div>`;
+// }
 function getContactName(id,name,color,f1,f2,urlIcon){
+  const col = __colBy(name, '', id, color);
   return `
 <div class="contact-container-overlay"
      data-name="${name}" data-id="${id}"
      onclick="rowToggleAssigned(this)">
   <div class="user-name-overlay">
-    <div class="user-initials-overlay" style="background-color:${color}">
+    <div class="user-initials-overlay" style="background-color:${col}">
       <p>${f1}${f2}</p>
     </div>
     <p class="user-name-text">${name}</p>
@@ -257,12 +303,20 @@ function getContactName(id,name,color,f1,f2,urlIcon){
 
 
 /**This function returns the HTML template for the initial letters of the user.*/
+// function getUserInititalsOverlayEdit(color, firstLetter) {
+//     return `
+//     <div style="background-color: ${color};" class="assigned-user-overlay-edit">
+//         <p>${firstLetter}</p>
+//     </div>
+//     `
+// }
 function getUserInititalsOverlayEdit(color, firstLetter) {
+    const col = __colBy(firstLetter, '', '', color);
     return `
-    <div style="background-color: ${color};" class="assigned-user-overlay-edit">
+    <div style="background-color: ${col};" class="assigned-user-overlay-edit">
         <p>${firstLetter}</p>
     </div>
-    `
+    `;
 }
 
 /**This function returns the HTML template for the number of additional users that can no longer be displayed.*/

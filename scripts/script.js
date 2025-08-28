@@ -28,20 +28,47 @@ if (sessionStorage.loggedUser != undefined) {
 // }
 // --- stabile Farb-API global bereitstellen ---
 // === Farb-Alias: nutzt die stabile Core-Implementierung aus contactsCache.js ===
+/* === SINGLE, STABILER COLOR-SHIM (ersetzen statt beider bestehender Blöcke) === */
 (function () {
-  function pick(pool){ return pool[Math.floor(Math.random() * pool.length)]; }
-  function fallback(arg){
-    const pool = (window.COLOR_POOL && window.COLOR_POOL.length)
-      || (window.colorsUser && window.colorsUser.length && window.colorsUser)
-      || ["#FF7A00","#FF5EB3","#6E52FF","#9327FF","#00BEE8","#1FD7C1","#FF745E","#FFA35E","#FC71FF","#FFC701","#0038FF","#C3FF2B","#FFE62B","#FF4646","#FFBB2B"];
-    if (arg == null) return pick(pool);
-    return pick(pool);
-  }
-  function core(){ return window.__ctxGenerateColor || window.generateColor; }
+  if (window.__colorShimInstalled) return;
+  window.__colorShimInstalled = true;
 
-  window.generateColor  = function(arg){ const fn = core(); return (typeof fn==='function') ? fn(arg) : fallback(arg); };
-  window.getRandomColor = function(arg){ const fn = core(); return (typeof fn==='function') ? fn(arg) : fallback(arg); };
+  // Farbpool (nimm bestehenden, sonst Fallback)
+  const POOL =
+    (Array.isArray(window.COLOR_POOL) && window.COLOR_POOL.length && window.COLOR_POOL) ||
+    (Array.isArray(window.colorsUser) && window.colorsUser.length && window.colorsUser) ||
+    ["#FF7A00","#FF5EB3","#6E52FF","#9327FF","#00BEE8","#1FD7C1","#FF745E","#FFA35E",
+     "#FC71FF","#FFC701","#0038FF","#C3FF2B","#FFE62B","#FF4646","#FFBB2B"];
+
+  function pick()   { return POOL[Math.floor(Math.random() * POOL.length)]; }
+  function hash(s)  { s = String(s||""); let h=0,i=0; while(i<s.length) h=((h<<5)-h+s.charCodeAt(i++))|0; return Math.abs(h); }
+  function derive(k){ return POOL[ hash(k) % POOL.length ]; }
+
+  // Einzige Quelle der Wahrheit – KEIN Zugriff auf window.generateColor hier!
+  function colorCore(arg){
+    if (arg == null) return pick(); // echtes Zufallsverhalten, falls kein Key
+    if (typeof arg === "object") {
+      const key = (arg.email || String(arg.id) ||
+                  (`${arg.firstName||""} ${arg.lastName||arg.name||""}`))
+                  .trim().toLowerCase();
+      const lsKey = "contactColor:"+key;
+      let col = localStorage.getItem(lsKey);
+      if (!col) { col = derive(lsKey); localStorage.setItem(lsKey, col); }
+      arg.color = arg.color || col;
+      return arg.color;
+    }
+    const k = "contactColor:"+String(arg).trim().toLowerCase();
+    let col = localStorage.getItem(k);
+    if (!col) { col = derive(k); localStorage.setItem(k, col); }
+    return col;
+  }
+
+  // API exportieren
+  window.generateColor  = colorCore;
+  window.getRandomColor = colorCore;
+  window.generateColor.__shim = true; // Markierung, falls andere Skripte prüfen
 })();
+
 
 
 /**This Function initializes alls the Task */
