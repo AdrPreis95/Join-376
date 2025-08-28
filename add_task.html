@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de"spellcheck="false">
+<html lang="de" spellcheck="false">
 
 <head>
     <meta charset="UTF-8">
@@ -18,7 +18,8 @@
     <link rel="stylesheet" href="style/summary.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/viewerjs@1.11.5/dist/viewer.min.css">
-
+    
+    <script src="scripts/contactsCache.js" defer></script>
     <script src="scripts/task_opload.js" defer></script>
     <script src="./scripts/task_details.js" defer></script>
     <script src="scripts/task_overlay_details.js" defer></script>
@@ -104,17 +105,18 @@
                                 Title<span style="color: red;">*</span>
                             </p>
                             <div class="form-field">
-                                <input id="title" class="input-title"  maxlength="32"  type="text" placeholder="Enter a title"
-                                    onblur="validateInput()">
+                                <input id="title" class="input-title" maxlength="32" type="text"
+                                    placeholder="Enter a title" onblur="validateInput()">
                                 <span class="error-message" id="error-message">Please select a Title</span>
                             </div>
 
-                           
+
                             <p id="description-p" style="margin-bottom: 10px; margin-top: 24px;">Description</p>
                             <div class="textarea">
-                                 <!-- <input id="description" maxlength="200" type="text" placeholder="Enter a Description"> -->
+                                <!-- <input id="description" maxlength="200" type="text" placeholder="Enter a Description"> -->
                                 <img src="./assets/icons/description-icon.png" alt="logo">
-                                <textarea placeholder=" Enter a Description" name="descrtiption-area" id="description"></textarea>
+                                <textarea placeholder=" Enter a Description" name="descrtiption-area"
+                                    id="description"></textarea>
                             </div>
                             <div class="dropdown">
                                 <p id="assignedto-p" style="margin-bottom: 10px; margin-top: 24px;">Assigned to</p>
@@ -276,14 +278,14 @@
         ⚠️ File type <span id="rejected-filetype">.exe</span> not allowed for security reasons.
     </div>
 
-<body id="overlay-mode">
-  <button class="overlay-close" onclick="closeOverlayFromIframe()" aria-label="Close overlay">
-    <img class="closebttn" src="../assets/icons/clear-icon.png" alt="Close">
-  </button>
-  <!-- Rest deines Task-Formulars -->
+    <body id="overlay-mode">
+        <button class="overlay-close" onclick="closeOverlayFromIframe()" aria-label="Close overlay">
+            <img class="closebttn" src="../assets/icons/clear-icon.png" alt="Close">
+        </button>
+        <!-- Rest deines Task-Formulars -->
 
- 
-</body>
+
+    </body>
 
     <script src="scripts/add_task.js"></script>
 </body>

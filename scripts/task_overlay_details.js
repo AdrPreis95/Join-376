@@ -37,16 +37,29 @@ function clearInputsAndCloseOverlay() {
 }
 
 /**Opens the User Dropdown */
-function openDropdown() {
-    let dropdown = document.getElementById('dropdown-user');
-    dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
+// function openDropdown() {
+//     let dropdown = document.getElementById('dropdown-user');
+//     dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
 
-    if (dropdown.style.display === "flex") {
-        loadContacts().then(() => {
-            synchronizeCheckboxes();
-        });
-    }
+//     if (dropdown.style.display === "flex") {
+//         loadContacts().then(() => {
+//             synchronizeCheckboxes();
+//         });
+//     }
+// }
+async function openDropdown() {
+  const dropdown = document.getElementById('dropdown-user');
+  const willOpen = dropdown.style.display !== "flex";
+  dropdown.style.display = willOpen ? "flex" : "none";
+
+  if (willOpen) {
+    // hol Kontakte aus Cache (ändert sich nicht jedes Mal)
+    const contacts = await getContactsCached(false);
+    displayContacts(allContacts);      // hier mit contact.color rendern
+    synchronizeCheckboxes();
+  }
 }
+
 
 /**Closes the dropdown when clicking outside.*/
 function closeDropdownOnClickOutside(event) {

@@ -1,9 +1,21 @@
-/**Displays the list of contacts in the dropdown menu.*/
-function displayContacts(contacts) {
-    let dropdown = document.getElementById('dropdown-user');
-    dropdown.innerHTML = '';
-    contacts.forEach(contact => createContactElement(dropdown, contact));
+function ensureColor(contact){
+  if(!contact) return;
+  contact.color = contact.color || getRandomColor(contact);
+  return contact.color;
 }
+
+/**Displays the list of contacts in the dropdown menu.*/
+// function displayContacts(contacts) {
+//     let dropdown = document.getElementById('dropdown-user');
+//     dropdown.innerHTML = '';
+//     contacts.forEach(contact => createContactElement(dropdown, contact));
+// }
+function displayContacts(contacts) {
+  const dropdown = document.getElementById('dropdown-user');
+  dropdown.innerHTML = '';
+  contacts.forEach(c => { ensureColor(c); createContactElement(dropdown, c); });
+}
+
 
 /**Processes the contacts by formatting them and adding the current user as a contact. */
 function processContacts(contacts, userAsContact) {
@@ -75,51 +87,100 @@ let avatarContainer = createAvatarContainer(contact);
 }
 
 /**Creates an avatar container for a contact.*/
+// function createAvatarContainer(contact) {
+//     let avatarSpanContainer = document.createElement('div');
+//     avatarSpanContainer.classList.add('avatar-span-container');
+
+//     let avatar = document.createElement('div');
+//     avatar.classList.add('avatar');
+//     avatar.style.backgroundColor = getRandomColor();
+//     avatar.innerText = getInitials(contact).toUpperCase();
+
+//     let userName = document.createElement('span');
+//     userName.classList.add('user-name');
+//     userName.innerText = getFullName(contact);
+
+//     avatarSpanContainer.appendChild(avatar);
+//     avatarSpanContainer.appendChild(userName);
+
+//     return avatarSpanContainer;
+// }
 function createAvatarContainer(contact) {
-    let avatarSpanContainer = document.createElement('div');
-    avatarSpanContainer.classList.add('avatar-span-container');
+  let avatarSpanContainer = document.createElement('div');
+  avatarSpanContainer.classList.add('avatar-span-container');
 
-    let avatar = document.createElement('div');
-    avatar.classList.add('avatar');
-    avatar.style.backgroundColor = getRandomColor();
-    avatar.innerText = getInitials(contact).toUpperCase();
+  let avatar = document.createElement('div');
+  avatar.classList.add('avatar');
 
-    let userName = document.createElement('span');
-    userName.classList.add('user-name');
-    userName.innerText = getFullName(contact);
+  // ⬇️ Fix: stabil (nimmt vorhandene Farbe oder erzeugt einmalig & speichert sie am Kontakt)
+  const color = contact?.color || getRandomColor(contact);
+  avatar.style.backgroundColor = color;
 
-    avatarSpanContainer.appendChild(avatar);
-    avatarSpanContainer.appendChild(userName);
+  avatar.innerText = getInitials(contact).toUpperCase();
 
-    return avatarSpanContainer;
+  let userName = document.createElement('span');
+  userName.classList.add('user-name');
+  userName.innerText = getFullName(contact);
+
+  avatarSpanContainer.appendChild(avatar);
+  avatarSpanContainer.appendChild(userName);
+  return avatarSpanContainer;
 }
 
 /**Updates the selected contacts array. */
+// function updateSelectedContacts(isChecked, contact) {
+//     if (isChecked) {
+//         selectedContacts.push(contact);
+//     } else {
+//         selectedContacts = selectedContacts.filter(c => c !== contact);
+//     }
+// }
 function updateSelectedContacts(isChecked, contact) {
-    if (isChecked) {
-        selectedContacts.push(contact);
-    } else {
-        selectedContacts = selectedContacts.filter(c => c !== contact);
+  ensureColor(contact);
+  if (isChecked) {
+    if (!selectedContacts.some(c => c.email === contact.email)) {
+      selectedContacts.push(contact); // gleiche Instanz behalten
     }
+  } else {
+    selectedContacts = selectedContacts.filter(c => c.email !== contact.email);
+  }
 }
 
+
 /**Updates the display of picked user avatars. */
+// function updatePickedUserAvatars() {
+//     let pickedUserAvatarContainer = document.getElementById('picked-user-avatar');
+//     pickedUserAvatarContainer.innerHTML = '';
+//     const maxVisibleContacts = 5;
+
+//     selectedContacts.slice(0, maxVisibleContacts).forEach((contact, index) => {
+//         pickedUserAvatarContainer.appendChild(createPickedUserElement(contact, index));
+//     });
+
+//     if (selectedContacts.length > maxVisibleContacts) {
+//         let remainingContacts = selectedContacts.length - maxVisibleContacts;
+//         let moreContactsDiv = document.createElement('div');
+//         moreContactsDiv.classList.add('more-contacts-info');
+//         moreContactsDiv.textContent = `+${remainingContacts}`;
+//         pickedUserAvatarContainer.appendChild(moreContactsDiv);
+//     }
+// }
 function updatePickedUserAvatars() {
-    let pickedUserAvatarContainer = document.getElementById('picked-user-avatar');
-    pickedUserAvatarContainer.innerHTML = '';
-    const maxVisibleContacts = 5;
+  const wrap = document.getElementById('picked-user-avatar');
+  wrap.innerHTML = '';
+  const max = 5;
 
-    selectedContacts.slice(0, maxVisibleContacts).forEach((contact, index) => {
-        pickedUserAvatarContainer.appendChild(createPickedUserElement(contact, index));
-    });
+  selectedContacts.slice(0, max).forEach((contact, i) => {
+    contact.color = contact.color || getRandomColor(contact); // 🔒 Farbe fixen
+    wrap.appendChild(createPickedUserElement(contact));
+  });
 
-    if (selectedContacts.length > maxVisibleContacts) {
-        let remainingContacts = selectedContacts.length - maxVisibleContacts;
-        let moreContactsDiv = document.createElement('div');
-        moreContactsDiv.classList.add('more-contacts-info');
-        moreContactsDiv.textContent = `+${remainingContacts}`;
-        pickedUserAvatarContainer.appendChild(moreContactsDiv);
-    }
+  if (selectedContacts.length > max) {
+    const more = document.createElement('div');
+    more.classList.add('more-contacts-info');
+    more.textContent = `+${selectedContacts.length - max}`;
+    wrap.appendChild(more);
+  }
 }
 
 /**Creates a user element for the picked user avatar display. */
@@ -147,12 +208,19 @@ function createDeleteButton(index) {
 }
 
 /**Creates an avatar div for a picked user avatar. */
+// function createAvatarDiv(contact) {
+//     let avatarDiv = document.createElement('div');
+//     avatarDiv.classList.add('avatar');
+//     avatarDiv.style.backgroundColor = getRandomColor();
+//     avatarDiv.innerText = getInitials(contact).toUpperCase();
+//     return avatarDiv;
+// }
 function createAvatarDiv(contact) {
-    let avatarDiv = document.createElement('div');
-    avatarDiv.classList.add('avatar');
-    avatarDiv.style.backgroundColor = getRandomColor();
-    avatarDiv.innerText = getInitials(contact).toUpperCase();
-    return avatarDiv;
+  const avatarDiv = document.createElement('div');
+  avatarDiv.classList.add('avatar');
+  avatarDiv.style.backgroundColor = ensureColor(contact);
+  avatarDiv.innerText = getInitials(contact).toUpperCase();
+  return avatarDiv;
 }
 
 /**Creates a name span for a picked user avatar.*/
