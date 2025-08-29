@@ -119,8 +119,7 @@ function convertToBase64(file) {
         const reader = new FileReader();
         reader.onload = () => resolve({ base64: reader.result, name: file.name });
         reader.onerror = () => resolve({ base64: "", name: file.name });
-        reader.readAsDataURL(file);
-    });
+        reader.readAsDataURL(file);});
 }
 
 /**Ensure subtasks & contacts have defaults */

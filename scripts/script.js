@@ -71,17 +71,39 @@ const words = name.split(' ');
     return initials;
 }
 
-/**Function for toggling the user submenu */
-(()=>{const q=s=>document.querySelector(s);
-const set=o=>{const sm=q('.submenu'),sc=q('.submenu-content'),ui=q('.user-icon');if(!sm||!sc||!ui)return;sc.classList.toggle('opened',o);sc.classList.toggle('closed',!o);sm.classList.toggle('d-none',!o);ui.classList.toggle('user-icon-activated',o);};
-window.toggleSubmenu=()=>set(!q('.submenu-content')?.classList.contains('opened'));
-window.closeSubmenu=()=>set(false);
-const init=()=>{if(window.__submenuInit)return;window.__submenuInit=1;
-addEventListener('click',e=>{const t=e.target;if(t.closest('.submenu-content a'))return closeSubmenu(); if(!t.closest('.submenu, .user-icon'))closeSubmenu();},true);
-['popstate','pageshow'].forEach(ev=>addEventListener(ev,closeSubmenu));
-addEventListener('keydown',e=>{if(e.key==='Escape')closeSubmenu();});};
-document.readyState!=='loading'?init():addEventListener('DOMContentLoaded',init,{once:true});
-})();
+/**Function for toggling and initialize the user submenu */
+function initSubmenu() {
+  const $ = (s) => document.querySelector(s);
+  const set = (open) => {
+    const sm = $('.submenu'), sc = $('.submenu-content'), ui = $('.user-icon');
+    if (!sm || !sc || !ui) return;
+    sc.classList.toggle('opened', open);
+    sc.classList.toggle('closed', !open);
+    sm.classList.toggle('d-none', !open);
+    ui.classList.toggle('user-icon-activated', open);
+  };
+  window.toggleSubmenu = () => set(!$('.submenu-content')?.classList.contains('opened'));
+  window.closeSubmenu  = () => set(false);
+  return { set };
+}
+
+// --- Events nur 1x binden ---
+function bindSubmenuEvents() {
+  if (window.__submenuInit) return;
+  window.__submenuInit = true;
+  addEventListener('click', (e) => {
+    const t = e.target;
+    if (t.closest('.submenu-content a')) return closeSubmenu();
+    if (!t.closest('.submenu, .user-icon')) closeSubmenu();
+  }, true);
+  ['popstate','pageshow'].forEach(ev => addEventListener(ev, closeSubmenu));
+  addEventListener('keydown', (e) => { if (e.key === 'Escape') closeSubmenu(); });
+}
+
+// --- Initialisieren ---
+document.readyState !== 'loading'
+  ? (initSubmenu(), bindSubmenuEvents())
+  : addEventListener('DOMContentLoaded', () => { initSubmenu(); bindSubmenuEvents(); }, { once:true });
 
 /**This function logs out the user and bring him to the mainpage for login and sign in*/
 function logOut() {
@@ -164,9 +186,9 @@ function closeOverlay() {
     null;
 
   function stableColor(arg){
-    if (core) return core(arg);                 // vorhandene Core-Logik nutzen
-    if (arg == null) return pick();             // kompatibel: echt zufällig ohne Arg
-    if (typeof arg === "object") {              // Kontaktobjekt → stabil + am Objekt speichern
+    if (core) return core(arg);                 
+    if (arg == null) return pick();            
+    if (typeof arg === "object") {              
       const key = (arg.email || String(arg.id) ||
                   (`${arg.firstName||""} ${arg.lastName||arg.name||""}`)).trim().toLowerCase();
       const lsKey = "contactColor:"+key;
@@ -174,7 +196,7 @@ function closeOverlay() {
       if (!col) { col = derive(lsKey); localStorage.setItem(lsKey, col); }
       arg.color = arg.color || col;
       return arg.color;
-    } else {                                    // String-Key (email/id/name) → stabil
+    } else {                                   
       const k = "contactColor:"+String(arg).trim().toLowerCase();
       let col = localStorage.getItem(k);
       if (!col) { col = derive(k); localStorage.setItem(k, col); }
@@ -185,10 +207,9 @@ function closeOverlay() {
   function shim(arg){ return stableColor(arg); }
   shim.__shim = true;
 
-  // Globale API bereitstellen/überschreiben – ohne Rekursion
   window.generateColor  = shim;
   window.getRandomColor = shim;
 
-  // praktischer Helper für Renderer
+
   window.ensureColor = function(c){ if(!c) return; c.color = c.color || shim(c); return c.color; };
 })();

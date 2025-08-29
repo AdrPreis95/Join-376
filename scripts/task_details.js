@@ -87,24 +87,6 @@ let avatarContainer = createAvatarContainer(contact);
 }
 
 /**Creates an avatar container for a contact.*/
-// function createAvatarContainer(contact) {
-//     let avatarSpanContainer = document.createElement('div');
-//     avatarSpanContainer.classList.add('avatar-span-container');
-
-//     let avatar = document.createElement('div');
-//     avatar.classList.add('avatar');
-//     avatar.style.backgroundColor = getRandomColor();
-//     avatar.innerText = getInitials(contact).toUpperCase();
-
-//     let userName = document.createElement('span');
-//     userName.classList.add('user-name');
-//     userName.innerText = getFullName(contact);
-
-//     avatarSpanContainer.appendChild(avatar);
-//     avatarSpanContainer.appendChild(userName);
-
-//     return avatarSpanContainer;
-// }
 function createAvatarContainer(contact) {
   let avatarSpanContainer = document.createElement('div');
   avatarSpanContainer.classList.add('avatar-span-container');
@@ -112,7 +94,6 @@ function createAvatarContainer(contact) {
   let avatar = document.createElement('div');
   avatar.classList.add('avatar');
 
-  // ⬇️ Fix: stabil (nimmt vorhandene Farbe oder erzeugt einmalig & speichert sie am Kontakt)
   const color = contact?.color || getRandomColor(contact);
   avatar.style.backgroundColor = color;
 
@@ -128,13 +109,6 @@ function createAvatarContainer(contact) {
 }
 
 /**Updates the selected contacts array. */
-// function updateSelectedContacts(isChecked, contact) {
-//     if (isChecked) {
-//         selectedContacts.push(contact);
-//     } else {
-//         selectedContacts = selectedContacts.filter(c => c !== contact);
-//     }
-// }
 function updateSelectedContacts(isChecked, contact) {
   ensureColor(contact);
   if (isChecked) {
@@ -146,25 +120,7 @@ function updateSelectedContacts(isChecked, contact) {
   }
 }
 
-
 /**Updates the display of picked user avatars. */
-// function updatePickedUserAvatars() {
-//     let pickedUserAvatarContainer = document.getElementById('picked-user-avatar');
-//     pickedUserAvatarContainer.innerHTML = '';
-//     const maxVisibleContacts = 5;
-
-//     selectedContacts.slice(0, maxVisibleContacts).forEach((contact, index) => {
-//         pickedUserAvatarContainer.appendChild(createPickedUserElement(contact, index));
-//     });
-
-//     if (selectedContacts.length > maxVisibleContacts) {
-//         let remainingContacts = selectedContacts.length - maxVisibleContacts;
-//         let moreContactsDiv = document.createElement('div');
-//         moreContactsDiv.classList.add('more-contacts-info');
-//         moreContactsDiv.textContent = `+${remainingContacts}`;
-//         pickedUserAvatarContainer.appendChild(moreContactsDiv);
-//     }
-// }
 function updatePickedUserAvatars() {
   const wrap = document.getElementById('picked-user-avatar');
   wrap.innerHTML = '';
@@ -208,13 +164,6 @@ function createDeleteButton(index) {
 }
 
 /**Creates an avatar div for a picked user avatar. */
-// function createAvatarDiv(contact) {
-//     let avatarDiv = document.createElement('div');
-//     avatarDiv.classList.add('avatar');
-//     avatarDiv.style.backgroundColor = getRandomColor();
-//     avatarDiv.innerText = getInitials(contact).toUpperCase();
-//     return avatarDiv;
-// }
 function createAvatarDiv(contact) {
   const avatarDiv = document.createElement('div');
   avatarDiv.classList.add('avatar');
@@ -269,21 +218,19 @@ function displayNoResults() {
 function fillCurrentDate() {
     let dateInput = document.getElementById('due-date-input');
     dateInput.focus();
-    dateInput.click();
-}
+    dateInput.click();}
 
-document.addEventListener('DOMContentLoaded', function () {
-    flatpickr("#due-date-input", { dateFormat: "d/m/Y" });
-});
-document.getElementById('dateimg').addEventListener('click', function () {
-    document.getElementById('due-date-input')._flatpickr.open();
-});
-document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function () {
+    flatpickr("#due-date-input", { dateFormat: "d/m/Y" });});
+
+    document.getElementById('dateimg').addEventListener('click', function () {
+    document.getElementById('due-date-input')._flatpickr.open();});
+
+    document.addEventListener('DOMContentLoaded', function () {
     window.flatpickrInstance = flatpickr("#due-date-input", {
         dateFormat: "d/m/Y",
         allowInput: false,
-        minDate: "today",
-    });
+        minDate: "today",});
 });
 
 /**Displays The Flatpickr Date Overlay */

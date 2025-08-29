@@ -37,16 +37,6 @@ function clearInputsAndCloseOverlay() {
 }
 
 /**Opens the User Dropdown */
-// function openDropdown() {
-//     let dropdown = document.getElementById('dropdown-user');
-//     dropdown.style.display = dropdown.style.display === "flex" ? "none" : "flex";
-
-//     if (dropdown.style.display === "flex") {
-//         loadContacts().then(() => {
-//             synchronizeCheckboxes();
-//         });
-//     }
-// }
 async function openDropdown() {
   const dropdown = document.getElementById('dropdown-user');
   const willOpen = dropdown.style.display !== "flex";
@@ -59,7 +49,6 @@ async function openDropdown() {
     synchronizeCheckboxes();
   }
 }
-
 
 /**Closes the dropdown when clicking outside.*/
 function closeDropdownOnClickOutside(event) {
