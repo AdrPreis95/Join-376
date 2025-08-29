@@ -7,33 +7,12 @@ if (sessionStorage.loggedUser != undefined) {
     window.location.href = "./index.html";
 }
 
-// /**Array with farbcodes for the usercolors*/
-// const colors = [
-//     "#FF7F00", "#FF66CC", "#A349A4",
-//     "#8A2BE2", "#00C5CD", "#00CED1",
-//     "#FF6A6A", "#FF9C00", "#FF77FF",
-//     "#FFFF33", "#4169E1", "#ADFF2F",
-//     "#FFFF00", "#FF4040", "#FFA500"
-// ];
-
-// /**This function adds a random color for any user*/
-// function generateColor() {
-//     const colors = [
-//         "#FF7A00", "#FF5EB3", "#6E52FF", "#9327FF", "#00BEE8", "#1FD7C1",
-//         "#FF745E", "#FFA35E", "#FC71FF", "#FFC701", "#0038FF", "#C3FF2B",
-//         "#FFE62B", "#FF4646", "#FFBB2B"];
-//     let length = colors.length;
-//     let color = colors[Math.floor(Math.random() * length)];
-//     return color;
-// }
-// --- stabile Farb-API global bereitstellen ---
-// === Farb-Alias: nutzt die stabile Core-Implementierung aus contactsCache.js ===
-/* === SINGLE, STABILER COLOR-SHIM (ersetzen statt beider bestehender Blöcke) === */
+/**This function adds a random color for any user*/
 (function () {
   if (window.__colorShimInstalled) return;
   window.__colorShimInstalled = true;
 
-  // Farbpool (nimm bestehenden, sonst Fallback)
+ /**Array with farbcodes for the usercolors*/
   const POOL =
     (Array.isArray(window.COLOR_POOL) && window.COLOR_POOL.length && window.COLOR_POOL) ||
     (Array.isArray(window.colorsUser) && window.colorsUser.length && window.colorsUser) ||
@@ -44,9 +23,9 @@ if (sessionStorage.loggedUser != undefined) {
   function hash(s)  { s = String(s||""); let h=0,i=0; while(i<s.length) h=((h<<5)-h+s.charCodeAt(i++))|0; return Math.abs(h); }
   function derive(k){ return POOL[ hash(k) % POOL.length ]; }
 
-  // Einzige Quelle der Wahrheit – KEIN Zugriff auf window.generateColor hier!
+   /**Fallback for the User Avatar Colors*/
   function colorCore(arg){
-    if (arg == null) return pick(); // echtes Zufallsverhalten, falls kein Key
+    if (arg == null) return pick(); 
     if (typeof arg === "object") {
       const key = (arg.email || String(arg.id) ||
                   (`${arg.firstName||""} ${arg.lastName||arg.name||""}`))
@@ -63,13 +42,10 @@ if (sessionStorage.loggedUser != undefined) {
     return col;
   }
 
-  // API exportieren
   window.generateColor  = colorCore;
   window.getRandomColor = colorCore;
-  window.generateColor.__shim = true; // Markierung, falls andere Skripte prüfen
+  window.generateColor.__shim = true; 
 })();
-
-
 
 /**This Function initializes alls the Task */
 function init() {

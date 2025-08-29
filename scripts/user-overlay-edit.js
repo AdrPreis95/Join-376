@@ -21,28 +21,19 @@ async function refreshAssignedUI(id){
 
 /**Renders the contact list for the overlay assigned-to section.*/
 function renderOverlayContacts(id, contacts, assignedList){
-  const box = document.getElementById('user-dropdown');
-  if (!box) return;
-
-  const assignedSet = new Set((assignedList||[]).map(u => canon(`${u.firstName||''} ${u.lastName||''}`)));
-
-  let html = '';
-  for (const c of contacts){
-    const shown = displayForUI(c.name, c.email);
-    const isOn  = assignedSet.has(canon(cleanDisplayName(shown)));
-    const rowId = safeIdFromName(shown);
-    const pos   = (c.name || '').indexOf(' ');
-    const fInit = (c.name||'')[0] || '';
-    const lInit = pos > -1 ? (c.name||'')[pos+1] || '' : '';
-    const icon  = isOn ? CHECKED : UNCHECKED;
-
-    html += `
-      <div id="${rowId}" class="user-container${isOn ? ' selected':''}">
-        ${getContactName(id, shown, generateColor(), fInit, lInit, icon)}
-      </div>`;
+  const box=document.getElementById('user-dropdown'); if(!box) return;
+  const assigned=new Set((assignedList||[]).map(u=>canon(`${u.firstName||''} ${u.lastName||''}`)));
+  const colorMap=new Map((assignedList||[]).map(u=>[canon(`${u.firstName||''} ${u.lastName||''}`),u.color||null]));
+  let html='';
+  for(const c of contacts){
+    const shown=displayForUI(c.name,c.email), clean=canon(cleanDisplayName(shown));
+    const pos=(c.name||'').indexOf(' '), f=(c.name||'')[0]||'', l=pos>-1?(c.name||'')[pos+1]||'':'';
+    const icon=assigned.has(clean)?CHECKED:UNCHECKED;
+    const color=c.color||colorMap.get(clean)||'#cccccc';
+    html+=`<div id="${safeIdFromName(shown)}" class="user-container${assigned.has(clean)?' selected':''}">
+             ${getContactName(id, shown, color, f, l, icon)}</div>`;
   }
-  box.innerHTML = html;
-  bindDropdownRowClicks();
+  box.innerHTML=html; bindDropdownRowClicks();
 }
 
 /**Binds click events for selecting/deselecting assigned users. */
