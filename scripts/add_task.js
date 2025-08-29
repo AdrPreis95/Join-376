@@ -250,6 +250,20 @@ function addSubtask() {
     toggleAddSubtaskButton(false);
 }
 
+/*Listens to user input in the subtask field and toggles icons/plus button 
+ * depending on whether the input is empty or not.  */
+document.getElementById('addsubtasks').addEventListener('input', function () {
+    let value = this.value.trim();
+
+    if (value.length > 0) {
+        toggleShowIcons(true);
+        toggleAddSubtaskButton(false); 
+    } else {
+        toggleShowIcons(false);
+        toggleAddSubtaskButton(true);
+    }
+});
+
 /**Toggle subtask icons */
 function toggleShowIcons(show) {
     document.getElementById('show-icons').style.display = show ? "flex" : "none";
@@ -270,6 +284,13 @@ function confirmSubtask() {
     let subtaskValue = document.getElementById('addsubtasks').value.trim();
     if (subtaskValue) addSubtaskToList(subtaskValue);
 }
+
+// Event Key (Enter) for also add the Subtask
+document.getElementById('addsubtasks').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        event.preventDefault(); 
+        confirmSubtask();
+    }});
 
 /**Add new subtask to list */
 function addSubtaskToList(subtaskValue) {
@@ -326,8 +347,7 @@ function enableSubtaskEditing(subtaskText) {
         let newText = subtaskText.textContent.trim();
         subtaskText.textContent = newText || originalText;
         updateSubtaskArray(originalText, subtaskText.textContent);
-        subtaskText.contentEditable = "false";
-    });
+        subtaskText.contentEditable = "false";});
 }
 
 /**Update subtask array after edit */
@@ -356,8 +376,7 @@ async function loadContacts() {
         allContacts = processContacts(contacts, userAsContact);
         displayContacts(allContacts);
     } catch (error) {
-        console.error('Error loading contacts:', error);
-    }
+        console.error('Error loading contacts:', error);}
 }
 
 /**Create logged-in user as contact */ 
@@ -367,8 +386,7 @@ function createUserAsContact() {
         id: 0,
         firstName: loggedUser.name.split(' ')[0],
         lastName: loggedUser.name.split(' ').slice(1).join(' ') || '(You)',
-        phone: '000000'
-    };
+        phone: '000000'};
 }
 
 /**Format contact into first/last name*/
@@ -391,8 +409,7 @@ function closeOverlayFromIframe() {
     if (window.parent && typeof window.parent.closeTaskOverlay === 'function') {
         window.parent.closeTaskOverlay();
     } else {
-        console.warn("closeTaskOverlay() not available in parent window");
-    }
+        console.warn("closeTaskOverlay() not available in parent window");}
 }
 
 
