@@ -239,8 +239,7 @@ async function changeList(list) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(taskJson)
-    });
+        body: JSON.stringify(taskJson)});
     loadTasks();
 }
 
@@ -252,8 +251,8 @@ async function deleteTask(id) {
   const updatedTasks = tasksJson.filter(task => task.id !== id).map((t, i) => ({...t, id: i + 1}));
   await fetch(BASE_URL + "/tasks.json", {
     method: "PUT", headers: {"Content-Type": "application/json"},
-    body: JSON.stringify(updatedTasks)
-  });
+    body: JSON.stringify(updatedTasks)});
+    
   showDeleteConfirm('Task deleted');  
   closeOverlay(); loadTasks();
 }

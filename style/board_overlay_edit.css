@@ -325,8 +325,9 @@
 #change-subtask-input {
     width: 100%;
     border: none;
-    border-bottom: 1px solid #9747FF;
-    background-color: #D1D1D1;
+    border-bottom: 1px solid #29ABE2;
+    border-radius: 2px;
+    background-color: transparent;
     outline: none;
     font-size: 16px;
 }
@@ -337,8 +338,8 @@
 }
 
 #change-subtask-input:focus {
-    border: none;
-    border-bottom: 1px solid #9747FF;
+    border-bottom: 1px solid #29ABE2;
+    border-radius: 2px;
 }
 
 #warn-emptyinput-container p {
@@ -575,6 +576,7 @@ svg :hover {
     width: 100%;
     padding: 8px 12px;
     box-sizing: border-box;
+
 }
 
 .user-name-overlay {

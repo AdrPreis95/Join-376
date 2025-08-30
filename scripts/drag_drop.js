@@ -148,7 +148,7 @@ function checkTargetList(targetList, moving) {
     }
 }
 
-/**This function resets element*/
+/**This function resets element for the Drop Event*/
 function resetElement(moving) {
     if (moving.style) {
         moving.style.left = '';

@@ -1,3 +1,4 @@
+/**This Function Checks the Color Value of any User*/
 function ensureColor(contact){
   if(!contact) return;
   contact.color = contact.color || getRandomColor(contact);
@@ -5,11 +6,6 @@ function ensureColor(contact){
 }
 
 /**Displays the list of contacts in the dropdown menu.*/
-// function displayContacts(contacts) {
-//     let dropdown = document.getElementById('dropdown-user');
-//     dropdown.innerHTML = '';
-//     contacts.forEach(contact => createContactElement(dropdown, contact));
-// }
 function displayContacts(contacts) {
   const dropdown = document.getElementById('dropdown-user');
   dropdown.innerHTML = '';
@@ -38,9 +34,8 @@ function createCheckbox(contact) {
             updateSelectedContacts(false, contact);
             if (userContainer) userContainer.classList.remove('selected');
         }
-        updatePickedUserAvatars();
-    });
-    return checkbox;
+        updatePickedUserAvatars();});
+     return checkbox;
 }
 
 /**Synchronizes the checkboxes in the dropdown with the selected contacts.*/

@@ -20,11 +20,9 @@ function convertToBase64(file) {
                 base64: reader.result,
                 name: file.name,
                 size: file.size,
-                type: file.type
-            });
+                type: file.type});
         };
-        reader.onerror = error => reject(error);
-    });
+        reader.onerror = error => reject(error);});
 }
 
 /**Renders file preview in edit mode (image or PDF).*/
@@ -38,14 +36,12 @@ function renderEditFile(task) {
             <object data="${task.file.base64}" type="application/pdf" width="100%" height="300px">
                 <p>PDF cannot showed. <a href="${task.file.base64}" target="_blank">PDF öffnen</a></p>
             </object>
-            <button onclick="removeFileFromTask(${task.id})">delete</button>
-        `;
-    } else if (fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
+            <button onclick="removeFileFromTask(${task.id})">delete</button>`;} 
+            
+            else if (fileName.endsWith(".png") || fileName.endsWith(".jpg") || fileName.endsWith(".jpeg")) {
         container.innerHTML = `
             <img src="${task.file.base64}" alt="${task.file.name}" style="max-width: 100%; max-height: 300px;">
-            <button onclick="removeFileFromTask(${task.id})">delete</button>
-        `;
-    }
+            <button onclick="removeFileFromTask(${task.id})">delete</button>`;}
 }
 
 /**Resizes and converts an image to base64 with compression.*/
@@ -61,15 +57,13 @@ function resizeAndConvertImage(file, maxWidth, maxHeight, quality = 0.8) {
 
         reader.onload = (event) =>
             handleImageLoad(event, file, maxWidth, maxHeight, quality, resolve, reject);
-        reader.onerror = (error) => reject(error);
-    });
+        reader.onerror = (error) => reject(error);});
 }
 
 /**Handles image load, resizes it and returns base64 data.*/
 function handleImageLoad(event, file, maxWidth, maxHeight, quality, resolve, reject) {
     const img = new Image();
     img.src = event.target.result;
-
     img.onload = () => {
         const { canvas, width, height } = createResizedCanvas(img, maxWidth, maxHeight);
         const ctx = canvas.getContext('2d');
@@ -82,9 +76,7 @@ function handleImageLoad(event, file, maxWidth, maxHeight, quality, resolve, rej
             base64,
             name: newName,
             size: Math.round((base64.length * 3) / 4),
-            type: "image/jpeg"
-        });
-    };
+            type: "image/jpeg"});};
 
     img.onerror = (error) => reject(error);
 }

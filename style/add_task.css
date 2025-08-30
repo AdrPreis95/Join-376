@@ -318,6 +318,8 @@ select {
     justify-content: space-between;
     padding: 2px;
     cursor: pointer;
+    background-color: #cccc;
+    border-radius: 30px;
 }
 
 .user-container:hover {

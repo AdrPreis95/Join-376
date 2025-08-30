@@ -196,7 +196,6 @@ async function processSelectedFiles({ files, task, id, counters, flags }) {
         if (shouldSkipFile(file, counters, flags)) continue;
 
         await readAndSaveFile(file, task, id);
-
         const mime = file.type;
         if (mime.startsWith('image/')) counters.images++;
         if (mime === 'application/pdf') counters.pdfs++;
@@ -214,15 +213,12 @@ async function readAndSaveFile(file, task, id) {
                 name: file.name,
                 base64,
                 size: file.size,
-                type: file.type
-            });
+                type: file.type});
 
             await updateTaskInFirebase(`${BASE_URL}/tasks/${id}.json`, { files: task.files });
             renderEditFile(task);
-            resolve();
-        };
-        reader.readAsDataURL(file);
-    });
+            resolve();};
+        reader.readAsDataURL(file);});
 }
 
 
@@ -239,7 +235,6 @@ function showUploadWarnings(invalidFiles, tooManyImages, tooManyPDFs) {
     }
 }
 
-
 /**Displays upload warning overlays for invalid files and limit violations.*/
 function showUploadWarningOverlay(message) {
     const overlay = document.getElementById('upload-warning-overlay');
@@ -255,7 +250,7 @@ function showUploadWarningOverlay(message) {
     }, 3000);
 }
 
-/**Updates The Task from Firebase async for Displaying the newest Updates*/
+/**Updates The Task from Firebase async for Displaying the newest Task Updates*/
 async function updateTaskInFirebase(ref, partial) {
   const url = (typeof ref === 'string')
     ? ref
@@ -264,14 +259,12 @@ async function updateTaskInFirebase(ref, partial) {
   const res = await fetch(url, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(partial),
-  });
+    body: JSON.stringify(partial),});
 
   if (!res.ok) {
     const msg = `Firebase update failed: ${res.status} ${res.statusText}`;
     console.error(msg, { url, partial });
-    throw new Error(msg);
-  }
+    throw new Error(msg);}
   return res.json();
 }
 

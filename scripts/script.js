@@ -111,8 +111,6 @@ function logOut() {
     sessionStorage.removeItem("loggedUser");
     window.location.href = "./index.html";
 }
-/**Array of all available Colors for the User Avatar Background*/
-// let colorsUser = ['#6E52FF', '#FF7A00', '#FF5EB3', '#9327FF', '#00BEE8', '#1FD7C1', '#FF745E', '#FFA35E', '#FC71FF', '#FFC701', '#0038FF', '#C3FF2B', '#FFE62B', '#FF4646', '#FFBB2B'];
 
 /**This function converts the date input from dd/mm/yyyy to the 
 *format yyyy-mm-dd*/
@@ -163,28 +161,38 @@ function closeOverlay() {
     loadTasks();
 }
 
-/* === STABILER COLOR-SHIM (einmal ans Ende von script.js einfügen) === */
+/* Function for the stable color shim ,checks the values and gets farbcoed from the POOL*/
 (function () {
-  if (window.__colorShimInstalled) return;  // nur 1x installieren
+  if (window.__colorShimInstalled) return;  
   window.__colorShimInstalled = true;
 
-  // Pool wählen (nimmt vorhandene, sonst Fallback)
+  /*Array with Farbcodes for the User Avatars*/
   const POOL = (Array.isArray(window.COLOR_POOL) && window.COLOR_POOL.length && window.COLOR_POOL)
             || (Array.isArray(window.colorsUser) && window.colorsUser.length && window.colorsUser)
             || ["#FF7A00","#FF5EB3","#6E52FF","#9327FF","#00BEE8","#1FD7C1","#FF745E","#FFA35E","#FC71FF",
                 "#FFC701","#0038FF","#C3FF2B","#FFE62B","#FF4646","#FFBB2B"];
 
+/*Returns a random color from the defined POOL.
+@returns {string} A hex color code randomly selected from the pool.*/
   function pick(){ return POOL[Math.floor(Math.random()*POOL.length)]; }
+
+  /* Generates a numeric hash value based on a given string.*/
   function hash(s){ s=String(s||""); let h=0,i=0; while(i<s.length) h=((h<<5)-h+s.charCodeAt(i++))|0; return Math.abs(h); }
+
+  /*Derives a stable color for a given key.*/
   function derive(key){ return POOL[ hash(key) % POOL.length ]; }
 
-  // Falls ein Core existiert, benutzen – aber nie rekursiv
+  /*Reference to an existing global color generator, if available.*/
   const core =
     (typeof window.__ctxGenerateColor === "function" && window.__ctxGenerateColor) ||
     (typeof window.generateColorCore === "function" && window.generateColorCore) ||
     (typeof window.generateColor === "function" && !window.generateColor.__shim && window.generateColor) ||
     null;
 
+/**
+ * Returns a stable and consistent color for a given argument.
+ * If a custom core color generator is available, it is used.
+ * If no argument is provided, a random color from the pool is returned.*/
   function stableColor(arg){
     if (core) return core(arg);                 
     if (arg == null) return pick();            
@@ -204,12 +212,12 @@ function closeOverlay() {
     }
   }
 
+  /*Shim wrapper for the stableColor function.
+ * Used to replace or provide a fallback for global color generation.*/
   function shim(arg){ return stableColor(arg); }
   shim.__shim = true;
 
   window.generateColor  = shim;
   window.getRandomColor = shim;
-
-
   window.ensureColor = function(c){ if(!c) return; c.color = c.color || shim(c); return c.color; };
 })();
