@@ -13,12 +13,68 @@ async function showOverlayDetailsTask(id) {
   renderOverlay(task);
 }
 
-function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));}
-function subsOf(t){return Array.isArray(t.subtasks)?t.subtasks:Object.values(t.subtasks||{});}
-function subItemHTML(id,i,st){const d=st.status==='done',ic=d?CHECKED:UNCHECKED;return '<li class="subtask-item '+(d?'done':'')+'" data-sub-index="'+i+'"><button class="subtask-toggle" type="button" aria-pressed="'+d+'" onclick="toggleSubtaskFromDetails('+id+','+i+')"><img class="subtask-check" src="'+ic+'" alt=""></button><span class="subtask-title" onclick="toggleSubtaskFromDetails('+id+','+i+')">'+esc(st.title)+'</span></li>';}
-function rerender(tid,subs){if(typeof renderOverlaySubtasks==='function')renderOverlaySubtasks({id:tid,subtasks:subs});else simpleRenderOverlaySubtasks({id:tid,subtasks:subs});}
-function board(tid,subs){if(typeof updateBoardSubtaskProgressUI==='function')updateBoardSubtaskProgressUI(tid,subs);}
-function toast(subs){if(typeof showSubtaskToast==='function')showSubtaskToast(subs.filter(s=>s.status==='done').length,subs.length);}
+/*Escapes special HTML characters to prevent XSS injection.*/
+function esc(s) {
+  return String(s || '').replace(/[&<>"']/g, m =>
+    ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[m])
+  );
+}
+
+/*Normalizes the subtasks of a given task into an array.
+ *Handles both arrays and object-based subtasks.*/
+function subsOf(t) {
+  return Array.isArray(t.subtasks) ? t.subtasks : Object.values(t.subtasks || {});
+}
+
+/*Creates the HTML string for a single subtask list item.*/
+function subItemHTML(id, i, st) {
+  const d = st.status === 'done';
+  const ic = d ? CHECKED : UNCHECKED;
+  return `
+    <li class="subtask-item ${d ? 'done' : ''}" data-sub-index="${i}">
+      <button class="subtask-toggle" type="button" aria-pressed="${d}" onclick="toggleSubtaskFromDetails(${id},${i})">
+        <img class="subtask-check" src="${ic}" alt="">
+      </button>
+      <span class="subtask-title" onclick="toggleSubtaskFromDetails(${id},${i})">
+        ${esc(st.title)}
+      </span>
+    </li>
+  `;
+}
+
+/*Re-renders subtasks inside the overlay view.
+ *Chooses the correct renderer depending on availability.*/
+function rerender(tid, subs) {
+  if (typeof renderOverlaySubtasks === 'function') {
+    renderOverlaySubtasks({ id: tid, subtasks: subs });
+  } else {
+    simpleRenderOverlaySubtasks({ id: tid, subtasks: subs });
+  }
+}
+
+/*Updates the board UI with the current subtask progress. */
+function board(tid, subs) {
+  if (typeof updateBoardSubtaskProgressUI === 'function') {
+    updateBoardSubtaskProgressUI(tid, subs);
+  }
+}
+
+/*Shows a toast notification for subtask completion progress.*/
+function toast(subs) {
+  if (typeof showSubtaskToast === 'function') {
+    showSubtaskToast(
+      subs.filter(s => s.status === 'done').length,
+      subs.length
+    );
+  }
+}
+
 
 /**Renders the contact list inside the overlay including checked state.*/
 function renderOverlayContacts(id, responseJson, activeUserIndex) {
@@ -34,13 +90,45 @@ function renderOverlayContacts(id, responseJson, activeUserIndex) {
       : './assets/icons/unchecked_icon.png';
     html += getContactName(
       id, c.name, generateColor(),
-      c.name[0], c.name[pos + 1] || '', icon
-    );
+      c.name[0], c.name[pos + 1] || '', icon);
   }
   document.getElementById('user-dropdown').innerHTML = html;
 }
 
 /**Renders the overlay container with task core data and sub-sections. */
+// function renderOverlay(responseTaskJson) {
+//   const box = document.getElementById('task-details');
+//   if (!box) return;
+//   box.style.display = 'flex';
+//   box.innerHTML = '';
+
+//   const cls  = checkCategory(responseTaskJson.category);
+//   const prio = findPrio(responseTaskJson.prio);
+
+//   box.innerHTML = getOverlayDetails(
+//     responseTaskJson.id, cls, responseTaskJson.category,
+//     responseTaskJson.title, responseTaskJson.description, responseTaskJson.dueDate,
+//     responseTaskJson.prio, prio
+//   );
+
+//   renderOverlayUser(responseTaskJson);
+
+//   if (Array.isArray(responseTaskJson.subtasks)) {
+//     if (typeof renderOverlaySubtasks === 'function') {
+//       renderOverlaySubtasks(responseTaskJson);
+//     } else {
+//       simpleRenderOverlaySubtasks(responseTaskJson); // Fallback in dieser Datei
+//     }
+//   } else {
+//     const h = document.getElementById('subtask-headline-overlay');
+//     if (h) h.style.display = 'none';
+//   }
+
+//   renderOverlayFiles(responseTaskJson);
+// }
+/**
+ * Renders the overlay details for a given task.
+ * Splits into rendering the base layout and the additional elements. */
 function renderOverlay(responseTaskJson) {
   const box = document.getElementById('task-details');
   if (!box) return;
@@ -52,17 +140,21 @@ function renderOverlay(responseTaskJson) {
 
   box.innerHTML = getOverlayDetails(
     responseTaskJson.id, cls, responseTaskJson.category,
-    responseTaskJson.title, responseTaskJson.description, responseTaskJson.dueDate,
-    responseTaskJson.prio, prio
+    responseTaskJson.title, responseTaskJson.description,
+    responseTaskJson.dueDate, responseTaskJson.prio, prio
   );
 
   renderOverlayUser(responseTaskJson);
+  renderOverlayExtras(responseTaskJson);
+}
 
+/*Renders additional sections of the overlay (subtasks, files, etc.). */
+function renderOverlayExtras(responseTaskJson) {
   if (Array.isArray(responseTaskJson.subtasks)) {
     if (typeof renderOverlaySubtasks === 'function') {
       renderOverlaySubtasks(responseTaskJson);
     } else {
-      simpleRenderOverlaySubtasks(responseTaskJson); // Fallback in dieser Datei
+      simpleRenderOverlaySubtasks(responseTaskJson); // fallback
     }
   } else {
     const h = document.getElementById('subtask-headline-overlay');
@@ -99,7 +191,7 @@ function fileInfoLabel(file){
   info.textContent=t; return info;
 }
 
-/**Returns minimal HTML preview markup for a file (image/PDF/link fallback).*/
+/**HTML Template ,Returns minimal HTML preview markup for a file (image/PDF/link fallback).*/
 function filePreviewHTML(file){
   const base64=file.base64, name=(file.name||'').toLowerCase();
   const isPDF=/\.pdf$/i.test(name), isIMG=/\.(png|jpe?g)$/i.test(name);
@@ -147,7 +239,7 @@ function determineUserInfo(responseTaskJson, names, firstLetters, colors){
   });
 }
 
-/**Renders all subtasks for the edit overlay (robust, normalisiert). */
+/**Renders all subtasks for the edit overlay. */
 async function renderOverlayEditSubtasks(idOrKey) {
   const key = await resolveKey(idOrKey);
   const t = await fetch(`${BASE_URL}/tasks/${key}.json`).then(r=>r.json()) || {};

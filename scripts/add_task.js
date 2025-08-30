@@ -42,7 +42,6 @@ async function createTask() {
     validateInput();
     validateDateInput();
     validateSelectCategory();
-
     let { title, description, dueDate, category, color } = getTaskInputs();
     if (!isTaskInputValid(title, description, dueDate, category)) return;
 
@@ -52,7 +51,6 @@ async function createTask() {
     prepareSubtasksAndContacts();
     let newID = await generateNewID();
     const processedFiles = await processFiles(files);
-
     let newTask = buildNewTask(newID, title, description, dueDate, category, color, processedFiles);
     await saveTask(newTask);
 }
@@ -84,24 +82,12 @@ function areFileTypesValid(files) {
 /**Shows the red security warning overlay (exe,js,php file aso.)*/
 function showSecurityOverlay(message) {
     const overlay = document.createElement("div");
+    overlay.className = "security-overlay"; 
     overlay.innerText = message;
-    Object.assign(overlay.style, {
-        position: "fixed",
-        top: "20px",
-        left: "50%",
-        transform: "translateX(-50%)",
-        backgroundColor: "#ff4444",
-        color: "white",
-        padding: "12px 20px",
-        borderRadius: "8px",
-        zIndex: "9999",
-        boxShadow: "0 0 10px rgba(0,0,0,0.3)",
-        fontWeight: "bold",
-        fontSize: "16px"
-    });
     document.body.appendChild(overlay);
     setTimeout(() => overlay.remove(), 2000);
 }
+
 
 /**Converts Files to Base64 */
 function convertToBase64(file) {

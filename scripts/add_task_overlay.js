@@ -171,9 +171,7 @@ function applyStylesToIframe(iframe, cssContent) {
               console.error("Iframe head not found");
           }
       } else {
-          console.error("Iframe document not accessible");
-      }
-  };
+          console.error("Iframe document not accessible");}};
 }
 
 /** adds the uploaded file */
