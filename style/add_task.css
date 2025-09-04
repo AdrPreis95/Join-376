@@ -312,37 +312,50 @@ select {
 
 }
 
-.user-container {
+#dropdown-user .user-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 2px;
     cursor: pointer;
-    background-color: whitesmoke;
+    filter: drop-shadow(0px 0px 2px #D1D1D1);
+    border: none;
+    background-color: #FFFF;
     border-radius: 30px;
     
 }
 
-/* .user-container:hover {
-    background-color: #D2D2D2;
-    border-radius: 16px;
-} */
-
-.user-container:checked {
-    background-color: green;
-    border-radius: 16px;
+#dropdown-user .user-container:hover {
+    background-color: #D2D2D2 !important;
+    border-radius: 30px;
 }
 
-.user-container input[type="checkbox"] {
+#dropdown-user .user-container:checked {
+    background-color: green !important;
+    border-radius: 16px;
+}
+#dropdown-user .user-container.selected {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2px;
+    cursor: pointer;
+    background-color: rgba(41, 171, 226, 0.5);
+    border: 1px solid rgba(41, 171, 226, 0.8);
+    border-radius: 30px;
+}
+
+
+#dropdown-user.user-container input[type="checkbox"] {
     cursor: pointer;
 }
 
-.user-container.checked {
+#dropdown-user.user-container.checked {
     background-color: #d3d3d3;
 }
 
-.user-container.checked .user-name,
-.user-container.checked .avatar {
+#dropdown-user.user-container.checked .user-name,
+#dropdown-user.user-container.checked .avatar {
     color: white;
 }
 
