@@ -322,7 +322,7 @@ select {
     border: none;
     background-color: #FFFF;
     border-radius: 30px;
-    
+
 }
 
 #dropdown-user .user-container:hover {
@@ -334,6 +334,7 @@ select {
     background-color: green !important;
     border-radius: 16px;
 }
+
 #dropdown-user .user-container.selected {
     display: flex;
     align-items: center;
@@ -839,7 +840,7 @@ select {
     cursor: default;
 }
 
-.user-container.selected .contact-container-overlay{
+.user-container.selected .contact-container-overlay {
     color: black;
     background-color: rgba(41, 171, 226, 0.5);
     border: 1px solid rgba(41, 171, 226, 0.8);
@@ -1112,7 +1113,7 @@ label[for="file-select"] img:hover {
     ol,
     [contenteditable="true"] {
         font-size: 16px !important;
-        /* line-height: 1.5 !important; */
+        
     }
 
     input::placeholder,
@@ -1120,18 +1121,89 @@ label[for="file-select"] img:hover {
         font-size: 16px !important;
     }
 }
-/* security-overlay.css */
+
+
 .security-overlay {
-  position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #ff4444;
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  z-index: 9999;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  font-weight: bold;
-  font-size: 16px;
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #ff4444;
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    z-index: 9999;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+    font-size: 16px;
+}
+
+
+.custom-select li {
+    list-style: none !important;
+}
+
+
+.custom-select {
+    border-radius: 12px;
+    border-style: none;
+    filter: drop-shadow(0px 0px 4px #D1D1D1);
+    background-color: #FFFF;
+    color: #919191;
+    padding: 10px 14px;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+    z-index: 1;
+}
+
+
+.custom-select .selected {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #919191;
+}
+
+
+.custom-select .options {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 0px;
+    border-radius: 12px;
+    border-style: none;
+    filter: drop-shadow(0px 0px 4px #D1D1D1);
+    background-color: #FFFF;
+    color: #919191;
+    margin-top: 4px;
+    z-index: 10;
+}
+
+.custom-select .options li {
+    padding: 10px;
+    border-radius: 8px;
+}
+
+.custom-select .options li.selected {
+    background-color: rgba(41, 171, 226, 0.5);
+    border: 1px solid rgba(41, 171, 226, 0.8);
+    color: #000;
+}
+
+.custom-select .options li:hover {
+    background: #29ABE2;
+    color: #000;
+}
+
+.custom-select.error {
+    border: 2px solid red;
+}
+
+.error-message {
+    font-size: 14px;
+    color: red;
+    display: none;
 }

@@ -182,15 +182,28 @@
                             <p style="margin-top: 24px; margin-bottom: 10px;">
                                 Category<span style="color: red;">*</span>
                             </p>
-                            <div class="form-field">
-                                <select class="select-minimal" id="selectcategory" name="category"
-                                    onblur="validateSelectCategory()">
-                                    <option value="" disabled selected hidden>Select task category</option>
-                                    <option value="Technical Task">Technical Task</option>
-                                    <option value="User Story">User Story</option>
-                                </select>
-                                <span class="error-message" id="category-error-message">Please select a category.</span>
-                            </div>
+                           <div class="form-field">
+  <!-- unsichtbares echtes Select -->
+  <select id="selectcategory" name="category" onblur="validateSelectCategory()" hidden>
+    <option value="" disabled selected hidden>Select task category</option>
+    <option value="Technical Task">Technical Task</option>
+    <option value="User Story">User Story</option>
+  </select>
+
+  <!-- Custom Dropdown -->
+  <div class="custom-select" id="custom-select">
+    <div class="selected">Select task category</div>
+    <ul class="options">
+      <li data-value="Technical Task">Technical Task</li>
+      <li data-value="User Story">User Story</li>
+    </ul>
+  </div>
+
+  <span class="error-message" id="category-error-message">
+    Please select a category.
+  </span>
+</div>
+
                             <p class="subtask-p" style="margin-top: 24px; margin-bottom: 10px;">
                                 Subtasks
                             </p>

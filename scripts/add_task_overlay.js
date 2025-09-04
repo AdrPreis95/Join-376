@@ -174,7 +174,3 @@ function applyStylesToIframe(iframe, cssContent) {
           console.error("Iframe document not accessible");}};
 }
 
-/** adds the uploaded file */
-function uploadFile(){
-  let data = document.getElementById('file-select');
-}

@@ -145,64 +145,70 @@ function submitForm() {
 
 document.getElementById('title').addEventListener('input', validateInput);
 
-
-/**Validates the category selection input.*/
-function validateSelectCategory() {
-    const selectCategory = document.getElementById('selectcategory');
-    const categoryErrorMessage = document.getElementById('category-error-message');
-
-    if (isCategoryEmpty(selectCategory)) {
-        showCategoryError(selectCategory, categoryErrorMessage);
-    } else {
-        hideCategoryError(selectCategory, categoryErrorMessage);
-    }
+/** adds the uploaded file */
+function uploadFile(){
+  let data = document.getElementById('file-select');
 }
+const customSelect = document.getElementById("custom-select");
+const select = document.getElementById("selectcategory");
+const selected = customSelect.querySelector(".selected");
+const options = customSelect.querySelector(".options");
 
-/**Displays Error if Value not Picked */
-function isCategoryEmpty(selectCategory) {
-    return selectCategory.value === "";
-}
-
-/**Displays Error if Value not Picked */
-function showCategoryError(selectCategory, categoryErrorMessage) {
-    selectCategory.classList.add('error');
-    selectCategory.style.border = '2px solid red';
-    categoryErrorMessage.style.display = 'block';
-}
-
-/**Displays Error if Value not Picked */
-function hideCategoryError(selectCategory, categoryErrorMessage) {
-    selectCategory.classList.remove('error');
-    selectCategory.style.border = 'none';
-    categoryErrorMessage.style.display = 'none';
-}
+initDropdown(customSelect, select, selected, options);
 document.getElementById('selectcategory').addEventListener('change', validateSelectCategory);
 
+/** Öffnen/Schließen des Dropdowns */
+function initDropdown(customSelect, select, selected, options) {
+  customSelect.addEventListener("click", () => {
+    options.style.display = options.style.display === "block" ? "none" : "block";
+  });
 
-/**Checks if the category selection is empty.*/
+  document.addEventListener("click", (e) => {
+    if (!customSelect.contains(e.target)) options.style.display = "none";
+  });
+
+  handleOptionClick(select, selected, options);
+}
+
+/** Klick auf eine Option */
+function handleOptionClick(select, selected, options) {
+  options.querySelectorAll("li").forEach(option => {
+    option.addEventListener("click", () => {
+      select.value = option.getAttribute("data-value");
+      selected.textContent = option.textContent;
+      select.dispatchEvent(new Event("change")); // trigger Validation
+
+      // bisherige Auswahl löschen
+      options.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
+     
+      option.classList.add("selected");
+
+      options.style.display = "none";
+    });
+  });
+}
+function validateSelectCategory() {
+  const selectCategory = document.getElementById('selectcategory');
+  const customSelect = document.getElementById('custom-select');
+  const categoryErrorMessage = document.getElementById('category-error-message');
+
+  if (isCategoryEmpty(selectCategory)) {
+    showCategoryError(customSelect, categoryErrorMessage);
+  } else {
+    hideCategoryError(customSelect, categoryErrorMessage);
+  }
+}
+
 function isCategoryEmpty(selectCategory) {
-    return selectCategory.value === "";
+  return selectCategory.value === "";
 }
 
-/**Displays an error for the category selection input.*/
-function showCategoryError(selectCategory, categoryErrorMessage) {
-    selectCategory.classList.add('error');
-    selectCategory.style.border = '2px solid red';
-    categoryErrorMessage.style.display = 'block';
+function showCategoryError(customSelect, categoryErrorMessage) {
+  customSelect.classList.add('error');
+  categoryErrorMessage.style.display = 'block';
 }
 
-/**Hides the error for the category selection input.*/
-function hideCategoryError(selectCategory, categoryErrorMessage) {
-    selectCategory.classList.remove('error');
-    selectCategory.style.border = 'none';
-    categoryErrorMessage.style.display = 'none';
+function hideCategoryError(customSelect, categoryErrorMessage) {
+  customSelect.classList.remove('error');
+  categoryErrorMessage.style.display = 'none';
 }
-
-/**Sets the page mode based on whether it's in an overlay or not.*/
-document.addEventListener('DOMContentLoaded', function () {
-    if (window !== window.top) {
-        document.body.id = 'overlay-mode';
-    } else {
-        document.body.id = 'main-page';
-    }
-});
