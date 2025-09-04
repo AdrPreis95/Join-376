@@ -793,13 +793,13 @@
     }
 
     #user-dropdown {
-        border-radius: 10px 10px 10px 10px;
-        border: 1px solid #29abe2;
+        /* border-radius: 10px 10px 10px 10px;
+        border: 1px solid #29abe2; */
         height: 180px;
     }
 
     #subtask-edit {
-        width: 150px !important;
+        width: 160px !important;
     }
 
     /* .assigned-menu-overlay {

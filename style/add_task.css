@@ -318,14 +318,15 @@ select {
     justify-content: space-between;
     padding: 2px;
     cursor: pointer;
-    background-color: #cccc;
+    background-color: whitesmoke;
     border-radius: 30px;
+    
 }
 
-.user-container:hover {
+/* .user-container:hover {
     background-color: #D2D2D2;
     border-radius: 16px;
-}
+} */
 
 .user-container:checked {
     background-color: green;
@@ -825,11 +826,12 @@ select {
     cursor: default;
 }
 
-.user-container.selected {
+.user-container.selected .contact-container-overlay{
     color: black;
     background-color: rgba(41, 171, 226, 0.5);
+    border: 1px solid rgba(41, 171, 226, 0.8);
     border-radius: 30px;
-    padding: 5px;
+    /* padding: 5px; */
     transition: background-color 0.3s ease, border 0.3s ease;
 }
 

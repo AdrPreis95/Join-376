@@ -232,7 +232,8 @@ function renderOverlayUser(responseTaskJson){
 
 /**Extracts user display information from task and populates target arrays. */
 function determineUserInfo(responseTaskJson, names, firstLetters, colors){
-  const arr=responseTaskJson.assignedTo; if(!Array.isArray(arr)) return;
+  const arr=responseTaskJson.assignedTo; if(!Array.isArray(arr))
+  return;
   arr.forEach(u=>{ const full=u.name || `${u.firstName||''} ${u.lastName||''}`.trim();
     const init=(window.getInitials)? window.getInitials(full):'?';
     names.push(full); firstLetters.push(init); colors.push(u.color||'#ccc');
