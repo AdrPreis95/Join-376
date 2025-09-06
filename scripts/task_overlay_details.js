@@ -93,6 +93,16 @@ function clearTask() {
 }
 
 /**Clears the input fields for the task.*/
+// function clearInputs() {
+//     document.getElementById("title").value = '';
+//     document.getElementById("description").value = '';
+//     document.getElementById("due-date-input").value = '';
+//     document.getElementById("selectcategory").value = '';
+//     document.getElementById("addsubtasks").value = '';
+//     document.getElementById("dropdown-input").value = '';
+
+// }
+/**Clears the input fields for the task.*/
 function clearInputs() {
     document.getElementById("title").value = '';
     document.getElementById("description").value = '';
@@ -101,6 +111,16 @@ function clearInputs() {
     document.getElementById("addsubtasks").value = '';
     document.getElementById("dropdown-input").value = '';
 
+    // Custom-Select zurücksetzen
+    const customSelect = document.getElementById('custom-select');
+    const selected = customSelect.querySelector(".selected");
+    const options = customSelect.querySelector(".options");
+    const categoryErrorMessage = document.getElementById('category-error-message');
+
+    if (selected) selected.textContent = "Select Category"; // dein Placeholder
+    if (options) options.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
+    if (customSelect) customSelect.classList.remove("error");
+    if (categoryErrorMessage) categoryErrorMessage.style.display = "none";
 }
 
 /**This function removes all content from the element with the ID "picked-user-avatar",*/
@@ -171,22 +191,42 @@ function initDropdown(customSelect, select, selected, options) {
 }
 
 /** Klick auf eine Option */
+// function handleOptionClick(select, selected, options) {
+//   options.querySelectorAll("li").forEach(option => {
+//     option.addEventListener("click", () => {
+//       select.value = option.getAttribute("data-value");
+//       selected.textContent = option.textContent;
+//       select.dispatchEvent(new Event("change")); // trigger Validation
+
+//       // bisherige Auswahl löschen
+//       options.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
+     
+//       option.classList.add("selected");
+
+//       options.style.display = "none";
+//     });
+//   });
+// }
+/** Klick auf eine Option */
 function handleOptionClick(select, selected, options) {
   options.querySelectorAll("li").forEach(option => {
-    option.addEventListener("click", () => {
+    option.addEventListener("click", (e) => {
+      e.stopPropagation(); // verhindert, dass customSelect-Click auch feuert
+
       select.value = option.getAttribute("data-value");
       selected.textContent = option.textContent;
       select.dispatchEvent(new Event("change")); // trigger Validation
 
       // bisherige Auswahl löschen
       options.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
-     
       option.classList.add("selected");
 
+      // Dropdown schließen
       options.style.display = "none";
     });
   });
 }
+
 function validateSelectCategory() {
   const selectCategory = document.getElementById('selectcategory');
   const customSelect = document.getElementById('custom-select');
