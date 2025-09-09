@@ -67,6 +67,7 @@ async function editTask(id, title, description, dueDate, priority) {
 
   const task = await loadTaskWithID(id);
   renderEditFile(task);
+  initSubtaskEdit(id);
 }
 
 /**Initializes the date picker with an optional default date.*/
@@ -341,3 +342,35 @@ async function saveEditSubtask(idOrKey, oldTitle) {
   updateBoardSubtaskProgressUI(task.id, subs);
 }
 window.editTask = editTask;
+
+// function initSubtaskEdit(id) {
+//   const input=document.getElementById('subtask-edit');
+//   const btn=document.getElementById('add-subtask-overlay-edit');
+//   if(!input||!btn)return;
+//   btn.onclick=()=>{editMode(id);input.focus();};
+//   input.addEventListener('input',()=>{if(input.value.trim())editMode(id);});
+//   input.addEventListener('keydown',e=>{
+//     if(e.key==='Enter'){e.preventDefault();createSubtaskOverlay(id);}
+//   });
+// }
+function initSubtaskEdit(id) {
+  const input=document.getElementById('subtask-edit');
+  const btn=document.getElementById('add-subtask-overlay-edit');
+  if(!input||!btn)return;
+  btn.onclick=()=>{switchToIcons(id);input.focus();};
+  input.addEventListener('input',()=>{
+    if(input.value.trim()) switchToIcons(id); else resetToPlus();
+  });
+  input.addEventListener('keydown',async e=>{
+    if(e.key==='Enter'){e.preventDefault();await createSubtaskOverlay(id);resetToPlus();input.value='';}
+  });
+}
+
+function switchToIcons(id){
+  const c=document.getElementById('create-subtask-overlay');
+  if(c.innerHTML.includes('add_subtask.png')) c.innerHTML=getSubtaskOverlayIcons(id);
+}
+function resetToPlus(){
+  document.getElementById('create-subtask-overlay').innerHTML=getSubtaskOverlayAddIcon();
+}
+

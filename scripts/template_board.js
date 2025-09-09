@@ -16,7 +16,7 @@ function getTask(id, category, classCategory, title, description, prioIcon) {
             <label class="category-${classCategory}">${category}</label>
         </div>
         <h4>${title}</h4>
-        <p>${description}</p>
+        <p class="description-p">${description}</p>
         <div class="subtasks" id="subtask-${id}">
 
         </div>

@@ -79,6 +79,8 @@
     color: #000000;
     font-weight: 400;
     word-break: break-all !important;
+    max-height: 100px !important;
+    overflow: scroll !important;
 }
 
 .header-overlay {
@@ -463,6 +465,11 @@ button:hover svg {
     transition: background-color 0.3s ease, border 0.3s ease;
     cursor: pointer !important;
 
+}
+
+ li:hover {
+    background-color: #D2D2D2 !important;
+    border-radius: 30px;
 }
 
 
