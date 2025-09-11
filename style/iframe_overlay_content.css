@@ -515,3 +515,17 @@
     z-index: 2147483647 !important;
     position: fixed;
 }
+.overlay-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 9999;
+}
+
+.overlay-close img {
+  width: 24px;
+  height: 24px;
+}

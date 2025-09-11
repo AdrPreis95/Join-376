@@ -24,9 +24,32 @@ function stopMediaQueryMonitoring() {
   const mediaQuery = window.matchMedia('(min-width: 1150px)');
   if (mediaQueryListener) {
       mediaQuery.removeEventListener('change', mediaQueryListener);
-      mediaQueryListener = null; // Reset listener
+      mediaQueryListener = null; 
   }
 }
+
+/**Creates the Close Overlay Iframe Add Task Button if overlay mode is active*/
+function createOverlayCloseButton() {
+  if (document.getElementById("closeOverlay")) return;
+
+  const overlay = document.getElementById("taskoverlay");
+  if (!overlay) return;
+
+  const btn = document.createElement("button");
+  btn.id = "closeOverlay";
+  btn.className = "overlay-close";
+  btn.setAttribute("aria-label", "Close overlay");
+
+  const img = document.createElement("img");
+  img.src = "./assets/icons/clear-icon.png";
+  img.alt = "Close";
+  img.className = "closebttn";
+
+  btn.appendChild(img);
+  overlay.appendChild(btn);
+  btn.addEventListener("click", closeTaskOverlay);
+}
+
 
 /**Checks if the overlay mode is active by inspecting the ID of the `<body>` element inside the iframe.*/
 function isOverlayModeActive() {
@@ -44,6 +67,48 @@ function openTaskOverlay() {
   showOverlay();
   setOverlayStyles();
   hideUnnecessaryElementsInIframe();
+
+  const iframe = document.getElementById("overlayContent");
+  if (!iframe) return;
+
+   injectCloseButtonIntoIframe(iframe);
+ iframe.addEventListener("load", () => injectCloseButtonIntoIframe(iframe));
+}
+
+/**Injects a close button into the given iframe.
+ * The button will close the overlay in the parent window.*/
+function injectCloseButtonIntoIframe(iframe) {
+  const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+  if (!iframeDoc || !iframeDoc.body) return;
+  if (iframeDoc.getElementById("iframeCloseOverlay")) return;
+  const btn = iframeDoc.createElement("button");
+  btn.id = "iframeCloseOverlay";
+  btn.textContent = "✕";
+
+  styleCloseButton(btn);
+
+  iframeDoc.body.style.position = "relative";
+  iframeDoc.body.appendChild(btn);
+
+  btn.addEventListener("click", () => {
+    if (window.parent && typeof window.parent.closeTaskOverlay === "function") {
+      window.parent.closeTaskOverlay();}});
+}
+
+/*Applies styles to the close button element.*/
+function styleCloseButton(btn) {
+  btn.style.position = "absolute";
+  btn.style.top = "10px";
+  btn.style.right = "10px";
+  btn.style.zIndex = "9999";
+  btn.style.background = "transparent";
+  btn.style.color = "#2A3647";
+  btn.style.border = "none";
+  btn.style.padding = "8px";
+  btn.style.cursor = "pointer";
+  btn.style.fontSize = "26px !important";
+  btn.style.width = "48px";
+  btn.style.height = "48px";
 }
 
 /**Closes the task overlay by hiding the overlay and resetting styles.*/

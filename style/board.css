@@ -239,9 +239,35 @@
 }
 
 .description-p {
-    max-height: 40px !important;
-    overflow: scroll !important;
+  max-height: 40px !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin;
+  scrollbar-color: #1e90ff transparent;
 }
+
+.description-p::-webkit-scrollbar {
+  width: 6px;
+}
+
+.description-p::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.description-p::-webkit-scrollbar-thumb {
+  background-color: #1e90ff;
+  border-radius: 10px;
+}
+
+.description-p::-webkit-scrollbar-button,
+.description-p::-webkit-scrollbar-button:single-button,
+.description-p::-webkit-scrollbar-button:vertical:increment,
+.description-p::-webkit-scrollbar-button:vertical:decrement {
+  display: none;
+  width: 0;
+  height: 0;
+  -webkit-appearance: none;
+}
+
 
 .category-user-story {
     background-color: #0038FF;
