@@ -109,6 +109,7 @@ function styleCloseButton(btn) {
   btn.style.fontSize = "26px !important";
   btn.style.width = "48px";
   btn.style.height = "48px";
+  btn.style.fontWeight = "bolder";
 }
 
 /**Closes the task overlay by hiding the overlay and resetting styles.*/

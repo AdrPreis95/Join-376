@@ -23,7 +23,7 @@
     display: flex;
     width: 100%;
     justify-content: space-around;
-    z-index: 1000 ;
+    z-index: 1000;
 }
 
 @media (max-width: 1354px) {
@@ -251,7 +251,10 @@
     }
 
     .contactsSection {
-        padding-top: 96px;
+        padding-top: 0px !important;
+        height: calc(100vh - 96px - 70px);
+        margin-top: 96px;
+
     }
 }
 
@@ -1049,10 +1052,11 @@
 }
 
 #pdf-modal {
-  z-index: 2147483640 !important; 
-  position: fixed;     
+    z-index: 2147483640 !important;
+    position: fixed;
 }
-.viewer-container  {
-  z-index: 2147483647 !important;
-  position: fixed;
+
+.viewer-container {
+    z-index: 2147483647 !important;
+    position: fixed;
 }

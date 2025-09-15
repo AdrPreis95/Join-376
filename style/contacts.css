@@ -1,5 +1,5 @@
 .contactsSection {
-    height: 100vh;
+    height: calc(100vh - 96px);
     width: 440px;
     background-color: white;
     box-shadow: 3px 0 5px -3px #888;
@@ -9,6 +9,10 @@
 
 #contactId {
     display: none;
+}
+
+#createdContacts {
+    overflow: hidden;
 }
 
 .addHeader {

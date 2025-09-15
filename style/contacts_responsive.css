@@ -30,6 +30,7 @@
 
     .contactsSection {
         width: 100%;
+        height: calc(100vh - 96px - 70px);
     }
 
     .header-content {
