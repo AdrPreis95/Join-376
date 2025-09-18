@@ -616,7 +616,7 @@
     }
 }
 
-@media(max-width:500px) {
+@media(max-width:520px) {
     #picked-user-avatar {
         display: grid !important;
         grid-template-columns: repeat(3, 1fr) !important;
