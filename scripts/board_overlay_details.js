@@ -75,7 +75,6 @@ function toast(subs) {
   }
 }
 
-
 /**Renders the contact list inside the overlay including checked state.*/
 function renderOverlayContacts(id, responseJson, activeUserIndex) {
   const checkedIdx = new Set((activeUserIndex||[])
@@ -95,40 +94,8 @@ function renderOverlayContacts(id, responseJson, activeUserIndex) {
   document.getElementById('user-dropdown').innerHTML = html;
 }
 
-/**Renders the overlay container with task core data and sub-sections. */
-// function renderOverlay(responseTaskJson) {
-//   const box = document.getElementById('task-details');
-//   if (!box) return;
-//   box.style.display = 'flex';
-//   box.innerHTML = '';
-
-//   const cls  = checkCategory(responseTaskJson.category);
-//   const prio = findPrio(responseTaskJson.prio);
-
-//   box.innerHTML = getOverlayDetails(
-//     responseTaskJson.id, cls, responseTaskJson.category,
-//     responseTaskJson.title, responseTaskJson.description, responseTaskJson.dueDate,
-//     responseTaskJson.prio, prio
-//   );
-
-//   renderOverlayUser(responseTaskJson);
-
-//   if (Array.isArray(responseTaskJson.subtasks)) {
-//     if (typeof renderOverlaySubtasks === 'function') {
-//       renderOverlaySubtasks(responseTaskJson);
-//     } else {
-//       simpleRenderOverlaySubtasks(responseTaskJson); // Fallback in dieser Datei
-//     }
-//   } else {
-//     const h = document.getElementById('subtask-headline-overlay');
-//     if (h) h.style.display = 'none';
-//   }
-
-//   renderOverlayFiles(responseTaskJson);
-// }
-/**
- * Renders the overlay details for a given task.
- * Splits into rendering the base layout and the additional elements. */
+/**Renders the overlay details for a given task.
+*Splits into rendering the base layout and the additional elements. */
 function renderOverlay(responseTaskJson) {
   const box = document.getElementById('task-details');
   if (!box) return;
@@ -225,8 +192,10 @@ function renderOverlayUser(responseTaskJson){
   const names=[], initials=[], colors=[]; determineUserInfo(responseTaskJson, names, initials, colors);
   const box=document.getElementById('user-names-overlay'); if(!box) return; let html='';
   const n=Math.min(names.length,3);
+
   for(let i=0;i<n;i++) html+=getUserNamesOverlay(initials[i], names[i], colors[i]);
   box.innerHTML=html; const more=document.getElementById('more-user-overlay');
+
   if(more) more.innerHTML = names.length>3? getMoreUserOverlay(names.length-3): '';
 }
 

@@ -104,8 +104,7 @@ confirmIcon.addEventListener('click', function(){
         confirmPassword.focus();
         confirmPass = !confirmPass;   
     } else {
-        confirmPassword.focus();
-    }   
+        confirmPassword.focus();}   
 });
 
 /**Updates checkbox value and removes visual error state when checked.*/

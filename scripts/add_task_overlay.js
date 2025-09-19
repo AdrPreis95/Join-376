@@ -31,7 +31,6 @@ function stopMediaQueryMonitoring() {
 /**Creates the Close Overlay Iframe Add Task Button if overlay mode is active*/
 function createOverlayCloseButton() {
   if (document.getElementById("closeOverlay")) return;
-
   const overlay = document.getElementById("taskoverlay");
   if (!overlay) return;
 

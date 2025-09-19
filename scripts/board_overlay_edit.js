@@ -60,7 +60,6 @@ async function editTask(id, title, description, dueDate, priority) {
   id--;
   const box = document.getElementById('task-details');
   box.innerHTML = getOverlayEdit(id, title, description, dueDate);
-
   checkActivePriority(priority);
   selectedUserEdit(id);
   renderOverlayEditSubtasks(id);
@@ -97,8 +96,8 @@ function checkActivePriority(priority) {
   ['urgent', 'medium', 'low'].forEach(p => {
     document.getElementById(p + '-label').style.backgroundColor = '#FFFFFF';
     document.getElementById(p + '-text').style.color = '#000';
-    document.getElementById(p + '-icon').src = `./assets/icons/${p}_icon.png`;
-  });
+    document.getElementById(p + '-icon').src = `./assets/icons/${p}_icon.png`;});
+
   const [k, col] = map[priority] || ['medium', '#FFA800'];
   document.getElementById(k + '-label').style.backgroundColor = col;
   document.getElementById(k + '-text').style.color = '#FFFFFF';
@@ -191,37 +190,12 @@ function displayForUI(name, email) {
   return name;
 }
 
-// /**Changes the status of a subtask between done and not done. */
-// async function changeStatusSubtask(displayId, subIndex, status) {
-//   const key = await findKey(displayId - 1);
-//   const url = `${BASE_URL}/tasks/${key}.json`;
-//   const task = await fetch(url).then(r => r.json()) || {};
-//   const subs = normalizeSubtasks(task.subtasks);
-//   const nowDone = status !== 'done';
-//   if (subs[subIndex]) subs[subIndex].status = nowDone ? 'done' : 'not done';
-
-//   await fetch(url, {
-//     method: 'PATCH',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({ subtasks: subs })
-//   });
-//   await renderOverlayEditSubtasks(key);
-
-//   if (document.getElementById('subtasks-overlay') && typeof renderOverlaySubtasks === 'function') {
-//     renderOverlaySubtasks({ id: task.id, subtasks: subs });
-//   }
-
-//   updateBoardSubtaskProgressUI(task.id, subs);
-//   const done = subs.filter(s => s.status === 'done').length;
-//   showSubtaskToast(done, subs.length);
-// }
 /** Changes the status of a subtask between done and not done. */
 async function changeStatusSubtask(displayId, subIndex, status) {
   const key = await findKey(displayId - 1);
   const url = `${BASE_URL}/tasks/${key}.json`;
   const task = await fetch(url).then(r => r.json()) || {};
   const subs = normalizeSubtasks(task.subtasks);
-
   const nowDone = status !== 'done';
   if (subs[subIndex]) subs[subIndex].status = nowDone ? 'done' : 'not done';
 
@@ -233,13 +207,11 @@ async function applySubtaskStatus(key, task, subs, url) {
   await fetch(url, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ subtasks: subs })
-  });
+    body: JSON.stringify({ subtasks: subs })});
 
   await renderOverlayEditSubtasks(key);
   if (document.getElementById('subtasks-overlay') && typeof renderOverlaySubtasks === 'function') {
-    renderOverlaySubtasks({ id: task.id, subtasks: subs });
-  }
+    renderOverlaySubtasks({ id: task.id, subtasks: subs });}
 
   updateBoardSubtaskProgressUI(task.id, subs);
   const done = subs.filter(s => s.status === 'done').length;
@@ -268,9 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const box = document.getElementById('user-names-edit-overlay');
     if (dd && btn && arr && box && !dd.contains(e.target) && !btn.contains(e.target)) {
       dd.classList.add('d-none'); dd.classList.remove('d_block');
-      arr.src = './assets/icons/arrow_drop_down.png'; box.classList.remove('d-none');
-    }
-  });
+      arr.src = './assets/icons/arrow_drop_down.png'; box.classList.remove('d-none');}});
 });
 
 /**Toggles between subtask add mode and icon mode in the edit overlay. */
@@ -279,30 +249,6 @@ function editMode(id) {
   const add = document.getElementById('add-subtask-overlay-edit').getAttribute('src') === "./assets/icons/add_subtask.png";
   c.innerHTML = add ? getSubtaskOverlayIcons(id) : getSubtaskOverlayAddIcon();
 }
-
-// /**Creates a new subtask from the edit overlay input. */
-// async function createSubtaskOverlay(idOrKey) {
-//   const input = document.getElementById('subtask-edit');
-//   const title = (input?.value || '').trim();
-//   const key = await resolveKey(idOrKey);
-//   if (!title) { renderOverlayEditSubtasks(key); return clearSubtaskInput(); }
-
-//   const url = `${BASE_URL}/tasks/${key}.json`;
-//   const task = await fetch(url).then(r => r.json()) || {};
-//   const subs = normalizeSubtasks(task.subtasks);
-//   subs.push({ title, status: 'not done' });
-
-//   await fetch(url, {
-//     method: 'PATCH',
-//     headers: { 'Content-Type': 'application/json' },
-//     body: JSON.stringify({ subtasks: subs })
-//   });
-
-//   clearSubtaskInput();
-//   await renderOverlayEditSubtasks(key);
-//   updateBoardSubtaskProgressUI(task.id, subs);
-//   showSubtaskToast(subs.filter(s => s.status === 'done').length, subs.length);
-// }
 
 /** Creates a new subtask from the edit overlay input. */
 async function createSubtaskOverlay(idOrKey) {
@@ -333,7 +279,6 @@ async function saveNewSubtask(key, title) {
   showSubtaskToast(subs.filter(s => s.status === 'done').length, subs.length);
 }
 
-
 /**Clears the subtask input field.*/
 function clearSubtaskInput() { const i = document.getElementById('subtask-edit'); if (i) i.value = ""; }
 
@@ -359,11 +304,8 @@ async function editSubtask(id, subtask) {
     if (input) {
       input.dataset.taskKey = id;
       input.dataset.oldTitle = t.subtasks[i].title;
-      input.focus();
-    }
-  }
+      input.focus();}}
 }
-
 
 /**Deletes a subtask from a task. */
 async function deleteSubtask(idOrKey, subtaskName) {
@@ -371,15 +313,13 @@ async function deleteSubtask(idOrKey, subtaskName) {
   const url = `${BASE_URL}/tasks/${key}.json`;
   const task = await fetch(url).then(r => r.json()) || {};
   const subs = normalizeSubtasks(task.subtasks);
-
   const i = subs.findIndex(s => s.title === subtaskName);
   if (i !== -1) subs.splice(i, 1);
 
   await fetch(url, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ subtasks: subs })
-  });
+    body: JSON.stringify({ subtasks: subs })});
 
   await renderOverlayEditSubtasks(key);
   updateBoardSubtaskProgressUI(task.id, subs);
@@ -418,8 +358,7 @@ async function updateSubtaskTitle(key, oldTitle, newTitle) {
   await fetch(url, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ subtasks: subs })
-  });
+    body: JSON.stringify({ subtasks: subs })});
 
   await renderOverlayEditSubtasks(key);
   updateBoardSubtaskProgressUI(task.id, subs);
@@ -430,11 +369,10 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Enter' && document.activeElement.id === 'change-subtask-input') {
     const idOrKey = document.getElementById('change-subtask-input')?.dataset.taskKey;
     const oldTitle = document.getElementById('change-subtask-input')?.dataset.oldTitle;
-    if (idOrKey && oldTitle) saveEditSubtask(idOrKey, oldTitle);
-  }
+    if (idOrKey && oldTitle) saveEditSubtask(idOrKey, oldTitle);}
 });
 
-/** */
+/**Initializes the subtask input field in the edit overlay.*/
 function initSubtaskEdit(id) {
   const input = document.getElementById('subtask-edit');
   const btn = document.getElementById('add-subtask-overlay-edit');
@@ -448,10 +386,13 @@ function initSubtaskEdit(id) {
   });
 }
 
+/**Switches the subtask control icons if any input exists*/
 function switchToIcons(id) {
   const c = document.getElementById('create-subtask-overlay');
   if (c.innerHTML.includes('add_subtask.png')) c.innerHTML = getSubtaskOverlayIcons(id);
 }
+
+/**Switches back the icon normal mode +*/
 function resetToPlus() {
   document.getElementById('create-subtask-overlay').innerHTML = getSubtaskOverlayAddIcon();
 }

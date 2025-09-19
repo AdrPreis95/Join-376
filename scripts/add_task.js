@@ -324,8 +324,7 @@ function enableSubtaskEditing(subtaskText) {
     subtaskText.addEventListener('input', () => {
         if (subtaskText.textContent.length > 36) {
             subtaskText.textContent = subtaskText.textContent.slice(0, 36);
-        }
-    });
+        }});
     subtaskText.addEventListener('keydown', (e) => {
         if (e.key === "Enter") e.preventDefault(), subtaskText.blur();
     });

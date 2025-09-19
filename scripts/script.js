@@ -24,28 +24,61 @@ if (sessionStorage.loggedUser != undefined) {
   function derive(k){ return POOL[ hash(k) % POOL.length ]; }
 
    /**Fallback for the User Avatar Colors*/
-  function colorCore(arg){
-    if (arg == null) return pick(); 
-    if (typeof arg === "object") {
-      const key = (arg.email || String(arg.id) ||
-                  (`${arg.firstName||""} ${arg.lastName||arg.name||""}`))
-                  .trim().toLowerCase();
-      const lsKey = "contactColor:"+key;
-      let col = localStorage.getItem(lsKey);
-      if (!col) { col = derive(lsKey); localStorage.setItem(lsKey, col); }
-      arg.color = arg.color || col;
-      return arg.color;
-    }
-    const k = "contactColor:"+String(arg).trim().toLowerCase();
-    let col = localStorage.getItem(k);
-    if (!col) { col = derive(k); localStorage.setItem(k, col); }
-    return col;
-  }
+//   function colorCore(arg){
+//     if (arg == null) return pick(); 
+//     if (typeof arg === "object") {
+//       const key = (arg.email || String(arg.id) ||
+//                   (`${arg.firstName||""} ${arg.lastName||arg.name||""}`))
+//                   .trim().toLowerCase();
+//       const lsKey = "contactColor:"+key;
+//       let col = localStorage.getItem(lsKey);
+//       if (!col) { col = derive(lsKey); localStorage.setItem(lsKey, col); }
+//       arg.color = arg.color || col;
+//       return arg.color;
+//     }
+//     const k = "contactColor:"+String(arg).trim().toLowerCase();
+//     let col = localStorage.getItem(k);
+//     if (!col) { col = derive(k); localStorage.setItem(k, col); }
+//     return col;
+//   }
 
-  window.generateColor  = colorCore;
-  window.getRandomColor = colorCore;
-  window.generateColor.__shim = true; 
+//   window.generateColor  = colorCore;
+//   window.getRandomColor = colorCore;
+//   window.generateColor.__shim = true; 
+// })();
+/**Fallback for the User Avatar Colors*/
+function colorCore(arg) {
+  if (arg == null) return pick(); 
+  if (typeof arg === "object") return handleObjectColor(arg);
+
+  const k = "contactColor:" + String(arg).trim().toLowerCase();
+  let col = localStorage.getItem(k);
+  if (!col) { 
+    col = derive(k); 
+    localStorage.setItem(k, col); 
+  }
+  return col;
+}
+
+/**Handles color generation for contact objects*/
+function handleObjectColor(arg) {
+  const key = (arg.email || String(arg.id) ||
+              (`${arg.firstName||""} ${arg.lastName||arg.name||""}`))
+              .trim().toLowerCase();
+  const lsKey = "contactColor:" + key;
+  let col = localStorage.getItem(lsKey);
+  if (!col) { 
+    col = derive(lsKey); 
+    localStorage.setItem(lsKey, col); 
+  }
+  arg.color = arg.color || col;
+  return arg.color;}
+
+window.generateColor  = colorCore;
+window.getRandomColor = colorCore;
+window.generateColor.__shim = true;
 })();
+
 
 /**This Function initializes alls the Task */
 function init() {
@@ -128,14 +161,12 @@ function dateFormatter(date) {
  *format dd/mm/yyyy*/
 function formatDueDate(e) {
     let date = document.getElementById("due-date-input");
-
     var keynum;
 
     if (window) {                  
         keynum = e.keyCode;
     } else if (e.which) {               
-        keynum = e.which;
-    }
+        keynum = e.which;}
 
     let lastChar = String.fromCharCode(keynum);
 
@@ -203,13 +234,12 @@ function closeOverlay() {
       let col = localStorage.getItem(lsKey);
       if (!col) { col = derive(lsKey); localStorage.setItem(lsKey, col); }
       arg.color = arg.color || col;
-      return arg.color;
-    } else {                                   
+      return arg.color;} 
+      else {                                   
       const k = "contactColor:"+String(arg).trim().toLowerCase();
       let col = localStorage.getItem(k);
       if (!col) { col = derive(k); localStorage.setItem(k, col); }
-      return col;
-    }
+      return col;}
   }
 
   /*Shim wrapper for the stableColor function.
