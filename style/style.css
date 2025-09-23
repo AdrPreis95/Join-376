@@ -121,8 +121,8 @@ header {
 .main-content {
     flex-grow: 1;
     background-color: #F6F7F8;
-    /* overflow: auto; */
-    overflow: hidden;
+    overflow: auto;
+    /* overflow: hidden; */
     text-align: left;
     position: relative;
 }
