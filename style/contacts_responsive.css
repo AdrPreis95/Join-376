@@ -354,6 +354,14 @@
     }
 }
 
+@media (min-width: 1250px) {
+  .responsiveContactDetailsButtons.show-details {
+    display: none !important;
+  }
+}
+
+
+
 @media (max-width: 450px) {
     .contactWrapper {
         width: 97%;
