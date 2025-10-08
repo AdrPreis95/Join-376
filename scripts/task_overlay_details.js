@@ -43,9 +43,8 @@ async function openDropdown() {
   dropdown.style.display = willOpen ? "flex" : "none";
 
   if (willOpen) {
-    // hol Kontakte aus Cache (ändert sich nicht jedes Mal)
     const contacts = await getContactsCached(false);
-    displayContacts(allContacts);      // hier mit contact.color rendern
+    displayContacts(allContacts);      
     synchronizeCheckboxes();
   }
 }
@@ -93,16 +92,6 @@ function clearTask() {
 }
 
 /**Clears the input fields for the task.*/
-// function clearInputs() {
-//     document.getElementById("title").value = '';
-//     document.getElementById("description").value = '';
-//     document.getElementById("due-date-input").value = '';
-//     document.getElementById("selectcategory").value = '';
-//     document.getElementById("addsubtasks").value = '';
-//     document.getElementById("dropdown-input").value = '';
-
-// }
-/**Clears the input fields for the task.*/
 function clearInputs() {
     document.getElementById("title").value = '';
     document.getElementById("description").value = '';
@@ -111,13 +100,12 @@ function clearInputs() {
     document.getElementById("addsubtasks").value = '';
     document.getElementById("dropdown-input").value = '';
 
-    // Custom-Select zurücksetzen
     const customSelect = document.getElementById('custom-select');
     const selected = customSelect.querySelector(".selected");
     const options = customSelect.querySelector(".options");
     const categoryErrorMessage = document.getElementById('category-error-message');
 
-    if (selected) selected.textContent = "Select Category"; // dein Placeholder
+    if (selected) selected.textContent = "Select Category"; 
     if (options) options.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
     if (customSelect) customSelect.classList.remove("error");
     if (categoryErrorMessage) categoryErrorMessage.style.display = "none";
@@ -177,7 +165,7 @@ const options = customSelect.querySelector(".options");
 initDropdown(customSelect, select, selected, options);
 document.getElementById('selectcategory').addEventListener('change', validateSelectCategory);
 
-/** Öffnen/Schließen des Dropdowns */
+/** opens and close the Dropdown, check user selected or not */
 function initDropdown(customSelect, select, selected, options) {
   customSelect.addEventListener("click", () => {
     options.style.display = options.style.display === "block" ? "none" : "block";
@@ -190,43 +178,24 @@ function initDropdown(customSelect, select, selected, options) {
   handleOptionClick(select, selected, options);
 }
 
-/** Klick auf eine Option */
-// function handleOptionClick(select, selected, options) {
-//   options.querySelectorAll("li").forEach(option => {
-//     option.addEventListener("click", () => {
-//       select.value = option.getAttribute("data-value");
-//       selected.textContent = option.textContent;
-//       select.dispatchEvent(new Event("change")); // trigger Validation
-
-//       // bisherige Auswahl löschen
-//       options.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
-     
-//       option.classList.add("selected");
-
-//       options.style.display = "none";
-//     });
-//   });
-// }
-/** Klick auf eine Option */
+/** Handles click events for custom select options. */
 function handleOptionClick(select, selected, options) {
   options.querySelectorAll("li").forEach(option => {
     option.addEventListener("click", (e) => {
-      e.stopPropagation(); // verhindert, dass customSelect-Click auch feuert
+      e.stopPropagation(); 
 
       select.value = option.getAttribute("data-value");
       selected.textContent = option.textContent;
-      select.dispatchEvent(new Event("change")); // trigger Validation
+      select.dispatchEvent(new Event("change")); 
 
-      // bisherige Auswahl löschen
       options.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
       option.classList.add("selected");
-
-      // Dropdown schließen
       options.style.display = "none";
     });
   });
 }
 
+/** Validates the category select field. */
 function validateSelectCategory() {
   const selectCategory = document.getElementById('selectcategory');
   const customSelect = document.getElementById('custom-select');
@@ -239,15 +208,18 @@ function validateSelectCategory() {
   }
 }
 
+/** Checks if the category select field is empty. */
 function isCategoryEmpty(selectCategory) {
   return selectCategory.value === "";
 }
 
+/** Displays the category error message and adds error styling. */
 function showCategoryError(customSelect, categoryErrorMessage) {
   customSelect.classList.add('error');
   categoryErrorMessage.style.display = 'block';
 }
 
+/** Hides the category error message and removes error styling. */
 function hideCategoryError(customSelect, categoryErrorMessage) {
   customSelect.classList.remove('error');
   categoryErrorMessage.style.display = 'none';

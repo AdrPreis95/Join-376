@@ -46,15 +46,14 @@ function synchronizeCheckboxes() {
         let userContainer = checkbox.closest('.user-container');
         let contact = allContacts.find(contact => {
             let userName = userContainer.querySelector('.user-name').innerText.trim();
-            return `${contact.firstName} ${contact.lastName}` === userName;
-        });
+            return `${contact.firstName} ${contact.lastName}` === userName; });
+            
         if (contact) {
             checkbox.checked = selectedContacts.some(selected => selected.email === contact.email);
             if (checkbox.checked) {
                 userContainer.classList.add('selected');
             } else {
-                userContainer.classList.remove('selected'); }
-        }
+                userContainer.classList.remove('selected'); }}
     });
 }
 

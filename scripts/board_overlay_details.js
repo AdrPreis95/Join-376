@@ -108,8 +108,7 @@ function renderOverlay(responseTaskJson) {
   box.innerHTML = getOverlayDetails(
     responseTaskJson.id, cls, responseTaskJson.category,
     responseTaskJson.title, responseTaskJson.description,
-    responseTaskJson.dueDate, responseTaskJson.prio, prio
-  );
+    responseTaskJson.dueDate, responseTaskJson.prio, prio);
 
   renderOverlayUser(responseTaskJson);
   renderOverlayExtras(responseTaskJson);

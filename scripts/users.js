@@ -44,53 +44,69 @@ async function patchData(path = "", data = {}) {
     return responseToJson = await response.json();
 }
 
-/**This function loads an user */
+/** Loads a user by validating input and checking credentials. */
 async function loadUser() {
-    errorMsgLogin.classList.add('hidden');
-    emailLogin.classList.remove("wrong-input");
-    passwordLogin.classList.remove("wrong-input");
+    resetLoginErrors();
 
     const email = emailLogin.value.trim();
     const password = passwordLogin.value;
 
+    if (!validateEmailInput(email)) return;
+    if (!validatePasswordInput(password)) return;
 
+    const user = await loadData("users/" + editEmailToKey(email));
+    handleUserLogin(user, email, password);
+}
+
+/** Resets all login-related error messages and styles. */
+function resetLoginErrors() {
+    errorMsgLogin.classList.add('hidden');
+    emailLogin.classList.remove("wrong-input");
+    passwordLogin.classList.remove("wrong-input");
+}
+
+/** Validates the email input and shows errors if needed. */
+function validateEmailInput(email) {
     if (!email) {
-        emailLogin.classList.add("wrong-input");
-        emailLogin.focus();
-        errorMsgLogin.textContent = "Please enter your email.";
-        errorMsgLogin.classList.remove("hidden");
-        return;
+        showLoginError(emailLogin, "Please enter your email.");
+        return false;
     }
 
-    
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        emailLogin.classList.add("wrong-input");
-        emailLogin.focus();
-        errorMsgLogin.textContent = "Please enter a valid email address.";
-        errorMsgLogin.classList.remove("hidden");
-        return;
+        showLoginError(emailLogin, "Please enter a valid email address.");
+        return false;
     }
+    return true;
+}
 
-    
+/** Validates the password input and shows errors if missing. */
+function validatePasswordInput(password) {
     if (!password) {
-        passwordLogin.classList.add("wrong-input");
-        passwordLogin.focus();
-        errorMsgLogin.textContent = "Please enter your password.";
-        errorMsgLogin.classList.remove("hidden");
-        return;
+        showLoginError(passwordLogin, "Please enter your password.");
+        return false;
     }
+    return true;
+}
 
-   
-    let gettedUser = await loadData("users/" + editEmailToKey(email));
-    if (gettedUser) {
-        if (matchingPassword(gettedUser.password, password)) {
-            redirectToSummary(gettedUser, emailLogin, passwordLogin);
+/** Displays a login error message and focuses the input field. */
+function showLoginError(inputElement, message) {
+    inputElement.classList.add("wrong-input");
+    inputElement.focus();
+    errorMsgLogin.textContent = message;
+    errorMsgLogin.classList.remove("hidden");
+}
+
+/** Handles user login logic based on validation results. */
+function handleUserLogin(user, email, password) {
+    if (user) {
+        if (matchingPassword(user.password, password)) {
+            redirectToSummary(user, emailLogin, passwordLogin);
         } else {
-            showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); 
+            showErrorMsg(errorMsgLogin, passwordLogin, emailLogin);
         }
     } else {
-        showErrorMsg(errorMsgLogin, passwordLogin, emailLogin); 
+        showErrorMsg(errorMsgLogin, passwordLogin, emailLogin);
     }
 }
 
