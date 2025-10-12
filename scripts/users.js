@@ -329,7 +329,6 @@ function capitalizeNames(name) {
 
 /**This function shows the successful message of a new signed up user*/
 function showSucessSignedUp() {
-    // Show success message on successful sign-up
     const successMessage = document.querySelector('.success-signed');
     successMessage.style.display = 'flex';
     setTimeout(() => {

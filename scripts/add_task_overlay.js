@@ -88,7 +88,6 @@ function injectCloseButtonIntoIframe(iframe) {
 
   iframeDoc.body.style.position = "relative";
   iframeDoc.body.appendChild(btn);
-
   btn.addEventListener("click", () => {
     if (window.parent && typeof window.parent.closeTaskOverlay === "function") {
       window.parent.closeTaskOverlay();}});
