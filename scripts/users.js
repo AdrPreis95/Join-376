@@ -38,8 +38,7 @@ async function patchData(path = "", data = {}) {
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(data)
-    });
+        body: JSON.stringify(data)});
 
     return responseToJson = await response.json();
 }
@@ -47,7 +46,6 @@ async function patchData(path = "", data = {}) {
 /** Loads a user by validating input and checking credentials. */
 async function loadUser() {
     resetLoginErrors();
-
     const email = emailLogin.value.trim();
     const password = passwordLogin.value;
 
@@ -69,15 +67,13 @@ function resetLoginErrors() {
 function validateEmailInput(email) {
     if (!email) {
         showLoginError(emailLogin, "Please enter your email.");
-        return false;
-    }
+        return false;}
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
         showLoginError(emailLogin, "Please enter a valid email address.");
-        return false;
-    }
-    return true;
+        return false; }
+        return true;
 }
 
 /** Validates the password input and shows errors if missing. */
@@ -371,21 +367,9 @@ function checkRememberMe() {
 }
 
 /**This function checks if the typed email is valid.*/
-// function validateEmailInput(event) {
-//     const emailInput = event.target;
-//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-//     if (emailRegex.test(emailInput.value)) {
-//         emailInput.classList.remove('wrong-input');
-//     } else {
-//         emailInput.classList.add('wrong-input');
-//         notificationPopUp("Please enter a valid email address");
-//         emailInput.focus();
-//     }
-// }
-// 1) Reine String-Validierung (für loadUser)
 function isValidEmail(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
 
+/**This function checks if the typed email input is valid.*/
 function validateEmailInput(email){
   if (!email) {
     showLoginError(emailLogin, "Please enter your email.");
@@ -398,7 +382,7 @@ function validateEmailInput(email){
   return true;
 }
 
-// 2) Event-basierte Feld-Validierung (für oninput/focusout)
+/**This function checks if the typed email input is valid.*/
 function validateEmailField(event){
   const el = event?.target || emailLogin;
   if (isValidEmail(el.value)) {
