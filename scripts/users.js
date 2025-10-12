@@ -371,15 +371,42 @@ function checkRememberMe() {
 }
 
 /**This function checks if the typed email is valid.*/
-function validateEmailInput(event) {
-    const emailInput = event.target;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+// function validateEmailInput(event) {
+//     const emailInput = event.target;
+//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (emailRegex.test(emailInput.value)) {
-        emailInput.classList.remove('wrong-input');
-    } else {
-        emailInput.classList.add('wrong-input');
-        notificationPopUp("Please enter a valid email address");
-        emailInput.focus();
-    }
+//     if (emailRegex.test(emailInput.value)) {
+//         emailInput.classList.remove('wrong-input');
+//     } else {
+//         emailInput.classList.add('wrong-input');
+//         notificationPopUp("Please enter a valid email address");
+//         emailInput.focus();
+//     }
+// }
+// 1) Reine String-Validierung (für loadUser)
+function isValidEmail(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
+
+function validateEmailInput(email){
+  if (!email) {
+    showLoginError(emailLogin, "Please enter your email.");
+    return false;
+  }
+  if (!isValidEmail(email)) {
+    showLoginError(emailLogin, "Please enter a valid email address.");
+    return false;
+  }
+  return true;
+}
+
+// 2) Event-basierte Feld-Validierung (für oninput/focusout)
+function validateEmailField(event){
+  const el = event?.target || emailLogin;
+  if (isValidEmail(el.value)) {
+    el.classList.remove('wrong-input');
+    return true;
+  }
+  el.classList.add('wrong-input');
+  notificationPopUp("Please enter a valid email address");
+  el.focus();
+  return false;
 }
