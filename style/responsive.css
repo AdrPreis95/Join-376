@@ -288,7 +288,7 @@
 
     #subtask-list {
         cursor: pointer !important;
-        /* height: 90px !important; */
+        height: 90px !important;
         /* overflow-y: hidden !important;
         overflow: hidden !important; */
         list-style: none !important;
@@ -301,8 +301,8 @@
         display: none;
         position: fixed !important;
         width: 440px !important;
-        top: 526px !important;
-        height: 290px !important;
+        top: 620px !important;
+        height: 340px !important;
         z-index: 1 !important;
     }
 
@@ -317,7 +317,7 @@
         gap: 4px !important;
         overflow: auto !important;
         align-items: center !important;
-        justify-content: space-between !important;
+        justify-content: flex-start !important;
     }
 
     #main-page #prio-p {
@@ -613,6 +613,13 @@
 
     #priory-date {
         font-size: 16px !important;
+    }
+}
+
+@media(max-width:540px) {
+    .delete-user-button{
+        align-items: center;
+        font-weight: bold;
     }
 }
 

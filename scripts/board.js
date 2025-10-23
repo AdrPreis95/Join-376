@@ -5,6 +5,8 @@ let activePriority = '';
 let titles = [];
 let descriptions = [];
 let loadedTasks = [];
+window.closeTaskOverlay = closeTaskOverlay;
+
 
 /**This function loads all tasks from Firebase at the start and renders them into the HTML template. */
 async function loadTasks() {

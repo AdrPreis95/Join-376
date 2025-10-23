@@ -47,6 +47,7 @@ async function createTask() {
   const processedFiles = await processFiles(files);
   let newTask = buildNewTask(newID, title, description, dueDate, category, color, processedFiles);
   await saveTask(newTask);
+
 }
 
 /**Validate main task inputs */
