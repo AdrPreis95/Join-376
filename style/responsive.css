@@ -51,8 +51,8 @@
 
 @media (max-width: 899px) {
     .board-lists {
-        padding: 0 20px 71px 20px;
-        height: calc(100vh);
+        padding: 0px 20px 0px 20px;
+        /* height: calc(100vh); */
     }
 
     .board-header {

@@ -153,8 +153,8 @@
     padding-left: 60px;
     gap: 26px;
 
-    overflow: scroll;
-    height: calc(100vh - 257px);
+    /* overflow: scroll; */
+    /* height: calc(100vh - 257px); */
 }
 
 .list {
@@ -237,6 +237,29 @@
 .task-card:active {
     transform: rotate(5deg);
 }
+
+
+.task-card, .task-card * {
+  -webkit-touch-callout: none;   
+  -webkit-user-select: none;     
+  user-select: none;             
+  -webkit-tap-highlight-color: transparent; 
+}
+.task-card.dragging{
+  outline:2px solid #29abe2;
+  outline-offset:0;
+  box-shadow:0 8px 20px rgba(0,0,0,0.15);
+  transform:scale(1.02);
+  transition:transform 80ms ease, box-shadow 80ms ease;
+  cursor:grabbing;
+}
+
+.task-card img {
+  -webkit-user-drag: none; 
+  user-drag: none;         
+  pointer-events: none;    
+}
+
 
 .description-p {
   max-height: 40px !important;
