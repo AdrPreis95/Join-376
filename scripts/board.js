@@ -230,19 +230,58 @@ function allowDrop(ev) {
 }
 
 /**This function saves the new list in Firebase.*/
+// async function changeList(list) {
+//     currentDraggedElement--;
+//     currentDraggedElement = await findKey(currentDraggedElement);
+//     let task = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json")
+//     let taskJson = await task.json();
+//     taskJson.list = list;
+//     let newList = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json", {
+//         method: "PUT",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(taskJson)});
+//     loadTasks();
+// }
 async function changeList(list) {
-    currentDraggedElement--;
-    currentDraggedElement = await findKey(currentDraggedElement);
-    let task = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json")
-    let taskJson = await task.json();
-    taskJson.list = list;
-    let newList = await fetch(BASE_URL + "/tasks/" + currentDraggedElement + ".json", {
-        method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(taskJson)});
-    loadTasks();
+  // 1) Index aus currentDraggedElement holen (kommt als String von card.id)
+  let idx = Number(currentDraggedElement);
+  if (!Number.isFinite(idx)) {
+    console.error('changeList: ungültiger Index', currentDraggedElement);
+    return;
+  }
+
+  // 2) Zero-based anpassen (dein altes Verhalten)
+  idx = Math.max(0, idx - 1);
+
+  // 3) Firebase-Key zum Index holen
+  const key = await findKey(idx);
+  if (!key) {
+    console.error('changeList: kein Key zu Index', idx);
+    return;
+  }
+
+  // 4) Task laden
+  const res = await fetch(`${BASE_URL}/tasks/${key}.json`);
+  const taskJson = await res.json();
+
+  if (!taskJson) {
+    console.error('changeList: Task nicht gefunden für Key', key);
+    return;
+  }
+
+  // 5) Liste ändern & speichern
+  taskJson.list = list;
+
+  await fetch(`${BASE_URL}/tasks/${key}.json`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(taskJson)
+  });
+
+  // 6) Neu laden
+  await loadTasks();
 }
 
 /**This function deletes a task. */
