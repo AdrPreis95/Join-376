@@ -109,6 +109,7 @@ function assignedExists(list, fn, ln) { return list.some(u => sameUser(u.firstNa
 async function patchAssigned(url, list) {
   await fetch(url, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ assignedTo: list }) });
 }
+
 function makeChipHtml(it, id) {
   const chipId = 'chip-' + safeIdFromName(it.shown);
   return `
