@@ -1,24 +1,15 @@
 /* Drag state */
 let moving=null,timer=null,dragActive=false,armedForDrag=false;
-/* Mouse press state */
 let pressedCard=null,dragStarted=false,downX=0,downY=0;
-/* Edge scroll state */
 let edgeRAF=0,edgeVY=0,lastY=0,lastTS=0,edgeEnterTS=0,scrollSpacerEl=null;
-/* Board lists */
 const listNames=['to-do','in-progress','await-feedback','done'];
-/* Edge config */
 const EDGE_PX=320,EDGE_DEADZONE=140,EDGE_DELAY_MS=120;
 const SPEED_MIN=1000,SPEED_MAX=12000,DRAG_START_PX=6;
 const INITIAL_CAP=1800,INITIAL_CAP_SEC=1.0,RAMP_EXP=3.0;
-/* Hover delay */
 const LIST_HOVER_DELAY_MS=180;
-/* Hover timers */
 let pendingHoverList=null,pendingHoverTimer=null;
-/* Touch lock */
 let dragShieldEl=null,dragLocked=false,prevUA='',prevCallout='',prevScrollBehavior='';
-/* Placeholder */
 let placeholderEl=null,originParent=null,originNextSibling=null;
-/* List drop */
 let currentHoverList=null,listDropPad=null;
 
 /**Return scroll container.*/
@@ -26,12 +17,16 @@ function getScroller(){
   const mc=document.querySelector('.main-content');
   return mc||document.scrollingElement||document.documentElement;
 }
+
 /**Return element rect.*/
 function rect(el){return el.getBoundingClientRect();}
+
 /**Return high-res time.*/
 function now(){return performance.now();}
+
 /**Smooth last pointer Y.*/
 function rememberPointer(x,y){lastY=lastY?(lastY*0.7+y*0.3):y;}
+
 /**Keep bottom spacer in sync.*/
 function updateScrollSpacer(){
   const s=getScroller();if(!scrollSpacerEl)return;
@@ -40,6 +35,7 @@ function updateScrollSpacer(){
   const target=Math.min(window.innerHeight*0.6,Math.max(0,320-remaining));
   scrollSpacerEl.style.height=(edgeVY>0&&s.scrollTop<max-1)?(target+'px'):'0px';
 }
+
 /**Create spacer once.*/
 function ensureScrollSpacer(){
   const s=getScroller();if(scrollSpacerEl)return;
@@ -47,20 +43,24 @@ function ensureScrollSpacer(){
   Object.assign(scrollSpacerEl.style,{width:'1px',pointerEvents:'none',height:'0px'});
   s.appendChild(scrollSpacerEl);
 }
+
 /**Remove spacer if present.*/
 function removeScrollSpacer(){
   if(scrollSpacerEl?.parentElement)scrollSpacerEl.parentElement.removeChild(scrollSpacerEl);
   scrollSpacerEl=null;
 }
+
 /**Start edge RAF.*/
 function startEdgeLoop(){
   if(!edgeRAF){lastTS=now();edgeRAF=requestAnimationFrame(edgeStep);}
 }
+
 /**Stop edge RAF.*/
 function stopEdgeLoop(){
   if(edgeRAF)cancelAnimationFrame(edgeRAF);
   edgeRAF=0;edgeVY=0;edgeEnterTS=0;
 }
+
 /**Return scroll speed for depth.*/
 function speedFor(depthInDead,dwellSec){
   const norm=Math.min(1,Math.max(0,depthInDead/EDGE_DEADZONE));
@@ -69,6 +69,7 @@ function speedFor(depthInDead,dwellSec){
   if(dwellSec<INITIAL_CAP_SEC)v=Math.min(v,INITIAL_CAP);
   return Math.round(v);
 }
+
 /**Return edge direction and depth.*/
 function getEdgeInfo(){
   const s=getScroller(),r=rect(s);
@@ -76,6 +77,7 @@ function getEdgeInfo(){
   if(lastY>r.bottom-EDGE_PX)return{dir:1,depth:lastY-(r.bottom-EDGE_PX)};
   return{dir:0,depth:0};
 }
+
 /**Update auto scroll from pointer.*/
 function updateEdgeAutoScrollByPointer(){
   const {dir,depth}=getEdgeInfo();
@@ -91,6 +93,7 @@ function updateEdgeAutoScrollByPointer(){
   edgeVY=dir*speedFor(depthInDead,dwellSec);
   updateScrollSpacer();startEdgeLoop();
 }
+
 /**RAF step for scrolling.*/
 function edgeStep(ts){
   edgeRAF=0;if(!edgeVY)return;
@@ -103,6 +106,7 @@ function edgeStep(ts){
   if(hitBottom||hitTop){stopEdgeLoop();return;}
   edgeRAF=requestAnimationFrame(edgeStep);
 }
+
 /**Add global touch blockers.*/
 function addTouchBlockers(){
   const o={capture:true,passive:false},f=e=>{if(moving)e.preventDefault();};
@@ -112,6 +116,7 @@ function addTouchBlockers(){
   window.addEventListener('touchcancel',f,o);
   addTouchBlockers._f=f;
 }
+
 /**Remove global touch blockers.*/
 function removeTouchBlockers(){
   const f=addTouchBlockers._f;if(!f)return;
@@ -121,6 +126,7 @@ function removeTouchBlockers(){
   window.removeEventListener('touchend',f,o);
   window.removeEventListener('touchcancel',f,o);
 }
+
 /**Lock page for drag.*/
 function lockDrag(){
   if(dragLocked)return;dragLocked=true;
@@ -132,6 +138,7 @@ function lockDrag(){
   Object.assign(dragShieldEl.style,{position:'fixed',inset:'0',zIndex:'9998',background:'transparent',pointerEvents:'none'});
   document.body.appendChild(dragShieldEl);addTouchBlockers();
 }
+
 /**Unlock page after drag.*/
 function unlockDrag(){
   if(!dragLocked)return;dragLocked=false;
@@ -140,6 +147,7 @@ function unlockDrag(){
   const html=document.documentElement.style;html.userSelect=prevUA;html.webkitTouchCallout=prevCallout;
   dragShieldEl?.remove();dragShieldEl=null;removeTouchBlockers();
 }
+
 /**Create placeholder element.*/
 function createPlaceholder(h){
   const el=document.createElement('div');
@@ -147,6 +155,7 @@ function createPlaceholder(h){
     borderRadius:'12px',boxSizing:'border-box',background:'var(--placeholder-bg,transparent)'});
   el.className='drag-placeholder';return el;
 }
+
 /**Insert placeholder at origin.*/
 function placeOriginPlaceholder(){
   if(!moving)return;
@@ -154,11 +163,13 @@ function placeOriginPlaceholder(){
   if(!placeholderEl)placeholderEl=createPlaceholder(moving.dataset.originalHeight||(moving.clientHeight+'px'));
   if(originParent)originParent.insertBefore(placeholderEl,originNextSibling);
 }
+
 /**Remove placeholder from DOM.*/
 function removePlaceholder(){
   if(placeholderEl?.parentElement)placeholderEl.parentElement.removeChild(placeholderEl);
   placeholderEl=null;originParent=null;originNextSibling=null;
 }
+
 /**Mark list as droppable.*/
 function makeListDroppable(list){
   if(!list)return;list.classList.add('list-drop-target');
@@ -171,6 +182,7 @@ function makeListDroppable(list){
   }
   if(!listDropPad.parentElement)list.appendChild(listDropPad);
 }
+
 /**Clear droppable styles.*/
 function clearDroppableState(){
   if(currentHoverList){
@@ -180,6 +192,7 @@ function clearDroppableState(){
   if(listDropPad?.parentElement)listDropPad.parentElement.removeChild(listDropPad);
   currentHoverList=null;
 }
+
 /**Find list under pointer.*/
 function setTargetList(els){
   for(const el of els){
@@ -188,11 +201,13 @@ function setTargetList(els){
   }
   return null;
 }
+
 /**Change list if valid.*/
 function checkTargetList(target,movingEl){
   if(!target||target.contains(movingEl))return;
   const id=target.id;if(listNames.includes(id)){try{changeList(id);}catch(_){ }}
 }
+
 /**Delay hover activation.*/
 function scheduleHoverList(list){
   if(pendingHoverTimer){clearTimeout(pendingHoverTimer);pendingHoverTimer=null;}
@@ -203,28 +218,33 @@ function scheduleHoverList(list){
     pendingHoverTimer=null;
   },LIST_HOVER_DELAY_MS);
 }
+
 /**Cancel delayed hover.*/
 function cancelHoverList(){
   if(pendingHoverTimer){clearTimeout(pendingHoverTimer);pendingHoverTimer=null;}
   pendingHoverList=null;
 }
+
 /**Return card element upwards.*/
 function findCard(el){
   if(el.classList?.contains('task-card'))return el;
   for(let n=el.parentElement;n;n=n.parentElement){if(n.classList?.contains('task-card'))return n;}
   return null;
 }
+
 /**Init visual drag element.*/
 function initMoving(h,w){
   moving.style.height=h;moving.style.width=w;moving.style.position='fixed';
   moving.style.zIndex='10000';moving.classList.add('dragging');moving.style.pointerEvents='none';
 }
+
 /**Clamp dragged card inside scroller.*/
 function clampToScroller(x,y){
   const r=rect(getScroller()),w=moving.offsetWidth,h=moving.offsetHeight;
   moving.style.left=Math.max(r.left,Math.min(r.right-w,x))+'px';
   moving.style.top=Math.max(r.top,Math.min(r.bottom-h,y))+'px';
 }
+
 /**Start dragging card.*/
 function pickup(ev){
   moving=findCard(ev.target);if(!moving)return;
@@ -235,11 +255,13 @@ function pickup(ev){
   const t=ev.touches?.[0],x=t?t.clientX:(ev.clientX??ev.pageX),y=t?t.clientY:(ev.clientY??ev.pageY);
   rememberPointer(x,y);
 }
+
 /**Position card on pickup.*/
 function setPickUpPosition(e){
   const t=e.touches?e.touches[0]:null,x=t?t.clientX:(e.clientX??e.pageX),y=t?t.clientY:(e.clientY??e.pageY);
   clampToScroller(x,y);
 }
+
 /**Handle drag move.*/
 function move(ev){
   if(!moving)return;
@@ -251,6 +273,7 @@ function move(ev){
   const target=setTargetList(document.elementsFromPoint(x,y));
   if(target!==currentHoverList)scheduleHoverList(target);
 }
+
 /**Finish drag and drop.*/
 function drop(ev){
   if(!moving)return;
@@ -264,6 +287,7 @@ function drop(ev){
   cancelHoverList();clearDroppableState();removePlaceholder();removeScrollSpacer();
   moving=resetEl(moving);dragActive=false;armedForDrag=false;
 }
+
 /**Reset dragged element.*/
 function resetEl(el){
   if(el?.style){
@@ -272,6 +296,7 @@ function resetEl(el){
   }
   return null;
 }
+
 /**Full drag reset.*/
 function resetDragVisuals(){
   stopEdgeLoop();unlockDrag();
@@ -282,15 +307,19 @@ function resetDragVisuals(){
   cancelHoverList();clearDroppableState();removePlaceholder();removeScrollSpacer();
   dragActive=false;armedForDrag=false;dragStarted=false;cancel();
 }
+
 /**Mark drag active.*/
 function activateDrag(){if(!moving||dragActive)return;dragActive=true;moving.style.pointerEvents='none';}
 /**Cancel longpress timer.*/
+
 function cancel(){clearTimeout(timer);timer=null;}
+
 /**Start mouse drag.*/
 function onMouseDown(e){
   const c=e.target.closest?.('.task-card');if(!c)return;
   pressedCard=c;downX=e.clientX;downY=e.clientY;dragStarted=false;
 }
+
 /**Promote to drag on move.*/
 function onMouseMoveDesk(e){
   if(moving||!pressedCard)return;
@@ -301,6 +330,7 @@ function onMouseMoveDesk(e){
     dragStarted=true;
   }
 }
+
 /**End mouse drag.*/
 function onMouseUp(e){
   if(moving&&dragStarted){drop(e);pressedCard=null;dragStarted=false;return;}
@@ -311,6 +341,7 @@ function onMouseUp(e){
   }
   pressedCard=null;
 }
+
 /**Move dragged card with mouse.*/
 function onMouseMoveMain(e){
   if(moving&&armedForDrag&&!dragActive){
@@ -323,6 +354,7 @@ function onMouseMoveMain(e){
     updateEdgeAutoScrollByPointer();
   }
 }
+
 /**Move dragged card with touch.*/
 function onTouchMoveMain(e){
   if(!moving)return;
@@ -333,18 +365,22 @@ function onTouchMoveMain(e){
   rememberPointer(t.clientX,t.clientY);
   updateEdgeAutoScrollByPointer();
 }
+
 /**Prepare touch longpress.*/
 function onTouchStartDelegated(ev){
   const c=ev.target.closest?.('.task-card');if(!c)return;
   timer=setTimeout(()=>{longPressed(ev);},400);
 }
+
 /**End touch longpress.*/
 function onTouchEndOrCancelDelegated(){cancel();}
 /**Convert longpress to drag.*/
+
 function longPressed(ev){
   pickup(ev);activateDrag();
   try{if(moving?.id)startDragging(moving.id);}catch(_){}
 }
+
 /**External touch entry.*/
 window.onTouch=function(ev,id){
   cancel();
@@ -353,12 +389,15 @@ window.onTouch=function(ev,id){
     try{if(id!=null)startDragging(String(id));}catch(_){}
   },400);
 };
+
 /**Prevent context menu on drag.*/
 function onContextMenu(e){
   if(moving||e.target.closest?.('.task-card')){e.preventDefault();e.stopPropagation();}
 }
+
 /**Block native HTML drags.*/
 function onNativeDragStart(e){if(e.target.closest?.('.task-card'))e.preventDefault();}
+
 /**Bind all drag listeners.*/
 function bindListeners(){
   document.addEventListener('contextmenu',onContextMenu,{capture:true});
