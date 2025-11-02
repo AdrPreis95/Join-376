@@ -187,8 +187,7 @@ function makeListDroppable(list){
 function clearDroppableState(){
   if(currentHoverList){
     currentHoverList.classList.remove('list-drop-target');
-    currentHoverList.style.minHeight='';
-  }
+    currentHoverList.style.minHeight='';}
   if(listDropPad?.parentElement)listDropPad.parentElement.removeChild(listDropPad);
   currentHoverList=null;
 };
@@ -197,8 +196,7 @@ function clearDroppableState(){
 function setTargetList(els){
   for(const el of els){
     const l=el.closest?.('.list');if(l&&l.id&&listNames.includes(l.id))return l;
-    if(el.id&&listNames.includes(el.id))return el;
-  }
+    if(el.id&&listNames.includes(el.id))return el;}
   return null;
 };
 
@@ -292,10 +290,8 @@ function drop(ev){
 function resetEl(el){
   if(el?.style){
     el.style.left='';el.style.top='';el.style.height='';el.style.width='';
-    el.style.position='';el.style.zIndex='';el.style.pointerEvents='';el.style.transform='';
-  }
-  return null;
-};
+    el.style.position='';el.style.zIndex='';el.style.pointerEvents='';el.style.transform='';}
+  return null;};
 
 /**Full drag reset.*/
 function resetDragVisuals(){
@@ -305,13 +301,13 @@ function resetDragVisuals(){
     moving=resetEl(moving);
   }
   cancelHoverList();clearDroppableState();removePlaceholder();removeScrollSpacer();
-  dragActive=false;armedForDrag=false;dragStarted=false;cancel();
-};
+  dragActive=false;armedForDrag=false;dragStarted=false;cancel();};
 
 /**Mark drag active.*/
 function activateDrag(){if(!moving||dragActive)return;dragActive=true;moving.style.pointerEvents='none';};
 /**Cancel longpress timer.*/
 
+/**check if drag isactive.*/
 function cancel(){clearTimeout(timer);timer=null;};
 
 /**Start mouse drag.*/
@@ -327,8 +323,7 @@ function onMouseMoveDesk(e){
   if(dx>DRAG_START_PX||dy>DRAG_START_PX){
     pickup(e);activateDrag();
     try{if(pressedCard?.id)startDragging(pressedCard.id);}catch(_){}
-    dragStarted=true;
-  }
+    dragStarted=true;}
 };
 
 /**End mouse drag.*/
@@ -337,8 +332,7 @@ function onMouseUp(e){
   resetDragVisuals();
   if(pressedCard){
     const idx=Number(pressedCard.id);
-    if(Number.isFinite(idx)){try{showOverlayDetailsTask(idx);}catch(_){ }}
-  }
+    if(Number.isFinite(idx)){try{showOverlayDetailsTask(idx);}catch(_){ }}}
   pressedCard=null;
 };
 
@@ -351,8 +345,7 @@ function onMouseMoveMain(e){
   if(moving){
     clampToScroller(e.clientX,e.clientY);
     rememberPointer(e.clientX,e.clientY);
-    updateEdgeAutoScrollByPointer();
-  }
+    updateEdgeAutoScrollByPointer();}
 };
 
 /**Move dragged card with touch.*/
@@ -374,8 +367,8 @@ function onTouchStartDelegated(ev){
 
 /**End touch longpress.*/
 function onTouchEndOrCancelDelegated(){cancel();};
-/**Convert longpress to drag.*/
 
+/**Convert longpress to drag.*/
 function longPressed(ev){
   pickup(ev);activateDrag();
   try{if(moving?.id)startDragging(moving.id);}catch(_){}
