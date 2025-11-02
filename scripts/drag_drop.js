@@ -16,16 +16,16 @@ let currentHoverList=null,listDropPad=null;
 function getScroller(){
   const mc=document.querySelector('.main-content');
   return mc||document.scrollingElement||document.documentElement;
-}
+};
 
 /**Return element rect.*/
-function rect(el){return el.getBoundingClientRect();}
+function rect(el){return el.getBoundingClientRect();};
 
 /**Return high-res time.*/
-function now(){return performance.now();}
+function now(){return performance.now();};
 
 /**Smooth last pointer Y.*/
-function rememberPointer(x,y){lastY=lastY?(lastY*0.7+y*0.3):y;}
+function rememberPointer(x,y){lastY=lastY?(lastY*0.7+y*0.3):y;};
 
 /**Keep bottom spacer in sync.*/
 function updateScrollSpacer(){
@@ -34,7 +34,7 @@ function updateScrollSpacer(){
   const remaining=Math.max(0,max-s.scrollTop);
   const target=Math.min(window.innerHeight*0.6,Math.max(0,320-remaining));
   scrollSpacerEl.style.height=(edgeVY>0&&s.scrollTop<max-1)?(target+'px'):'0px';
-}
+};
 
 /**Create spacer once.*/
 function ensureScrollSpacer(){
@@ -42,24 +42,24 @@ function ensureScrollSpacer(){
   scrollSpacerEl=document.createElement('div');
   Object.assign(scrollSpacerEl.style,{width:'1px',pointerEvents:'none',height:'0px'});
   s.appendChild(scrollSpacerEl);
-}
+};
 
 /**Remove spacer if present.*/
 function removeScrollSpacer(){
   if(scrollSpacerEl?.parentElement)scrollSpacerEl.parentElement.removeChild(scrollSpacerEl);
   scrollSpacerEl=null;
-}
+};
 
 /**Start edge RAF.*/
 function startEdgeLoop(){
   if(!edgeRAF){lastTS=now();edgeRAF=requestAnimationFrame(edgeStep);}
-}
+};
 
 /**Stop edge RAF.*/
 function stopEdgeLoop(){
   if(edgeRAF)cancelAnimationFrame(edgeRAF);
   edgeRAF=0;edgeVY=0;edgeEnterTS=0;
-}
+};
 
 /**Return scroll speed for depth.*/
 function speedFor(depthInDead,dwellSec){
@@ -68,7 +68,7 @@ function speedFor(depthInDead,dwellSec){
   let v=SPEED_MIN+(SPEED_MAX-SPEED_MIN)*ramp;
   if(dwellSec<INITIAL_CAP_SEC)v=Math.min(v,INITIAL_CAP);
   return Math.round(v);
-}
+};
 
 /**Return edge direction and depth.*/
 function getEdgeInfo(){
@@ -76,7 +76,7 @@ function getEdgeInfo(){
   if(lastY<r.top+EDGE_PX)return{dir:-1,depth:(r.top+EDGE_PX)-lastY};
   if(lastY>r.bottom-EDGE_PX)return{dir:1,depth:lastY-(r.bottom-EDGE_PX)};
   return{dir:0,depth:0};
-}
+};
 
 /**Update auto scroll from pointer.*/
 function updateEdgeAutoScrollByPointer(){
@@ -92,7 +92,7 @@ function updateEdgeAutoScrollByPointer(){
   const dwellSec=(dwellMs-EDGE_DELAY_MS)/1000;
   edgeVY=dir*speedFor(depthInDead,dwellSec);
   updateScrollSpacer();startEdgeLoop();
-}
+};
 
 /**RAF step for scrolling.*/
 function edgeStep(ts){
@@ -105,7 +105,7 @@ function edgeStep(ts){
   const hitTop=edgeVY<0&&(after<=0||after===before);
   if(hitBottom||hitTop){stopEdgeLoop();return;}
   edgeRAF=requestAnimationFrame(edgeStep);
-}
+};
 
 /**Add global touch blockers.*/
 function addTouchBlockers(){
@@ -115,7 +115,7 @@ function addTouchBlockers(){
   window.addEventListener('touchend',f,o);
   window.addEventListener('touchcancel',f,o);
   addTouchBlockers._f=f;
-}
+};
 
 /**Remove global touch blockers.*/
 function removeTouchBlockers(){
@@ -125,7 +125,7 @@ function removeTouchBlockers(){
   window.removeEventListener('touchmove',f,o);
   window.removeEventListener('touchend',f,o);
   window.removeEventListener('touchcancel',f,o);
-}
+};
 
 /**Lock page for drag.*/
 function lockDrag(){
@@ -137,7 +137,7 @@ function lockDrag(){
   dragShieldEl=document.createElement('div');
   Object.assign(dragShieldEl.style,{position:'fixed',inset:'0',zIndex:'9998',background:'transparent',pointerEvents:'none'});
   document.body.appendChild(dragShieldEl);addTouchBlockers();
-}
+};
 
 /**Unlock page after drag.*/
 function unlockDrag(){
@@ -146,7 +146,7 @@ function unlockDrag(){
   document.documentElement.style.overflow='';document.body.style.overflow='';
   const html=document.documentElement.style;html.userSelect=prevUA;html.webkitTouchCallout=prevCallout;
   dragShieldEl?.remove();dragShieldEl=null;removeTouchBlockers();
-}
+};
 
 /**Create placeholder element.*/
 function createPlaceholder(h){
@@ -154,7 +154,7 @@ function createPlaceholder(h){
   Object.assign(el.style,{height:h,width:'100%',border:'2px dashed var(--placeholder-border,rgba(0,0,0,0.2))',
     borderRadius:'12px',boxSizing:'border-box',background:'var(--placeholder-bg,transparent)'});
   el.className='drag-placeholder';return el;
-}
+};
 
 /**Insert placeholder at origin.*/
 function placeOriginPlaceholder(){
@@ -162,13 +162,13 @@ function placeOriginPlaceholder(){
   originParent=moving.parentElement;originNextSibling=moving.nextElementSibling;
   if(!placeholderEl)placeholderEl=createPlaceholder(moving.dataset.originalHeight||(moving.clientHeight+'px'));
   if(originParent)originParent.insertBefore(placeholderEl,originNextSibling);
-}
+};
 
 /**Remove placeholder from DOM.*/
 function removePlaceholder(){
   if(placeholderEl?.parentElement)placeholderEl.parentElement.removeChild(placeholderEl);
   placeholderEl=null;originParent=null;originNextSibling=null;
-}
+};
 
 /**Mark list as droppable.*/
 function makeListDroppable(list){
@@ -181,7 +181,7 @@ function makeListDroppable(list){
       border:'2px dashed var(--placeholder-border,rgba(0,0,0,0.18))',pointerEvents:'none'});
   }
   if(!listDropPad.parentElement)list.appendChild(listDropPad);
-}
+};
 
 /**Clear droppable styles.*/
 function clearDroppableState(){
@@ -191,7 +191,7 @@ function clearDroppableState(){
   }
   if(listDropPad?.parentElement)listDropPad.parentElement.removeChild(listDropPad);
   currentHoverList=null;
-}
+};
 
 /**Find list under pointer.*/
 function setTargetList(els){
@@ -200,13 +200,13 @@ function setTargetList(els){
     if(el.id&&listNames.includes(el.id))return el;
   }
   return null;
-}
+};
 
 /**Change list if valid.*/
 function checkTargetList(target,movingEl){
   if(!target||target.contains(movingEl))return;
   const id=target.id;if(listNames.includes(id)){try{changeList(id);}catch(_){ }}
-}
+};
 
 /**Delay hover activation.*/
 function scheduleHoverList(list){
@@ -217,33 +217,33 @@ function scheduleHoverList(list){
     if(currentHoverList)makeListDroppable(currentHoverList);
     pendingHoverTimer=null;
   },LIST_HOVER_DELAY_MS);
-}
+};
 
 /**Cancel delayed hover.*/
 function cancelHoverList(){
   if(pendingHoverTimer){clearTimeout(pendingHoverTimer);pendingHoverTimer=null;}
   pendingHoverList=null;
-}
+};
 
 /**Return card element upwards.*/
 function findCard(el){
   if(el.classList?.contains('task-card'))return el;
   for(let n=el.parentElement;n;n=n.parentElement){if(n.classList?.contains('task-card'))return n;}
   return null;
-}
+};
 
 /**Init visual drag element.*/
 function initMoving(h,w){
   moving.style.height=h;moving.style.width=w;moving.style.position='fixed';
   moving.style.zIndex='10000';moving.classList.add('dragging');moving.style.pointerEvents='none';
-}
+};
 
 /**Clamp dragged card inside scroller.*/
 function clampToScroller(x,y){
   const r=rect(getScroller()),w=moving.offsetWidth,h=moving.offsetHeight;
   moving.style.left=Math.max(r.left,Math.min(r.right-w,x))+'px';
   moving.style.top=Math.max(r.top,Math.min(r.bottom-h,y))+'px';
-}
+};
 
 /**Start dragging card.*/
 function pickup(ev){
@@ -254,13 +254,13 @@ function pickup(ev){
   lockDrag();armedForDrag=true;setPickUpPosition(ev);
   const t=ev.touches?.[0],x=t?t.clientX:(ev.clientX??ev.pageX),y=t?t.clientY:(ev.clientY??ev.pageY);
   rememberPointer(x,y);
-}
+};
 
 /**Position card on pickup.*/
 function setPickUpPosition(e){
   const t=e.touches?e.touches[0]:null,x=t?t.clientX:(e.clientX??e.pageX),y=t?t.clientY:(e.clientY??e.pageY);
   clampToScroller(x,y);
-}
+};
 
 /**Handle drag move.*/
 function move(ev){
@@ -272,7 +272,7 @@ function move(ev){
   clampToScroller(x,y);rememberPointer(x,y);updateEdgeAutoScrollByPointer();
   const target=setTargetList(document.elementsFromPoint(x,y));
   if(target!==currentHoverList)scheduleHoverList(target);
-}
+};
 
 /**Finish drag and drop.*/
 function drop(ev){
@@ -286,7 +286,7 @@ function drop(ev){
   moving.classList.remove('dragging');moving.style.transform='';
   cancelHoverList();clearDroppableState();removePlaceholder();removeScrollSpacer();
   moving=resetEl(moving);dragActive=false;armedForDrag=false;
-}
+};
 
 /**Reset dragged element.*/
 function resetEl(el){
@@ -295,7 +295,7 @@ function resetEl(el){
     el.style.position='';el.style.zIndex='';el.style.pointerEvents='';el.style.transform='';
   }
   return null;
-}
+};
 
 /**Full drag reset.*/
 function resetDragVisuals(){
@@ -306,19 +306,19 @@ function resetDragVisuals(){
   }
   cancelHoverList();clearDroppableState();removePlaceholder();removeScrollSpacer();
   dragActive=false;armedForDrag=false;dragStarted=false;cancel();
-}
+};
 
 /**Mark drag active.*/
-function activateDrag(){if(!moving||dragActive)return;dragActive=true;moving.style.pointerEvents='none';}
+function activateDrag(){if(!moving||dragActive)return;dragActive=true;moving.style.pointerEvents='none';};
 /**Cancel longpress timer.*/
 
-function cancel(){clearTimeout(timer);timer=null;}
+function cancel(){clearTimeout(timer);timer=null;};
 
 /**Start mouse drag.*/
 function onMouseDown(e){
   const c=e.target.closest?.('.task-card');if(!c)return;
   pressedCard=c;downX=e.clientX;downY=e.clientY;dragStarted=false;
-}
+};
 
 /**Promote to drag on move.*/
 function onMouseMoveDesk(e){
@@ -329,7 +329,7 @@ function onMouseMoveDesk(e){
     try{if(pressedCard?.id)startDragging(pressedCard.id);}catch(_){}
     dragStarted=true;
   }
-}
+};
 
 /**End mouse drag.*/
 function onMouseUp(e){
@@ -340,7 +340,7 @@ function onMouseUp(e){
     if(Number.isFinite(idx)){try{showOverlayDetailsTask(idx);}catch(_){ }}
   }
   pressedCard=null;
-}
+};
 
 /**Move dragged card with mouse.*/
 function onMouseMoveMain(e){
@@ -353,7 +353,7 @@ function onMouseMoveMain(e){
     rememberPointer(e.clientX,e.clientY);
     updateEdgeAutoScrollByPointer();
   }
-}
+};
 
 /**Move dragged card with touch.*/
 function onTouchMoveMain(e){
@@ -364,22 +364,22 @@ function onTouchMoveMain(e){
   clampToScroller(t.clientX,t.clientY);
   rememberPointer(t.clientX,t.clientY);
   updateEdgeAutoScrollByPointer();
-}
+};
 
 /**Prepare touch longpress.*/
 function onTouchStartDelegated(ev){
   const c=ev.target.closest?.('.task-card');if(!c)return;
   timer=setTimeout(()=>{longPressed(ev);},400);
-}
+};
 
 /**End touch longpress.*/
-function onTouchEndOrCancelDelegated(){cancel();}
+function onTouchEndOrCancelDelegated(){cancel();};
 /**Convert longpress to drag.*/
 
 function longPressed(ev){
   pickup(ev);activateDrag();
   try{if(moving?.id)startDragging(moving.id);}catch(_){}
-}
+};
 
 /**External touch entry.*/
 window.onTouch=function(ev,id){
@@ -393,10 +393,10 @@ window.onTouch=function(ev,id){
 /**Prevent context menu on drag.*/
 function onContextMenu(e){
   if(moving||e.target.closest?.('.task-card')){e.preventDefault();e.stopPropagation();}
-}
+};
 
 /**Block native HTML drags.*/
-function onNativeDragStart(e){if(e.target.closest?.('.task-card'))e.preventDefault();}
+function onNativeDragStart(e){if(e.target.closest?.('.task-card'))e.preventDefault();};
 
 /**Bind all drag listeners.*/
 function bindListeners(){
@@ -410,5 +410,5 @@ function bindListeners(){
   document.addEventListener('touchstart',onTouchStartDelegated,{capture:true,passive:true});
   document.addEventListener('touchend',onTouchEndOrCancelDelegated,{capture:true});
   document.addEventListener('touchcancel',onTouchEndOrCancelDelegated,{capture:true});
-}
+};
 bindListeners();

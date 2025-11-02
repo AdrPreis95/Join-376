@@ -5,7 +5,7 @@ function __colBy(name, email, id, color){
   if (typeof ensureColor === 'function')
     return ensureColor({ name: name||'', email: email||'', id: id||'' });
   return '#6E52FF';
-}
+};
 
 /**This function contains the HTML template for a task as a card on the board.*/
 function getTask(id, category, classCategory, title, description, prioIcon) {
@@ -33,7 +33,7 @@ function getTask(id, category, classCategory, title, description, prioIcon) {
         </div>
     </div>
     `
-}
+};
 
 /**This function returns an HTML template which indicates that the respective list is not filled.*/
 function getClearList(list) {
@@ -42,7 +42,7 @@ function getClearList(list) {
         <p>No tasks ${list}</p>
     </div>
     `
-}
+};
 
 /**This function returns the HTML template for the progress display of the subtask.*/
 function getSubtask(doneTasks, allSubtasks, progress) {
@@ -50,7 +50,7 @@ function getSubtask(doneTasks, allSubtasks, progress) {
     <div class="progress-border"><div id="subtask-progress" class="subtask-progress" style="width: ${progress}%;"></div></div>
     <p>${doneTasks}/${allSubtasks} Subtasks</p>
     `
-}
+};
 
 /**This function creates the HTML template with the initial letters of the users and the color for the background.*/
 function getFirstLetterName(firstLetters, color) {
@@ -60,14 +60,14 @@ function getFirstLetterName(firstLetters, color) {
         <p>${firstLetters}</p>
     </div>
     `;
-}
+};
 
 /**This function creates an HTML template if more users are specified that cannot be displayed due to a lack of space.*/
 function getMoreUser(quantity) {
     return `
     <p>+ ${quantity}</p>
     `
-}
+};
 
 /*** This function creates the HTML template for the overlay when the detail view is opened.*/
 function getOverlayDetails(id, classCategory, category, title, description, dueDate, priority, prioIcon) {
@@ -135,7 +135,7 @@ function getOverlayDetails(id, classCategory, category, title, description, dueD
         </div
     </div>    
     `
-}
+};
 
 /**This function creates an HTML template for the user in the overlay.*/
 function getUserNamesOverlay(firstLetter, userName, color) {
@@ -148,14 +148,14 @@ function getUserNamesOverlay(firstLetter, userName, color) {
         <p class="username">${userName}</p>
     </div>
     `;
-}
+};
 
 /**This function creates an HTML template if there are more users in the task that cannot all be displayed in the overlay.*/
 function getMoreUserOverlay(quantity) {
     return `
     <p>... ${quantity} weitere.</p>
     `
-}
+};
 
 /**This function creates an HTML template for the overlay and the display of the subtasks.*/
 function getSubtasksOverlay(id, subtaskId, status, title, statusIcon) {
@@ -165,7 +165,7 @@ function getSubtasksOverlay(id, subtaskId, status, title, statusIcon) {
         <p>${title}</p>
     </div>    
     `
-}
+};
 
 /**This function creates an HTML template for the overlay and the edit mode.*/
 function getOverlayEdit(id, title, description, dueDate) {
@@ -245,7 +245,7 @@ function getOverlayEdit(id, title, description, dueDate) {
         </div>
     </div>   
     `
-}
+};
 
 /**This function returns the HTML template for the contact bubble.*/
 function getContactName(id,name,color,f1,f2,urlIcon){
@@ -265,7 +265,7 @@ function getContactName(id,name,color,f1,f2,urlIcon){
          onclick="event.stopPropagation(); rowToggleAssigned(this.closest('.contact-container-overlay'))">
   </div>
 </div>`;
-}
+};
 
 
 /**This function returns the HTML template for the initial letters of the user.*/
@@ -276,7 +276,7 @@ function getUserInititalsOverlayEdit(color, firstLetter) {
         <p>${firstLetter}</p>
     </div>
     `;
-}
+};
 
 /**This function returns the HTML template for the number of additional users that can no longer be displayed.*/
 function getMoreUserOverlayEdit(userslength) {
@@ -285,7 +285,7 @@ function getMoreUserOverlayEdit(userslength) {
         <p>+ ${userslength}</p>
     </div>
     `
-}
+};
 
 /**This function returns the HTML template for editing the subtasks.*/
 function getSubtaskOverlayIcons(id) {
@@ -298,7 +298,7 @@ function getSubtaskOverlayIcons(id) {
         <img onclick="createSubtaskOverlay(${id})" id="add-subtask-overlay-edit" src="./assets/icons/check.png" alt="check">
     </div>
     `
-}
+};
 
 /**This function returns the HTML template for the add icon when hovering.*/
 function getSubtaskOverlayAddIcon() {
@@ -307,7 +307,7 @@ function getSubtaskOverlayAddIcon() {
         <img id="add-subtask-overlay-edit" src="./assets/icons/add_subtask.png" alt="add">
     </div>
     `
-}
+};
 
 /**This function returns the HTML template for editing the subtasks in the overlay.*/
 function getSubtasksOverlayEdit(subtask, id, i) {
@@ -323,7 +323,7 @@ function getSubtasksOverlayEdit(subtask, id, i) {
         </div>
     </div>
     `
-}
+};
 
 /**This function returns the HTML template when editing the subtasks in the overlay.*/
 function getSubtasksOverlayEditInput(subtask, id) {
@@ -335,11 +335,11 @@ function getSubtasksOverlayEditInput(subtask, id) {
         <img onclick="saveEditSubtask(${id}, '${subtask}')" src="./assets/icons/check.png">
     </div>
     `
-}
+};
 
 /**This function returns the HTML template which tells the user that the input field is empty.*/
 function getWarningEmptyInput() {
     return `
     <p>Please enter a change to the subtask.</p>
     `
-}
+};

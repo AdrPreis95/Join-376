@@ -18,22 +18,22 @@ async function getAllTaskIDs() {
     console.error("Error fetching Task IDs:", e);
     return [];
   }
-}
+};
 
 /** Extracts numeric IDs from tasks data. */
 function extractIDs(tasksData) {
   const ids = Object.keys(tasksData).map(k => parseInt(tasksData[k].id));
   return ids.filter(Number.isInteger);
-}
+};
 
 /** Generates a new incremental task ID. */
 async function generateNewID() {
   const existing = await getAllTaskIDs();
   return Math.max(...existing, 0) + 1;
-}
+};
 
 /** Sets current task priority. */
-function setPriority(prio) { priority = prio; }
+function setPriority(prio) { priority = prio; };
 
 /** Creates a new task after validating inputs and files. */
 async function createTask() {
@@ -47,7 +47,7 @@ async function createTask() {
   const processedFiles = await processFiles(files);
   const newTask = buildNewTask(newID, title, description, dueDate, category, color, processedFiles);
   await saveTask(newTask);
-}
+};
 
 /** Validates main task inputs. */
 function isTaskInputValid(title, description, dueDate, category) {
@@ -56,7 +56,7 @@ function isTaskInputValid(title, description, dueDate, category) {
   const dd = /^\d{2}\/\d{2}\/\d{4}$/.test(dueDate);
   const c = category !== "";
   return t && d && dd && c;
-}
+};
 
 /** Checks if all attached files are of allowed types. */
 function areFileTypesValid(files) {
@@ -68,7 +68,7 @@ function areFileTypesValid(files) {
   });
   if (!ok) showSecurityOverlay("File type not allowed due to security restrictions.");
   return ok;
-}
+};
 
 /** Shows the red security warning overlay. */
 function showSecurityOverlay(message) {
@@ -77,7 +77,7 @@ function showSecurityOverlay(message) {
   overlay.innerText = message;
   document.body.appendChild(overlay);
   setTimeout(() => overlay.remove(), 2000);
-}
+};
 
 /** Converts a File to Base64 with type/size checks. */
 function convertToBase64(file) {
@@ -91,19 +91,19 @@ function convertToBase64(file) {
     r.onerror = () => resolve({ base64: "", name: file.name });
     r.readAsDataURL(file);
   });
-}
+};
 
 /** Alerts when file type is unsupported and resolves empty payload. */
 function alertType(file, resolve) {
   alert(`File type ${file.type} is not supported.`);
   resolve({ base64: "", name: file.name });
-}
+};
 
 /** Alerts for oversized file and resolves empty payload. */
 function alertSize(resolve, file) {
   alert("File size too large. Maximum allowed: 1 MB.");
   resolve({ base64: "", name: file.name });
-}
+};
 
 /** Ensures subtasks and contacts have default values. */
 function prepareSubtasksAndContacts() { prepareSubtasks(); prepareContacts(); }
@@ -111,7 +111,7 @@ function prepareSubtasksAndContacts() { prepareSubtasks(); prepareContacts(); }
 /** Normalizes subtasks with default status. */
 function prepareSubtasks() {
   subtasksArray = subtasksArray.map(s => ({ ...s, status: s.status || 'not done' }));
-}
+};
 
 /** Normalizes selected contacts with names/colors. */
 function prepareContacts() {
@@ -122,7 +122,7 @@ function prepareContacts() {
     const color = c.color || generateColor();
     return { name, firstName, lastName, color, email: c.email || '', phone: c.phone || '' };
   });
-}
+};
 
 /** Reads task form inputs (DOM). */
 function getTaskInputs() {
@@ -133,13 +133,13 @@ function getTaskInputs() {
   const category = document.getElementById('selectcategory').value;
   const color = getRandomColor();
   return { title, description, dueDate, category, color };
-}
+};
 
 /** Builds a task object to persist. */
 function buildNewTask(id, title, description, dueDate, category, color, files = []) {
   return { id, title, description, dueDate, color, prio: priority, category, list: "to-do",
            subtasks: subtasksArray, assignedTo: selectedContacts, files };
-}
+};
 
 /** Saves a task to backend and handles success. */
 async function saveTask(newTask) {
@@ -150,13 +150,13 @@ async function saveTask(newTask) {
     });
     handleSaveSuccess();
   } catch (e) { console.error("Task Save Error:", e); }
-}
+};
 
 /** Converts dd/mm/yyyy to yyyy-mm-dd before save. */
 function formatDueDateForSave(task) {
   const [day, month, year] = task.dueDate.split('/');
   task.dueDate = `${year}-${month}-${day}`;
-}
+};
 
 /** Shows success overlay and redirects/closes overlay. */
 function handleSaveSuccess() {
@@ -168,14 +168,14 @@ function handleSaveSuccess() {
     if (document.body.id === "overlay-mode") clearInputsAndCloseOverlay();
     else window.location.href = 'board.html';
   }, 3000);
-}
+};
 
 /** Resets all priority buttons to default. */
 function resetPriorityButtons() {
   resetButton('prio-red');
   resetButton('prio-orange');
   resetButton('prio-green');
-}
+};
 
 /** Resets a single priority button styles. */
 function resetButton(buttonId) {
@@ -183,7 +183,7 @@ function resetButton(buttonId) {
   btn.style.backgroundColor = '';
   btn.style.color = '';
   btn.querySelector('img').style.filter = '';
-}
+};
 
 /** Changes selected priority button color and value. */
 function changeColor(element, color) {
@@ -191,7 +191,7 @@ function changeColor(element, color) {
   if (element.id === 'prio-red') setPriority('Urgent');
   else if (element.id === 'prio-orange') setPriority('Medium');
   else if (element.id === 'prio-green') setPriority('Low');
-}
+};
 
 /** Sets default Medium priority on DOM ready. */
 window.addEventListener('DOMContentLoaded', function () {
@@ -204,13 +204,13 @@ function applyButtonColor(element, color) {
   element.style.backgroundColor = color;
   element.style.color = '#FFFFFF';
   element.querySelector('img').style.filter = 'brightness(0) invert(1)';
-}
+};
 
 /** Shows subtask input controls. */
 function addSubtask() {
   toggleShowIcons(true);
   toggleAddSubtaskButton(false);
-}
+};
 
 /** Toggles icons/plus based on subtask input value. */
 document.getElementById('addsubtasks').addEventListener('input', function () {
@@ -221,21 +221,21 @@ document.getElementById('addsubtasks').addEventListener('input', function () {
 /** Toggles the subtask action icons visibility. */
 function toggleShowIcons(show) {
   document.getElementById('show-icons').style.display = show ? "flex" : "none";
-}
+};
 
 /** Toggles the add-subtask button visibility. */
 function toggleAddSubtaskButton(show) {
   document.getElementById('add-subtask').style.display = show ? "inline-block" : "none";
-}
+};
 
 /** Clears the subtask input field. */
-function clearSubtaskInput() { document.getElementById('addsubtasks').value = ''; }
+function clearSubtaskInput() { document.getElementById('addsubtasks').value = ''; };
 
 /** Confirms and adds a new subtask from input. */
 function confirmSubtask() {
   const v = document.getElementById('addsubtasks').value.trim();
   if (v) addSubtaskToList(v);
-}
+};
 
 /** Adds Enter-to-confirm behavior for subtask input. */
 document.getElementById('addsubtasks').addEventListener('keydown', function (e) {
@@ -248,7 +248,7 @@ function addSubtaskToList(subtaskValue) {
   document.getElementById('subtask-list').appendChild(li);
   subtasksArray.push({ title: subtaskValue });
   resetSubtaskInputs();
-}
+};
 
 /** Creates a subtask <li> element. */
 function createSubtaskElement(subtaskValue) {
@@ -266,20 +266,20 @@ function createSubtaskElement(subtaskValue) {
       </button>
      </div>`;
   return li;
-}
+};
 
 /** Resets subtask input UI to default. */
 function resetSubtaskInputs() {
   clearSubtaskInput();
   toggleShowIcons(false);
   toggleAddSubtaskButton(true);
-}
+};
 
 /** Starts inline edit for a subtask item. */
 function editSubtask(editBtn) {
   const text = editBtn.parentElement.previousElementSibling.querySelector('.subtask-text');
   enableSubtaskEditing(text);
-}
+};
 
 /** Enables inline editing for a subtask text node. */
 function enableSubtaskEditing(subtaskText) {
@@ -294,7 +294,7 @@ function enableSubtaskEditing(subtaskText) {
   };
   subtaskText.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); subtaskText.blur(); } };
   subtaskText.onblur = () => handleSubtaskBlur(subtaskText);
-}
+};
 
 /** Handles blur event of editable subtask and updates data. */
 function handleSubtaskBlur(el) {
@@ -304,19 +304,19 @@ function handleSubtaskBlur(el) {
   updateSubtaskArray(original, el.textContent);
   el.contentEditable = "false";
   el.oninput = el.onkeydown = el.onblur = null;
-}
+};
 
 /** Updates the subtasks array with edited title. */
 function updateSubtaskArray(oldText, newText) {
   const i = subtasksArray.findIndex(s => s.title === oldText);
   if (i !== -1) subtasksArray[i].title = newText;
-}
+};
 
 /** Deletes a subtask list item. */
-function deleteSubtask(deleteBtn) { deleteBtn.closest('li').remove(); }
+function deleteSubtask(deleteBtn) { deleteBtn.closest('li').remove(); };
 
 /** Returns a random color for user avatars. */
-function getRandomColor() { return generateColor(); }
+function getRandomColor() { return generateColor(); };
 
 /** Loads contacts from backend and displays them. */
 async function loadContacts() {
@@ -328,7 +328,7 @@ async function loadContacts() {
     allContacts = processContacts(contacts, userAsContact);
     displayContacts(allContacts);
   } catch (e) { console.error('Error loading contacts:', e); }
-}
+};
 
 /** Builds a contact for the logged-in user. */
 function createUserAsContact() {
@@ -339,7 +339,7 @@ function createUserAsContact() {
     lastName: loggedUser.name.split(' ').slice(1).join(' ') || '(You)',
     phone: '000000'
   };
-}
+};
 
 /** Ensures contact has first/last name fields. */
 function formatContact(contact) {
@@ -351,7 +351,7 @@ function formatContact(contact) {
     firstName = contact.firstName || ''; lastName = contact.lastName || '';
   }
   return { ...contact, firstName, lastName };
-}
+};
 
 /** Closes the overlay from inside an iframe if available. */
 function closeOverlayFromIframe() {
@@ -360,6 +360,6 @@ function closeOverlayFromIframe() {
   } else {
     console.warn("closeTaskOverlay() not available in parent window");
   }
-}
+};
 
 

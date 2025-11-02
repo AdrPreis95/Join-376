@@ -4,7 +4,7 @@ function onLoadFunc() {
   setUserInitials();
   showUrgentTasks();
   showTasksOnList();
-}
+};
 
 /** Updates the greeting periodically based on current user and time. */
 function updateGreeting() {
@@ -18,7 +18,7 @@ function updateGreeting() {
     greeting.innerHTML = `Good ${getTimeOfDay()}`;
   }
   setTimeout(updateGreeting, msUntilNextHour());
-}
+};
 
 /** Returns Morning/Afternoon/Evening/Night based on current hour. */
 function getTimeOfDay() {
@@ -32,7 +32,7 @@ function getTimeOfDay() {
   let cur = times[3];
   for (let i = 0; i < 3; i++) if (h >= times[i].start && h < times[i].end) cur = times[i];
   return cur.greet;
-}
+};
 
 /** Shows urgent task count and nearest urgent due date. */
 async function showUrgentTasks() {
@@ -45,7 +45,7 @@ async function showUrgentTasks() {
   let deadline = "";
   for (let i = 0; i < urgentTasks.length; i++) deadline = compareDates(deadline, urgentTasks[i].dueDate);
   document.getElementById("priory-date").innerHTML = formatDateUTC(deadline);
-}
+};
 
 /** Compares two date strings and returns the earlier one. */
 function compareDates(d1, d2) {
@@ -56,7 +56,7 @@ function compareDates(d1, d2) {
   } else {
     return d2;
   }
-}
+};
 
 /** Fetches tasks and updates per-list counters on the summary. */
 async function showTasksOnList() {
@@ -69,10 +69,10 @@ async function showTasksOnList() {
   document.getElementById("show-tasks-board").innerHTML = arr.length;
   document.getElementById("show-tasks-progress").innerHTML = count("in-progress");
   document.getElementById("show-tasks-await-feedback").innerHTML = count("await-feedback");
-}
+};
 
 /** Navigates to the board page. */
-function redirectToBoard() { window.location.href = "./board.html"; }
+function redirectToBoard() { window.location.href = "./board.html"; };
 
 /** Returns ms until the next full hour for scheduling updates. */
 function msUntilNextHour() {
@@ -80,10 +80,10 @@ function msUntilNextHour() {
   const nextHour = new Date(now);
   nextHour.setHours(now.getHours() + 1, 0, 0, 0);
   return nextHour - now;
-}
+};
 
 /** Formats a date string in UTC as long locale date. */
 function formatDateUTC(d) {
   return new Date(d).toLocaleDateString({},
     { timeZone: "UTC", month: "long", day: "2-digit", year: "numeric" });
-}
+};

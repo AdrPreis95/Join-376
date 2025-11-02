@@ -6,10 +6,10 @@ function fetchContacts() {
   return fetch(BASE_URL + 'contacts.json')
     .then(r => r.json())
     .then(data => { contacts = Object.values(data).filter(c => c && c.name); return contacts; });
-}
+};
 
 /** Sorts global contacts alphabetically by name. */
-function sortContacts() { contacts.sort((a, b) => a.name.localeCompare(b.name)); }
+function sortContacts() { contacts.sort((a, b) => a.name.localeCompare(b.name)); };
 
 /** Adds a contact card to a container using a template. */
 function addContactToContainer(container, contact, initials, bgColor, template) {
@@ -24,16 +24,16 @@ function addContactToContainer(container, contact, initials, bgColor, template) 
   mailEl.innerHTML = contact.email ? emailHTML(contact.email) : 'No email available';
   setWrapperOnclick(wrap, contact, initials, bgColor);
   container.appendChild(clone);
-}
+};
 
 /** Returns safe email anchor HTML. */
-function emailHTML(email) { return `<a style="color: #007cee;" href="#">${email}</a>`; }
+function emailHTML(email) { return `<a style="color: #007cee;" href="#">${email}</a>`; };
 
 /** Wires onclick for a contact wrapper to open details. */
 function setWrapperOnclick(el, contact, initials, bgColor) {
   el.setAttribute('onclick',
     `loadContactDetails(this, ${JSON.stringify(contact)}, '${initials}', '${bgColor}'); toggleDetails();`);
-}
+};
 
 /** Displays contacts grouped alphabetically in the DOM. */
 function displayContacts(list) {
@@ -45,7 +45,7 @@ function displayContacts(list) {
     if (firstLetter !== currentLetter) { currentLetter = firstLetter; if (container) addLetterHeader(container, currentLetter); }
     addContactToContainer(container, contact, getInitials(contact.name), getRandomColor(), template);
   });
-}
+};
 
 /** Loads contact details into the details section and updates UI state. */
 function loadContactDetails(contactWrapper, contact, initials, bgColor) {
@@ -55,7 +55,7 @@ function loadContactDetails(contactWrapper, contact, initials, bgColor) {
   document.querySelectorAll('.contactWrapper').forEach(w => w.classList.remove('activeSideContacts'));
   contactWrapper.classList.add('activeSideContacts');
   updateEditContactForm(contact, initials, bgColor);
-}
+};
 
 /** Updates the contact details section with contact info. */
 function updateContactDetails(contact, initials, bgColor) {
@@ -66,7 +66,7 @@ function updateContactDetails(contact, initials, bgColor) {
   document.getElementById('detailsEmail').innerHTML =
     contact.email ? `<a style="color:#007cee;" href="mailto:${contact.email}">${contact.email}</a>` : 'No email available';
   document.getElementById('detailsPhone').textContent = contact.phone || 'No phone available';
-}
+};
 
 /** Creates a contact after validating name/email/phone and persists it. */
 function createContact() {
@@ -76,25 +76,25 @@ function createContact() {
   if (!isValidEmail(email)) return markAddInvalid('addEmail', 'Please enter a valid email address<br>Example: name@example.com');
   if (!isValidPhone(phone)) return markAddInvalid('addPhone', 'Please enter a valid phone number<br>Starts with +, 00 or 0 (min. 10 digits)');
   const newContact = { name, email, phone }; const newId = getNewContactId(); saveContactToFirebase(newContact, newId);
-}
+};
 
 /** Validates contact name (letters, accents, spaces, hyphen). */
-function isValidName(name) { return /^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ '\-]{1,}$/.test(name); }
+function isValidName(name) { return /^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ '\-]{1,}$/.test(name); };
 
 /** Validates email with common TLD patterns. */
 function isValidEmail(email) {
   return /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/.test(email);
-}
+};
 
 /** Validates phone (starts with +, 00 or 0; length 10–20). */
-function isValidPhone(phone) { return /^(?:0|\+|00)[0-9]{9,19}$/.test(phone); }
+function isValidPhone(phone) { return /^(?:0|\+|00)[0-9]{9,19}$/.test(phone); };
 
 /** Marks an input invalid and shows an inline message. */
 function markAddInvalid(id, msg) {
   const input = document.getElementById(id); input.classList.add('input-error');
   const box = document.getElementById(`error-${id}`); if (box) { box.innerHTML = msg; box.style.display = 'block'; }
   input.focus();
-}
+};
 
 /** Resets error borders/messages for add-contact inputs. */
 function resetAddErrorStyles() {
@@ -102,10 +102,10 @@ function resetAddErrorStyles() {
     const input = document.getElementById(id); input.classList.remove('input-error');
     const box = document.getElementById(`error-${id}`); if (box) box.style.display = 'none';
   });
-}
+};
 
 /** Returns trimmed value for an input id. */
-function getInputValue(id) { return document.getElementById(id).value.trim(); }
+function getInputValue(id) { return document.getElementById(id).value.trim(); };
 
 /** Saves a contact to Firebase and updates UI state. */
 function saveContactToFirebase(contact, id) {
@@ -115,7 +115,7 @@ function saveContactToFirebase(contact, id) {
     contact.id = id + 1; contacts.push(contact); updateContactDisplay(); closeAddContactForm(true);
     if (window.innerWidth < 1250) showFooter();
   });
-}
+};
 
 /** Re-renders the contact list UI from global contacts. */
 function updateContactDisplay() {
@@ -129,10 +129,10 @@ function updateContactDisplay() {
     if (firstLetter !== currentLetter) { currentLetter = firstLetter; if (container) addLetterHeader(container, currentLetter); }
     addContactToContainer(container, contact, getInitials(contact.name), getRandomColor(), template);
   });
-}
+};
 
 /** Generates a new contact id from current array length. */
-function getNewContactId() { return contacts.length; }
+function getNewContactId() { return contacts.length; };
 
 /** Deletes a contact by id and persists the updated list. */
 async function deleteContact(del) {
@@ -142,22 +142,22 @@ async function deleteContact(del) {
     method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(updated)
   });
   contacts = updated; updateDelChanges(del);
-}
+};
 
 /** Returns array without the contact matching id. */
-function removeContactById(contactsJson, id) { return contactsJson.filter(c => c.id !== id); }
+function removeContactById(contactsJson, id) { return contactsJson.filter(c => c.id !== id); };
 
 /** Reassigns sequential ids starting from 1. */
 function updateID(updatedContacts) {
   let newId = 1; for (let i in updatedContacts) { updatedContacts[i].id = newId; newId++; }
   return updatedContacts;
-}
+};
 
 /** Applies UI updates after a deletion. */
 function updateDelChanges(del) {
   updateContactDisplay(); closeContactDetails(); if (window.innerWidth < 1250) hideDetails();
   if (del == "editForm") closeEditContactForm();
-}
+};
 
 /** Saves edited contact to server and updates UI state. */
 async function saveEditChanges() {
@@ -175,14 +175,14 @@ async function saveEditChanges() {
   await fetch(`${BASE_URL}contacts/${id - 1}.json`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(updated) });
   updateContactDetails(updated, getInitials(name), getRandomColor());
   closeEditContactForm(); updateContactDisplay(); if (innerWidth < 1250) showFooter();
-}
+};
 
 /** Marks an input invalid and shows an error message. */
 function markInvalid(input, msg) {
   input.classList.add('input-error');
   const box = document.getElementById(`error-${input.id}`); if (box) { box.innerHTML = msg; box.style.display = 'block'; }
   input.focus();
-}
+};
 
 /** Resets error styles for edit-contact inputs. */
 function resetErrorStyles() {
@@ -190,7 +190,7 @@ function resetErrorStyles() {
     i.classList.remove('input-error');
     const msg = document.getElementById(`error-${i.id}`); if (msg) msg.style.display = 'none';
   });
-}
+};
 
 /** Fills the edit contact form with provided values. */
 function updateEditContactForm(contact, initials, bgColor) {
@@ -198,20 +198,20 @@ function updateEditContactForm(contact, initials, bgColor) {
   document.getElementById('editEmail').value = contact.email || '';
   document.getElementById('editPhone').value = contact.phone || '';
   const ini = document.getElementById('editDetailsInitials'); ini.textContent = initials; ini.style.backgroundColor = bgColor;
-}
+};
 
 /** Closes the edit contact overlay with fade-out. */
 function closeEditContactForm() {
   const f = document.getElementById('editContactForm');
   f.style.opacity = '0'; setTimeout(() => { f.classList.remove('visible'); f.style.display = 'none'; }, 700);
-}
+};
 
 /** Opens the edit contact overlay and initializes validation. */
 function openEditContactForm() {
   const f = document.getElementById('editContactForm');
   f.style.display = 'flex'; setTimeout(() => { f.classList.add('visible'); f.style.opacity = '1'; }, 10);
   initEditInputValidation();
-}
+};
 
 /** Closes the add-contact overlay and optionally shows success. */
 function closeAddContactForm(contactCreated = false) {
@@ -223,22 +223,22 @@ function closeAddContactForm(contactCreated = false) {
     form.classList.remove('visible'); form.style.display = 'none';
     ['addName', 'addPhone', 'addEmail'].forEach(id => document.getElementById(id).value = '');
   }, 1000);
-}
+};
 
 /** Opens the add-contact overlay. */
 function openAddContactForm() {
   const f = document.getElementById('addContactForm');
   f.style.display = 'flex'; setTimeout(() => { f.classList.add('visible'); f.style.opacity = '1'; }, 10);
-}
+};
 
 /** Hides the responsive footer section. */
-function hideFooter() { const f = document.querySelector('.responsive-footer'); if (f) f.classList.add('hide-contacts'); }
+function hideFooter() { const f = document.querySelector('.responsive-footer'); if (f) f.classList.add('hide-contacts'); };
 
 /** Shows the responsive footer section. */
 function showFooter() {
   const f = document.querySelector('.responsive-footer');
   if (f) { f.classList.remove('hide-contacts'); f.classList.add('show-details'); }
-}
+};
 
 /** Toggles details/list layout for small screens. */
 function toggleDetails() {
@@ -247,20 +247,20 @@ function toggleDetails() {
     det.classList.toggle('show-details'); list.classList.toggle('hide-contacts');
     if (det.classList.contains('show-details')) back.classList.add('show-details'); else back.classList.remove('show-details');
   }
-}
+};
 
 /** Toggles the responsive contact action buttons visibility. */
 function toggleContactDetails() {
   const el = document.querySelector('.responsiveContactDetailsButtons');
   if (el.classList.contains('hide-contacts')) { el.classList.remove('hide-contacts'); el.classList.add('show-details'); }
   else if (el.classList.contains('show-details')) { el.classList.remove('show-details'); el.classList.add('hide-contacts'); }
-}
+};
 
 /** Restores list view and hides details on small screens. */
 function hideDetails() {
   const det = document.querySelector('.detailsContainer'); const list = document.querySelector('.contactsSection'); const back = document.querySelector('.backArrow');
   det.classList.remove('show-details'); list.classList.remove('hide-contacts'); back.classList.add('show-details');
-}
+};
 
 /** Appends an alphabetical letter header to container. */
 function addLetterHeader(container, letter) {
@@ -268,7 +268,7 @@ function addLetterHeader(container, letter) {
     <div class="contactHeaderWrapper">
       <div class="contactHeader">${letter}</div>
     </div>`;
-}
+};
 
 /** Returns initials (first + last) from a full name string. */
 window.getInitials = function(name) {
@@ -281,13 +281,13 @@ window.getInitials = function(name) {
 function getRandomColor() {
   const colors = ['#ff7a00','#9327ff','#6e52ff','#fc71ff','#ffbb2b','#1fd7c1','#462f8a','#ff4646','#00bee8'];
   return colors[Math.floor(Math.random() * colors.length)];
-}
+};
 
 /** Closes the contact details view. */
 function closeContactDetails() {
   const sec = document.getElementById('selectedContactDetails');
   sec.classList.remove('visible'); sec.classList.remove('active');
-}
+};
 
 /** Fetches and renders contacts on page load. */
 fetchContacts().then(() => { sortContacts(); displayContacts(contacts); });
@@ -301,4 +301,4 @@ function initEditInputValidation() {
       const msg = document.getElementById(`error-${input.id}`); if (msg) msg.style.display = 'none';
     });
   });
-}
+};

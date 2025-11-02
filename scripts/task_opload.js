@@ -3,7 +3,7 @@ function isValidFileType(file) {
   const allowed = ["image/png","image/jpeg","image/jpg","application/pdf"];
   const okExt = /\.(png|jpg|jpeg|pdf)$/i.test(file.name);
   return allowed.includes(file.type) && okExt;
-}
+};
 
 /** Converts a file to base64 with metadata. */
 function convertToBase64(file) {
@@ -13,7 +13,7 @@ function convertToBase64(file) {
     r.onload = () => resolve({ base64: r.result, name: file.name, size: file.size, type: file.type });
     r.onerror = err => reject(err);
   });
-}
+};
 
 /** Renders file preview in edit mode (image or PDF). */
 function renderEditFile(task) {
@@ -23,7 +23,7 @@ function renderEditFile(task) {
   const n = task.file.name.toLowerCase();
   if (n.endsWith(".pdf")) return renderEditPDF(c, task);
   if (n.endsWith(".png") || n.endsWith(".jpg") || n.endsWith(".jpeg")) return renderEditImage(c, task);
-}
+};
 
 /** Renders a PDF preview with delete control. */
 function renderEditPDF(c, task){
@@ -32,14 +32,14 @@ function renderEditPDF(c, task){
       <p>PDF cannot showed. <a href="${task.file.base64}" target="_blank">PDF öffnen</a></p>
     </object>
     <button onclick="removeFileFromTask(${task.id})">delete</button>`;
-}
+};
 
 /** Renders an image preview with delete control. */
 function renderEditImage(c, task){
   c.innerHTML = `
     <img src="${task.file.base64}" alt="${task.file.name}" style="max-width:100%;max-height:300px;">
     <button onclick="removeFileFromTask(${task.id})">delete</button>`;
-}
+};
 
 /** Resizes an image and converts to base64 (JPEG). */
 function resizeAndConvertImage(file, maxW, maxH, quality = 0.8) {
@@ -50,7 +50,7 @@ function resizeAndConvertImage(file, maxW, maxH, quality = 0.8) {
     r.onload = e => handleImageLoad(e, file, maxW, maxH, quality, resolve, reject);
     r.onerror = err => reject(err);
   });
-}
+};
 
 /** Handles image load, resizes it and returns base64 data. */
 function handleImageLoad(e, file, maxW, maxH, quality, resolve, reject) {
@@ -64,7 +64,7 @@ function handleImageLoad(e, file, maxW, maxH, quality, resolve, reject) {
     resolve({ base64, name: newName, size: Math.round((base64.length * 3) / 4), type: "image/jpeg" });
   };
   img.onerror = err => reject(err);
-}
+};
 
 /** Creates a canvas keeping aspect ratio within max bounds. */
 function createResizedCanvas(img, maxW, maxH) {
@@ -76,12 +76,12 @@ function createResizedCanvas(img, maxW, maxH) {
   const canvas = document.createElement('canvas');
   canvas.width = width; canvas.height = height;
   return { canvas, width, height };
-}
+};
 
 /** Iterates new files and processes each if valid and under limits. */
 async function handleNewFiles(newFiles) {
   for (let file of newFiles) await processNewFile(file);
-}
+};
 
 /** Processes one new file (dedupe, validate, compress/convert). */
 async function processNewFile(file){
@@ -93,13 +93,13 @@ async function processNewFile(file){
   if (!isValidFileType(file)) return warnInvalidType(file);
   if (isPDF && pdfCount < MAX_PDFS) uploadedFiles.push(await convertToBase64(file));
   else if (isIMG && imgCount < MAX_IMAGES) uploadedFiles.push(await resizeAndConvertImage(file, 800, 800, 0.8));
-}
+};
 
 /** Shows an overlay warning for unsupported file types. */
 function warnInvalidType(file){
   const ext = file.name.match(/\.\w+$/);
   showFileTypeWarning(ext ? ext[0] : "unknown");
-}
+};
 
 /** Renders previews for images and PDFs, then builds Viewer. */
 function renderUploadPreview() {
@@ -111,7 +111,7 @@ function renderUploadPreview() {
     else if (f.type === 'image/jpeg') readers.push(readAndRenderImage(f, i, container));
   });
   finalizeImageViewer(container, readers);
-}
+};
 
 /** Renders a single PDF preview entry. */
 function renderPDFPreview(file, index, container) {
@@ -120,7 +120,7 @@ function renderPDFPreview(file, index, container) {
       <span style="cursor:pointer;" onclick="openPdfViewerAdd('${file.base64}')">📎 ${file.name}</span>
       <button onclick="removePreviewFile(${index})">X</button>
     </div>`;
-}
+};
 
 /** Renders an image preview entry (already base64). */
 function readAndRenderImage(file, index, container) {
@@ -131,7 +131,7 @@ function readAndRenderImage(file, index, container) {
       <button onclick="removePreviewFile(${index})">X</button>
     </div>`;
   return Promise.resolve();
-}
+};
 
 /** Formats bytes into a human-readable string. */
 function formatBytes(bytes) {
@@ -139,14 +139,14 @@ function formatBytes(bytes) {
   if (bytes === 0) return '0 Bytes';
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + sizes[i];
-}
+};
 
 /** Installs Viewer.js after all image nodes exist. */
 function finalizeImageViewer(container, readers) {
   Promise.all(readers).then(() => {
     container.viewer = new Viewer(container, { toolbar: true, navbar: false, title: true, tooltip: true });
   });
-}
+};
 
 /** Updates UI warnings when image/PDF limits are reached. */
 function updateUploadWarnings() {
@@ -157,7 +157,7 @@ function updateUploadWarnings() {
   if (imgs >= MAX_IMAGES) warn.push(`Maximum ${MAX_IMAGES} images allowed`);
   if (pdfs >= MAX_PDFS) warn.push(`Maximum ${MAX_PDFS} PDFs allowed`);
   cont.innerText = warn.join(' • ');
-}
+};
 
 /** Maximum number of allowed image uploads. */
 const MAX_IMAGES = 4;
@@ -173,13 +173,13 @@ async function showUploadPreview(newFiles) {
   renderUploadPreview();
   updateUploadWarnings();
   updateFullClass();
-}
+};
 
 /** Removes a file by index and re-renders previews/warnings. */
 function removePreviewFile(index) {
   uploadedFiles.splice(index, 1);
   showUploadPreview([]);
-}
+};
 
 /** Processes a FileList/Array into compressed images and PDFs. */
 async function processFiles(files) {
@@ -187,14 +187,14 @@ async function processFiles(files) {
   const images = [], pdfs = [];
   for (let f of files) await accumulateProcessed(files, f, images, pdfs);
   return [...images, ...pdfs];
-}
+};
 
 /** Pushes processed file into images/pdfs respecting limits. */
 async function accumulateProcessed(all, file, images, pdfs){
   if (!isValidFileType(file)) { alert(`${file.name} hat ein ungültiges Format.`); return; }
   if (file.type.startsWith('image/') && images.length < 4) images.push(await resizeAndConvertImage(file, 800, 800));
   else if (file.type === 'application/pdf' && pdfs.length < 2) pdfs.push(await convertToBase64(file));
-}
+};
 
 /** Validates counts do not exceed image/PDF limits. */
 function validateFileLimits(files) {
@@ -203,14 +203,14 @@ function validateFileLimits(files) {
   if (imgs > 4) { alert("Maximum 4 Images allowed."); return false; }
   if (pdfs > 2) { alert("Maximum 2 PDFs allowed."); return false; }
   return true;
-}
+};
 
 /** Opens modal PDF viewer for a base64 URL. */
 function openPdfViewerAdd(base64Url) {
   const modal = document.getElementById("pdf-modal-add");
   const iframe = document.getElementById("pdf-frame-add");
   iframe.src = base64Url; modal.style.display = "flex";
-}
+};
 
 /** Closes PDF modal and rebuilds Viewer if images exist. */
 function closePdfModalAdd() {
@@ -220,7 +220,7 @@ function closePdfModalAdd() {
   const container = document.getElementById('file-preview-container');
   const images = container.querySelectorAll('img.viewer-image');
   if (images.length > 0) rebuildViewer(container);
-}
+};
 
 /** Re-initializes Viewer after closing the PDF modal. */
 function rebuildViewer(container){
@@ -228,7 +228,7 @@ function rebuildViewer(container){
   setTimeout(() => {
     container.viewer = new Viewer(container, { toolbar: true, navbar: false, title: true, tooltip: true });
   }, 10);
-}
+};
 
 /** Shows a temporary overlay when a file type was rejected. */
 function showFileTypeWarning(extension) {
@@ -237,7 +237,7 @@ function showFileTypeWarning(extension) {
   typeSpan.textContent = extension.toLowerCase();
   overlay.classList.add('show');
   setTimeout(() => overlay.classList.remove('show'), 3000);
-}
+};
 
 /** Toggles the 'full' class based on preview count. */
 function updateFullClass(){
@@ -245,7 +245,7 @@ function updateFullClass(){
   const previews = container.querySelectorAll('.file-preview');
   if (previews.length >= 4) container.classList.add('full');
   else container.classList.remove('full');
-}
+};
 
 /** Initializes class state once on load (keeps original behavior). */
 (function initFullClassOnce(){ updateFullClass(); })();

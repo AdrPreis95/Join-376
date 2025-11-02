@@ -119,7 +119,7 @@ function validateInput() {
   if (!input) return;
   if (input.value.trim() === "") { input.classList.add('error'); input.style.border = '2px solid red'; msg.style.display = 'block'; }
   else { input.classList.remove('error'); input.style.border = 'none'; msg.style.display = 'none'; }
-}
+};
 document.getElementById('title')?.addEventListener('input', validateInput);
 
 /** Validates title and shows a success alert on submit. */
@@ -127,17 +127,17 @@ function submitForm() {
   validateInput();
   const input = document.getElementById('title');
   if (input && input.value.trim() !== "") alert("Formular erfolgreich abgesendet!");
-}
+};
 
 /** Placeholder for upload logic (kept to preserve hooks). */
-function uploadFile(){ const data = document.getElementById('file-select'); /* no-op */ }
+function uploadFile(){ const data = document.getElementById('file-select'); };
 
 /** Initializes custom select dropdown behaviors. */
 function initDropdown(customSelect, select, selected, options) {
   customSelect.addEventListener("click", () => toggleOptionsDisplay(options));
   attachOutsideClickCloser(customSelect, options);
   handleOptionClick(select, selected, options);
-}
+};
 const customSelect = document.getElementById("custom-select");
 const select = document.getElementById("selectcategory");
 const selected = customSelect?.querySelector(".selected");
@@ -148,12 +148,12 @@ document.getElementById('selectcategory')?.addEventListener('change', validateSe
 /** Toggles options list visibility. */
 function toggleOptionsDisplay(options){
   options.style.display = options.style.display === "block" ? "none" : "block";
-}
+};
 
 /** Closes options if clicking outside of the custom select. */
 function attachOutsideClickCloser(customSelect, options){
   document.addEventListener("click", (e) => { if (!customSelect.contains(e.target)) options.style.display = "none"; });
-}
+};
 
 /** Hooks option clicks to update select value and UI. */
 function handleOptionClick(select, selected, options) {
@@ -166,14 +166,14 @@ function handleOptionClick(select, selected, options) {
       applyCategorySelection(options, option);
     });
   });
-}
+};
 
 /** Applies selected styling and closes the options list. */
 function applyCategorySelection(options, option){
   options.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
   option.classList.add("selected");
   options.style.display = "none";
-}
+};
 
 /** Validates the category field and toggles error UI. */
 function validateSelectCategory() {
@@ -181,13 +181,13 @@ function validateSelectCategory() {
   const cs = document.getElementById('custom-select');
   const msg = document.getElementById('category-error-message');
   isCategoryEmpty(sel) ? showCategoryError(cs, msg) : hideCategoryError(cs, msg);
-}
+};
 
 /** Returns true if category value is empty. */
-function isCategoryEmpty(selectCategory) { return selectCategory.value === ""; }
+function isCategoryEmpty(selectCategory) { return selectCategory.value === ""; };
 
 /** Shows category error and adds error styling. */
-function showCategoryError(customSelect, msg) { customSelect.classList.add('error'); msg.style.display = 'block'; }
+function showCategoryError(customSelect, msg) { customSelect.classList.add('error'); msg.style.display = 'block'; };
 
 /** Hides category error and removes error styling. */
-function hideCategoryError(customSelect, msg) { customSelect.classList.remove('error'); msg.style.display = 'none'; }
+function hideCategoryError(customSelect, msg) { customSelect.classList.remove('error'); msg.style.display = 'none'; };

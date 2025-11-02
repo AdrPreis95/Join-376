@@ -3,21 +3,21 @@ function ensureColor(contact){
   if(!contact) return;
   contact.color = contact.color || getRandomColor(contact);
   return contact.color;
-}
+};
 
 /** Renders all contacts into the dropdown list. */
 function displayContacts(contacts) {
   const dropdown = document.getElementById('dropdown-user');
   dropdown.innerHTML = '';
   contacts.forEach(c => { ensureColor(c); createContactElement(dropdown, c); });
-}
+};
 
 /** Formats fetched contacts and prepends the current user. */
 function processContacts(contacts, userAsContact) {
   let formattedContacts = contacts.filter(contact => contact).map(formatContact);
   formattedContacts.unshift(userAsContact);
   return formattedContacts;
-}
+};
 
 /** Creates a checkbox for a contact and wires change handler. */
 function createCheckbox(contact) {
@@ -26,7 +26,7 @@ function createCheckbox(contact) {
   checkbox.checked = selectedContacts.some(s => s.email === contact.email);
   checkbox.addEventListener('change', () => handleCheckboxChange(checkbox, contact));
   return checkbox;
-}
+};
 
 /** Handles checkbox state change and updates selection + UI. */
 function handleCheckboxChange(checkbox, contact){
@@ -39,13 +39,13 @@ function handleCheckboxChange(checkbox, contact){
     if (userContainer) userContainer.classList.remove('selected');
   }
   updatePickedUserAvatars();
-}
+};
 
 /** Syncs all dropdown checkboxes to the selectedContacts array. */
 function synchronizeCheckboxes() {
   let checkboxes = document.querySelectorAll('#dropdown-user input[type="checkbox"]');
   checkboxes.forEach(checkbox => syncOneCheckbox(checkbox));
-}
+};
 
 /** Syncs a single checkbox state with selectedContacts. */
 function syncOneCheckbox(checkbox){
@@ -57,7 +57,7 @@ function syncOneCheckbox(checkbox){
   if (!contact) return;
   checkbox.checked = selectedContacts.some(s => s.email === contact.email);
   userContainer.classList.toggle('selected', checkbox.checked);
-}
+};
 
 /** Creates and appends a single contact row in the dropdown. */
 function createContactElement(dropdown, contact) {
@@ -72,7 +72,7 @@ function createContactElement(dropdown, contact) {
   userContainer.appendChild(checkbox);
   attachContainerToggle(userContainer, checkbox);
   dropdown.appendChild(userContainer);
-}
+};
 
 /** Allows clicking the row to toggle its checkbox. */
 function attachContainerToggle(userContainer, checkbox){
@@ -82,7 +82,7 @@ function attachContainerToggle(userContainer, checkbox){
       checkbox.dispatchEvent(new Event('change'));
     }
   });
-}
+};
 
 /** Builds the avatar + name container for a contact row. */
 function createAvatarContainer(contact) {
@@ -98,7 +98,7 @@ function createAvatarContainer(contact) {
   userName.innerText = getFullName(contact);
   wrap.appendChild(avatar); wrap.appendChild(userName);
   return wrap;
-}
+};
 
 /** Adds/removes a contact from selectedContacts based on isChecked. */
 function updateSelectedContacts(isChecked, contact) {
@@ -108,7 +108,7 @@ function updateSelectedContacts(isChecked, contact) {
   } else {
     selectedContacts = selectedContacts.filter(c => c.email !== contact.email);
   }
-}
+};
 
 /** Re-renders the “picked users” avatar strip. */
 function updatePickedUserAvatars() {
@@ -120,7 +120,7 @@ function updatePickedUserAvatars() {
     wrap.appendChild(createPickedUserElement(contact, i));
   });
   if (selectedContacts.length > max) wrap.appendChild(createMoreInfo(selectedContacts.length - max));
-}
+};
 
 /** Creates the “+N” overflow badge for extra contacts. */
 function createMoreInfo(extra){
@@ -128,7 +128,7 @@ function createMoreInfo(extra){
   more.classList.add('more-contacts-info');
   more.textContent = `+${extra}`;
   return more;
-}
+};
 
 /** Builds a picked-user row with delete button, avatar and name. */
 function createPickedUserElement(contact, index) {
@@ -138,7 +138,7 @@ function createPickedUserElement(contact, index) {
   c.appendChild(createAvatarDiv(contact));
   c.appendChild(createNameSpan(contact));
   return c;
-}
+};
 
 /** Creates the small “remove selected user” button. */
 function createDeleteButton(index) {
@@ -151,7 +151,7 @@ function createDeleteButton(index) {
     updatePickedUserAvatars();
   });
   return btn;
-}
+};
 
 /** Creates a colored avatar element for a picked user. */
 function createAvatarDiv(contact) {
@@ -160,7 +160,7 @@ function createAvatarDiv(contact) {
   avatarDiv.style.backgroundColor = ensureColor(contact);
   avatarDiv.innerText = getInitials(contact).toUpperCase();
   return avatarDiv;
-}
+};
 
 /** Creates the name span for a picked user. */
 function createNameSpan(contact) {
@@ -168,7 +168,7 @@ function createNameSpan(contact) {
   s.classList.add('picked-user-name');
   s.innerText = `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
   return s;
-}
+};
 
 /** Filters contacts by first typed letter and updates dropdown. */
 function filterContacts() {
@@ -180,7 +180,7 @@ function filterContacts() {
     return name.toLowerCase().startsWith(initial);
   });
   if (!filtered.length) displayNoResults(); else displayContacts(filtered);
-}
+};
 
 /** Shows a “No results found” placeholder in dropdown. */
 function displayNoResults() {
@@ -190,19 +190,19 @@ function displayNoResults() {
   noResultsMessage.classList.add('no-results');
   noResultsMessage.textContent = '"No results found"';
   dropdown.appendChild(noResultsMessage);
-}
+};
 
 /** Focuses and opens the date picker input. */
 function fillCurrentDate() {
   let dateInput = document.getElementById('due-date-input');
   dateInput.focus();
   dateInput.click();
-}
+};
 
 /** Opens flatpickr if the global instance is available. */
 function openFlatpickr() {
   if (window.flatpickrInstance) window.flatpickrInstance.open();
-}
+};
 
 /** Returns today’s date as yyyy-mm-dd. */
 function getFormattedTodayDate() {
@@ -211,7 +211,7 @@ function getFormattedTodayDate() {
   const m = String(t.getMonth() + 1).padStart(2, '0');
   const d = String(t.getDate()).padStart(2, '0');
   return `${y}-${m}-${d}`;
-}
+};
 
 /** Validates date input; shows error or normalizes value. */
 function validateDateInput() {
@@ -223,20 +223,20 @@ function validateDateInput() {
   } else {
     applyValidDate(dateInput, msg, res.correctedDate);
   }
-}
+};
 
 /** Shows a visual error for the date input. */
 function showDateError(input, msg, text){
   input.classList.add('error'); input.style.border = '2px solid red';
   msg.textContent = text; msg.style.display = 'block';
-}
+};
 
 /** Applies a corrected/valid date and clears the error state. */
 function applyValidDate(input, msg, corrected){
   if (corrected) input.value = corrected;
   input.classList.remove('error'); input.style.border = ''; input.style.filter = '';
   msg.style.display = 'none';
-}
+};
 
 /** Validates DD/MM/YYYY and ensures the date is not in the past. */
 function validateDateFormatAndFuture(dateValue) {
@@ -247,7 +247,7 @@ function validateDateFormatAndFuture(dateValue) {
   const today = new Date(); today.setHours(0, 0, 0, 0);
   if (enteredDate < today) return { isValid: true, correctedDate: getFormattedTodayDate() };
   return { isValid: true };
-}
+};
 
 /** Adds numeric-only enforcement to the date input. */
 function initializeDateInput() {
@@ -255,7 +255,7 @@ function initializeDateInput() {
   dateInput.addEventListener('input', function (e) {
     const f = e.target; f.value = f.value.replace(/[^0-9/]/g, '');
   });
-}
+};
 
 /** Normalizes typed date, validates on length 10, prevents past. */
 function handleDateInput(event) {
@@ -265,7 +265,7 @@ function handleDateInput(event) {
     if (validateDate(value)) preventPastDate(value);
     else { event.target.value = ''; alert("Bitte geben Sie ein gültiges Datum ein."); }
   }
-}
+};
 
 /** Auto-inserts slashes into DDMMYYYY as DD/MM/YYYY. */
 function formatDateInput(value) {
@@ -273,20 +273,20 @@ function formatDateInput(value) {
   if (value.length > 2) value = value.slice(0, 2) + '/' + value.slice(2);
   if (value.length > 5) value = value.slice(0, 5) + '/' + value.slice(5, 9);
   return value;
-}
+};
 
 /** Checks format parts and delegates to day/month validation. */
 function validateDate(value) {
   let parts = value.split('/');
   return parts.length === 3 && isValidDayAndMonth(parts);
-}
+};
 
 /** Validates plausible day (1–31) and month (1–12). */
 function isValidDayAndMonth(parts) {
   let day = parseInt(parts[0], 10);
   let month = parseInt(parts[1], 10);
   return day >= 1 && day <= 31 && month >= 1 && month <= 12;
-}
+};
 
 /** Prevents past dates by restoring today and marking border. */
 function preventPastDate(value) {
@@ -295,12 +295,12 @@ function preventPastDate(value) {
   let dateInput = document.getElementById('due-date-input');
   if (enteredDate < today) { fillCurrentDate(); dateInput.classList.add('error-border'); }
   else dateInput.classList.remove('error-border');
-}
+};
 
 /** Parses a DD/MM/YYYY string into a Date object. */
 function getEnteredDate(value) {
   let p = value.split('/'); return new Date(`${p[2]}-${p[1]}-${p[0]}`);
-}
+};
 
 /** After creating a task, closes overlay or redirects to board. */
 function handleTaskCreation() {
@@ -312,7 +312,7 @@ function handleTaskCreation() {
       window.location.href = "board.html";
     }
   });
-}
+};
 
 /** Closes the user dropdown when clicking outside of it. */
 function registerDropdownCloser() {
@@ -323,7 +323,7 @@ function registerDropdownCloser() {
     if (dropdown.contains(event.target) || input.contains(event.target)) return;
     dropdown.style.display = 'none';
   });
-}
+};
 
 /** Binds flatpickr initializations and date listeners (keeps logic). */
 function bindDatePickersAndListeners() {
@@ -343,11 +343,11 @@ function bindDatePickersAndListeners() {
   });
   document.addEventListener('DOMContentLoaded', initializeDateInput);
   document.getElementById('due-date-input').addEventListener('input', validateDateInput);
-}
+};
 
 /** Bootstraps dropdown-closer and datepicker bindings. */
 function initContactsUI() {
   registerDropdownCloser();
   bindDatePickersAndListeners();
-}
+};
 initContactsUI();

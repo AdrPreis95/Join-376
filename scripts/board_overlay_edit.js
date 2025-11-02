@@ -3,7 +3,7 @@ const CHECKED = './assets/icons/checked_icon.png';
 const UNCHECKED = './assets/icons/unchecked_icon.png';
 
 /** Safely converts any input (array/object/undefined) to an array. */
-function asArray(d) { return Array.isArray(d) ? d : Object.values(d || {}); }
+function asArray(d) { return Array.isArray(d) ? d : Object.values(d || {}); };
 
 /** Normalizes subtasks to {title, status} array. */
 function normalizeSubtasks(subs) {
@@ -13,19 +13,19 @@ function normalizeSubtasks(subs) {
     title: (s.title ?? s.name ?? '').toString(),
     status: s.status === 'done' ? 'done' : 'not done'
   }));
-}
+};
 
 /** Resolves task key from index or returns given key. */
 async function resolveKey(idOrKey) {
   if (typeof idOrKey === 'string') return idOrKey;
   return await findKey(idOrKey);
-}
+};
 
 /** Builds uppercase initials from a full name. */
 function getInitials(name = '') {
   return name.trim().split(/\s+/).slice(0, 2)
     .map(p => p[0] || '').join('').toUpperCase();
-}
+};
 
 /** Updates subtask progress bar in board cards. */
 function updateBoardSubtaskProgressUI(taskId, list) {
@@ -36,7 +36,7 @@ function updateBoardSubtaskProgressUI(taskId, list) {
   if (el && typeof getSubtask === 'function') {
     el.innerHTML = getSubtask(done, total, progress);
   }
-}
+};
 
 /** Ensures the toast element exists and returns it. */
 function getToastEl() {
@@ -50,7 +50,7 @@ function getToastEl() {
     'opacity:0;transition:opacity .2s;font-weight:600';
   document.body.appendChild(el);
   return el;
-}
+};
 
 /** Shows a short toast with the subtask completion count. */
 function showSubtaskToast(done, total) {
@@ -59,7 +59,7 @@ function showSubtaskToast(done, total) {
   requestAnimationFrame(() => el.style.opacity = '1');
   clearTimeout(showSubtaskToast._t);
   showSubtaskToast._t = setTimeout(() => el.style.opacity = '0', 1400);
-}
+};
 
 let _fpInstance;
 
@@ -76,7 +76,7 @@ async function editTask(id, title, description, dueDate, priority) {
   const task = await loadTaskWithID(id);
   renderEditFile(task);
   initSubtaskEdit(id);
-}
+};
 
 /** Initializes the date picker with optional default date (ISO). */
 function initDate(dueDateISO) {
@@ -90,7 +90,7 @@ function initDate(dueDateISO) {
     defaultDate: input.value || null, allowInput: true
   });
   btn.onclick = () => _fpInstance && _fpInstance.open();
-}
+};
 
 /** Highlights the active priority option in the UI. */
 function checkActivePriority(priority) {
@@ -105,7 +105,7 @@ function checkActivePriority(priority) {
   document.getElementById(k + '-text').style.color = '#FFFFFF';
   document.getElementById(k + '-icon').src = `./assets/icons/${k}_icon_active.png`;
   activePriority = priority;
-}
+};
 
 /** Changes priority and delegates highlight update. */
 function changePriority(newPriority) {
@@ -115,7 +115,7 @@ function changePriority(newPriority) {
     document.getElementById(p + '-icon').src = `./assets/icons/${p}_icon.png`;
   });
   checkActivePriority(newPriority);
-}
+};
 
 /** Saves changes of edit overlay to Firebase. */
 async function saveEdit(id) {
@@ -130,7 +130,7 @@ async function saveEdit(id) {
   if (ch.prio !== cur.prio) p.prio = ch.prio;
   if (Object.keys(p).length) await fetch(url, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(p) });
   showEditConfirm('Changes saved'); closeOverlay(); loadTasks();
-}
+};
 
 /** Creates the confirmation overlay element. */
 function createConfirmOverlay(msg) {
@@ -145,7 +145,7 @@ function createConfirmOverlay(msg) {
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div><span style="font-weight:600">${msg}</span></div>`;
   return o;
-}
+};
 
 /** Shows a temporary confirmation overlay. */
 function showEditConfirm(msg) {
@@ -153,7 +153,7 @@ function showEditConfirm(msg) {
   document.body.appendChild(o);
   requestAnimationFrame(() => { o.style.opacity = '1'; });
   setTimeout(() => { o.style.opacity = '0'; setTimeout(() => o.remove(), 200); }, 1400);
-}
+};
 
 /** Builds new task fields from current overlay inputs. */
 function generateChangeTask(responseJson) {
@@ -165,7 +165,7 @@ function generateChangeTask(responseJson) {
   if (due) responseJson.dueDate = /^\d{4}-\d{2}-\d{2}$/.test(due) ? due : convertDateFormat(due);
   responseJson.prio = activePriorityButton();
   return responseJson;
-}
+};
 
 /** Returns the active priority by reading label background colors. */
 function activePriorityButton() {
@@ -174,25 +174,25 @@ function activePriorityButton() {
   if (bg('medium-label') === 'rgb(255, 168, 0)') return 'Medium';
   if (bg('urgent-label') === 'rgb(255, 61, 0)') return 'Urgent';
   return 'Medium';
-}
+};
 
 /** Simple cache container for contacts data. */
 let _contactsCache = null;
 
 /** Canonicalizes display name strings for comparisons. */
-function canon(s) { return (s || '').toLowerCase().replace(/\s*\(you\)\s*$/, '').trim(); }
+function canon(s) { return (s || '').toLowerCase().replace(/\s*\(you\)\s*$/, '').trim(); };
 
 /** Removes "(You)" suffix from a display name. */
-function cleanDisplayName(n) { return (n || '').replace(/\s*\(You\)\s*$/, '').trim(); }
+function cleanDisplayName(n) { return (n || '').replace(/\s*\(You\)\s*$/, '').trim(); };
 
 /** Compares two names (first+last) in a canonical form. */
-function sameUser(aFN, aLN, bFN, bLN) { return canon(`${aFN} ${aLN}`) === canon(`${bFN} ${bLN}`); }
+function sameUser(aFN, aLN, bFN, bLN) { return canon(`${aFN} ${aLN}`) === canon(`${bFN} ${bLN}`); };
 
 /** Returns a safe DOM id derived from a name. */
-function safeIdFromName(name) { return 'contact-row-' + encodeURIComponent(name); }
+function safeIdFromName(name) { return 'contact-row-' + encodeURIComponent(name); };
 
 /** Returns display label for UI (kept as name). */
-function displayForUI(name, email) { return name; }
+function displayForUI(name, email) { return name; };
 
 /** Toggles subtask status and persists changes. */
 async function changeStatusSubtask(displayId, subIndex, status) {
@@ -203,7 +203,7 @@ async function changeStatusSubtask(displayId, subIndex, status) {
   const nowDone = status !== 'done';
   if (subs[subIndex]) subs[subIndex].status = nowDone ? 'done' : 'not done';
   await applySubtaskStatus(key, task, subs, url);
-}
+};
 
 /** Applies updated subtask list to Firebase and refreshes UI. */
 async function applySubtaskStatus(key, task, subs, url) {
@@ -215,7 +215,7 @@ async function applySubtaskStatus(key, task, subs, url) {
   updateBoardSubtaskProgressUI(task.id, subs);
   const done = subs.filter(s => s.status === 'done').length;
   showSubtaskToast(done, subs.length);
-}
+};
 
 /** Toggles the assigned-to dropdown in edit overlay. */
 function openDropdownAssigned() {
@@ -228,7 +228,7 @@ function openDropdownAssigned() {
   dd.classList.toggle('d_block', open);
   arr.src = open ? './assets/icons/arrow_drop_down_top.png' : './assets/icons/arrow_drop_down.png';
   box.classList.toggle('d-none', open);
-}
+};
 
 /** Closes user dropdown when clicking outside of it. */
 document.addEventListener('DOMContentLoaded', () => {
@@ -251,7 +251,7 @@ function editMode(id) {
   const add = document.getElementById('add-subtask-overlay-edit')
     .getAttribute('src') === "./assets/icons/add_subtask.png";
   c.innerHTML = add ? getSubtaskOverlayIcons(id) : getSubtaskOverlayAddIcon();
-}
+};
 
 /** Creates a new subtask from the edit overlay field. */
 async function createSubtaskOverlay(idOrKey) {
@@ -260,7 +260,7 @@ async function createSubtaskOverlay(idOrKey) {
   const key = await resolveKey(idOrKey);
   if (!title) { renderOverlayEditSubtasks(key); return clearSubtaskInput(); }
   await saveNewSubtask(key, title);
-}
+};
 
 /** Saves a new subtask and refreshes progress and list. */
 async function saveNewSubtask(key, title) {
@@ -273,13 +273,13 @@ async function saveNewSubtask(key, title) {
   await renderOverlayEditSubtasks(key);
   updateBoardSubtaskProgressUI(task.id, subs);
   showSubtaskToast(subs.filter(s => s.status === 'done').length, subs.length);
-}
+};
 
 /** Clears the subtask input field value. */
 function clearSubtaskInput() {
   const i = document.getElementById('subtask-edit');
   if (i) i.value = "";
-}
+};
 
 /** Renders all subtasks into the edit overlay list. */
 async function renderOverlayEditSubtasks(id) {
@@ -292,7 +292,7 @@ async function renderOverlayEditSubtasks(id) {
     html += getSubtasksOverlayEdit(t.subtasks[i].title, id, i);
   }
   box.innerHTML = html;
-}
+};
 
 /** Switches a subtask row into inline edit mode. */
 async function editSubtask(id, subtask) {
@@ -308,7 +308,7 @@ async function editSubtask(id, subtask) {
       input.focus();
     }
   }
-}
+};
 
 /** Deletes a subtask from a task and updates UI. */
 async function deleteSubtask(idOrKey, subtaskName) {
@@ -322,7 +322,7 @@ async function deleteSubtask(idOrKey, subtaskName) {
   await renderOverlayEditSubtasks(key);
   updateBoardSubtaskProgressUI(task.id, subs);
   showSubtaskToast(subs.filter(s => s.status === 'done').length, subs.length);
-}
+};
 
 /** Finds subtask index by title on a task object. */
 function findSubtask(task, subtask) {
@@ -331,7 +331,7 @@ function findSubtask(task, subtask) {
     if (task.subtasks[i].title === subtask) return i;
   }
   return -1;
-}
+};
 
 /** Saves edited subtask title after validation. */
 async function saveEditSubtask(idOrKey, oldTitle) {
@@ -343,7 +343,7 @@ async function saveEditSubtask(idOrKey, oldTitle) {
     return;
   }
   await updateSubtaskTitle(key, oldTitle, val);
-}
+};
 
 /** Updates a subtask title in Firebase and refreshes UI. */
 async function updateSubtaskTitle(key, oldTitle, newTitle) {
@@ -355,7 +355,7 @@ async function updateSubtaskTitle(key, oldTitle, newTitle) {
   await fetch(url, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ subtasks: subs }) });
   await renderOverlayEditSubtasks(key);
   updateBoardSubtaskProgressUI(task.id, subs);
-}
+};
 
 /** Saves edited subtask on Enter in the inline field. */
 document.addEventListener('keydown', e => {
@@ -378,15 +378,15 @@ function initSubtaskEdit(id) {
     if (e.key !== 'Enter') return;
     e.preventDefault(); await createSubtaskOverlay(id); resetToPlus(); input.value = '';
   });
-}
+};
 
 /** Switches subtask area to confirm/cancel icons. */
 function switchToIcons(id) {
   const c = document.getElementById('create-subtask-overlay');
   if (c.innerHTML.includes('add_subtask.png')) c.innerHTML = getSubtaskOverlayIcons(id);
-}
+};
 
 /** Restores the '+' add-subtask button UI. */
 function resetToPlus() {
   document.getElementById('create-subtask-overlay').innerHTML = getSubtaskOverlayAddIcon();
-}
+};

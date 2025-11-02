@@ -11,19 +11,19 @@ async function showOverlayDetailsTask(id) {
   const task = arr[id];
   if (!task) return;
   renderOverlay(task);
-}
+};
 
 /** Escapes HTML special characters to prevent XSS. */
 function esc(s) {
   return String(s || '').replace(/[&<>"']/g, m =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m])
   );
-}
+};
 
 /** Returns normalized subtasks array from a task object. */
 function subsOf(t) {
   return Array.isArray(t.subtasks) ? t.subtasks : Object.values(t.subtasks || {});
-}
+};
 
 /** Builds HTML for a single subtask list item. */
 function subItemHTML(id, i, st) {
@@ -39,7 +39,7 @@ function subItemHTML(id, i, st) {
       </span>
     </li>
   `;
-}
+};
 
 /** Re-renders subtasks section using available renderer. */
 function rerender(tid, subs) {
@@ -48,21 +48,21 @@ function rerender(tid, subs) {
   } else {
     simpleRenderOverlaySubtasks({ id: tid, subtasks: subs });
   }
-}
+};
 
 /** Updates board progress UI for subtasks. */
 function board(tid, subs) {
   if (typeof updateBoardSubtaskProgressUI === 'function') {
     updateBoardSubtaskProgressUI(tid, subs);
   }
-}
+};
 
 /** Shows a toast with current subtask completion status. */
 function toast(subs) {
   if (typeof showSubtaskToast === 'function') {
     showSubtaskToast(subs.filter(s => s.status === 'done').length, subs.length);
   }
-}
+};
 
 /** Renders contact list with checked state into the overlay. */
 function renderOverlayContacts(id, responseJson, activeUserIndex) {
@@ -75,7 +75,7 @@ function renderOverlayContacts(id, responseJson, activeUserIndex) {
     html += getContactName(id, c.name, generateColor(), c.name[0], c.name[pos + 1] || '', icon);
   }
   document.getElementById('user-dropdown').innerHTML = html;
-}
+};
 
 /** Renders the overlay base and then users/subtasks/files. */
 function renderOverlay(responseTaskJson) {
@@ -92,7 +92,7 @@ function renderOverlay(responseTaskJson) {
   );
   renderOverlayUser(responseTaskJson);
   renderOverlayExtras(responseTaskJson);
-}
+};
 
 /** Renders extra sections (subtasks/files) or hides when absent. */
 function renderOverlayExtras(responseTaskJson) {
@@ -104,7 +104,7 @@ function renderOverlayExtras(responseTaskJson) {
     if (h) h.style.display = 'none';
   }
   renderOverlayFiles(responseTaskJson);
-}
+};
 
 /** Renders subtasks list in overlay using simple template. */
 function simpleRenderOverlaySubtasks(task) {
@@ -112,21 +112,21 @@ function simpleRenderOverlaySubtasks(task) {
   const subs = subsOf(task);
   if (!subs.length) return hideSubtasksSection(box);
   box.innerHTML = buildSubtasksListHTML(task.id, subs);
-}
+};
 
 /** Hides subtask section headline and clears content. */
 function hideSubtasksSection(box) {
   const h = document.getElementById('subtask-headline-overlay');
   if (h) h.style.display = 'none';
   box.innerHTML = '';
-}
+};
 
 /** Builds the full HTML list string for all subtasks. */
 function buildSubtasksListHTML(id, subs) {
   let html = '<ul class="subtasks-list">';
   for (let i = 0; i < subs.length; i++) html += subItemHTML(id, i, subs[i] || {});
   return html + '</ul>';
-}
+};
 
 /** Renders file previews and initializes Viewer.js. */
 function renderOverlayFiles(responseTaskJson) {
@@ -136,7 +136,7 @@ function renderOverlayFiles(responseTaskJson) {
   files.forEach(file => frag.appendChild(buildFilePreviewBlock(file)));
   wrap.appendChild(frag);
   new Viewer(wrap, { navbar: true, toolbar: true, title: true });
-}
+};
 
 /** Builds a file preview block container. */
 function buildFilePreviewBlock(file) {
@@ -144,7 +144,7 @@ function buildFilePreviewBlock(file) {
   div.appendChild(fileInfoLabel(file));
   div.insertAdjacentHTML('beforeend', filePreviewHTML(file));
   return div;
-}
+};
 
 /** Creates a tiny label describing the file type. */
 function fileInfoLabel(file) {
@@ -156,7 +156,7 @@ function fileInfoLabel(file) {
   info.style.cssText = 'font-size:.85rem;color:#777;';
   info.textContent = t;
   return info;
-}
+};
 
 /** Returns preview HTML for file (image/PDF/link fallback). */
 function filePreviewHTML(file) {
@@ -166,7 +166,7 @@ function filePreviewHTML(file) {
   if (isPDF) return pdfPreviewHTML(base64, file.name);
   if (isIMG) return imagePreviewHTML(base64, file);
   return `<a href="${base64}" target="_blank" download="${file.name}">📎 ${file.name}</a>`;
-}
+};
 
 /** Builds the HTML snippet for a PDF preview with controls. */
 function pdfPreviewHTML(base64, filename) {
@@ -179,7 +179,7 @@ function pdfPreviewHTML(base64, filename) {
     <button class="preview-btn" onclick="event.stopPropagation(); openPdfPreview('${base64}')">👁️</button>
     <button class="download-btn" onclick="event.stopPropagation(); downloadFile('${base64}','${filename}')">⬇️</button>
   </div>`;
-}
+};
 
 /** Builds the HTML snippet for an image preview with controls. */
 function imagePreviewHTML(base64, file) {
@@ -189,14 +189,14 @@ function imagePreviewHTML(base64, file) {
     <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${base64}','${file.name}')">⬇️</button>
     <div class="file-name" style="font-size:11px;text-align:center;color:#555;margin-top:6px;word-break:break-word;">${file.name}</div>
   </div>`;
-}
+};
 
 /** Formats byte counts into human-readable units. */
 function formatBytes(bytes) {
   const s = ['Bytes', 'KB', 'MB', 'GB']; if (!bytes) return '0 Bytes';
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + s[i];
-}
+};
 
 /** Renders assigned users (initials, names, colors) in overlay. */
 function renderOverlayUser(responseTaskJson) {
@@ -209,7 +209,7 @@ function renderOverlayUser(responseTaskJson) {
   box.innerHTML = html;
   const more = document.getElementById('more-user-overlay');
   if (more) more.innerHTML = names.length > 3 ? getMoreUserOverlay(names.length - 3) : '';
-}
+};
 
 /** Collects display info for assigned users into target arrays. */
 function determineUserInfo(responseTaskJson, names, firstLetters, colors) {
@@ -219,7 +219,7 @@ function determineUserInfo(responseTaskJson, names, firstLetters, colors) {
     const init = (window.getInitials) ? window.getInitials(full) : '?';
     names.push(full); firstLetters.push(init); colors.push(u.color || '#ccc');
   });
-}
+};
 
 /** Renders all subtasks in edit overlay for given task key/index. */
 async function renderOverlayEditSubtasks(idOrKey) {
@@ -229,14 +229,14 @@ async function renderOverlayEditSubtasks(idOrKey) {
   const box = document.getElementById('subtasks-overlay-edit'); if (!box) return;
   box.innerHTML = buildEditSubtasksListHTML(t, subs, key);
   if (typeof t.id === 'number') updateBoardSubtaskProgressUI(t.id, subs);
-}
+};
 
 /** Builds the edit-mode subtasks list HTML. */
 function buildEditSubtasksListHTML(t, subs, key) {
   let html = '<ul class="subtasks-list">';
   for (let i = 0; i < subs.length; i++) html += editSubtaskItemHTML(t, subs[i], i, key);
   return html + '</ul>';
-}
+};
 
 /** Builds the HTML for a single editable subtask row. */
 function editSubtaskItemHTML(t, st, i, key) {
@@ -251,7 +251,7 @@ function editSubtaskItemHTML(t, st, i, key) {
       <span class="subtask-title" onclick="editSubtask('${key}', '${safeTitle}')">${st.title}</span>
       <button class="subtask-delete" type="button" onclick="deleteSubtask('${key}', '${safeTitle}')">🗑️</button>
     </li>`;
-}
+};
 
 /** Toggles a subtask status from details view and updates UI. */
 async function toggleSubtaskFromDetails(displayId, subIndex) {
@@ -261,26 +261,26 @@ async function toggleSubtaskFromDetails(displayId, subIndex) {
   subs[subIndex].status = subs[subIndex].status === 'done' ? 'not done' : 'done';
   await fetch(url, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ subtasks: subs }) });
   rerender(task.id, subs); board(task.id, subs); toast(subs);
-}
+};
 
 /** Opens the PDF modal and sets the iframe source. */
 function openPdfPreview(base64) {
   const m = document.getElementById('pdf-modal'); const f = document.getElementById('pdf-frame');
   if (!m || !f) return; f.src = base64; m.style.display = 'flex';
-}
+};
 
 /** Closes the PDF modal and clears the iframe source. */
 function closeModal() {
   const m = document.getElementById('pdf-modal'); const f = document.getElementById('pdf-frame');
   if (!m || !f) return; m.style.display = 'none'; f.src = '';
-}
+};
 
 /** Triggers a download for a given base64 resource. */
 function downloadFile(base64, filename) {
   const a = document.createElement('a'); a.href = base64; a.download = filename; a.click();
-}
+};
 
 /** Normalizes a subtasks structure to an array. */
 function normalizeSubtasks(st) {
   return Array.isArray(st) ? st : Object.values(st || {});
-}
+};

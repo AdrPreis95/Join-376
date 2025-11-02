@@ -29,7 +29,7 @@ const BASE_URL = 'https://join-376-dd26c-default-rtdb.europe-west1.firebasedatab
 async function loadData(path = "") {
     let response = await fetch(BASE_URL + path + ".json");
     return responseToJson = await response.json();
-}
+};
 
 /**This function update tasks from Firebase according to their path.*/
 async function patchData(path = "", data = {}) {
@@ -41,7 +41,7 @@ async function patchData(path = "", data = {}) {
         body: JSON.stringify(data)});
 
     return responseToJson = await response.json();
-}
+};
 
 /** Loads a user by validating input and checking credentials. */
 async function loadUser() {
@@ -54,14 +54,14 @@ async function loadUser() {
 
     const user = await loadData("users/" + editEmailToKey(email));
     handleUserLogin(user, email, password);
-}
+};
 
 /** Resets all login-related error messages and styles. */
 function resetLoginErrors() {
     errorMsgLogin.classList.add('hidden');
     emailLogin.classList.remove("wrong-input");
     passwordLogin.classList.remove("wrong-input");
-}
+};
 
 /** Validates the email input and shows errors if needed. */
 function validateEmailInput(email) {
@@ -74,7 +74,7 @@ function validateEmailInput(email) {
         showLoginError(emailLogin, "Please enter a valid email address.");
         return false; }
         return true;
-}
+};
 
 /** Validates the password input and shows errors if missing. */
 function validatePasswordInput(password) {
@@ -83,7 +83,7 @@ function validatePasswordInput(password) {
         return false;
     }
     return true;
-}
+};
 
 /** Displays a login error message and focuses the input field. */
 function showLoginError(inputElement, message) {
@@ -91,7 +91,7 @@ function showLoginError(inputElement, message) {
     inputElement.focus();
     errorMsgLogin.textContent = message;
     errorMsgLogin.classList.remove("hidden");
-}
+};
 
 /** Handles user login logic based on validation results. */
 function handleUserLogin(user, email, password) {
@@ -104,7 +104,7 @@ function handleUserLogin(user, email, password) {
     } else {
         showErrorMsg(errorMsgLogin, passwordLogin, emailLogin);
     }
-}
+};
 
 /**This function checks if the email input field is not empty*/
 function checkInputEmail(email) {
@@ -116,7 +116,7 @@ function checkInputEmail(email) {
         email.focus();
         return false;
     }
-}
+};
 
 /**This function checks if the password input field is not empty */
 function checkInputPassword(password) {
@@ -128,7 +128,7 @@ function checkInputPassword(password) {
         password.focus();
         return false;
     }
-}
+};
 
 /**This function redirects the user to summary page*/
 function redirectToSummary(gettedUser, email, password) {
@@ -139,7 +139,7 @@ function redirectToSummary(gettedUser, email, password) {
     password.value = "";
     rememberMe();
     window.location.href = "./summary.html";
-}
+};
 
 /**This function shows the error message*/
 function showErrorMsg(errorMsg, password, email) {
@@ -148,25 +148,25 @@ function showErrorMsg(errorMsg, password, email) {
     password.classList.add("wrong-input");
     email.classList.add("wrong-input");
     sessionStorage.removeItem("loggedUser");
-}
+};
 
 /**This function loads user as guest */
 async function loadGuestUser() {
     loggedUser = await loadData("users/guest");
     sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
     window.location.href = "./summary.html";
-}
+};
 
 /**This function matches two passwords input values. */
 function matchingPassword(firstPassword = "", secondPassword = "") {
     return firstPassword === secondPassword;
-}
+};
 
 /**This function converts email input value to firebase key */
 function editEmailToKey(email = "") {
     let editedEmail = email.replaceAll(".", ",");
     return editedEmail;
-}
+};
 
 
 /**Handles the complete sign-up process: */
@@ -183,7 +183,7 @@ async function signUpUser() {
     if (!checkPrivacyPolicy(inputCheckboxSignUp)) return;
 
     await handleUserSignUp(name, email, password);
-}
+};
 
 /**Clears Signup Errors from all Inputs */
 function clearSignUpErrors() {
@@ -192,7 +192,7 @@ function clearSignUpErrors() {
     passwordSignUp.classList.remove('wrong-input');
     confirmSignUp.classList.remove('wrong-input');
     errorMsgSignUp.classList.add('hidden');
-}
+};
 
 /**Validates the Values of Signup Inputs */
 function validateInputs(name, email, password, confirmPassword) {
@@ -204,7 +204,7 @@ function validateInputs(name, email, password, confirmPassword) {
         return false;
     }
     return true;
-}
+};
 
 /**Validates the Namefield of Signup Input */
 function validateName(name) {
@@ -215,7 +215,7 @@ function validateName(name) {
         return false;
     }
     return true;
-}
+};
 
 /**Validates the Mailfield of Signup Input */
 function validateEmail(email) {
@@ -227,7 +227,7 @@ function validateEmail(email) {
         return false;
     }
     return true;
-}
+};
 
 /**Validates the Password Value of Signup Input */
 function validatePassword(password) {
@@ -238,7 +238,7 @@ function validatePassword(password) {
         return false;
     }
     return true;
-}
+};
 
 /**Handles the User Signup (Name,Mail,Password) */
 async function handleUserSignUp(name, email, password) {
@@ -253,7 +253,7 @@ async function handleUserSignUp(name, email, password) {
     await patchData("users/" + editEmailToKey(email), signedUser);
     resetSignUpInputs(emailSignUp, nameSignUp, passwordSignUp, confirmSignUp);
     showSucessSignedUp();
-}
+};
 
 
 /**This function checks if a user already exists*/
@@ -262,7 +262,7 @@ function checkFoundUser(email, users) {
     const foundUser = userArray.find(u => u.email === email.value);
 
     return foundUser != undefined;
-}
+};
 
 
 /**This function resets the error messages*/
@@ -270,7 +270,7 @@ function resetConfirmCheckBoxMsgError() {
     confirmPasswordSignUp.classList.remove('wrong-input');
     inputCheckboxSignUp.classList.remove('unchecked-privacy');
     errorMsgSignUp.classList.add('hidden');
-}
+};
 
 /**This function checks if the privacy policy is accepted*/
 function checkPrivacyPolicy(inputCheckbox) {
@@ -284,14 +284,14 @@ function checkPrivacyPolicy(inputCheckbox) {
         privacyAccepted.focus();
         return false;
     }
-}
+};
 
 /**This function sets new values to the global object signedUser*/
 function setSignedUser(name, email, password) {
     signedUser.name = capitalizeNames(name.value);
     signedUser.email = email.value;
     signedUser.password = password.value;
-}
+};
 
 /**This function shows the error messages when the passwords do not match*/
 function errorPasswords(errorMsg, password, confirmPassword) {
@@ -300,14 +300,14 @@ function errorPasswords(errorMsg, password, confirmPassword) {
     errorMsg.classList.remove('hidden');
     confirmPassword.classList.add('wrong-input');
     password.focus();
-}
+};
 
 /**This function shows error message if an email is already linked*/
 function emailAlreadyLinked(email) {
     notificationPopUp("Email is already linked to an account!");
     email.classList.add('wrong-input');
     email.focus();
-}
+};
 
 /**This function resets the sign up inputs values*/
 function resetSignUpInputs(email, name, password, confirm) {
@@ -316,12 +316,12 @@ function resetSignUpInputs(email, name, password, confirm) {
     email.value = "";
     password.value = "";
     confirm.value = "";
-}
+};
 
 /**This function capitalizes the name value*/
 function capitalizeNames(name) {
     return name.split(' ').map(s => s.charAt(0).toUpperCase() + s.slice(1)).join(' ');
-}
+};
 
 /**This function shows the successful message of a new signed up user*/
 function showSucessSignedUp() {
@@ -331,7 +331,7 @@ function showSucessSignedUp() {
         successMessage.style.display = 'none';
         window.location.href = "./index.html";
     }, 2000); 
-}
+};
 
 /**This function shows a pop up notification with its message value.*/
 function notificationPopUp(msg = "") {
@@ -344,7 +344,7 @@ function notificationPopUp(msg = "") {
     setTimeout(() => {
         notificationMessage.style.display = 'none';
     }, 1500); 
-}
+};
 
 /**This function checks and sets the last saved email address to the email input field.*/
 function rememberMe() {
@@ -353,7 +353,7 @@ function rememberMe() {
         document.getElementById("login-email").value = savedEmail;
         document.querySelector(".checkbox-login").checked = true;
     }
-}
+};
 
 /**This function checks if remember me checkbox is checked.*/
 function checkRememberMe() {
@@ -364,10 +364,10 @@ function checkRememberMe() {
     } else {
         localStorage.removeItem("join-saved-email");
     }
-}
+};
 
 /**This function checks if the typed email is valid.*/
-function isValidEmail(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); }
+function isValidEmail(s){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s); };
 
 /**This function checks if the typed email input is valid.*/
 function validateEmailInput(email){
@@ -380,7 +380,7 @@ function validateEmailInput(email){
     return false;
   }
   return true;
-}
+};
 
 /**This function checks if the typed email input is valid.*/
 function validateEmailField(event){
@@ -393,4 +393,4 @@ function validateEmailField(event){
   notificationPopUp("Please enter a valid email address");
   el.focus();
   return false;
-}
+};

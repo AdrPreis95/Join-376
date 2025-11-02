@@ -9,14 +9,14 @@ async function loadTasks() {
   const res = await fetch(BASE_URL + "/tasks.json");
   const tasksJson = await res.json();
   clearLists(); renderTasks(tasksJson); saveInArray(tasksJson);
-}
+};
 
 /** Resolves Firebase key by zero-based index. */
 async function findKey(id) {
   const res = await fetch(BASE_URL + "/tasks.json");
   const json = await res.json(); const keys = Object.keys(json);
   return keys[id];
-}
+};
 
 /** Caches titles/descriptions for search suggestions. */
 function saveInArray(tasksJson) {
@@ -24,7 +24,7 @@ function saveInArray(tasksJson) {
   for (let i = 0; i < tasksJson.length; i++) {
     titles.push(tasksJson[i].title); descriptions.push(tasksJson[i].description);
   }
-}
+};
 
 /** Searches tasks by keyword in title/description. */
 async function searchTask(type, e) {
@@ -32,13 +32,13 @@ async function searchTask(type, e) {
   const res = await fetch(BASE_URL + "/tasks.json"); const json = await res.json();
   const matched = json.filter(t => (t.title.toLowerCase().includes(kw) || t.description.toLowerCase().includes(kw)));
   showSearchResults(matched, json, keynum);
-}
+};
 
 /** Returns key code for pressed key. */
 function pressedKey(e) {
   if (window.e) return keynum = e.keyCode;
   else if (e.which) return keynum = e.which;
-}
+};
 
 /** Syncs search inputs and returns lowercase keyword. */
 function getKeyWord(type) {
@@ -49,20 +49,20 @@ function getKeyWord(type) {
     document.getElementById('find-task-responsive').value = document.getElementById('find-task').value;
     return keyword = document.getElementById('find-task').value.toLowerCase();
   }
-}
+};
 
 /** Renders search results or full list and shows no-result notice. */
 function showSearchResults(matchedTasks, responseJson, keynum) {
   if (matchedTasks.length > 0 && keynum != 8) { clearLists(); renderTasks(matchedTasks); }
   else { clearLists(); renderTasks(responseJson); if (keyword != "" && keynum != 8) noResults(); }
-}
+};
 
 /** Shows a transient 'no results' notification. */
 function noResults() {
   const pop = document.getElementById("search-notification");
   pop.classList.remove("d-none");
   setTimeout(() => pop.classList.add("d-none"), 1500);
-}
+};
 
 /** Clears all lists before re-render. */
 function clearLists() {
@@ -70,14 +70,14 @@ function clearLists() {
   document.getElementById('in-progress').innerHTML = "";
   document.getElementById('await-feedback').innerHTML = "";
   document.getElementById('done').innerHTML = "";
-}
+};
 
 /** Renders all tasks into their respective lists. */
 function renderTasks(tasksJson) {
   const arr = Object.values(tasksJson);
   for (let i = 0; i < arr.length; i++) renderTaskCard(arr[i]);
   checkEmptyList();
-}
+};
 
 /** Renders a single task card and its extras. */
 function renderTaskCard(t) {
@@ -86,7 +86,7 @@ function renderTaskCard(t) {
   if (el) el.innerHTML += getTask(id, t.category, cls, t.title, t.description, prioIcon);
   if (t.subtasks != undefined) calculateSubtaskProgress(t.subtasks, id);
   getFirstLetter(t.assignedTo, id);
-}
+};
 
 /** Renders placeholders for empty lists. */
 function checkEmptyList() {
@@ -94,7 +94,7 @@ function checkEmptyList() {
     document.getElementById('await-feedback'), document.getElementById('done')];
   const names = ['to do', 'in progress', 'await feedback', 'done'];
   for (let i = 0; i < refs.length; i++) if (refs[i].innerHTML == '') refs[i].innerHTML = getClearList(names[i]);
-}
+};
 
 /** Maps category to CSS class for label styling. */
 function checkCategory(category) {
@@ -102,7 +102,7 @@ function checkCategory(category) {
   if (category == 'Technical Task') classCategory = 'technical-task';
   else classCategory = 'user-story';
   return classCategory;
-}
+};
 
 /** Calculates and renders subtask progress for a card. */
 function calculateSubtaskProgress(subtasks, id) {
@@ -113,7 +113,7 @@ function calculateSubtaskProgress(subtasks, id) {
   }
   const progress = (done / all) * 100;
   document.getElementById('subtask-' + id).innerHTML = getSubtask(done, all, progress);
-}
+};
 
 /** Collects initials/colors of assigned users and renders them. */
 function getFirstLetter(user, id) {
@@ -126,7 +126,7 @@ function getFirstLetter(user, id) {
     }
   }
   renderFirstLetter(firstLetters, colors, id);
-}
+};
 
 /** Renders up to five user initials and optional '+n'. */
 function renderFirstLetter(firstLetters, colors, id) {
@@ -138,7 +138,7 @@ function renderFirstLetter(firstLetters, colors, id) {
   const n = Math.min(fl.length, 5);
   for (let j = 0; j < n; j++) box.innerHTML += getFirstLetterName(fl[j], col[j] ?? col[0] ?? '#999');
   if (fl.length > 5 && more) more.innerHTML = getMoreUser(fl.length - 5); else if (more) more.innerHTML = '';
-}
+};
 
 /** Returns priority icon path by priority label. */
 function findPrio(priority) {
@@ -147,21 +147,21 @@ function findPrio(priority) {
   else if (priority == 'Low') prioIcon = './assets/icons/low_icon.png';
   else if (priority == 'Medium') prioIcon = './assets/icons/medium_icon.png';
   return prioIcon;
-}
+};
 
 /** Marks a card as being dragged. */
 function startDragging(id) {
   currentDraggedElement = id;
   document.getElementById(currentDraggedElement).classList.add('drag-area-highlight');
-}
+};
 
 /** Removes dragging highlight from a card. */
 function removeDragging(id) {
   document.getElementById(id).classList.remove('drag-area-highlight');
-}
+};
 
 /** Allows dropping by preventing default. */
-function allowDrop(ev) { ev.preventDefault(); }
+function allowDrop(ev) { ev.preventDefault(); };
 
 /** Changes a task’s list and persists it. */
 async function changeList(list) {
@@ -169,26 +169,26 @@ async function changeList(list) {
   const key = await findKey(Math.max(0, idx - 1)); if (!key) return;
   const taskJson = await loadTaskByKey(key); if (!taskJson) return;
   taskJson.list = list; await saveTaskByKey(key, taskJson); await loadTasks();
-}
+};
 
 /** Parses numeric index from currentDraggedElement. */
 function parseIndexFromDragged(val) {
   const idx = Number(val); if (!Number.isFinite(idx)) { console.error('changeList: invalid index', val); return null; }
   return idx;
-}
+};
 
 /** Loads a task JSON by Firebase key. */
 async function loadTaskByKey(key) {
   const res = await fetch(`${BASE_URL}/tasks/${key}.json`);
   return await res.json();
-}
+};
 
 /** Saves a full task JSON by Firebase key. */
 async function saveTaskByKey(key, taskJson) {
   await fetch(`${BASE_URL}/tasks/${key}.json`, {
     method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(taskJson)
   });
-}
+};
 
 /** Deletes a task and reindexes remaining tasks. */
 async function deleteTask(id) {
@@ -199,7 +199,7 @@ async function deleteTask(id) {
     method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(updated)
   });
   showDeleteConfirm('Task deleted'); closeOverlay(); loadTasks();
-}
+};
 
 /** Shows a temporary delete confirmation overlay. */
 function showDeleteConfirm(msg) {
@@ -211,22 +211,22 @@ function showDeleteConfirm(msg) {
     </div><span style="font-weight:600">${msg}</span></div>`;
   document.body.appendChild(o); requestAnimationFrame(() => o.style.opacity = '1');
   setTimeout(() => { o.style.opacity = '0'; setTimeout(() => o.remove(), 200); }, 1400);
-}
+};
 
 /** Opens the Add Task overlay and prepares styling. */
-function openAddTask() { showOverlay(); setOverlayStyles(); hideUnnecessaryElementsInIframe(); }
+function openAddTask() { showOverlay(); setOverlayStyles(); hideUnnecessaryElementsInIframe(); };
 
 /** Activates overlay mode inside iframe. */
 function openOverlay() {
   const overlay = document.getElementById('overlayContent');
   if (overlay) { overlay.classList.add('overlay-active'); setOverlayMode(); }
-}
+};
 
 /** Closes the task overlay and resets to main page mode. */
 function closeTaskOverlay() {
   const overlay = document.getElementById('taskoverlay');
   if (overlay) { overlay.classList.remove('overlay-active'); resetToMainPage(); }
-}
+};
 
 /** Sets iframe body id to 'overlay-mode' after load. */
 function setOverlayMode() {
@@ -238,23 +238,23 @@ function setOverlayMode() {
       const b = d && d.body; if (b) { console.log("Changing body ID to 'overlay-mode'"); b.id = "overlay-mode"; }
     }, 100);
   };
-}
+};
 
 /** Resets iframe body id to 'main-page'. */
 function resetToMainPage() {
   const iframe = document.getElementById('overlayContent'); if (!iframe) return;
   const d = iframe.contentDocument || iframe.contentWindow.document; const b = d && d.body;
   if (b) { console.log("Resetting body ID to 'main-page'"); b.id = 'main-page'; }
-}
+};
 
 /** Opens task detail overlay and blocker. */
 function openTaskDetails() {
   document.getElementById('task-details').style.display = 'flex';
   document.getElementById('overlay-blocker').classList.remove('hidden');
-}
+};
 
 /** Closes task detail overlay and restores blocker. */
 function closeTaskDetails() {
   document.getElementById('task-details').style.display = 'none';
   document.getElementById('overlay-blocker').classList.add('hidden');
-}
+};

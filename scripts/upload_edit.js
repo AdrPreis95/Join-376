@@ -8,7 +8,7 @@ function renderEditFile(task) {
   renderEachFile(task, viewer);
   renderUploadInput(container, task.id);
   initViewer(task.id);
-}
+};
 
 /** Appends each file (image/pdf) as markup into a target viewer element. */
 function renderEachFile(task, viewer) {
@@ -20,12 +20,12 @@ function renderEachFile(task, viewer) {
       : isPDF ? getPdfMarkup(f, i, task.id) : '';
     viewer.appendChild(wrap);
   });
-}
+};
 
 /** Returns safe string replacing HTML special chars. */
 function esc(s) {
   return String(s || '').replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
-}
+};
 
 /** Returns image preview markup incl. delete and download actions. */
 function getImageMarkup(file, index, taskId) {
@@ -39,7 +39,7 @@ function getImageMarkup(file, index, taskId) {
       <button class="download-btn-img" onclick="event.stopPropagation(); downloadFile('${file.base64}', '${name}')">${getDownloadIcon()}</button>
       <div class="file-name">${name}</div>
     </div>`;
-}
+};
 
 /** Formats byte size with unit (Bytes, KB, MB, GB). */
 function formatBytes(bytes) {
@@ -47,7 +47,7 @@ function formatBytes(bytes) {
   if (!bytes) return '0 Bytes';
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
   return (bytes / Math.pow(1024, i)).toFixed(1) + ' ' + u[i];
-}
+};
 
 /** Returns pdf preview markup incl. open and download actions. */
 function getPdfMarkup(file, index, taskId) {
@@ -63,7 +63,7 @@ function getPdfMarkup(file, index, taskId) {
       </div>
       <div class="file-name">${name}</div>
     </div>`;
-}
+};
 
 /** Injects a hidden file input (accepts jpg/jpeg/png/pdf) and label. */
 function renderUploadInput(container, taskId) {
@@ -73,33 +73,33 @@ function renderUploadInput(container, taskId) {
       <input type="file" id="edit-file-upload" multiple accept=".jpg,.jpeg,.png,.pdf"
         style="display:none;" onchange="handleEditFileUpload(event, ${taskId})">
     </div>`;
-}
+};
 
 /** Initializes Viewer.js on the given viewer element. */
 function initViewer(taskId) {
   const el = document.getElementById(`viewer-${taskId}`);
   if (el) new Viewer(el);
-}
+};
 
 /** Returns SVG string for a download icon. */
 function getDownloadIcon() {
   return `<svg width="24" height="24" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd">
     <path d="M8 11h-6v10h20v-10h-6v-2h8v14h-24v-14h8v2zm5 2h4l-5 6-5-6h4v-12h2v12z"/></svg>`;
-}
+};
 
 /** Returns SVG string for an eye (open/preview) icon. */
 function getEyeIcon() {
   return `<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
     <path d="m11.998 5c-4.078 0-7.742 3.093-9.853 6.483-.096.159-.145.338-.145.517s.048.358.144.517c2.112 3.39 5.776 6.483 9.854 6.483 4.143 0 7.796-3.09 9.864-6.493.092-.156.138-.332.138-.507s-.046-.351-.138-.507c-2.068-3.403-5.721-6.493-9.864-6.493zm8.413 7c-1.837 2.878-4.897 5.5-8.413 5.5-3.465 0-6.532-2.632-8.404-5.5 1.871-2.868 4.939-5.5 8.404-5.5 3.518 0 6.579 2.624 8.413 5.5zm-8.411-4c2.208 0 4 1.792 4 4s-1.792 4-4 4-4-1.792-4-4 1.792-4 4-4zm0 1.5c-1.38 0-2.5 1.12-2.5 2.5s1.12 2.5 2.5 2.5 2.5-1.12 2.5-2.5-1.12-2.5-2.5-2.5z" fill-rule="nonzero"/></svg>`;
-}
+};
 
 /** Returns SVG string for a plus (add) icon. */
 function getPlusIcon() {
   return `<svg clip-rule="evenodd" fill-rule="evenodd" stroke-linejoin="round" stroke-miterlimit="2"
     viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" width="24" height="24">
     <path d="m12.002 2c5.518 0 9.998 4.48 9.998 9.998 0 5.517-4.48 9.997-9.998 9.997-5.517 0-9.997-4.48-9.997-9.997 0-5.518 4.48-9.998 9.997-9.998zm0 1.5c-4.69 0-8.497 3.808-8.497 8.498s3.807 8.497 8.497 8.497 8.498-3.807 8.498-8.497-3.808-8.498-8.498-8.498zm-.747 7.75h-3.5c-.414 0-.75.336-.75.75s.336.75.75.75h3.5v3.5c0 .414.336.75.75.75s.75-.336.75-.75v-3.5h3.5c.414 0 .75-.336.75-.75s-.336-.75-.75-.75h-3.5v-3.5c0-.414-.336-.75-.75-.75s-.75.336-.75.75z" fill="currentcolor"/></svg>`;
-}
+};
 
 /** Removes file at index from task, persists to Firebase, and rerenders. */
 async function removeFileFromTask(id, index) {
@@ -110,7 +110,7 @@ async function removeFileFromTask(id, index) {
   task.files.splice(index, 1);
   await updateTaskInFirebase(taskRefUrl, { files: task.files });
   renderEditFile(task);
-}
+};
 
 /** Handles edit-upload: validates, respects limits, saves and warns. */
 async function handleEditFileUpload(event, taskId) {
@@ -120,22 +120,22 @@ async function handleEditFileUpload(event, taskId) {
   let counters = initCounters(task.files), flags = initFlags();
   await processSelectedFiles({ files, task, id, counters, flags });
   showUploadWarnings(flags.invalidFiles, flags.tooManyImages, flags.tooManyPDFs);
-}
+};
 
 /** Returns current images/pdfs counters from an array. */
 function initCounters(arr){ 
   return { images: countFilesOfType(arr, 'image/'), pdfs: countFilesOfType(arr, 'application/pdf') };
-}
+};
 
 /** Returns initial flags object for upload validations. */
 function initFlags(){ 
   return { invalidFiles: [], tooManyImages: false, tooManyPDFs: false };
-}
+};
 
 /** Counts files whose base64 starts with given MIME prefix. */
 function countFilesOfType(fileArray, typePrefix) {
   return fileArray.filter(f => f.base64?.startsWith(`data:${typePrefix}`)).length;
-}
+};
 
 /** Returns true if file must be skipped (invalid type/limits reached). */
 function shouldSkipFile(file, counters, flags) {
@@ -147,7 +147,7 @@ function shouldSkipFile(file, counters, flags) {
   if (isImg && counters.images >= 4) return (flags.tooManyImages = true);
   if (isPdf && counters.pdfs >= 2) return (flags.tooManyPDFs = true);
   return false;
-}
+};
 
 /** Processes selected files, saves valid ones, and updates counters. */
 async function processSelectedFiles({ files, task, id, counters, flags }) {
@@ -157,7 +157,7 @@ async function processSelectedFiles({ files, task, id, counters, flags }) {
     if (file.type.startsWith('image/')) counters.images++;
     if (file.type === 'application/pdf') counters.pdfs++;
   }
-}
+};
 
 /** Converts to base64, patches Firebase, and rerenders the preview. */
 async function readAndSaveFile(file, task, id) {
@@ -171,14 +171,14 @@ async function readAndSaveFile(file, task, id) {
     };
     r.readAsDataURL(file);
   });
-}
+};
 
 /** Shows overlays for invalid types or exceeded image/PDF limits. */
 function showUploadWarnings(invalidFiles, tooManyImages, tooManyPDFs) {
   if (invalidFiles.length) showUploadWarningOverlay(`Invalid file format – not allowed: ${invalidFiles.join(', ')}`);
   if (tooManyImages) showUploadWarningOverlay(`Maximum of 4 images reached!!!`);
   if (tooManyPDFs) showUploadWarningOverlay(`Maximum of 2 PDFs reached!!!`);
-}
+};
 
 /** Shows and auto-hides the upload warning overlay with a message. */
 function showUploadWarningOverlay(message) {
@@ -187,7 +187,7 @@ function showUploadWarningOverlay(message) {
   msgEl.textContent = message;
   overlay.classList.remove('hidden'); overlay.classList.add('show');
   setTimeout(() => { overlay.classList.remove('show'); overlay.classList.add('hidden'); }, 3000);
-}
+};
 
 /** PATCHes a partial update to Firebase and returns parsed JSON. */
 async function updateTaskInFirebase(ref, partial) {
@@ -195,6 +195,6 @@ async function updateTaskInFirebase(ref, partial) {
   const res = await fetch(url, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(partial) });
   if (!res.ok) { const msg = `Firebase update failed: ${res.status} ${res.statusText}`; console.error(msg, { url, partial }); throw new Error(msg); }
   return res.json();
-}
+};
 
 const await_updateTaskInFirebase = updateTaskInFirebase;

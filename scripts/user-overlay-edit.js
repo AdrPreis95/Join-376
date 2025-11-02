@@ -8,7 +8,7 @@ async function loadContacts(id) {
   _contactsCache = contacts;
   renderOverlayContacts(id, contacts, task.assignedTo || []);
   selectedUserEdit(id);
-}
+};
 
 /**Refreshes the assigned-to UI from backend state.*/
 async function refreshAssignedUI(id) {
@@ -16,7 +16,7 @@ async function refreshAssignedUI(id) {
   const task = await fetch(`${BASE_URL}/tasks/${key}.json`).then(r => r.json()) || {};
   renderOverlayContacts(id, _contactsCache || [], task.assignedTo || []);
   selectedUserEdit(id);
-}
+};
 
 /**Renders the contact list for the overlay assigned-to section.*/
 function renderOverlayContacts(id, contacts, assignedList) {
@@ -33,7 +33,7 @@ function renderOverlayContacts(id, contacts, assignedList) {
                ${getContactName(id, shown, color, f, l, icon)}</div>`;
   }
   box.innerHTML = html; bindDropdownRowClicks();
-}
+};
 
 /**Binds click events for selecting/deselecting assigned users. */
 function bindDropdownRowClicks() {
@@ -46,7 +46,7 @@ function bindDropdownRowClicks() {
     if (icon) icon.click();
   });
   list._rowClickBound = true;
-}
+};
 
 /**Toggles a contact's assigned-to state in the backend. */
 async function toggleAssignedTo(name, id) {
@@ -60,7 +60,7 @@ async function toggleAssignedTo(name, id) {
     : [...task.assignedTo, { firstName: fn, lastName: ln, color: generateColor() }];
   await patchAssigned(url, task.assignedTo);
   await refreshAssignedUI(id);
-}
+};
 
 /**Toggles the assigned to (users container) and checkbox*/
 function rowToggleAssigned(row) {
@@ -70,7 +70,7 @@ function rowToggleAssigned(row) {
   if (img) img.src = img.src.includes('checked_icon') ? UNCHECKED : CHECKED;
   row.classList.toggle('selected');
   toggleAssignedTo(name, id).finally(() => row.dataset.busy = '0');
-}
+};
 
 /**Loads assigned users and renders them as chips in the edit overlay. */
 async function selectedUserEdit(id) {
@@ -80,7 +80,7 @@ async function selectedUserEdit(id) {
     return { shown: full, initials: getInitials(full), color: u.color || generateColor() };
   });
   renderOverlayEditUser(items, id);
-}
+};
 
 /**Renders assigned user chips in the edit overlay.*/
 function renderOverlayEditUser(items, id) {
@@ -89,7 +89,7 @@ function renderOverlayEditUser(items, id) {
   for (let i = 0; i < n; i++) html += makeChipHtml(items[i], id);
   if (items.length > 8) html += getMoreUserOverlayEdit(items.length - 8);
   box.innerHTML = html;
-}
+};
 
 /**Removes an assigned user from a task. */
 async function removeAssignedUser(displayName, id) {
@@ -100,15 +100,17 @@ async function removeAssignedUser(displayName, id) {
   task.assignedTo = task.assignedTo.filter(u => !sameUser(u.firstName, u.lastName, fn, ln));
   await patchAssigned(url, task.assignedTo);
   await refreshAssignedUI(id);
-}
+};
 
-/* --------------------------- kleine Helper --------------------------- */
-function ensureAssignedArray(task) { if (!Array.isArray(task.assignedTo)) task.assignedTo = []; }
-function splitName(clean) { const [fn, ...rest] = clean.split(/\s+/); return { fn, ln: rest.join(' ') }; }
-function assignedExists(list, fn, ln) { return list.some(u => sameUser(u.firstName, u.lastName, fn, ln)); }
+/* --------------------------- Helpers   --------------------------- */
+function ensureAssignedArray(task) { if (!Array.isArray(task.assignedTo)) task.assignedTo = []; };
+
+function splitName(clean) { const [fn, ...rest] = clean.split(/\s+/); return { fn, ln: rest.join(' ') }; };
+function assignedExists(list, fn, ln) { return list.some(u => sameUser(u.firstName, u.lastName, fn, ln)); };
+
 async function patchAssigned(url, list) {
   await fetch(url, { method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ assignedTo: list }) });
-}
+};
 
 function makeChipHtml(it, id) {
   const chipId = 'chip-' + safeIdFromName(it.shown);
@@ -118,4 +120,4 @@ function makeChipHtml(it, id) {
       <button class="delete-user-button" title="Remove ${it.shown}" aria-label="Remove ${it.shown}"
         onclick="removeAssignedUser(decodeURIComponent('${encodeURIComponent(it.shown)}'), ${id})">×</button>
     </div>`;
-}
+};
