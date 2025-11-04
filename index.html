@@ -1,73 +1,92 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join</title>
 
-    <link rel="icon" href="./assets/img/join_logo_dark.png">
-    
-    <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" href="style/standard.css">
-    <link rel="stylesheet" href="style/login.css">   
-    <link rel="stylesheet" href="style/responsive.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/viewerjs@1.11.5/dist/viewer.min.css">
+  <link rel="icon" href="./assets/img/join_logo_dark.png">
+  
+  <link rel="stylesheet" href="style/style.css">
+  <link rel="stylesheet" href="style/standard.css">
+  <link rel="stylesheet" href="style/login.css">   
+  <link rel="stylesheet" href="style/responsive.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/viewerjs@1.11.5/dist/viewer.min.css">
 
+  <!-- Bridge: neue semantische Elemente verhalten sich wie div -->
+  <style>
+    section, article, figure {display:block; box-sizing:border-box; margin:0; padding:0;}
+  </style>
 </head>
 
 <body onload="rememberMe()">
-    <div class="login-page-content">
-        <div class="logo-login-signup">
-            <img id="join-logo" src="./assets/img/join_logo_dark.png" alt="Join Logo">
-            <div class="login-signup signup-desktop">
-                <span>
-                    Not a Join user?
-                </span>
-                <button class="btn-primary btn-login-signup" onclick="window.location.href = './signup.html'">Sign up</button>
-            </div>
-        </div>
-        <div class="login-content">
-            <div class="login-field">
-                <div class="outer-login-span">
-                    <span>Log in</span>
-                    <div class="inner-login-span">&nbsp;</div>
-                </div>
-                <form novalidate onsubmit="loadUser(); return false;">
-                    <input type="email" name="Email" placeholder="Email" id="login-email" required>
-                    <div class="input-password">
-                        <div class="input-icon">
-                            <input type="password" name="Password" placeholder="Password" class="password-login" id="login-password"  required>
-                            <img class="password-icon lock-icon">
-                        </div>
-                        <span class="error-message hidden" id="check-email-password">Check your email and password. Please try again.</span>
-                    </div>
-                    <div class="input-checkbox">
-                        <input type="checkbox" value="false" class="checkbox-login" id="login-checkbox"> <label for="login-checkbox">Remember me</label>
-                    </div>
-                    <div class="login-btns">
-                        <button class="btn-primary">Log in</button>
-                        <button class="btn-secondary" onclick="loadGuestUser(); return false;">Guest Log in</button>
-                    </div>            
-                </form>         
-            </div>
-        </div>
-        <div class="login-signup signup-mobile">
-            <span>
-                Not a Join user?
-            </span>
-            <button class="btn-primary btn-login-signup" onclick="window.location.href = './signup.html'">Sign up</button>
-        </div>
-        <footer class="privacy-legal">
-            <a href="./privacypolicy_external.html">Privacy Policy</a>
-            <a href="./legalnotice_external.html">Legal Notice</a>
-        </footer>
-    </div>
-    <div class="intro-join">
-        <img class="big-logo" src="./assets/img/join_logo_dark_274_335.png" alt="Big Logo Join">
-    </div>
-    <script src="./scripts/login.js"></script>
-    <script src="./scripts/users.js"></script>
-</body>
+  <section class="login-page-content">
+    
+    <!-- === Logo + Desktop Sign-Up === -->
+    <section class="logo-login-signup">
+      <figure>
+        <img id="join-logo" src="./assets/img/join_logo_dark.png" alt="Join Logo">
+      </figure>
+      <section class="login-signup signup-desktop">
+        <span>Not a Join user?</span>
+        <button class="btn-primary btn-login-signup" onclick="window.location.href = './signup.html'">Sign up</button>
+      </section>
+    </section>
 
+    <!-- === Loginbereich === -->
+    <section class="login-content">
+      <article class="login-field">
+        <section class="outer-login-span">
+          <span>Log in</span>
+          <div class="inner-login-span">&nbsp;</div>
+        </section>
+
+        <form novalidate onsubmit="loadUser(); return false;">
+          <input type="email" name="Email" placeholder="Email" id="login-email" required>
+
+          <section class="input-password">
+            <div class="input-icon">
+              <input type="password" name="Password" placeholder="Password"
+                     class="password-login" id="login-password" required>
+              <img class="password-icon lock-icon">
+            </div>
+            <span class="error-message hidden" id="check-email-password">
+              Check your email and password. Please try again.
+            </span>
+          </section>
+
+          <section class="input-checkbox">
+            <input type="checkbox" value="false" class="checkbox-login" id="login-checkbox">
+            <label for="login-checkbox">Remember me</label>
+          </section>
+
+          <section class="login-btns">
+            <button class="btn-primary">Log in</button>
+            <button class="btn-secondary" onclick="loadGuestUser(); return false;">Guest Log in</button>
+          </section>
+        </form>
+      </article>
+    </section>
+
+    <!-- === Mobile Sign-Up Bereich === -->
+    <section class="login-signup signup-mobile">
+      <span>Not a Join user?</span>
+      <button class="btn-primary btn-login-signup" onclick="window.location.href = './signup.html'">Sign up</button>
+    </section>
+
+    <!-- === Footer mit rechtlichen Links === -->
+    <footer class="privacy-legal">
+      <a href="./privacypolicy_external.html">Privacy Policy</a>
+      <a href="./legalnotice_external.html">Legal Notice</a>
+    </footer>
+  </section>
+
+  <!-- === Intro-Bild === -->
+  <figure class="intro-join">
+    <img class="big-logo" src="./assets/img/join_logo_dark_274_335.png" alt="Big Logo Join">
+  </figure>
+
+  <script src="./scripts/login.js"></script>
+  <script src="./scripts/users.js"></script>
+</body>
 </html>

@@ -10,7 +10,6 @@
 
     <script src="scripts/base_url.js"></script>
     <script src="scripts/summary.js"></script>
-    <script src="./scripts/summary.js"></script>
     <script src="./scripts/script.js"></script>
 
     <link rel="stylesheet" href="style/style.css">
@@ -21,53 +20,70 @@
     <link rel="stylesheet" href="style/add_task.css">
     <link rel="stylesheet" href="style/responsive.css">
     <link rel="stylesheet" href="style/summary.css">
+
+    <!-- Bridge – neue semantische Elemente verhalten sich wie DIV -->
+    <style>
+        section,
+        article,
+        figure {
+            display: block;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 
 <body onload="onLoadFunc()">
-    <div class="container">
+    <section class="container">
+
+        <!-- ==== Sidebar ==== -->
         <aside class="sidebar">
-            <div class="sidebar-logo">
+            <figure class="sidebar-logo">
                 <img src="assets/img/join_logo.png" alt="Join-Logo">
-            </div>
-            <div class="main-links-container">
+            </figure>
+
+            <section class="main-links-container">
                 <a href="./summary.html" class="main-link active_side">
-                    <img src="./assets/icons/summary_icon.png" alt="summary_icon">
-                    Summary
+                    <img src="./assets/icons/summary_icon.png" alt="summary_icon"> Summary
                 </a>
                 <a href="./add_task.html" class="main-link">
-                    <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
-                    Add Task
+                    <img src="./assets/icons/add_task_icon.png" alt="addtask_icon"> Add Task
                 </a>
                 <a href="./board.html" class="main-link">
-                    <img src="./assets/icons/board_icon.png" alt="board_icon">
-                    Board
+                    <img src="./assets/icons/board_icon.png" alt="board_icon"> Board
                 </a>
                 <a href="./contacts.html" class="main-link">
-                    <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
-                    Contacts
+                    <img src="./assets/icons/contacts_icon.png" alt="contact_icon"> Contacts
                 </a>
-            </div>
-            <div class="legal-links-container">
+            </section>
+
+            <section class="legal-links-container">
                 <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
                 <a href="./legal_notice.html" class="legal-link">Legal notice</a>
-            </div>
+            </section>
         </aside>
+
+        <!-- ==== Main Content ==== -->
         <main class="main-content">
-            <div class="submenu d-none">
-                <div class="submenu-content closed">
+            <section class="submenu d-none">
+                <article class="submenu-content closed">
                     <a class="submenu-help" href="help.html">Help</a>
                     <a href="legal_notice.html">Legal Notice</a>
                     <a href="privacy_policy.html">Privacy Policy</a>
                     <a onclick="logOut()">Log out</a>
-                </div>
-            </div>
+                </article>
+            </section>
+
+            <!-- Header bleibt 100 % unverändert -->
             <header>
                 <div class="header-content">
                     <p>Kanban Project Management Tool</p>
                     <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
                     <div class="header-icons">
-                        <a class="help-link" href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32"
-                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <a class="help-link" href="./help.html">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
                                     y="0" width="32" height="32">
                                     <rect width="32" height="32" fill="#D9D9D9" />
@@ -82,41 +98,41 @@
                         <div class="user-icon" onclick="toggleSubmenu()">
                             <b id="user-initials"></b>
                         </div>
-                    </div>  
+                    </div>
                 </div>
             </header>
-            <div class="overall-container">
 
-                <div class="headline-span">
+            <!-- ==== Inhalt ==== -->
+            <section class="overall-container">
+                <article class="headline-span">
                     <h1 id="summhl"><b>Join 376</b></h1>
                     <div class="seperator-line"></div>
                     <span class="key-metrics-span">Key Metrics at a Glance</span>
                     <div class="separator-underline"></div>
-                </div>
-                <div class="overall-content-container">
-                    <div class="summary-content-container">
-                        <section class="top">
-                            
-                                <div class="todo-container" onclick="redirectToBoard()">
-                                    <img class="todo-icon" src="assets/icons/todo-logo.png" alt="TodoIcon">
-                                    <div class="center-info">
-                                        <h2 id="show-todos" class="h-2">1</h2>
-                                        <p class="p-info">To-do</p>
-                                    </div>
-                                </div>
-                           
+                </article>
 
-                            <div class="done-container" onclick="redirectToBoard()">
+                <section class="overall-content-container">
+                    <article class="summary-content-container">
+                        <section class="top">
+                            <article class="todo-container" onclick="redirectToBoard()">
+                                <img class="todo-icon" src="assets/icons/todo-logo.png" alt="TodoIcon">
+                                <div class="center-info">
+                                    <h2 id="show-todos" class="h-2">1</h2>
+                                    <p class="p-info">To-do</p>
+                                </div>
+                            </article>
+
+                            <article class="done-container" onclick="redirectToBoard()">
                                 <img class="done-icon" src="assets/icons/done-logo.png" alt="DoneIcon">
                                 <div class="center-info">
                                     <h2 id="show-done" class="h-2">1</h2>
                                     <p class="p-info">Done</p>
                                 </div>
-                            </div>
+                            </article>
                         </section>
 
                         <section class="mid">
-                            <div class="urgent-date-container" onclick="redirectToBoard()">
+                            <article class="urgent-date-container" onclick="redirectToBoard()">
                                 <div class="urgent-side">
                                     <img class="prioimg" src="assets/icons/summary-prio.png" alt="UrgentIcon">
                                     <div class="center-info">
@@ -129,68 +145,58 @@
                                     <h3 id="priory-date" class="priorydate">October 16, 2024</h3>
                                     <p class="p-upcoming-deadline">Upcoming Deadline</p>
                                 </div>
-                            </div>
+                            </article>
                         </section>
 
                         <section class="bottom">
-
-                            <div class="tasks-board-container" onclick="redirectToBoard()" >
-
+                            <article class="tasks-board-container" onclick="redirectToBoard()">
                                 <div class="center-info">
                                     <h2 id="show-tasks-board" class="h-2">1</h2>
                                     <p class="p-info">Tasks in<br>Board</p>
                                 </div>
-                            </div>
+                            </article>
 
-                            <div class="task-progress-container" onclick="redirectToBoard()">
+                            <article class="task-progress-container" onclick="redirectToBoard()">
                                 <div class="center-info">
                                     <h2 id="show-tasks-progress" class="h-2">1</h2>
                                     <p class="p-info">Tasks in<br>Progress</p>
                                 </div>
-                            </div>
+                            </article>
 
-                            <div class="task-feedback-container" onclick="redirectToBoard()">
+                            <article class="task-feedback-container" onclick="redirectToBoard()">
                                 <div class="center-info">
                                     <h2 id="show-tasks-await-feedback" class="h-2">1</h2>
                                     <p class="p-info">Awaiting<br>Feedback</p>
                                 </div>
-                            </div>
+                            </article>
                         </section>
-                    </div>
-                    <div class="greeting-user">
+                    </article>
+
+                    <article class="greeting-user">
                         <p id="greeting-hl" class="greeting"></p>
-                        <h3 class="user" id="greet-user">
-                            </h1>
-                    </div>
-                </div>
-            </div>
+                        <h3 class="user" id="greet-user"></h3>
+                    </article>
+                </section>
+            </section>
+        </main>
+    </section>
 
-
-
-    </div>
-    </main>
-
-    </div>
-
+    <!-- ==== Footer ==== -->
     <footer class="responsive-footer">
-        <div class="main-links-container-responsive">
+        <section class="main-links-container-responsive">
             <a href="./summary.html" class="main-link-responsive active_side">
-                <img src="./assets/icons/summary_icon.png" alt="summary_icon">
-                Summary
+                <img src="./assets/icons/summary_icon.png" alt="summary_icon"> Summary
             </a>
             <a href="./add_task.html" class="main-link-responsive">
-                <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
-                Add Task
+                <img src="./assets/icons/add_task_icon.png" alt="addtask_icon"> Add Task
             </a>
             <a href="./board.html" class="main-link-responsive">
-                <img src="./assets/icons/board_icon.png" alt="board_icon">
-                Board
+                <img src="./assets/icons/board_icon.png" alt="board_icon"> Board
             </a>
             <a href="./contacts.html" class="main-link-responsive">
-                <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
-                Contacts
+                <img src="./assets/icons/contacts_icon.png" alt="contact_icon"> Contacts
             </a>
-        </div>
+        </section>
     </footer>
 </body>
 

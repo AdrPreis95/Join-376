@@ -1,74 +1,97 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Join</title>
 
-    <link rel="icon" href="./assets/img/join_logo_dark.png">
+  <link rel="icon" href="./assets/img/join_logo_dark.png">
 
-    <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" href="style/standard.css">
-    <link rel="stylesheet" href="style/responsive.css">
-    <link rel="stylesheet" href="style/signup.css">
+  <link rel="stylesheet" href="style/style.css">
+  <link rel="stylesheet" href="style/standard.css">
+  <link rel="stylesheet" href="style/responsive.css">
+  <link rel="stylesheet" href="style/signup.css">
 
+  <!-- Bridge: neue semantische Elemente verhalten sich wie DIV -->
+  <style>
+    section, article, figure {display:block; box-sizing:border-box; margin:0; padding:0;}
+  </style>
 </head>
 
 <body>
-    <div class="signup-page-content">
-        <div class="logo-signup">
-            <img id="join-logo" src="./assets/img/join_logo_dark.png" alt="Join Logo">
-        </div>
-        <div class="signup-content">
-            <div class="signup-field">
-                <img src="./assets/icons/arrow_left_line_icon.png" class="back-login"
-                    onclick="location.href='./index.html'" alt="arrow_left_line_icon">
-                <div class="outer-signup-span">
-                    <span>Sign up</span>
-                    <div class="inner-signup-span">&nbsp;</div>
-                </div>
-                <div class="msg-pop-up notification">
-                    <span id="pop-up-notification">Notification</span>
-                </div>
-                <form novalidate onsubmit="signUpUser(); return false;">
-                    <input type="text" name="Name" placeholder="Name" id="signup-name" required>
-                    <input type="email" name="Email" placeholder="Email" id="signup-email" required>
-                    <div class="input-password">
-                        <input type="password" name="Password" placeholder="Password" class="password-signup"
-                            id="signup-password" required>
-                        <img class="password-icon lock-icon">
-                    </div>
-                    <div class="input-confirm">
-                        <div class="input-icon">
-                            <input type="password" name="Password" placeholder="Confirm Password"
-                                class="password-confirm" id="confirm-password" required>
-                            <img class="confirm-icon lock-icon">
-                        </div>
-                        <span class="error-message hidden" id="check-password">Your passwords don't match. Please try
-                            again.</span>
-                    </div>
-                    <div class="input-checkbox">
-                        <input type="checkbox" value="false" class="checkbox-privacy" id="privacy-checkbox"> <label
-                            for="privacy-checkbox"> I accept the <a class="signup-privacy-link"
-                                href="./privacypolicy_external.html">Privacy Policy</a></label>
-                    </div>
-                    <button class="btn-primary signup-btn">Sign up</button>
-                </form>
-            </div>
-        </div>
-        <footer class="privacy-legal">
-            <a href="./privacypolicy_external.html">Privacy Policy</a>
-            <a href="./legalnotice_external.html">Legal Notice</a>
-        </footer>
-    </div>
-    <div class="success-signed">
-        <div class="msg-pop-up">
-            <span>You Signed Up successfully</span>
-        </div>
-    </div>
-    <script src="./scripts/signup.js"></script>
-    <script src="./scripts/users.js"></script>
-</body>
+  <section class="signup-page-content">
 
+    <!-- === Logo-Bereich === -->
+    <figure class="logo-signup">
+      <img id="join-logo" src="./assets/img/join_logo_dark.png" alt="Join Logo">
+    </figure>
+
+    <!-- === Sign-Up Formular === -->
+    <section class="signup-content">
+      <article class="signup-field">
+
+        <img src="./assets/icons/arrow_left_line_icon.png"
+             class="back-login"
+             onclick="location.href='./index.html'"
+             alt="arrow_left_line_icon">
+
+        <section class="outer-signup-span">
+          <span>Sign up</span>
+          <div class="inner-signup-span">&nbsp;</div>
+        </section>
+
+        <section class="msg-pop-up notification">
+          <span id="pop-up-notification">Notification</span>
+        </section>
+
+        <form novalidate onsubmit="signUpUser(); return false;">
+          <input type="text" name="Name" placeholder="Name" id="signup-name" required>
+          <input type="email" name="Email" placeholder="Email" id="signup-email" required>
+
+          <section class="input-password">
+            <input type="password" name="Password" placeholder="Password"
+                   class="password-signup" id="signup-password" required>
+            <img class="password-icon lock-icon">
+          </section>
+
+          <section class="input-confirm">
+            <div class="input-icon">
+              <input type="password" name="Password" placeholder="Confirm Password"
+                     class="password-confirm" id="confirm-password" required>
+              <img class="confirm-icon lock-icon">
+            </div>
+            <span class="error-message hidden" id="check-password">
+              Your passwords don't match. Please try again.
+            </span>
+          </section>
+
+          <section class="input-checkbox">
+            <input type="checkbox" value="false" class="checkbox-privacy" id="privacy-checkbox">
+            <label for="privacy-checkbox">
+              I accept the <a class="signup-privacy-link" href="./privacypolicy_external.html">Privacy Policy</a>
+            </label>
+          </section>
+
+          <button class="btn-primary signup-btn">Sign up</button>
+        </form>
+      </article>
+    </section>
+
+    <!-- === Footer === -->
+    <footer class="privacy-legal">
+      <a href="./privacypolicy_external.html">Privacy Policy</a>
+      <a href="./legalnotice_external.html">Legal Notice</a>
+    </footer>
+  </section>
+
+  <!-- === Erfolgs-Overlay === -->
+  <section class="success-signed">
+    <article class="msg-pop-up">
+      <span>You Signed Up successfully</span>
+    </article>
+  </section>
+
+  <script src="./scripts/signup.js"></script>
+  <script src="./scripts/users.js"></script>
+</body>
 </html>

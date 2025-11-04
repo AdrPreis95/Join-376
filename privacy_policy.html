@@ -1,174 +1,220 @@
 <!DOCTYPE html>
 <html lang="de">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privacy-Policy</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy-Policy</title>
 
-    <link rel="icon" href="./assets/img/join_logo_dark.png">
+  <link rel="icon" href="./assets/img/join_logo_dark.png">
 
-    <link rel="stylesheet" href="style/style.css">
-    <link rel="stylesheet" href="style/standard.css">
-    <link rel="stylesheet" href="style/legal_notice.css">
-    <link rel="stylesheet" href="style/contacts.css">
-    <link rel="stylesheet" href="style/board.css">
-    <link rel="stylesheet" href="style/add_task.css">
-    <link rel="stylesheet" href="style/responsive.css">
-    <link rel="stylesheet" href="style/summary.css">
+  <link rel="stylesheet" href="style/style.css">
+  <link rel="stylesheet" href="style/standard.css">
+  <link rel="stylesheet" href="style/legal_notice.css">
+  <link rel="stylesheet" href="style/contacts.css">
+  <link rel="stylesheet" href="style/board.css">
+  <link rel="stylesheet" href="style/add_task.css">
+  <link rel="stylesheet" href="style/responsive.css">
+  <link rel="stylesheet" href="style/summary.css">
 
-    <script src="scripts/helper.js"></script>
+  <script src="scripts/helper.js"></script>
+
+  <!-- Bridge: neue semantische Elemente verhalten sich wie DIV -->
+  <style>
+    section, article, figure {display:block; box-sizing:border-box; margin:0; padding:0;}
+  </style>
 </head>
 
 <body>
+  <section class="container">
 
-    <div class="container">
-        <aside class="sidebar">
-            <div class="sidebar-logo">
-                <img src="assets/img/join_logo.png" alt="Join-Logo">
-            </div>
-            <div class="main-links-container">
-                <a href="./summary.html" class="main-link">
-                    <img src="./assets/icons/summary_icon.png" alt="summary_icon">
-                    Summary
-                </a>
-                <a href="./add_task.html" class="main-link">
-                    <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
-                    Add Task
-                </a>
-                <a href="./board.html" class="main-link">
-                    <img src="./assets/icons/board_icon.png" alt="board_icon">
-                    Board
-                </a>
-                <a href="./contacts.html" class="main-link">
-                    <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
-                    Contacts
-                </a>
-            </div>
-            <div class="legal-links-container">
-                <a href="./privacy_policy.html" class="legal-link active_side">Privacy Policy</a>
-                <a href="./legal_notice.html" class="legal-link">Legal notice</a>
-            </div>
-        </aside>
+    <!-- ==== Sidebar ==== -->
+    <aside class="sidebar">
+      <figure class="sidebar-logo">
+        <img src="assets/img/join_logo.png" alt="Join-Logo">
+      </figure>
 
-        <main class="main-content">
-            <header>
-                <div class="header-content">
-                    <p>Kanban Project Management Tool</p>
-                    <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
-                </div>
-            </header>
-            <div class="legalNoticeHeader">
-                <h1 style="padding-left: 0px;">Privacy Policy</h1>
-                <img onclick="goBack()" class="previousArrow" id="previousArrow" style="height: 20px; width: 20px; cursor: pointer;" src="assets/icons/arrow_left_line_icon.png" alt="Back">
-            </div>
+      <section class="main-links-container">
+        <a href="./summary.html" class="main-link">
+          <img src="./assets/icons/summary_icon.png" alt="summary_icon"> Summary
+        </a>
+        <a href="./add_task.html" class="main-link">
+          <img src="./assets/icons/add_task_icon.png" alt="addtask_icon"> Add Task
+        </a>
+        <a href="./board.html" class="main-link">
+          <img src="./assets/icons/board_icon.png" alt="board_icon"> Board
+        </a>
+        <a href="./contacts.html" class="main-link">
+          <img src="./assets/icons/contacts_icon.png" alt="contact_icon"> Contacts
+        </a>
+      </section>
 
-            <div class="textcontainer">
-                <p>We are pleased about your interest in our business application. 
-                    The protection of your personal data is an important concern for us. Below we inform you about how we collect, process, and use your personal data 
-                    when you use our application.</p>
-            
-                    <h2>1. Responsible Entity</h2>
-                    <p>The entity responsible for the collection, processing, and use of your personal data in accordance with the General Data Protection Regulation (GDPR) is:</p>
-                    <p>Henrik Petersen, Dino Gjorgiev, Adrian Preis, Jonas Magalhaes dos Santos<br>
-                        Forstenrieder Allee 4a<br>
-                        81476 München<br>
-                        Deutschland<br>
-                        gjorgievdino@outlook.com
-                    </p>
-                    
-                    <h2>2. Collection and Storage of Personal Data, and the Type and Purpose of Use</h2>
-                    <p>When using our application, we collect the following data:</p>
-                    
-                    <h3>a. Automatically Collected Data</h3>
-                    <p>When accessing our application, information is automatically transmitted to our servers by the devices and internet browsers you use. This information is temporarily stored in so-called log files. This data includes:</p>
-                    <ul>
-                        <li>IP address of the requesting device,</li>
-                        <li>Date and time of access,</li>
-                        <li>Name and URL of the retrieved file,</li>
-                        <li>Browser used and possibly the operating system of your device as well as the name of your access provider.</li>
-                    </ul>
-                    <p>This data is processed for the following purposes:</p>
-                    <ul>
-                        <li>Ensuring a smooth connection to the application,</li>
-                        <li>Ensuring comfortable use of our application,</li>
-                        <li>Evaluating system security and stability, as well as</li>
-                        <li>Other administrative purposes.</li>
-                    </ul>
-                    
-                    <h3>b. Registration and Usage Data</h3>
-                    <p>To use certain features of our application, it is necessary to register. The following data is collected:</p>
-                    <ul>
-                        <li>Name,</li>
-                        <li>Email address,</li>
-                        <li>Company data (if applicable),</li>
-                        <li>Username and password.</li>
-                    </ul>
-                    <p>This data is processed for the provision of the application’s features and to execute the contract with you. Without this data, the use of the application is not possible.</p>
-                    
-                    <h3>c. Usage Data and Analytics</h3>
-                    <p>To continuously improve our application and adapt it to the needs of our users, we use anonymized usage data that is collected and analyzed. This includes information on feature usage, frequency of access, and similar data.</p>
-                    
-                    <h2>3. Data Sharing</h2>
-                    <p>Your personal data will not be shared with third parties for any purposes other than those listed below.</p>
-                    <p>We only share your personal data with third parties if:</p>
-                    <ul>
-                        <li>You have given your explicit consent,</li>
-                        <li>Sharing is necessary to fulfill a contract with you,</li>
-                        <li>Sharing is necessary to fulfill a legal obligation, or</li>
-                        <li>Sharing is necessary to assert, exercise, or defend legal claims.</li>
-                    </ul>
-                    
-                    <h2>4. Cookies</h2>
-                    <p>Our application uses cookies. These are small text files stored on your device. They serve to make the use of the application more comfortable and secure. Most of the cookies we use are so-called "session cookies," which are automatically deleted after your visit ends.</p>
-                    
-                    <h2>5. Your Rights</h2>
-                    <p>You have the right to:</p>
-                    <ul>
-                        <li>Request information about your personal data processed by us (Art. 15 GDPR),</li>
-                        <li>Request the immediate correction of inaccurate or completion of your personal data stored by us (Art. 16 GDPR),</li>
-                        <li>Request the deletion of your personal data stored by us (Art. 17 GDPR),</li>
-                        <li>Request the restriction of the processing of your personal data (Art. 18 GDPR),</li>
-                        <li>Object to the processing of your personal data (Art. 21 GDPR),</li>
-                        <li>Receive your data in a structured, commonly used, and machine-readable format or request the transfer to another responsible party (Art. 20 GDPR),</li>
-                        <li>Revoke your consent at any time (Art. 7 para. 3 GDPR).</li>
-                    </ul>
-                    
-                    <h2>6. Data Security</h2>
-                    <p>We use appropriate technical and organizational security measures to protect your data against accidental or intentional manipulation, loss, destruction, or unauthorized access by third parties. Our security measures are continuously improved in line with technological developments.</p>
-                    
-                    <h2>7. Updates and Changes to This Privacy Policy</h2>
-                    <p style="margin-bottom: 30px;">This privacy policy is currently valid and was last updated on 04.10.2024. As our application develops or legal or regulatory requirements change, it may become necessary to update this privacy policy.</p>
-                    
-            </div>
-            
-        </main>
-    </div>
+      <section class="legal-links-container">
+        <a href="./privacy_policy.html" class="legal-link active_side">Privacy Policy</a>
+        <a href="./legal_notice.html" class="legal-link">Legal notice</a>
+      </section>
+    </aside>
 
-    <footer class="responsive-footer">
-        <div class="main-links-container-responsive">
-            <a href="./summary.html" class="main-link-responsive">
-                <img src="./assets/icons/summary_icon.png" alt="summary_icon">
-                Summary
-            </a>
-            <a href="./add_task.html" class="main-link-responsive">
-                <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
-                Add Task
-            </a>
-            <a href="./board.html" class="main-link-responsive">
-                <img src="./assets/icons/board_icon.png" alt="board_icon">
-                Board
-            </a>
-            <a href="./contacts.html" class="main-link-responsive">
-                <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
-                Contacts
-            </a>
+    <!-- ==== Main Content ==== -->
+    <main class="main-content">
+
+      <!-- ==== Header unverändert ==== -->
+      <header>
+        <div class="header-content">
+          <p>Kanban Project Management Tool</p>
+          <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
         </div>
-    </footer>
+      </header>
 
+      <!-- ==== Seitenkopf ==== -->
+      <section class="legalNoticeHeader">
+        <h1 style="padding-left:0;">Privacy Policy</h1>
+        <img onclick="goBack()" class="previousArrow" id="previousArrow"
+             style="height:20px;width:20px;cursor:pointer;"
+             src="assets/icons/arrow_left_line_icon.png" alt="Back">
+      </section>
 
+      <!-- ==== Textcontainer ==== -->
+      <section class="textcontainer">
+        <p>
+          We are pleased about your interest in our business application.
+          The protection of your personal data is an important concern for us.
+          Below we inform you about how we collect, process, and use your personal data
+          when you use our application.
+        </p>
+
+        <article>
+          <h2>1. Responsible Entity</h2>
+          <p>
+            The entity responsible for the collection, processing, and use of your personal data
+            in accordance with the General Data Protection Regulation (GDPR) is:
+          </p>
+          <p>
+            Henrik Petersen, Dino Gjorgiev, Adrian Preis, Jonas Magalhaes dos Santos<br>
+            Forstenrieder Allee 4a<br>
+            81476 München<br>
+            Deutschland<br>
+            gjorgievdino@outlook.com
+          </p>
+        </article>
+
+        <article>
+          <h2>2. Collection and Storage of Personal Data, and the Type and Purpose of Use</h2>
+          <p>When using our application, we collect the following data:</p>
+
+          <h3>a. Automatically Collected Data</h3>
+          <p>
+            When accessing our application, information is automatically transmitted to our servers by
+            the devices and internet browsers you use. This information is temporarily stored in so-called log files.
+            This data includes:
+          </p>
+          <ul>
+            <li>IP address of the requesting device,</li>
+            <li>Date and time of access,</li>
+            <li>Name and URL of the retrieved file,</li>
+            <li>Browser used and possibly the operating system of your device as well as the name of your access provider.</li>
+          </ul>
+          <p>This data is processed for the following purposes:</p>
+          <ul>
+            <li>Ensuring a smooth connection to the application,</li>
+            <li>Ensuring comfortable use of our application,</li>
+            <li>Evaluating system security and stability, as well as</li>
+            <li>Other administrative purposes.</li>
+          </ul>
+
+          <h3>b. Registration and Usage Data</h3>
+          <p>To use certain features of our application, it is necessary to register. The following data is collected:</p>
+          <ul>
+            <li>Name,</li>
+            <li>Email address,</li>
+            <li>Company data (if applicable),</li>
+            <li>Username and password.</li>
+          </ul>
+          <p>
+            This data is processed for the provision of the application’s features and to execute the contract with you.
+            Without this data, the use of the application is not possible.
+          </p>
+
+          <h3>c. Usage Data and Analytics</h3>
+          <p>
+            To continuously improve our application and adapt it to the needs of our users,
+            we use anonymized usage data that is collected and analyzed.
+            This includes information on feature usage, frequency of access, and similar data.
+          </p>
+        </article>
+
+        <article>
+          <h2>3. Data Sharing</h2>
+          <p>Your personal data will not be shared with third parties for any purposes other than those listed below.</p>
+          <p>We only share your personal data with third parties if:</p>
+          <ul>
+            <li>You have given your explicit consent,</li>
+            <li>Sharing is necessary to fulfill a contract with you,</li>
+            <li>Sharing is necessary to fulfill a legal obligation, or</li>
+            <li>Sharing is necessary to assert, exercise, or defend legal claims.</li>
+          </ul>
+        </article>
+
+        <article>
+          <h2>4. Cookies</h2>
+          <p>
+            Our application uses cookies. These are small text files stored on your device.
+            They serve to make the use of the application more comfortable and secure.
+            Most of the cookies we use are so-called "session cookies,"
+            which are automatically deleted after your visit ends.
+          </p>
+        </article>
+
+        <article>
+          <h2>5. Your Rights</h2>
+          <p>You have the right to:</p>
+          <ul>
+            <li>Request information about your personal data processed by us (Art. 15 GDPR),</li>
+            <li>Request the immediate correction of inaccurate or completion of your personal data stored by us (Art. 16 GDPR),</li>
+            <li>Request the deletion of your personal data stored by us (Art. 17 GDPR),</li>
+            <li>Request the restriction of the processing of your personal data (Art. 18 GDPR),</li>
+            <li>Object to the processing of your personal data (Art. 21 GDPR),</li>
+            <li>Receive your data in a structured, commonly used, and machine-readable format or request the transfer to another responsible party (Art. 20 GDPR),</li>
+            <li>Revoke your consent at any time (Art. 7 para. 3 GDPR).</li>
+          </ul>
+        </article>
+
+        <article>
+          <h2>6. Data Security</h2>
+          <p>
+            We use appropriate technical and organizational security measures to protect your data
+            against accidental or intentional manipulation, loss, destruction, or unauthorized access by third parties.
+            Our security measures are continuously improved in line with technological developments.
+          </p>
+        </article>
+
+        <article>
+          <h2>7. Updates and Changes to This Privacy Policy</h2>
+          <p style="margin-bottom:30px;">
+            This privacy policy is currently valid and was last updated on 04.10.2024.
+            As our application develops or legal or regulatory requirements change,
+            it may become necessary to update this privacy policy.
+          </p>
+        </article>
+      </section>
+    </main>
+  </section>
+
+  <!-- ==== Footer ==== -->
+  <footer class="responsive-footer">
+    <section class="main-links-container-responsive">
+      <a href="./summary.html" class="main-link-responsive">
+        <img src="./assets/icons/summary_icon.png" alt="summary_icon"> Summary
+      </a>
+      <a href="./add_task.html" class="main-link-responsive">
+        <img src="./assets/icons/add_task_icon.png" alt="addtask_icon"> Add Task
+      </a>
+      <a href="./board.html" class="main-link-responsive">
+        <img src="./assets/icons/board_icon.png" alt="board_icon"> Board
+      </a>
+      <a href="./contacts.html" class="main-link-responsive">
+        <img src="./assets/icons/contacts_icon.png" alt="contact_icon"> Contacts
+      </a>
+    </section>
+  </footer>
 </body>
-
-
-
 </html>

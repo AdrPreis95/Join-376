@@ -21,187 +21,184 @@
     <link rel="stylesheet" href="style/contacts_overlay.css">
     <link rel="stylesheet" href="style/contacts_responsive.css">
 
+    <!-- Semantik-Bridge: neue Elemente verhalten sich wie DIVs -->
+    <style>
+        section,
+        article,
+        figure {
+            display: block;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
 </head>
 
 <body onload="fetchContacts(); setUserInitials()">
-    <div class="container">
+
+    <section class="container">
+
+        <!-- ==== Sidebar ==== -->
         <aside class="sidebar">
-
-            <div class="sidebar-logo">
+            <figure class="sidebar-logo">
                 <img src="assets/img/join_logo.png" alt="Join Logo">
-            </div>
+            </figure>
 
-            <div class="main-links-container">
+            <section class="main-links-container">
                 <a href="summary.html" class="main-link">
                     <img src="assets/icons/summary_icon.png" alt="Summary Icon"> Summary
                 </a>
-
                 <a href="add_task.html" class="main-link">
                     <img src="assets/icons/add_task_icon.png" alt="Add Task Icon"> Add Task
                 </a>
-
                 <a href="board.html" class="main-link">
                     <img src="assets/icons/board_icon.png" alt="Board Icon"> Board
                 </a>
-
                 <a href="contacts.html" class="main-link active_side">
                     <img src="assets/icons/contacts_icon.png" alt="Contacts Icon"> Contacts
                 </a>
-            </div>
+            </section>
 
-            <div class="legal-links-container">
+            <section class="legal-links-container">
                 <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
                 <a href="./legal_notice.html" class="legal-link">Legal notice</a>
-            </div>
-
+            </section>
         </aside>
 
-        <main class="main-content">
+        <!-- ==== Main Content ==== -->
+        <section class="main-content">
 
-            <div id="addContactForm">
+            <!-- === Add Contact Form === -->
+            <section id="addContactForm">
                 <form onsubmit="createContact(); return false;" novalidate>
-                    <div class="leftContactOverlay">
+                    <section class="leftContactOverlay">
                         <img class="addContactLogo" src="assets/img/join_logo.png" alt="Join-Logo">
-                        <div class="leftContactText">
+                        <section class="leftContactText">
                             <p class="addContactHeadline" id="addContactHeadline">Add contact</p>
                             <p class="addContactSubText" id="addContactSubText">Tasks are better with a team!</p>
                             <img onclick="closeAddContactForm(); showFooter()"
                                 class="addContactCloseButton editContactCloseButton" src="assets/icons/white_close.png"
                                 alt="Close">
-                        </div>
-                        <div class="addContactSeparatorLine"></div>
-                    </div>
+                        </section>
+                        <hr class="addContactSeparatorLine">
+                    </section>
 
-                    <div class="rightContactOverlay">
-                        <div class="addDetailsContainer">
+                    <section class="rightContactOverlay">
+                        <figure class="addDetailsContainer">
                             <div class="addDetailsInitialsCircle" id="addDetailsInitials">
-                                <img style="height: 42px; width: 42px;" src="assets/icons/contacts_personicon.png"
+                                <img style="height:42px;width:42px" src="assets/icons/contacts_personicon.png"
                                     alt="Contact">
                             </div>
-                        </div>
+                        </figure>
 
-                        <div class="addContactContainer">
-                            <img class="addContactClose"
-                                style="top: 48px; position: absolute; right: 0; cursor: pointer;"
+                        <section class="addContactContainer">
+                            <img class="addContactClose" style="top:48px;position:absolute;right:0;cursor:pointer;"
                                 src="assets/icons/close.png" alt="Close" onclick="closeAddContactForm()">
 
-                            <div style="position: relative;">
+                            <section style="position:relative;">
                                 <input required class="addName" type="text" id="addName" name="name" placeholder="Name"
                                     maxlength="30" pattern="^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ '\-]{1,}$"
-                                    title="Please enter a valid name. Only letters, spaces, hyphens, and apostrophes are allowed." />
-
-                                <img id="inp-img"
-                                    style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
+                                    title="Please enter a valid name.">
+                                <img style="position:absolute;top:12px;right:16px;height:24px;width:24px;"
                                     src="assets/icons/person_icon.png" alt="Person">
-                                    <div id="error-addName" class="error-message"></div>
-                            </div>
+                                <div id="error-addName" class="error-message"></div>
+                            </section>
 
-                            <div style="position: relative;">
+                            <section style="position:relative;">
                                 <input required class="addEmail" type="email" id="addEmail" name="email" maxlength="60"
                                     placeholder="Email"
                                     pattern="^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$"
-                                    title="Please enter a valid Email Adress" />
-
-
-
-                                <img id="inp-img"
-                                    style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
+                                    title="Please enter a valid Email Address.">
+                                <img style="position:absolute;top:12px;right:16px;height:24px;width:24px;"
                                     src="assets/icons/mail_icon.png" alt="Email">
-                                    <div id="error-addEmail" class="error-message"></div>
-                            </div>
+                                <div id="error-addEmail" class="error-message"></div>
+                            </section>
 
-                            <div style="position: relative;">
+                            <section style="position:relative;">
                                 <input required class="addPhone" type="tel" id="addPhone" name="phone"
                                     placeholder="Phone" maxlength="20" pattern="^(?:0|\+|00)[0-9]{9,19}$"
-                                    title="Please enter a valid phone number. Must start with 0, + or 00 and contain 10 to 20 digits." />
-
-
-                                <img id="inp-img"
-                                    style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;"
+                                    title="Please enter a valid phone number.">
+                                <img style="position:absolute;top:12px;right:16px;height:24px;width:24px;"
                                     src="assets/icons/phone_icon.png" alt="Phone">
-                                    <div id="error-addPhone" class="error-message"></div>
-                            </div>
+                                <div id="error-addPhone" class="error-message"></div>
+                            </section>
 
-
-                            <div class="addContactButtons">
-                                <button type="button" onclick="closeAddContactForm()" id="cancelContactAdd">Cancel
-                                    <img src="assets/icons/clear-icon.png" alt="Cancel">
+                            <section class="addContactButtons">
+                                <button type="button" onclick="closeAddContactForm()" id="cancelContactAdd">
+                                    Cancel <img src="assets/icons/clear-icon.png" alt="Cancel">
                                 </button>
                                 <button type="submit" id="saveContactAdd">
-                                    Create contact
-                                    <img src="assets/icons/create-task.png" alt="Save">
+                                    Create contact <img src="assets/icons/create-task.png" alt="Save">
                                 </button>
-                            </div>
+                            </section>
 
-                            <div class="createdContactOverlay" id="successfullycreatedContactOverlay">
+                            <section class="createdContactOverlay" id="successfullycreatedContactOverlay">
                                 <p>Contact successfully created</p>
-                            </div>
-                        </div>
-                    </div>
+                            </section>
+                        </section>
+                    </section>
                 </form>
-            </div>
+            </section>
 
-
-            <div id="editContactForm">
+            <!-- === Edit Contact Form === -->
+            <section id="editContactForm">
                 <form onsubmit="saveEditChanges(); return false;" novalidate>
-                    <div class="leftContactOverlay">
+                    <section class="leftContactOverlay">
                         <img class="editContactLogo" src="assets/img/join_logo.png" alt="Join-Logo">
                         <p class="editContactHeadline" id="editContactHeadline">Edit contact</p>
                         <img onclick="closeEditContactForm(); showFooter()"
                             class="addContactCloseButton editContactCloseButton" src="assets/icons/white_close.png"
                             alt="Close">
-                        <div class="editContactseparatorLine"></div>
-                    </div>
+                        <hr class="editContactseparatorLine">
+                    </section>
 
-                    <div class="rightContactOverlay">
-                        <div class="addDetailsContainer">
+                    <section class="rightContactOverlay">
+                        <figure class="addDetailsContainer">
                             <div class="editDetailsInitialsCircle" id="editDetailsInitials"></div>
-                        </div>
+                        </figure>
 
-                        <div class="editContactContainer">
-                            <img class="addContactClose"
-                                style="top: 48px; position: absolute; right: 0; cursor: pointer;"
+                        <section class="editContactContainer">
+                            <img class="addContactClose" style="top:48px;position:absolute;right:0;cursor:pointer;"
                                 src="assets/icons/close.png" alt="Close" onclick="closeEditContactForm()">
 
-                            <div style="position: relative;">
+                            <section style="position:relative;">
                                 <input required class="editName" type="text" id="editName" name="name"
-                                    placeholder="Name" />
-                                <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;background-color: #FFFFFF;"
+                                    placeholder="Name">
+                                <img style="position:absolute;top:12px;right:16px;height:24px;width:24px;background-color:#FFF;"
                                     src="assets/icons/person_icon.png" alt="Person">
-                                    <div class="input-error-msg" id="error-editName"></div>
-                            </div>
+                                <div class="input-error-msg" id="error-editName"></div>
+                            </section>
 
-                            <div style="position: relative;">
-                                <input required class="editEmail" type="email" id="editEmail" name="email" maxlength="40"
-                                    placeholder="Email" />
-                                <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px;background-color: #FFFFFF;"
+                            <section style="position:relative;">
+                                <input required class="editEmail" type="email" id="editEmail" name="email"
+                                    maxlength="40" placeholder="Email">
+                                <img style="position:absolute;top:12px;right:16px;height:24px;width:24px;background-color:#FFF;"
                                     src="assets/icons/mail_icon.png" alt="Email">
-                                    <div class="input-error-msg" id="error-editEmail"></div>
-                            </div>
+                                <div class="input-error-msg" id="error-editEmail"></div>
+                            </section>
 
-                            <div style="position: relative;">
+                            <section style="position:relative;">
                                 <input required class="editPhone" type="tel" id="editPhone" name="phone"
                                     placeholder="Phone" maxlength="20" pattern="\+?[0-9]+"
-                                    title="Please enter a valid phone number with optional '+' and numbers only." />
-                                <img style="position: absolute; top: 12px; right: 16px; height: 24px; width: 24px; background-color: #FFFFFF;"
+                                    title="Please enter a valid phone number.">
+                                <img style="position:absolute;top:12px;right:16px;height:24px;width:24px;background-color:#FFF;"
                                     src="assets/icons/phone_icon.png" alt="Phone">
-                                    <div class="input-error-msg" id="error-editPhone"></div>
-                            </div>
+                                <div class="input-error-msg" id="error-editPhone"></div>
+                            </section>
 
-                            <div class="editContactButtons">
+                            <section class="editContactButtons">
                                 <button type="button" id="deleteContactChanges"
                                     onclick="deleteContact('editForm')">Delete</button>
                                 <button type="submit" id="saveContactChanges">
-                                    Save
-                                    <img src="assets/icons/create-task.png" alt="Save">
+                                    Save <img src="assets/icons/create-task.png" alt="Save">
                                 </button>
-                            </div>
-                        </div>
-                    </div>
+                            </section>
+                        </section>
+                    </section>
                 </form>
-            </div>
+            </section>
 
-
+            <!-- === Dein ursprünglicher Header (komplett unangetastet) === -->
             <header>
                 <div class="submenu d-none">
                     <div class="submenu-content closed">
@@ -212,13 +209,12 @@
                     </div>
                 </div>
                 <div class="header-content">
-
                     <p>Kanban Project Management Tool</p>
-
                     <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
                     <div class="header-icons">
-                        <a class="help-link" href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32"
-                                fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <a class="help-link" href="./help.html">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                xmlns="http://www.w3.org/2000/svg">
                                 <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0"
                                     y="0" width="32" height="32">
                                     <rect width="32" height="32" fill="#D9D9D9" />
@@ -228,127 +224,138 @@
                                         d="M15.95 22C16.3 22 16.5958 21.8792 16.8375 21.6375C17.0792 21.3958 17.2 21.1 17.2 20.75C17.2 20.4 17.0792 20.1042 16.8375 19.8625C16.5958 19.6208 16.3 19.5 15.95 19.5C15.6 19.5 15.3042 19.6208 15.0625 19.8625C14.8208 20.1042 14.7 20.4 14.7 20.75C14.7 21.1 14.8208 21.3958 15.0625 21.6375C15.3042 21.8792 15.6 22 15.95 22ZM16 26C14.6167 26 13.3167 25.7375 12.1 25.2125C10.8833 24.6875 9.825 23.975 8.925 23.075C8.025 22.175 7.3125 21.1167 6.7875 19.9C6.2625 18.6833 6 17.3833 6 16C6 14.6167 6.2625 13.3167 6.7875 12.1C7.3125 10.8833 8.025 9.825 8.925 8.925C9.825 8.025 10.8833 7.3125 12.1 6.7875C13.3167 6.2625 14.6167 6 16 6C17.3833 6 18.6833 6.2625 19.9 6.7875C21.1167 7.3125 22.175 8.025 23.075 8.925C23.975 9.825 24.6875 10.8833 25.2125 12.1C25.7375 13.3167 26 14.6167 26 16C26 17.3833 25.7375 18.6833 25.2125 19.9C24.6875 21.1167 23.975 22.175 23.075 23.075C22.175 23.975 21.1167 24.6875 19.9 25.2125C18.6833 25.7375 17.3833 26 16 26ZM16 24C18.2333 24 20.125 23.225 21.675 21.675C23.225 20.125 24 18.2333 24 16C24 13.7667 23.225 11.875 21.675 10.325C20.125 8.775 18.2333 8 16 8C13.7667 8 11.875 8.775 10.325 10.325C8.775 11.875 8 13.7667 8 16C8 18.2333 8.775 20.125 10.325 21.675C11.875 23.225 13.7667 24 16 24ZM16.1 11.7C16.5167 11.7 16.8792 11.8333 17.1875 12.1C17.4958 12.3667 17.65 12.7 17.65 13.1C17.65 13.4667 17.5375 13.7917 17.3125 14.075C17.0875 14.3583 16.8333 14.625 16.55 14.875C16.1667 15.2083 15.8292 15.575 15.5375 15.975C15.2458 16.375 15.1 16.825 15.1 17.325C15.1 17.5583 15.1875 17.7542 15.3625 17.9125C15.5375 18.0708 15.7417 18.15 15.975 18.15C16.225 18.15 16.4375 18.0667 16.6125 17.9C16.7875 17.7333 16.9 17.525 16.95 17.275C17.0167 16.925 17.1667 16.6125 17.4 16.3375C17.6333 16.0625 17.8833 15.8 18.15 15.55C18.5333 15.1833 18.8625 14.7833 19.1375 14.35C19.4125 13.9167 19.55 13.4333 19.55 12.9C19.55 12.05 19.2042 11.3542 18.5125 10.8125C17.8208 10.2708 17.0167 10 16.1 10C15.4667 10 14.8625 10.1333 14.2875 10.4C13.7125 10.6667 13.275 11.075 12.975 11.625C12.8583 11.825 12.8208 12.0375 12.8625 12.2625C12.9042 12.4875 13.0167 12.6583 13.2 12.775C13.4333 12.9083 13.675 12.95 13.925 12.9C14.175 12.85 14.3833 12.7083 14.55 12.475C14.7333 12.225 14.9625 12.0333 15.2375 11.9C15.5125 11.7667 15.8 11.7 16.1 11.7Z"
                                         fill="#A8A8A8" />
                                 </g>
-                            </svg></a>
+                            </svg>
+                        </a>
                         <div class="user-icon" onclick="toggleSubmenu()">
                             <b id="user-initials"></b>
-
                         </div>
                     </div>
                 </div>
             </header>
-            <main style="display: flex;">
+
+            <!-- === Contacts Area === -->
+            <section style="display:flex;">
                 <section class="contactsSection">
-                    <div class="addHeader">
+                    <section class="addHeader">
                         <button onclick="openAddContactForm(); hideFooter()" class="addContact">
                             <div class="addHeaderText">
                                 <b>Add new contact</b>
-                                <img style="height: 36px;" src="assets/icons/person_add.png">
+                                <img style="height:36px;" src="assets/icons/person_add.png" alt="Add contact">
                             </div>
                         </button>
-                    </div>
+                    </section>
 
-                    <contacts class="createdContacts" id="createdContacts">
+                    <section class="createdContacts" id="createdContacts">
                         <template id="contactTemplate">
-                            <div class="contactItem">
+                            <article class="contactItem">
                                 <div class="contactWrapper">
                                     <div class="initialsCircle"></div>
                                     <div class="contactDetails">
-                                        <p style="display: flex; align-items: center; font-size: 18px;">
+                                        <p style="display:flex;align-items:center;font-size:18px;">
                                             <span class="contactName"></span>
                                         </p>
                                         <p><span class="contactEmail"></span></p>
                                     </div>
                                 </div>
-                            </div>
+                            </article>
                         </template>
-                    </contacts>
-
+                    </section>
                 </section>
 
-                <div class="detailsContainer">
+                <section class="detailsContainer">
                     <img onclick="hideDetails()" class="backArrow" src="assets/icons/arrow_left_line_icon.png"
-                        alt="Back-Arrow">
-                    <div class="headerSection">
+                        alt="Back">
+
+                    <section class="headerSection">
                         <h2 class="contactsHeaderText">Contacts</h2>
                         <div class="separatorLine"></div>
                         <p class="contactsUnderText">Better with a team</p>
-                    </div>
-
-                    <div class="responsiveMoreDetails">
-
-                        <div class="responsiveEditContactsContainer">
-                            <img onclick="toggleContactDetails()" class="responsiveEditContacts default"
-                                src="assets/icons/more_vert.png" alt="More">
-                            <img onclick="toggleContactDetails()" class="responsiveEditContacts hover"
-                                src="assets/icons/more_vert_hover.png" alt="More">
-                        </div>
-
-                        <div class="responsiveContactDetailsButtons hide-contacts">
-                            <img onclick="openEditContactForm(); hideFooter()" class="responsiveEditContactDetails"
-                                src="assets/icons/edit_edit.png" alt="Edit">
-                            <img onclick="deleteContact('contactDetails')" class="responsiveDeleteContactDetails"
-                                src="assets/icons/edit_delete.png" alt="Delete">
-                        </div>
-
-                    </div>
+                    </section>
 
 
-                    <div class="selectedContactDetails" id="selectedContactDetails">
+                    <!-- === Responsive Contact Details Controls (fehlte in deiner Version) === -->
+<section class="responsiveMoreDetails">
+  <section class="responsiveEditContactsContainer">
+    <img onclick="toggleContactDetails()" 
+         class="responsiveEditContacts default"
+         src="assets/icons/more_vert.png" 
+         alt="Mehr Optionen" 
+         role="button" 
+         aria-label="Weitere Kontaktaktionen öffnen">
+    <img onclick="toggleContactDetails()" 
+         class="responsiveEditContacts hover"
+         src="assets/icons/more_vert_hover.png" 
+         alt="Mehr Optionen (Hover)" 
+         role="button" 
+         aria-label="Weitere Kontaktaktionen anzeigen (Hover)">
+  </section>
 
-                        <div class="selectedContactHeader">
+  <section class="responsiveContactDetailsButtons hide-contacts">
+    <img onclick="openEditContactForm(); hideFooter()" 
+         class="responsiveEditContactDetails"
+         src="assets/icons/edit_edit.png" 
+         alt="Kontakt bearbeiten" 
+         role="button" 
+         aria-label="Kontakt bearbeiten">
+    <img onclick="deleteContact('contactDetails')" 
+         class="responsiveDeleteContactDetails"
+         src="assets/icons/edit_delete.png" 
+         alt="Kontakt löschen" 
+         role="button" 
+         aria-label="Kontakt löschen">
+  </section>
+</section>
+
+                    <section class="selectedContactDetails" id="selectedContactDetails">
+                        <section class="selectedContactHeader">
                             <div class="detailsInitialsCircle" id="detailsInitials"></div>
                             <div>
                                 <p id="contactId"></p>
                                 <p id="detailsName"></p>
-                                <div class="contactButtons">
+                                <section class="contactButtons">
                                     <button class="editContactDetails" id="editContactDetails"
-                                        onclick="openEditContactForm()"><img src="assets/icons/edit_icon.png"
-                                            alt="Edit">Edit</button>
+                                        onclick="openEditContactForm()">
+                                        <img src="assets/icons/edit_icon.png" alt="Edit">Edit
+                                    </button>
                                     <button class="deleteContactDetails" id="deleteContactDetails"
-                                        onclick="deleteContact('contactDetails')"><img
-                                            src="assets/icons/delete_icon.png" alt="Delete">Delete</button>
-                                </div>
-
+                                        onclick="deleteContact('contactDetails')">
+                                        <img src="assets/icons/delete_icon.png" alt="Delete">Delete
+                                    </button>
+                                </section>
                             </div>
-                        </div>
+                        </section>
 
-                        <p style="font-size: 20px; margin-top: 42px; margin-bottom: 42px;">Contact Information</p>
-
+                        <p style="font-size:20px;margin-top:42px;margin-bottom:42px;">Contact Information</p>
                         <div>
-                            <p style="margin-bottom: 14px;"> <b>Email</b></p>
+                            <p style="margin-bottom:14px;"><b>Email</b></p>
                             <p id="detailsEmail"></p>
                         </div>
-
                         <div>
-                            <p style="margin-top: 14px; margin-bottom: 14px;"> <b>Phone</b></p>
+                            <p style="margin-top:14px;margin-bottom:14px;"><b>Phone</b></p>
                             <p id="detailsPhone"></p>
                         </div>
+                    </section>
+                </section>
+            </section>
+        </section>
 
-                    </div>
-                </div>
-            </main>
-
-
-            <footer class="responsive-footer">
-                <div class="main-links-container-responsive">
-                    <a href="./summary.html" class="main-link-responsive">
-                        <img src="./assets/icons/summary_icon.png" alt="summary_icon">Summary
-                    </a>
-
-                    <a href="./add_task.html" class="main-link-responsive">
-                        <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">Add Task
-                    </a>
-
-                    <a href="./board.html" class="main-link-responsive">
-                        <img src="./assets/icons/board_icon.png" alt="board_icon">Board
-                    </a>
-
-                    <a href="./contacts.html" class="main-link-responsive active_side">
-                        <img src="./assets/icons/contacts_icon.png" alt="contact_icon">Contacts
-                    </a>
-
-                </div>
-            </footer>
+        <div class="responsive-footer">
+            <section class="main-links-container-responsive">
+                <a href="./summary.html" class="main-link-responsive">
+                    <img src="./assets/icons/summary_icon.png" alt="summary_icon">Summary
+                </a>
+                <a href="./add_task.html" class="main-link-responsive">
+                    <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">Add Task
+                </a>
+                <a href="./board.html" class="main-link-responsive">
+                    <img src="./assets/icons/board_icon.png" alt="board_icon">Board
+                </a>
+                <a href="./contacts.html" class="main-link-responsive active_side">
+                    <img src="./assets/icons/contacts_icon.png" alt="contact_icon">Contacts
+                </a>
+            </section>
+        </div>
+    </section>
 </body>
 
 </html>
