@@ -319,14 +319,14 @@
 }
 
 .subtasks p {
-    font-size: 12px;
+    font-size: 14px;
     white-space: nowrap;
 }
 
 .progress-border {
     border-radius: 8px;
     background-color: #F4F4F4;
-    width: 60%;
+    width: 50%;
     height: 8px;
 }
 

@@ -340,6 +340,6 @@ function getSubtasksOverlayEditInput(subtask, id) {
 /**This function returns the HTML template which tells the user that the input field is empty.*/
 function getWarningEmptyInput() {
     return `
-    <p>Please enter a change to the subtask.</p>
+    <p>Please enter a change <br> to the subtask.</p>
     `
 };
