@@ -133,6 +133,8 @@ body.overlay-mode .input-icon {
     margin: 0px 10% 0px 10%;
     overflow: hidden;
     z-index: 10000 !important;
+    max-width: 1920px;
+    max-height: 1080px;
 }
 
 #overlay-mode .content-right,

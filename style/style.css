@@ -12,6 +12,7 @@ header {
     align-items: center;
     margin: 0 48px 0 60px;
     text-align: center;
+    max-width: 1920px;
 }
 
 .header-icons {
@@ -93,15 +94,44 @@ header {
     text-align: center;
 }
 
+
 .sidebar {
-    height: 100vh;
-    background-color: #2A3647;
+    width: auto;
+    background: #2A3647;
+    /* normaler Hintergrund */
+    color: white;
+    max-height: 1080px;
+
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    color: white;
 }
+
+
+@media (max-width: 1921px) {
+    .sidebar {
+        max-height: 1080px;
+
+
+        position: relative;
+        z-index: 0;
+        background: transparent;
+
+    }
+
+    .sidebar::before {
+        content: "";
+        position: fixed;
+
+        inset: 0 auto 0 0;
+
+        width: auto;
+        background: #2A3647;
+        z-index: -1;
+    }
+}
+
 
 .sidebar-logo {
     padding: 60px 20px 20px 20px;
@@ -139,6 +169,7 @@ header {
     display: flex;
     width: 100%;
     height: 100vh;
+    background-color: #2A3647;
 }
 
 .textcontainer {
@@ -147,6 +178,7 @@ header {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    max-width: 1920px;
 }
 
 .main-links-container {
@@ -335,18 +367,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     justify-content: center;
 }
 
-.viewer-toolbar>ul>li{
+.viewer-toolbar>ul>li {
     font-size: unset !important;
 }
 
 
 #pdf-modal {
-  z-index: 2147483640 !important; 
-  position: fixed;     
-}
-.viewer-container  {
-  z-index: 2147483647 !important;
-  position: fixed;
+    z-index: 2147483640 !important;
+    position: fixed;
 }
 
-
+.viewer-container {
+    z-index: 2147483647 !important;
+    position: fixed;
+}

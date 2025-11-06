@@ -1,5 +1,6 @@
 .overall-container {
     background-color: #F6F7F8;
+    max-width: 1920px;
 }
 
 .headline-span {
@@ -17,7 +18,11 @@
 }
 
 .h-2 {
-    font-size: 64px; display: flex; align-items: center; text-align: center; justify-content: center;
+    font-size: 64px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
 }
 
 .seperator-line {
@@ -253,28 +258,29 @@
 }
 
 @media screen and (min-width: 540px) {
-  body,
-  p,
-  span,
-  a,
-  label,
-  button,
-  input,
-  textarea,
-  select,
-  div,
-  th,
-  td,
-  ol,
-  [contenteditable="true"] {
-      font-size: 16px !important;
-      /* line-height: 1.5 !important; */
-  }
 
-  input::placeholder,
-  textarea::placeholder {
-      font-size: 16px !important;
-  }
+    body,
+    p,
+    span,
+    a,
+    label,
+    button,
+    input,
+    textarea,
+    select,
+    div,
+    th,
+    td,
+    ol,
+    [contenteditable="true"] {
+        font-size: 16px !important;
+        /* line-height: 1.5 !important; */
+    }
 
-  
+    input::placeholder,
+    textarea::placeholder {
+        font-size: 16px !important;
+    }
+
+
 }

@@ -3,6 +3,7 @@
     justify-content: space-between;
     align-items: center;
     margin-right: 48px;
+    max-width: 1920px;
 }
 
 .board-header h1 {
@@ -152,6 +153,7 @@
     display: flex;
     padding-left: 60px;
     gap: 26px;
+    max-width: 1920px;
 
     /* overflow: scroll; */
     /* height: calc(100vh - 257px); */

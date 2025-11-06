@@ -1,5 +1,9 @@
 .legalNoticeHeader {
-    padding: 0px 60px 0px 60px; display: flex; align-items: center; justify-content: space-between;
+    padding: 0px 60px 0px 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1920px;
 }
 
 @media (max-width: 720px) {
@@ -12,26 +16,27 @@
 
 
 @media screen and (min-width: 540px) {
-  body,
-  p,
-  span,
-  a,
-  label,
-  button,
-  input,
-  textarea,
-  select,
-  div,
-  th,
-  td,
-  ol,
-  [contenteditable="true"] {
-      font-size: 16px !important;
-      /* line-height: 1.5 !important; */
-  }
 
-  input::placeholder,
-  textarea::placeholder {
-      font-size: 16px !important;
-  }
+    body,
+    p,
+    span,
+    a,
+    label,
+    button,
+    input,
+    textarea,
+    select,
+    div,
+    th,
+    td,
+    ol,
+    [contenteditable="true"] {
+        font-size: 16px !important;
+        /* line-height: 1.5 !important; */
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+        font-size: 16px !important;
+    }
 }
