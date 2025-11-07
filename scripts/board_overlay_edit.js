@@ -62,7 +62,6 @@ function showSubtaskToast(done, total) {
 };
 
 let _fpInstance;
-
 /** Opens the edit overlay and initializes its content. */
 async function editTask(id, title, description, dueDate, priority) {
   id--;
@@ -81,16 +80,22 @@ async function editTask(id, title, description, dueDate, priority) {
 /** Initializes the date picker with optional default date (ISO). */
 function initDate(dueDateISO) {
   const input = document.getElementById('due-date-input');
-  const btn = document.getElementById('calendar-icon');
+  const btn   = document.getElementById('calendar-icon');
   if (!input || !btn) return;
-  if (_fpInstance) { _fpInstance.destroy(); _fpInstance = null; }
-  input.value = (dueDateISO || '').slice(0, 10);
-  _fpInstance = flatpickr(input, {
-    minDate: 'today', dateFormat: 'Y-m-d',
-    defaultDate: input.value || null, allowInput: true
-  });
-  btn.onclick = () => _fpInstance && _fpInstance.open();
-};
+  if (input._fpInstance) { input._fpInstance.destroy(); input._fpInstance = null; }
+
+  const today = new Date(); today.setHours(0,0,0,0);
+  input._fpInstance = flatpickr(input, {
+    disableMobile: true,        
+    allowInput: true,
+    dateFormat: 'Y-m-d',        
+    altInput: true,             
+    altFormat: 'd/m/Y',         
+    minDate: today,
+    defaultDate: (dueDateISO || '').slice(0,10) || null});
+
+  btn.onclick = () => input._fpInstance && input._fpInstance.open();
+}
 
 /** Highlights the active priority option in the UI. */
 function checkActivePriority(priority) {
@@ -390,3 +395,4 @@ function switchToIcons(id) {
 function resetToPlus() {
   document.getElementById('create-subtask-overlay').innerHTML = getSubtaskOverlayAddIcon();
 };
+

@@ -9,20 +9,20 @@ function applyStylesToIframe(iframe, cssContent) {
     const head = doc.head || doc.getElementsByTagName("head")[0];
     head ? head.appendChild(style) : console.error("Iframe head not found");
   };
-}
+};
 
 /** Hides the #task-overlay and clears its content. */
 function closeTaskOverlay() {
   const overlay = document.getElementById('task-overlay');
   if (overlay) { overlay.style.display = 'none'; clearTask(); }
-}
+};
 
 /** Hides the add-task overlay and clears inputs. */
 function clearInputsAndCloseOverlay() {
   const overlay = document.getElementById('taskoverlay');
   if (overlay) { overlay.classList.remove('nohidden'); overlay.classList.add('gethidden'); }
   clearTask();
-}
+};
 
 /** Toggles the assignee dropdown and refreshes its content. */
 async function openDropdown() {
@@ -30,7 +30,7 @@ async function openDropdown() {
   const willOpen = dropdown.style.display !== "flex";
   dropdown.style.display = willOpen ? "flex" : "none";
   if (willOpen) { await getContactsCached(false); displayContacts(allContacts); synchronizeCheckboxes(); }
-}
+};
 
 /** Closes the dropdown when clicking outside the container. */
 function closeDropdownOnClickOutside(event) {
@@ -48,15 +48,44 @@ function getInitials(contact) {
   if (contact.lastName) ini += contact.lastName.charAt(0);
   if (!ini && contact.name) ini = contact.name.charAt(0);
   return ini;
-}
+};
 
 /** Returns the contact full name used for avatars. */
 function getFullName(contact) {
   return `${contact.firstName || ''} ${contact.lastName || ''}`.trim();
-}
+};
+
+
+/** killt Error-Klassen + Inline-Border bei einem Element */
+function _resetErr(el) {
+  if (!el) return;
+  el.classList.remove('error', 'input-error');
+  el.style.border = '';
+  el.style.outline = '';
+  el.removeAttribute('aria-invalid');
+  el.setCustomValidity?.('');
+};
+
+/**This Funcction resets the Input,Date and Category Error msgs and Borders*/
+function clearTitleAndDateErrors() {
+  const t = document.getElementById('title');
+  _resetErr(t);
+  const tMsg = document.getElementById('error-message');
+
+  if (tMsg) tMsg.style.display = 'none';
+
+  const d = document.getElementById('due-date-input');
+  _resetErr(d);
+  const alt = d && d._fpInstance ? d._fpInstance.altInput
+    : document.querySelector('input.flatpickr-input'); // fallback
+  _resetErr(alt);
+  const dMsg = document.getElementById('date-error-message');
+  if (dMsg) dMsg.style.display = 'none';
+};
 
 /** Clears task form, subtasks, files, selections and prio. */
 function clearTask() {
+  clearTitleAndDateErrors();
   clearInputs();
   clearSubtaskList();
   resetPriorityButtons();
@@ -64,30 +93,30 @@ function clearTask() {
   clearAssignedContacts();
   resetFilesUI();
   setDefaultPriorityButton();
-}
+};
 
 /** Resets file UI state and hides file-limit warning. */
-function resetFilesUI(){
+function resetFilesUI() {
   uploadedFiles = [];
   document.getElementById('file-preview-container').innerHTML = '';
   document.getElementById('file-limit-warning').style.display = 'none';
-}
+};
 
 /** Sets Medium as default priority styling and value. */
-function setDefaultPriorityButton(){
+function setDefaultPriorityButton() {
   const btn = document.getElementById('prio-orange');
   if (btn) { changeColor(btn, 'orange'); setPriority('Medium'); }
-}
+};
 
 /** Clears all input fields and resets custom select UI. */
 function clearInputs() {
-  ['title','description','due-date-input','selectcategory','addsubtasks','dropdown-input']
+  ['title', 'description', 'due-date-input', 'selectcategory', 'addsubtasks', 'dropdown-input']
     .forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
   resetCustomSelectUI(document.getElementById('custom-select'));
-}
+};
 
 /** Resets the custom select label, options, and error state. */
-function resetCustomSelectUI(customSelect){
+function resetCustomSelectUI(customSelect) {
   if (!customSelect) return;
   const selected = customSelect.querySelector(".selected");
   const options = customSelect.querySelector(".options");
@@ -96,13 +125,13 @@ function resetCustomSelectUI(customSelect){
   if (options) options.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
   customSelect.classList.remove("error");
   if (msg) msg.style.display = "none";
-}
+};
 
 /** Clears picked-user avatar container content. */
 function clearAssignedContacts() {
   const el = document.getElementById("picked-user-avatar");
   if (el) el.innerHTML = '';
-}
+};
 
 /** Empties subtask list and resets related arrays. */
 function clearSubtaskList() {
@@ -110,7 +139,7 @@ function clearSubtaskList() {
   if (ul) ul.innerHTML = '';
   subtasksArray = [];
   selectedContacts = [];
-}
+};
 
 /** Validates title input and toggles error UI accordingly. */
 function validateInput() {
@@ -130,7 +159,7 @@ function submitForm() {
 };
 
 /** Placeholder for upload logic (kept to preserve hooks). */
-function uploadFile(){ const data = document.getElementById('file-select'); };
+function uploadFile() { const data = document.getElementById('file-select'); };
 
 /** Initializes custom select dropdown behaviors. */
 function initDropdown(customSelect, select, selected, options) {
@@ -146,12 +175,12 @@ if (customSelect && select && selected && options) initDropdown(customSelect, se
 document.getElementById('selectcategory')?.addEventListener('change', validateSelectCategory);
 
 /** Toggles options list visibility. */
-function toggleOptionsDisplay(options){
+function toggleOptionsDisplay(options) {
   options.style.display = options.style.display === "block" ? "none" : "block";
 };
 
 /** Closes options if clicking outside of the custom select. */
-function attachOutsideClickCloser(customSelect, options){
+function attachOutsideClickCloser(customSelect, options) {
   document.addEventListener("click", (e) => { if (!customSelect.contains(e.target)) options.style.display = "none"; });
 };
 
@@ -169,7 +198,7 @@ function handleOptionClick(select, selected, options) {
 };
 
 /** Applies selected styling and closes the options list. */
-function applyCategorySelection(options, option){
+function applyCategorySelection(options, option) {
   options.querySelectorAll("li").forEach(li => li.classList.remove("selected"));
   option.classList.add("selected");
   options.style.display = "none";
