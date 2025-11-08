@@ -77,7 +77,7 @@ function clearTitleAndDateErrors() {
   const d = document.getElementById('due-date-input');
   _resetErr(d);
   const alt = d && d._fpInstance ? d._fpInstance.altInput
-    : document.querySelector('input.flatpickr-input'); // fallback
+    : document.querySelector('input.flatpickr-input'); 
   _resetErr(alt);
   const dMsg = document.getElementById('date-error-message');
   if (dMsg) dMsg.style.display = 'none';

@@ -321,7 +321,8 @@
     }
 
     #main-page #prio-p {
-        margin-top: 18px !important;
+        /* margin-top: 18px !important; */
+        margin-top: 24px !important;
     }
 }
 
@@ -617,7 +618,7 @@
 }
 
 @media(max-width:540px) {
-    .delete-user-button{
+    .delete-user-button {
         align-items: center;
         font-weight: bold;
     }
