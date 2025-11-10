@@ -116,8 +116,8 @@ select {
 
 .textarea:focus-within {
     outline: 2px solid #29ABE2;
-  outline-offset: -2px;      
-   
+    outline-offset: -2px;
+
 
 }
 
@@ -640,6 +640,26 @@ select {
     width: 100%;
     align-items: center;
     justify-content: flex-start;
+}
+
+:root {
+    --avatar-row-h: 48px;
+}
+
+.picked-user-avatar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    padding-top: 8px;
+    width: 100%;
+    background: transparent;
+}
+
+.picked-user-avatar:empty::before {
+    content: "";
+    display: block;
+    height: var(--avatar-row-h);
 }
 
 .picked-user-name {
