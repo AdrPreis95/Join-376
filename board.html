@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html lang="de" onmouseup="drop(event)" ontouchend="drop(event)">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Board</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <script src="scripts/contactsCache.js"defer></script>
+  <script src="scripts/contactsCache.js" defer></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script src="./scripts/template_board.js"></script>
-  <script src="./scripts/contacts.js"defer></script>
+  <script src="./scripts/contacts.js" defer></script>
   <script src="./scripts/script.js"></script>
 
   <script src="./scripts/board.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/viewerjs@1.11.5/dist/viewer.min.js" defer></script>
   <script src="scripts/upload_edit.js" defer></script>
   <script src="./scripts/board_overlay_details.js"></script>
-  <script src="scripts/user-overlay-edit.js"defer></script>
+  <script src="scripts/user-overlay-edit.js" defer></script>
 
-  <script src="./scripts/board_overlay_edit.js"defer></script>
-  
+  <script src="./scripts/board_overlay_edit.js" defer></script>
   <script src="scripts/add_task_overlay.js"></script>
-  
-
 
   <link rel="icon" href="./assets/img/join_logo_dark.png" />
 
@@ -37,205 +33,196 @@
   <link rel="stylesheet" href="style/responsive.css">
   <link rel="stylesheet" href="style/iframe_overlay_content.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/viewerjs@1.11.5/dist/viewer.min.css">
-
 </head>
 
 <body onload="init();setUserInitials()">
   <div class="container" id="all-content">
-    <aside class="sidebar">
+    <aside class="sidebar" role="navigation" aria-label="Hauptnavigation">
       <div class="sidebar-logo">
         <img src="assets/img/join_logo.png" alt="Join-Logo" />
       </div>
-      <div class="main-links-container">
-        <a href="./summary.html" class="main-link">
-          <img src="./assets/icons/summary_icon.png" alt="summary_icon" />
+      <div class="main-links-container" role="list">
+        <a href="./summary.html" class="main-link" role="listitem">
+          <img src="./assets/icons/summary_icon.png" alt="" aria-hidden="true" />
           Summary
         </a>
-        <a href="./add_task.html" class="main-link">
-          <img src="./assets/icons/add_task_icon.png" alt="addtask_icon" />
+        <a href="./add_task.html" class="main-link" role="listitem">
+          <img src="./assets/icons/add_task_icon.png" alt="" aria-hidden="true" />
           Add Task
         </a>
-        <a href="./board.html" class="main-link active_side">
-          <img src="./assets/icons/board_icon.png" alt="board_icon" />
+        <a href="./board.html" class="main-link active_side" aria-current="page" role="listitem">
+          <img src="./assets/icons/board_icon.png" alt="" aria-hidden="true" />
           Board
         </a>
-        <a href="./contacts.html" class="main-link">
-          <img src="./assets/icons/contacts_icon.png" alt="contact_icon" />
+        <a href="./contacts.html" class="main-link" role="listitem">
+          <img src="./assets/icons/contacts_icon.png" alt="" aria-hidden="true" />
           Contacts
         </a>
       </div>
-      <div class="legal-links-container">
-        <a href="./privacy_policy.html" class="legal-link">Privacy Policy</a>
-        <a href="./legal_notice.html" class="legal-link">Legal notice</a>
+      <div class="legal-links-container" role="list">
+        <a href="./privacy_policy.html" class="legal-link" role="listitem">Privacy Policy</a>
+        <a href="./legal_notice.html" class="legal-link" role="listitem">Legal notice</a>
       </div>
     </aside>
-    <main class="main-content">
+
+    <main class="main-content" role="main" aria-label="Board">
       <div class="submenu d-none">
-        <div class="submenu-content closed">
-          <a class="submenu-help" href="help.html">Help</a>
-          <a href="legal_notice.html">Legal Notice</a>
-          <a href="privacy_policy.html">Privacy Policy</a>
-          <a onclick="logOut()">Log out</a>
+        <div class="submenu-content closed" role="menu" aria-label="Benutzermenü">
+          <a class="submenu-help" href="help.html" role="menuitem">Help</a>
+          <a href="legal_notice.html" role="menuitem">Legal Notice</a>
+          <a href="privacy_policy.html" role="menuitem">Privacy Policy</a>
+          <a onclick="logOut()" role="menuitem">Log out</a>
         </div>
       </div>
+
       <header>
         <div class="header-content">
           <p>Kanban Project Management Tool</p>
           <img class="responsiveLogo" src="assets/img/join_logo_dark.png" alt="Join-Logo">
           <div class="header-icons">
-            <a class="help-link" href="./help.html"><svg width="32" height="32" viewBox="0 0 32 32" fill="none"
-                xmlns="http://www.w3.org/2000/svg">
-                <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32"
-                  height="32">
+            <a class="help-link" href="./help.html" aria-label="Hilfe öffnen">
+              <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Help">
+                <mask id="mask0_233325_3412" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="32" height="32">
                   <rect width="32" height="32" fill="#D9D9D9" />
                 </mask>
                 <g mask="url(#mask0_233325_3412)">
-                  <path
-                    d="M15.95 22C16.3 22 16.5958 21.8792 16.8375 21.6375C17.0792 21.3958 17.2 21.1 17.2 20.75C17.2 20.4 17.0792 20.1042 16.8375 19.8625C16.5958 19.6208 16.3 19.5 15.95 19.5C15.6 19.5 15.3042 19.6208 15.0625 19.8625C14.8208 20.1042 14.7 20.4 14.7 20.75C14.7 21.1 14.8208 21.3958 15.0625 21.6375C15.3042 21.8792 15.6 22 15.95 22ZM16 26C14.6167 26 13.3167 25.7375 12.1 25.2125C10.8833 24.6875 9.825 23.975 8.925 23.075C8.025 22.175 7.3125 21.1167 6.7875 19.9C6.2625 18.6833 6 17.3833 6 16C6 14.6167 6.2625 13.3167 6.7875 12.1C7.3125 10.8833 8.025 9.825 8.925 8.925C9.825 8.025 10.8833 7.3125 12.1 6.7875C13.3167 6.2625 14.6167 6 16 6C17.3833 6 18.6833 6.2625 19.9 6.7875C21.1167 7.3125 22.175 8.025 23.075 8.925C23.975 9.825 24.6875 10.8833 25.2125 12.1C25.7375 13.3167 26 14.6167 26 16C26 17.3833 25.7375 18.6833 25.2125 19.9C24.6875 21.1167 23.975 22.175 23.075 23.075C22.175 23.975 21.1167 24.6875 19.9 25.2125C18.6833 25.7375 17.3833 26 16 26ZM16 24C18.2333 24 20.125 23.225 21.675 21.675C23.225 20.125 24 18.2333 24 16C24 13.7667 23.225 11.875 21.675 10.325C20.125 8.775 18.2333 8 16 8C13.7667 8 11.875 8.775 10.325 10.325C8.775 11.875 8 13.7667 8 16C8 18.2333 8.775 20.125 10.325 21.675C11.875 23.225 13.7667 24 16 24ZM16.1 11.7C16.5167 11.7 16.8792 11.8333 17.1875 12.1C17.4958 12.3667 17.65 12.7 17.65 13.1C17.65 13.4667 17.5375 13.7917 17.3125 14.075C17.0875 14.3583 16.8333 14.625 16.55 14.875C16.1667 15.2083 15.8292 15.575 15.5375 15.975C15.2458 16.375 15.1 16.825 15.1 17.325C15.1 17.5583 15.1875 17.7542 15.3625 17.9125C15.5375 18.0708 15.7417 18.15 15.975 18.15C16.225 18.15 16.4375 18.0667 16.6125 17.9C16.7875 17.7333 16.9 17.525 16.95 17.275C17.0167 16.925 17.1667 16.6125 17.4 16.3375C17.6333 16.0625 17.8833 15.8 18.15 15.55C18.5333 15.1833 18.8625 14.7833 19.1375 14.35C19.4125 13.9167 19.55 13.4333 19.55 12.9C19.55 12.05 19.2042 11.3542 18.5125 10.8125C17.8208 10.2708 17.0167 10 16.1 10C15.4667 10 14.8625 10.1333 14.2875 10.4C13.7125 10.6667 13.275 11.075 12.975 11.625C12.8583 11.825 12.8208 12.0375 12.8625 12.2625C12.9042 12.4875 13.0167 12.6583 13.2 12.775C13.4333 12.9083 13.675 12.95 13.925 12.9C14.175 12.85 14.3833 12.7083 14.55 12.475C14.7333 12.225 14.9625 12.0333 15.2375 11.9C15.5125 11.7667 15.8 11.7 16.1 11.7Z"
-                    fill="#A8A8A8" />
+                  <path d="M15.95 22C16.3 22 16.5958 21.8792 16.8375 21.6375C17.0792 21.3958 17.2 21.1 17.2 20.75C17.2 20.4 17.0792 20.1042 16.8375 19.8625C16.5958 19.6208 16.3 19.5 15.95 19.5C15.6 19.5 15.3042 19.6208 15.0625 19.8625C14.8208 20.1042 14.7 20.4 14.7 20.75C14.7 21.1 14.8208 21.3958 15.0625 21.6375C15.3042 21.8792 15.6 22 15.95 22ZM16 26C14.6167 26 13.3167 25.7375 12.1 25.2125C10.8833 24.6875 9.825 23.975 8.925 23.075C8.025 22.175 7.3125 21.1167 6.7875 19.9C6.2625 18.6833 6 17.3833 6 16C6 14.6167 6.2625 13.3167 6.7875 12.1C7.3125 10.8833 8.025 9.825 8.925 8.925C9.825 8.025 10.8833 7.3125 12.1 6.7875C13.3167 6.2625 14.6167 6 16 6C17.3833 6 18.6833 6.2625 19.9 6.7875C21.1167 7.3125 22.175 8.025 23.075 8.925C23.975 9.825 24.6875 10.8833 25.2125 12.1C25.7375 13.3167 26 14.6167 26 16C26 17.3833 25.7375 18.6833 25.2125 19.9C24.6875 21.1167 23.975 22.175 23.075 23.075C22.175 23.975 21.1167 24.6875 19.9 25.2125C18.6833 25.7375 17.3833 26 16 26ZM16 24C18.2333 24 20.125 23.225 21.675 21.675C23.225 20.125 24 18.2333 24 16C24 13.7667 23.225 11.875 21.675 10.325C20.125 8.775 18.2333 8 16 8C13.7667 8 11.875 8.775 10.325 10.325C8.775 11.875 8 13.7667 8 16C8 18.2333 8.775 20.125 10.325 21.675C11.875 23.225 13.7667 24 16 24ZM16.1 11.7C16.5167 11.7 16.8792 11.8333 17.1875 12.1C17.4958 12.3667 17.65 12.7 17.65 13.1C17.65 13.4667 17.5375 13.7917 17.3125 14.075C17.0875 14.3583 16.8333 14.625 16.55 14.875C16.1667 15.2083 15.8292 15.575 15.5375 15.975C15.2458 16.375 15.1 16.825 15.1 17.325C15.1 17.5583 15.1875 17.7542 15.3625 17.9125C15.5375 18.0708 15.7417 18.15 15.975 18.15C16.225 18.15 16.4375 18.0667 16.6125 17.9C16.7875 17.7333 16.9 17.525 16.95 17.275C17.0167 16.925 17.1667 16.6125 17.4 16.3375C17.6333 16.0625 17.8833 15.8 18.15 15.55C18.5333 15.1833 18.8625 14.7833 19.1375 14.35C19.4125 13.9167 19.55 13.4333 19.55 12.9C19.55 12.05 19.2042 11.3542 18.5125 10.8125C17.8208 10.2708 17.0167 10 16.1 10C15.4667 10 14.8625 10.1333 14.2875 10.4C13.7125 10.6667 13.275 11.075 12.975 11.625C12.8583 11.825 12.8208 12.0375 12.8625 12.2625C12.9042 12.4875 13.0167 12.6583 13.2 12.775C13.4333 12.9083 13.675 12.95 13.925 12.9C14.175 12.85 14.3833 12.7083 14.55 12.475C14.7333 12.225 14.9625 12.0333 15.2375 11.9C15.5125 11.7667 15.8 11.7 16.1 11.7Z" fill="#A8A8A8" />
                 </g>
-              </svg></a>
-            <div class="user-icon" onclick="toggleSubmenu()">
+              </svg>
+            </a>
+            <div class="user-icon" onclick="toggleSubmenu()" role="button" tabindex="0" aria-label="Benutzermenü öffnen">
               <b id="user-initials"></b>
-
             </div>
           </div>
         </div>
       </header>
-      <div class="board-header">
+
+      <div class="board-header" aria-label="Board Bedienfeld">
         <div class="board-search">
           <div class="board-h1-button">
             <h1>Board</h1>
-            <button onclick="window.location.href='./add_task.html'" class="add-task-button-responsive"
-              id="add-task-button-responsive"><img src="./assets/icons/add.png" alt="add"></button>
+            <button onclick="window.location.href='./add_task.html'" class="add-task-button-responsive" id="add-task-button-responsive" type="button" aria-label="Aufgabe hinzufügen">
+              <img src="./assets/icons/add.png" alt="">
+            </button>
           </div>
           <div class="board-input-responsive">
-            <form>
+            <form role="search" aria-label="Aufgaben suchen (mobil)">
               <div class="board-input-field">
-                <input type="text" placeholder="Find Task" id="find-task-responsive" class="find-task"
-                  onkeyup="searchTask('responsive', event)">
+                <input type="text" placeholder="Find Task" id="find-task-responsive" class="find-task" onkeyup="searchTask('responsive', event)" aria-label="Aufgabe finden">
                 <div>
-                  <img src="./assets/icons/search_line_icon.png" alt="">
-                  <button type="button" onclick="searchTask('responsive', event)"><img
-                      src="./assets/icons/search_icon.png" alt=""></button>
+                  <img src="./assets/icons/search_line_icon.png" alt="" aria-hidden="true">
+                  <button type="button" onclick="searchTask('responsive', event)" aria-label="Suche starten">
+                    <img src="./assets/icons/search_icon.png" alt="">
+                  </button>
                 </div>
               </div>
             </form>
           </div>
         </div>
+
         <div class="board-input-container">
-          <form>
+          <form role="search" aria-label="Aufgaben suchen">
             <div class="board-input-field">
-              <input type="text" placeholder="Find Task" id="find-task" class="find-task"
-                onkeyup="searchTask('', event)">
+              <input type="text" placeholder="Find Task" id="find-task" class="find-task" onkeyup="searchTask('', event)" aria-label="Aufgabe finden">
               <div>
-                <img src="./assets/icons/search_line_icon.png" alt="">
-                <button type="button" onclick="searchTask('', event)"><img src="./assets/icons/search_icon.png"
-                    alt=""></button>
+                <img src="./assets/icons/search_line_icon.png" alt="" aria-hidden="true">
+                <button type="button" onclick="searchTask('', event)" aria-label="Suche starten">
+                  <img src="./assets/icons/search_icon.png" alt="">
+                </button>
               </div>
             </div>
           </form>
-          <button onclick="openTaskOverlay()" class="add-task-button"><span>Add task</span><img
-              src="./assets/icons/add.png" alt="add"></button>
+          <button onclick="openTaskOverlay()" class="add-task-button" type="button" aria-label="Aufgabe hinzufügen">
+            <span>Add task</span><img src="./assets/icons/add.png" alt="">
+          </button>
         </div>
       </div>
-      <div class="search-notification d-none" id="search-notification">
+
+      <div class="search-notification d-none" id="search-notification" role="status" aria-live="polite">
         <div class="search-msg-pop-up">
           <span id="search-pop-up-notification">No results found</span>
         </div>
       </div>
-      <div class="board-lists" id="board-lists" onmousemove="move(event)" ontouchmove="move(event)">
 
-        <div class="list" ondrop="changeList('to-do')" ondragover="allowDrop(event)" onmouseup="drop(event)"
-          ontouchend="drop(event)">
+      <div class="board-lists" id="board-lists" onmousemove="move(event)" ontouchmove="move(event)" role="list" aria-label="Kanban-Listen">
+        <div class="list" role="region" aria-labelledby="col-todo" ondrop="changeList('to-do')" ondragover="allowDrop(event)" onmouseup="drop(event)" ontouchend="drop(event)">
           <div class="list-head">
-            <h3>To do</h3>
-            <button onclick="openAddTask()">+</button>
+            <h3 id="col-todo">To do</h3>
+            <button onclick="openAddTask()" type="button" aria-label="Neue Aufgabe zu 'To do' hinzufügen">+</button>
           </div>
-          <div class="to-do" id="to-do">
-
-          </div>
+          <div class="to-do" id="to-do" role="list"></div>
         </div>
-        <div class="list" ondrop="changeList('in-progress')" ondragover="allowDrop(event)" onmouseup="drop(event)"
-          ontouchend="drop(event)">
-          <div class="list-head">
-            <h3>In progress</h3>
-            <button onclick="openAddTask()">+</button>
-          </div>
-          <div class="in-progress" id="in-progress">
 
+        <div class="list" role="region" aria-labelledby="col-inprogress" ondrop="changeList('in-progress')" ondragover="allowDrop(event)" onmouseup="drop(event)" ontouchend="drop(event)">
+          <div class="list-head">
+            <h3 id="col-inprogress">In progress</h3>
+            <button onclick="openAddTask()" type="button" aria-label="Neue Aufgabe zu 'In progress' hinzufügen">+</button>
           </div>
+          <div class="in-progress" id="in-progress" role="list"></div>
         </div>
-        <div class="list" ondrop="changeList('await-feedback')" ondragover="allowDrop(event)" onmouseup="drop(event)"
-          ontouchend="drop(event)">
-          <div class="list-head">
-            <h3>Await feedback</h3>
-            <button onclick="openAddTask()">+</button>
-          </div>
-          <div class="await-feedback" id="await-feedback">
 
+        <div class="list" role="region" aria-labelledby="col-await" ondrop="changeList('await-feedback')" ondragover="allowDrop(event)" onmouseup="drop(event)" ontouchend="drop(event)">
+          <div class="list-head">
+            <h3 id="col-await">Await feedback</h3>
+            <button onclick="openAddTask()" type="button" aria-label="Neue Aufgabe zu 'Await feedback' hinzufügen">+</button>
           </div>
+          <div class="await-feedback" id="await-feedback" role="list"></div>
         </div>
-        <div class="list" ondrop="changeList('done')" ondragover="allowDrop(event)" onmouseup="drop(event)"
-          ontouchend="drop(event)">
-          <div class="list-head">
-            <h3>Done</h3>
-          </div>
-          <div class="done" id="done">
 
+        <div class="list" role="region" aria-labelledby="col-done" ondrop="changeList('done')" ondragover="allowDrop(event)" onmouseup="drop(event)" ontouchend="drop(event)">
+          <div class="list-head">
+            <h3 id="col-done">Done</h3>
           </div>
+          <div class="done" id="done" role="list"></div>
         </div>
       </div>
-
     </main>
   </div>
-  <div class="task-details" id="task-details">
 
+  <div class="task-details" id="task-details" role="region" aria-label="Task-Details"></div>
 
-  </div>
-
-  <footer class="responsive-footer">
-    <div class="main-links-container-responsive">
-      <a href="./summary.html" class="main-link-responsive">
-        <img src="./assets/icons/summary_icon.png" alt="summary_icon">
+  <footer class="responsive-footer" aria-label="Fußnavigation (mobil)">
+    <div class="main-links-container-responsive" role="list">
+      <a href="./summary.html" class="main-link-responsive" role="listitem">
+        <img src="./assets/icons/summary_icon.png" alt="" aria-hidden="true">
         Summary
       </a>
-      <a href="./add_task.html" class="main-link-responsive">
-        <img src="./assets/icons/add_task_icon.png" alt="addtask_icon">
+      <a href="./add_task.html" class="main-link-responsive" role="listitem">
+        <img src="./assets/icons/add_task_icon.png" alt="" aria-hidden="true">
         Add Task
       </a>
-      <a href="./board.html" class="main-link-responsive active_side">
-        <img src="./assets/icons/board_icon.png" alt="board_icon">
+      <a href="./board.html" class="main-link-responsive active_side" aria-current="page" role="listitem">
+        <img src="./assets/icons/board_icon.png" alt="" aria-hidden="true">
         Board
       </a>
-      <a href="./contacts.html" class="main-link-responsive">
-        <img src="./assets/icons/contacts_icon.png" alt="contact_icon">
+      <a href="./contacts.html" class="main-link-responsive" role="listitem">
+        <img src="./assets/icons/contacts_icon.png" alt="" aria-hidden="true">
         Contacts
       </a>
     </div>
   </footer>
+
   <script src="./scripts/drag_drop.js"></script>
 
-  <div id="taskoverlay" class="overlay hidden">
-     <!-- <button class="overlay-close" id="closeOverlay" onclick="closeTaskOverlay()">
+  <div id="taskoverlay" class="overlay hidden" role="dialog" aria-modal="true" aria-label="Add Task Overlay">
+    <!-- <button class="overlay-close" id="closeOverlay" onclick="closeTaskOverlay()">
       <img class="closebttn" src="./assets/icons/clear-icon.png" alt="ClearIcon">
     </button> -->
-    <iframe src="./add_task.html" id="overlayContent"></iframe>
-   
+    <iframe src="./add_task.html" id="overlayContent" title="Add Task" loading="lazy"></iframe>
   </div>
-  <div id="pdf-modal" class="modal" onclick="closeModal()">
+
+  <div id="pdf-modal" class="modal" onclick="closeModal()" role="dialog" aria-modal="true" aria-label="PDF Vorschau">
     <div class="modal-content" onclick="event.stopPropagation()">
-      <iframe id="pdf-frame" src="" frameborder="0"></iframe>
+      <iframe id="pdf-frame" src="" frameborder="0" title="PDF" loading="lazy"></iframe>
     </div>
   </div>
-  <div id="upload-warning-overlay" class="warning-overlay hidden">
+
+  <div id="upload-warning-overlay" class="warning-overlay hidden" role="alert">
     <div id="upload-warning-message">⚠️ Some files could not be uploaded.</div>
   </div>
 
   <link rel="stylesheet" href="style/add_task_overlay.css">
-  <div id="overlay-blocker" class="overlay-blocker hidden"></div>
-<div id="subtask-toast" role="status" aria-live="polite"></div>
-
+  <div id="overlay-blocker" class="overlay-blocker hidden" aria-hidden="true"></div>
+  <div id="subtask-toast" role="status" aria-live="polite"></div>
 </body>
-
 </html>

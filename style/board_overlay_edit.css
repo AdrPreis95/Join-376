@@ -3,6 +3,11 @@
     justify-content: flex-end;
 }
 
+.close-icon-btn {
+    border: none;
+    background: transparent;
+}
+
 #subtasks-overlay-edit {
     overflow: scroll;
     max-height: 120px;
@@ -158,7 +163,7 @@
 #assigned-to {
     width: 100%;
     border-radius: 10px;
-    border: 1px solid #D1D1D1;
+    border: none;
 }
 
 .assigned-menu-overlay {
@@ -608,7 +613,7 @@ svg :hover {
     gap: 10px;
     flex: 1;
     min-width: 0;
-    cursor:pointer !important;
+    cursor: pointer !important;
 }
 
 .user-initials-overlay {
@@ -663,4 +668,3 @@ svg :hover {
     margin: 0;
     z-index: 1;
 }
-

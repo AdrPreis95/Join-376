@@ -7,6 +7,11 @@
     justify-content: center;
 }
 
+.close-icon-btn {
+    border: none;
+    background: transparent;
+}
+
 .close-overlay {
     display: flex;
     justify-content: center;
@@ -467,7 +472,7 @@ button:hover svg {
 
 }
 
- li:hover {
+li:hover {
     background-color: #D2D2D2 !important;
     border-radius: 30px;
 }
