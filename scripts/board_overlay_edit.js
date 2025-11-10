@@ -684,3 +684,20 @@ function switchToIcons(id){
 
 /** Restores the '+' add-subtask button UI. */
 function resetToPlus(){ document.getElementById('create-subtask-overlay').innerHTML=getSubtaskOverlayAddIcon(); };
+
+/* ===== markiere Upload-/User-Aktionen als Änderung ===== */
+document.addEventListener('change', (e) => {
+  if (e.target?.type === 'file') _sessionChanged = true;              // Upload hinzugefügt/geändert
+});
+
+document.addEventListener('click', (e) => {
+  // Datei aus Liste/Preview entfernt
+  if (e.target.closest('[data-file-delete], .file-delete, .remove-file')) _sessionChanged = true;
+
+  // User ausgewählt/entfernt – deckt Liste, Chips, Toggles ab
+  const userChanged = e.target.closest(
+    '[data-contact-id], .contact-row, .user-row, .assigned-toggle,' +
+    ' [data-name].selected-user-chip, #picked-user-avatar .remove, #picked-user-avatar .chip'
+  );
+  if (userChanged) _sessionChanged = true;
+});
