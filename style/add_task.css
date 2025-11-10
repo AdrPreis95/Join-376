@@ -642,29 +642,11 @@ select {
     justify-content: flex-start;
 }
 
-:root {
-    --avatar-row-h: 48px;
-}
 
-.picked-user-avatar {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 8px;
-    padding-top: 8px;
-    width: 100%;
-    background: transparent;
-}
-
-.picked-user-avatar:empty::before {
-    content: "";
-    display: block;
-    height: var(--avatar-row-h);
-}
 
 .picked-user-name {
     display: inline-block;
-    /* max-width: 58px; */
+    max-width: 58px;
     width: 38px;
     white-space: nowrap;
     overflow: hidden;
