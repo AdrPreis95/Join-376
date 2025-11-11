@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,16 +13,23 @@
   <link rel="stylesheet" href="style/responsive.css">
   <link rel="stylesheet" href="style/signup.css">
 
-  <!-- Bridge: neue semantische Elemente verhalten sich wie DIV -->
+
   <style>
-    section, article, figure {display:block; box-sizing:border-box; margin:0; padding:0;}
+    section,
+    article,
+    figure {
+      display: block;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
   </style>
 </head>
 
 <body>
   <section class="signup-page-content">
 
-    <!-- === Logo-Bereich === -->
+    <!-- === Logo-Join === -->
     <figure class="logo-signup">
       <img id="join-logo" src="./assets/img/join_logo_dark.png" alt="Join Logo">
     </figure>
@@ -30,10 +38,8 @@
     <section class="signup-content">
       <article class="signup-field">
 
-        <img src="./assets/icons/arrow_left_line_icon.png"
-             class="back-login"
-             onclick="location.href='./index.html'"
-             alt="arrow_left_line_icon">
+        <img src="./assets/icons/arrow_left_line_icon.png" class="back-login" onclick="location.href='./index.html'"
+          alt="arrow_left_line_icon">
 
         <section class="outer-signup-span">
           <span>Sign up</span>
@@ -49,15 +55,15 @@
           <input type="email" name="Email" placeholder="Email" id="signup-email" required>
 
           <section class="input-password">
-            <input type="password" name="Password" placeholder="Password"
-                   class="password-signup" id="signup-password" required>
+            <input type="password" name="Password" placeholder="Password" class="password-signup" id="signup-password"
+              required>
             <img class="password-icon lock-icon">
           </section>
 
           <section class="input-confirm">
             <div class="input-icon">
-              <input type="password" name="Password" placeholder="Confirm Password"
-                     class="password-confirm" id="confirm-password" required>
+              <input type="password" name="Password" placeholder="Confirm Password" class="password-confirm"
+                id="confirm-password" required>
               <img class="confirm-icon lock-icon">
             </div>
             <span class="error-message hidden" id="check-password">
@@ -84,7 +90,7 @@
     </footer>
   </section>
 
-  <!-- === Erfolgs-Overlay === -->
+  <!-- === Succes-Overlay === -->
   <section class="success-signed">
     <article class="msg-pop-up">
       <span>You Signed Up successfully</span>
@@ -94,4 +100,5 @@
   <script src="./scripts/signup.js"></script>
   <script src="./scripts/users.js"></script>
 </body>
+
 </html>

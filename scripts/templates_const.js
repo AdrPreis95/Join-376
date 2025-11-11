@@ -1,4 +1,4 @@
-
+/**SVG markup for the delete icon. */
 const SVG_DELETE = `
 <svg class="ico" width="17" height="18" viewBox="0 0 17 18" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Delete">
   <path
@@ -7,6 +7,7 @@ const SVG_DELETE = `
   />
 </svg>`;
 
+/**SVG markup for the edit icon. */
 const SVG_EDIT = `
 <svg class="icor" width="25" height="25" viewBox="0 0 25 25" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Edit">
   <mask id="mask0_239929_2406" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="25" height="25">
@@ -17,9 +18,11 @@ const SVG_EDIT = `
   </g>
 </svg>`;
 
+/**Small visual separator element. */
 const SEP = `
 <span class="sep" aria-hidden="true">|</span>`;
 
+/**Close button for overlay panels. */
 const CLOSE_BTN = `
 <div class="close-overlay">
   <button type="button" class="close-icon-btn" aria-label="Close overlay" onclick="closeOverlay()">
@@ -27,6 +30,7 @@ const CLOSE_BTN = `
   </button>
 </div>`;
 
+/**Header block listing assigned users in details view.*/
 const ASSIGNED_HEAD = `
 <section aria-labelledby="assigned-title">
   <h4 id="assigned-title">Assigned To:</h4>
@@ -34,6 +38,7 @@ const ASSIGNED_HEAD = `
   <div id="more-user-overlay"></div>
 </section>`;
 
+/**Subtasks container block for details view. */
 const SUBTASKS_BLOCK = `
 <section aria-labelledby="subtask-headline-overlay">
   <h4 id="subtask-headline-overlay">Subtasks</h4>
@@ -42,20 +47,21 @@ const SUBTASKS_BLOCK = `
   </div>
 </section>`;
 
-
-
+/** CSS category class category label Header section HTML. */
 const _ovHeader = (cls, cat) => `
 <section class="header-overlay" role="region" aria-label="Task header">
   <label class="category-overlay category-${cls}">${cat}</label>
   ${CLOSE_BTN}
 </section>`;
 
+/**Due Date Overlay */
 const _ovDue = d => `
 <div class="due-date-overlay">
   <h4>Due date:</h4>
   <p><time datetime="${d || ''}">${dateFormatter(d)}</time></p>
 </div>`;
 
+/**Priority Buttons Overlay*/
 const _ovPrio = (t, i) => `
 <div class="priority-overlay" aria-label="Priority">
   <h4>Priority:</h4>
@@ -65,29 +71,34 @@ const _ovPrio = (t, i) => `
   </div>
 </div>`;
 
+/**Attached Files ,files viewer*/
 const _ovFiles = id => `
 <section aria-labelledby="attached-files-title">
   <h4 id="attached-files-title" style="margin-top:20px;">Attached files:</h4>
   <div class="task-file viewer-gallery" id="viewer-${id}" role="list"></div>
 </section>`;
 
+/**Edit Overlay header and Close Button*/
 const _edHeader = () => `
 <div class="header-overlay-edit">
   ${CLOSE_BTN}
 </div>`;
 
+/**Title INput Field HTML*/
 const _edTitle = t => `
 <div class="overlay-edit-container">
   <label class="edit-overlay-label" for="overlay-title">Title</label>
   <input class="overlay-input-field" type="text" maxlength="20" placeholder="${t}" id="overlay-title" aria-describedby="overlay-title-hint">
 </div>`;
 
+/**Description Textarea HTML*/
 const _edDesc = d => `
 <div class="overlay-edit-container">
   <label class="edit-overlay-label" for="overlay-description">Description</label>
   <textarea class="overlay-textarea" maxlength="50" placeholder="${d}" id="overlay-description" aria-describedby="overlay-description-hint"></textarea>
 </div>`;
 
+/**Due Date Input and Oncklick -Icon*/
 const _edDate = v => `
 <div class="overlay-edit-container">
   <label class="edit-overlay-label" for="due-date-input">Due date</label>
@@ -105,6 +116,7 @@ const _edDate = v => `
   </div>
 </div>`;
 
+/**Priority selector group for edit overlay*/
 const _edPrio = () => `
 <div class="overlay-priority-container" aria-label="Priority">
   <label for="priority">Priority</label>
@@ -124,6 +136,7 @@ const _edPrio = () => `
   </div>
 </div>`;
 
+/**Assigned User Dropdown and Menu Overlay*/
 const _edAssign = id => `
 <div class="overlay-edit-container">
   <label class="edit-overlay-label" for="assigned-to">Assigned to</label>
@@ -137,6 +150,7 @@ const _edAssign = id => `
 </div>
 <div id="user-names-edit-overlay" role="list"></div>`;
 
+/**Upload Preview Container for edit Overlay*/
 const _edUpload = () => `
 <div>
   <div class="overlay-edit-container">
@@ -145,6 +159,7 @@ const _edUpload = () => `
   </div>
 </div>`;
 
+/**Subtask input and list for edit overlay.*/
 const _edSubBlock = id => `
 <div class="overlay-edit-container">
   <label class="edit-overlay-label" for="subtask-edit">Subtasks</label>
@@ -165,6 +180,7 @@ const _edSubBlock = id => `
 <div id="warn-emptyinput-container" aria-live="polite"></div>
 <div id="subtasks-overlay-edit" role="list"></div>`;
 
+/**Save Edit OK Button for Saving the Edit*/
 const _edOk = id => `
 <div class="button-ok-container">
   <button class="button-ok" type="button" onclick="saveEdit(${id})" aria-label="Save changes">
@@ -173,18 +189,19 @@ const _edOk = id => `
   </button>
 </div>`;
 
-
-
+/**Task Card Header*/
 const _taskHeader = (classCategory, category) => `
 <div role="group" aria-label="Category">
   <label class="category-${classCategory}">${category}</label>
 </div>`;
 
+/**Task Card Main body , id, title and description*/
 const _taskMain = (id, title, description) => `
 <h4>${title}</h4>
 <p class="description-p">${description}</p>
 <div class="subtasks" id="subtask-${id}" role="group" aria-label="Subtasks progress"></div>`;
 
+/**Task Card Footer*/
 const _taskFooter = (id, prioIcon) => `
 <div class="task-footer">
   <div class="assigned-task" aria-label="Assigned users">
@@ -196,6 +213,7 @@ const _taskFooter = (id, prioIcon) => `
   </button>
 </div>`;
 
+/**Shows all  Deatils from the Task Card Body */
 const _detailsBody = (classCategory, category, title, description, dueDate, priority, prioIcon, id) => `
 ${_ovHeader(classCategory, category)}
 <h3 id="task-title-details">${title}</h3>

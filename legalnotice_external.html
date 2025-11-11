@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,9 +19,16 @@
 
   <script src="scripts/helper.js"></script>
 
-  <!-- Bridge: neue semantische Elemente verhalten sich wie DIV -->
+
   <style>
-    section, article, figure {display:block; box-sizing:border-box; margin:0; padding:0;}
+    section,
+    article,
+    figure {
+      display: block;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
   </style>
 </head>
 
@@ -57,7 +65,7 @@
     <!-- ==== Main Content ==== -->
     <main class="main-content">
 
-      <!-- ==== Header bleibt unverändert ==== -->
+      <!-- ===Header==== -->
       <header>
         <div class="header-content">
           <p>Kanban Project Management Tool</p>
@@ -65,12 +73,11 @@
         </div>
       </header>
 
-      <!-- ==== Kopfbereich ==== -->
+      <!-- ====  Legal Notice HeadArea ==== -->
       <section class="legalNoticeHeader">
         <h1 style="padding-left:0;">Legal Notice</h1>
-        <img onclick="goBack()" class="previousArrow" id="previousArrow"
-             style="height:20px;width:20px;cursor:pointer;"
-             src="assets/icons/arrow_left_line_icon.png" alt="Back">
+        <img onclick="goBack()" class="previousArrow" id="previousArrow" style="height:20px;width:20px;cursor:pointer;"
+          src="assets/icons/arrow_left_line_icon.png" alt="Back">
       </section>
 
       <!-- ==== Textcontainer ==== -->
@@ -173,4 +180,5 @@
     </section>
   </footer>
 </body>
+
 </html>

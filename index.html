@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Join</title>
 
   <link rel="icon" href="./assets/img/join_logo_dark.png">
-  
+
   <link rel="stylesheet" href="style/style.css">
   <link rel="stylesheet" href="style/standard.css">
-  <link rel="stylesheet" href="style/login.css">   
+  <link rel="stylesheet" href="style/login.css">
   <link rel="stylesheet" href="style/responsive.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/viewerjs@1.11.5/dist/viewer.min.css">
 
-  <!-- Bridge: neue semantische Elemente verhalten sich wie div -->
+
   <style>
-    section, article, figure {display:block; box-sizing:border-box; margin:0; padding:0;}
+    section,
+    article,
+    figure {
+      display: block;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
   </style>
 </head>
 
 <body onload="rememberMe()">
   <section class="login-page-content">
-    
+
     <!-- === Logo + Desktop Sign-Up === -->
     <section class="logo-login-signup">
       <figure>
@@ -33,7 +41,7 @@
       </section>
     </section>
 
-    <!-- === Loginbereich === -->
+    <!-- === Login-Form=== -->
     <section class="login-content">
       <article class="login-field">
         <section class="outer-login-span">
@@ -46,8 +54,8 @@
 
           <section class="input-password">
             <div class="input-icon">
-              <input type="password" name="Password" placeholder="Password"
-                     class="password-login" id="login-password" required>
+              <input type="password" name="Password" placeholder="Password" class="password-login" id="login-password"
+                required>
               <img class="password-icon lock-icon">
             </div>
             <span class="error-message hidden" id="check-email-password">
@@ -68,20 +76,20 @@
       </article>
     </section>
 
-    <!-- === Mobile Sign-Up Bereich === -->
+    <!-- === Mobile Sign-Up === -->
     <section class="login-signup signup-mobile">
       <span>Not a Join user?</span>
       <button class="btn-primary btn-login-signup" onclick="window.location.href = './signup.html'">Sign up</button>
     </section>
 
-    <!-- === Footer mit rechtlichen Links === -->
+    <!-- === Footer+ Privacy === -->
     <footer class="privacy-legal">
       <a href="./privacypolicy_external.html">Privacy Policy</a>
       <a href="./legalnotice_external.html">Legal Notice</a>
     </footer>
   </section>
 
-  <!-- === Intro-Bild === -->
+  <!-- === Intro-Logo === -->
   <figure class="intro-join">
     <img class="big-logo" src="./assets/img/join_logo_dark_274_335.png" alt="Big Logo Join">
   </figure>
@@ -89,4 +97,5 @@
   <script src="./scripts/login.js"></script>
   <script src="./scripts/users.js"></script>
 </body>
+
 </html>

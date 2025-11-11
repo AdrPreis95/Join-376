@@ -21,7 +21,7 @@
     <link rel="stylesheet" href="style/contacts_overlay.css">
     <link rel="stylesheet" href="style/contacts_responsive.css">
 
-    <!-- Semantik-Bridge: neue Elemente verhalten sich wie DIVs -->
+
     <style>
         section,
         article,
@@ -32,6 +32,7 @@
             padding: 0;
         }
     </style>
+
 </head>
 
 <body onload="fetchContacts(); setUserInitials()">
@@ -198,7 +199,7 @@
                 </form>
             </section>
 
-            <!-- === Dein ursprünglicher Header (komplett unangetastet) === -->
+            <!-- == Header === -->
             <header>
                 <div class="submenu d-none">
                     <div class="submenu-content closed">
@@ -273,38 +274,26 @@
                     </section>
 
 
-                    <!-- === Responsive Contact Details Controls (fehlte in deiner Version) === -->
-<section class="responsiveMoreDetails">
-  <section class="responsiveEditContactsContainer">
-    <img onclick="toggleContactDetails()" 
-         class="responsiveEditContacts default"
-         src="assets/icons/more_vert.png" 
-         alt="Mehr Optionen" 
-         role="button" 
-         aria-label="Weitere Kontaktaktionen öffnen">
-    <img onclick="toggleContactDetails()" 
-         class="responsiveEditContacts hover"
-         src="assets/icons/more_vert_hover.png" 
-         alt="Mehr Optionen (Hover)" 
-         role="button" 
-         aria-label="Weitere Kontaktaktionen anzeigen (Hover)">
-  </section>
+                    <!-- === Responsive Contact Details Controls -->
+                    <section class="responsiveMoreDetails">
+                        <section class="responsiveEditContactsContainer">
+                            <img onclick="toggleContactDetails()" class="responsiveEditContacts default"
+                                src="assets/icons/more_vert.png" alt="Mehr Optionen" role="button"
+                                aria-label="Weitere Kontaktaktionen öffnen">
+                            <img onclick="toggleContactDetails()" class="responsiveEditContacts hover"
+                                src="assets/icons/more_vert_hover.png" alt="Mehr Optionen (Hover)" role="button"
+                                aria-label="Weitere Kontaktaktionen anzeigen (Hover)">
+                        </section>
 
-  <section class="responsiveContactDetailsButtons hide-contacts">
-    <img onclick="openEditContactForm(); hideFooter()" 
-         class="responsiveEditContactDetails"
-         src="assets/icons/edit_edit.png" 
-         alt="Kontakt bearbeiten" 
-         role="button" 
-         aria-label="Kontakt bearbeiten">
-    <img onclick="deleteContact('contactDetails')" 
-         class="responsiveDeleteContactDetails"
-         src="assets/icons/edit_delete.png" 
-         alt="Kontakt löschen" 
-         role="button" 
-         aria-label="Kontakt löschen">
-  </section>
-</section>
+                        <section class="responsiveContactDetailsButtons hide-contacts">
+                            <img onclick="openEditContactForm(); hideFooter()" class="responsiveEditContactDetails"
+                                src="assets/icons/edit_edit.png" alt="Kontakt bearbeiten" role="button"
+                                aria-label="Kontakt bearbeiten">
+                            <img onclick="deleteContact('contactDetails')" class="responsiveDeleteContactDetails"
+                                src="assets/icons/edit_delete.png" alt="Kontakt löschen" role="button"
+                                aria-label="Kontakt löschen">
+                        </section>
+                    </section>
 
                     <section class="selectedContactDetails" id="selectedContactDetails">
                         <section class="selectedContactHeader">

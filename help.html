@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,9 +21,16 @@
 
   <script src="scripts/helper.js"></script>
 
-  <!-- Bridge: section, article, figure verhalten sich wie DIV -->
+
   <style>
-    section, article, figure {display:block; box-sizing:border-box; margin:0; padding:0;}
+    section,
+    article,
+    figure {
+      display: block;
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
   </style>
 </head>
 
@@ -68,7 +76,7 @@
         </div>
       </div>
 
-      <!-- ==== Header bleibt unverändert ==== -->
+      <!-- ==== Header==== -->
       <header>
         <div class="header-content">
           <p>Kanban Project Management Tool</p>
@@ -81,12 +89,11 @@
         </div>
       </header>
 
-      <!-- ==== Inhalt ==== -->
+      <!-- ==== legals==== -->
       <section class="legalNoticeHeader">
         <h1 style="padding-left: 0px;">Help</h1>
-        <img onclick="goBack()" class="previousArrow" id="previousArrow"
-             style="height:20px;width:20px;cursor:pointer;"
-             src="assets/icons/arrow_left_line_icon.png" alt="Back">
+        <img onclick="goBack()" class="previousArrow" id="previousArrow" style="height:20px;width:20px;cursor:pointer;"
+          src="assets/icons/arrow_left_line_icon.png" alt="Back">
       </section>
 
       <section class="textcontainer">
@@ -201,4 +208,5 @@
     </footer>
   </section>
 </body>
+
 </html>
