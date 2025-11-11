@@ -53,12 +53,10 @@ passwordIcon.addEventListener('click', function(){
             inputPassword.setAttribute('type','password');
             passwordIcon.classList.remove('eye-slash-icon');
             passwordIcon.classList.add('eye-icon');
-            inputPassword.focus();
-        }
-        password = !password;   
-    } else {
-        inputPassword.focus();
-    }   
+            inputPassword.focus();}
+        password = !password;}
+         else {
+        inputPassword.focus();}   
 });
 
 /**Updates the checkbox value to reflect its checked state.*/

@@ -284,3 +284,102 @@ function downloadFile(base64, filename) {
 function normalizeSubtasks(st) {
   return Array.isArray(st) ? st : Object.values(st || {});
 };
+
+
+/** Saves an edited subtask title if valid. */
+async function saveEditSubtask(idOrKey,oldTitle){
+  const key=await resolveKey(idOrKey);
+  const input=document.getElementById('change-subtask-input');
+  const val=_s(input?.value||'');
+  if(!val){ showEditConfirm('Please change the subtask','warn'); return; }
+  if(val===_s(oldTitle)){ showEditConfirm('Nothing changed – task closed','x'); return; }
+  await updateSubtaskTitle(key,oldTitle,val);
+};
+
+/** Updates a subtask title and refreshes UI silently. */
+async function updateSubtaskTitle(key,oldTitle,newTitle){
+  const url=`${BASE_URL}/tasks/${key}.json`;
+  const task=await fetch(url).then(r=>r.json())||{};
+  const subs=normalizeSubtasks(task.subtasks);
+  const i=subs.findIndex(s=>s.title===oldTitle);
+  if(i!==-1) subs[i].title=_s(newTitle);
+  _sessionChanged=true;
+  await fetch(url,{method:'PATCH',headers:{'Content-Type':'application/json'},body:JSON.stringify({subtasks:subs})});
+  await renderOverlayEditSubtasks(key);
+  updateBoardSubtaskProgressUI(task.id,subs);
+};
+
+/** Initializes subtask input behavior in the edit overlay. */
+function initSubtaskEdit(id){
+  const input=document.getElementById('subtask-edit');
+  const btn=document.getElementById('add-subtask-overlay-edit');
+  if(!input||!btn) return;
+  btn.onclick=()=>{switchToIcons(id); input.focus();};
+  input.addEventListener('input',()=>{
+    input.value.trim()?switchToIcons(id):resetToPlus();
+  });
+  input.addEventListener('keydown',async e=>{
+    if(e.key!=='Enter') return;
+    e.preventDefault(); await createSubtaskOverlay(id);
+    resetToPlus(); input.value='';
+  });
+};
+
+/** Switches subtask area to confirm/cancel icons UI. */
+function switchToIcons(id){
+  const c=document.getElementById('create-subtask-overlay');
+  if(c.innerHTML.includes('add_subtask.png')){
+    c.innerHTML=getSubtaskOverlayIcons(id);
+  }
+};
+
+/** Restores the plus-button UI for adding subtasks. */
+function resetToPlus(){
+  document.getElementById('create-subtask-overlay')
+    .innerHTML=getSubtaskOverlayAddIcon();
+};
+
+/** Handles Enter key for inline subtask save. */
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter' && document.activeElement.id==='change-subtask-input'){
+    const el=document.getElementById('change-subtask-input');
+    const idOrKey=el?.dataset.taskKey, oldTitle=el?.dataset.oldTitle;
+    if(idOrKey && oldTitle) saveEditSubtask(idOrKey,oldTitle);
+  }
+});
+
+/** Closes the assigned dropdown when clicking outside. */
+document.addEventListener('DOMContentLoaded',()=>{
+  document.addEventListener('click',(e)=>{
+    const dd=document.getElementById('selected-user-dropdown');
+    const btn=document.getElementById('assigned-container');
+    const arr=document.getElementById('arrow-dropdown');
+    const box=document.getElementById('user-names-edit-overlay');
+    if(dd&&btn&&arr&&box && !dd.contains(e.target) && !btn.contains(e.target)){
+      dd.classList.add('d-none'); dd.classList.remove('d_block');
+      arr.src='./assets/icons/arrow_drop_down.png';
+      box.classList.remove('d-none');
+    }
+  });
+});
+
+/** Marks uploads and user actions as session changes (change). */
+document.addEventListener('change', (e) => {
+  if (e.target?.type === 'file') _sessionChanged = true;
+  if (e.target.matches('#user-names-edit-overlay input[type="checkbox"], #user-names-edit-overlay input[type="radio"]')){
+    _sessionChanged = true;
+  }
+});
+
+/** Marks various clicks as session changes (click). */
+document.addEventListener('click', (e) => {
+  if (e.target.closest('[data-file-delete], .file-delete, .remove-file')){
+    _sessionChanged = true; return;
+  }
+  const userAction = e.target.closest(
+    '#picked-user-avatar, #picked-user-avatar .chip, #picked-user-avatar .remove,' +
+    ' [data-contact-id], .contact-row, .user-row, .assigned-toggle,' +
+    ' label[for^="contact-"], [data-remove-user], .selected-user-chip'
+  );
+  if (userAction) _sessionChanged = true;
+});

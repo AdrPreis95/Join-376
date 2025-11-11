@@ -335,8 +335,7 @@ function bindDatePickersAndListeners() {
   });
   document.addEventListener('DOMContentLoaded', function () {
     window.flatpickrInstance = flatpickr("#due-date-input", {
-      dateFormat: "d/m/Y", allowInput: false, minDate: "today",
-    });
+      dateFormat: "d/m/Y", allowInput: false, minDate: "today",});
   });
   flatpickr("#due-date-input", {
     dateFormat: "d/m/Y", minDate: "today", altInput: true, altFormat: "F j, Y", disableMobile: "true",

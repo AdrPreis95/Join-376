@@ -167,6 +167,7 @@ function initDropdown(customSelect, select, selected, options) {
   attachOutsideClickCloser(customSelect, options);
   handleOptionClick(select, selected, options);
 };
+
 const customSelect = document.getElementById("custom-select");
 const select = document.getElementById("selectcategory");
 const selected = customSelect?.querySelector(".selected");

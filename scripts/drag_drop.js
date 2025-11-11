@@ -18,13 +18,9 @@ function getScroller(){
   return mc||document.scrollingElement||document.documentElement;
 };
 
-/**Return element rect.*/
+/**This Functiosn Return element rect/Return high-res time now*/
 function rect(el){return el.getBoundingClientRect();};
-
-/**Return high-res time.*/
 function now(){return performance.now();};
-
-/**Smooth last pointer Y.*/
 function rememberPointer(x,y){lastY=lastY?(lastY*0.7+y*0.3):y;};
 
 /**Keep bottom spacer in sync.*/
@@ -298,8 +294,7 @@ function resetDragVisuals(){
   stopEdgeLoop();unlockDrag();
   if(moving){
     moving.classList.remove('dragging');moving.style.transform='';
-    moving=resetEl(moving);
-  }
+    moving=resetEl(moving);}
   cancelHoverList();clearDroppableState();removePlaceholder();removeScrollSpacer();
   dragActive=false;armedForDrag=false;dragStarted=false;cancel();};
 
@@ -340,8 +335,7 @@ function onMouseUp(e){
 function onMouseMoveMain(e){
   if(moving&&armedForDrag&&!dragActive){
     const dx=Math.abs(e.clientX-downX),dy=Math.abs(e.clientY-downY);
-    if(dx>DRAG_START_PX||dy>DRAG_START_PX)activateDrag();
-  }
+    if(dx>DRAG_START_PX||dy>DRAG_START_PX)activateDrag();}
   if(moving){
     clampToScroller(e.clientX,e.clientY);
     rememberPointer(e.clientX,e.clientY);
@@ -379,8 +373,7 @@ window.onTouch=function(ev,id){
   cancel();
   timer=setTimeout(()=>{
     pickup(ev);activateDrag();
-    try{if(id!=null)startDragging(String(id));}catch(_){}
-  },400);
+    try{if(id!=null)startDragging(String(id));}catch(_){}},400);
 };
 
 /**Prevent context menu on drag.*/
