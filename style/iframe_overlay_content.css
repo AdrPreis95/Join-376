@@ -182,11 +182,11 @@ body.overlay-mode .input-icon {
 #closeOverlay :hover {
     transform: scale(1.1);
 }
-
+/* 
 #overlay-mode #prio-p {
     margin-bottom: 4px !important;
     margin-top: 0px !important;
-}
+} */
 
 
 #overlay-mode .input-title,
