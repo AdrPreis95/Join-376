@@ -730,7 +730,7 @@ select {
 
 .error-message {
     color: red;
-    font-size: 12px;
+    font-size: 14px;
     display: none;
     position: absolute;
     top: 100%;
@@ -753,7 +753,7 @@ select {
 
 .error-message {
     color: red;
-    font-size: 12px;
+    font-size: 14px;
     display: none;
     position: absolute;
     top: 100%;
@@ -776,7 +776,7 @@ select {
 
 .error-message {
     color: red;
-    font-size: 12px;
+    font-size: 14px;
     display: none;
     position: absolute;
     top: 100%;
@@ -938,7 +938,7 @@ select {
 
 .file-preview span {
     width: 68px;
-    font-size: 12px;
+    font-size: 14px;
     padding: 4px 2px 0;
     text-align: center;
     /* white-space: nowrap; */
