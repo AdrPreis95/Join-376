@@ -1,7 +1,13 @@
-/** Base URL and globals for board state. */
+/**Base endpoint of the Firebase Realtime Database.*/
 let BASE_URL = 'https://join376-5c0e7-default-rtdb.europe-west1.firebasedatabase.app/';
+
+/**The task element (ID or object) currently being dragged in the board.*/
 let currentDraggedElement; let activePriority = '';
+
+/**The currently selected task priority (e.g., "low" | "medium" | "high").*/
 let titles = []; let descriptions = []; let loadedTasks = [];
+
+/**Expose the overlay close function to the global window scope*/
 window.closeTaskOverlay = closeTaskOverlay;
 
 /** Loads all tasks from Firebase and renders them. */
@@ -214,7 +220,17 @@ function showDeleteConfirm(msg) {
 };
 
 /** Opens the Add Task overlay and prepares styling. */
-function openAddTask() { showOverlay(); setOverlayStyles(); hideUnnecessaryElementsInIframe(); };
+function openAddTask(){
+  const overlay=document.getElementById('taskoverlay'), iframe=document.getElementById('overlayContent');
+  if(!overlay||!iframe) return;
+  overlay.classList.remove('gethidden'); overlay.classList.add('nohidden'); document.body.classList.add('overlay-active');
+  setOverlayStyles?.(); enableBackdropClose?.();
+  _ensureIframeFreshLoad(iframe,()=>{
+    hideUnnecessaryElementsInIframe?.(); injectCloseButtonIntoIframe?.(iframe); loadIframeStyles?.();
+    const d=iframe.contentDocument||iframe.contentWindow.document;
+    if(d&&d.body){ d.body.id='overlay-mode'; d.body.classList.add('overlay-mode'); d.body.style.position||='relative'; }
+  });
+};
 
 /** Activates overlay mode inside iframe. */
 function openOverlay() {
@@ -223,9 +239,17 @@ function openOverlay() {
 };
 
 /** Closes the task overlay and resets to main page mode. */
-function closeTaskOverlay() {
-  const overlay = document.getElementById('taskoverlay');
-  if (overlay) { overlay.classList.remove('overlay-active'); resetToMainPage(); }
+function closeTaskOverlay(){
+  const o=document.getElementById('taskoverlay');
+  const f=document.getElementById('overlayContent');
+  if(!o) return;
+  if(o._pd){ o.removeEventListener('pointerdown',o._pd); o._pd=null; }
+  if(o._kd){ document.removeEventListener('keydown',o._kd); o._kd=null; }
+  o.classList.remove('nohidden'); o.classList.add('gethidden');
+  document.body.classList.remove('overlay-active');
+  if(f) f.style.visibility='hidden';
+  if(typeof resetToMainPage==='function') resetToMainPage();
+  if(typeof refreshTasksIfAvailable==='function') refreshTasksIfAvailable();
 };
 
 /** Sets iframe body id to 'overlay-mode' after load. */
@@ -257,4 +281,36 @@ function openTaskDetails() {
 function closeTaskDetails() {
   document.getElementById('task-details').style.display = 'none';
   document.getElementById('overlay-blocker').classList.add('hidden');
+};
+
+/**Forces a fresh load of the given iframe and then executes a callback.*/
+function _ensureIframeFreshLoad(iframe, cb){
+  if(!iframe) return;
+  iframe.style.visibility = 'hidden';
+  const onload = () => { try { cb?.(); } finally { iframe.style.visibility = 'visible'; } };
+  const base = iframe.src ? iframe.src.split('#')[0].split('?')[0] : iframe.getAttribute('src') || '';
+  const url  = base + (base.includes('?') ? '&' : '?') + '_=' + Date.now();
+  iframe.addEventListener('load', onload, { once:true });
+  iframe.src = url;
+};
+
+/**Enables closing the overlay when clicking outside the iframe (backdrop) or pressing ESC */
+function enableBackdropClose(){                            
+  const o=document.getElementById('taskoverlay'), f=document.getElementById('overlayContent');
+  if(!o||!f) return;
+  const onPD=e=>{
+    const p=e.touches?.[0]||e, r=f.getBoundingClientRect(), x=p.clientX, y=p.clientY;
+    if(x<r.left||x>r.right||y<r.top||y>r.bottom) closeTaskOverlay();
+  };
+  const onKey=e=>{ if(e.key==='Escape') closeTaskOverlay(); };
+  o._pd=onPD; o._kd=onKey;
+  o.addEventListener('pointerdown',onPD,{passive:true});
+  document.addEventListener('keydown',onKey);
+};
+
+/**Disables the backdrop/ESC close behavior.*/
+function disableBackdropClose(){                          
+  const o=document.getElementById('taskoverlay'); if(!o) return;
+  if(o._pd){ o.removeEventListener('pointerdown',o._pd); o._pd=null; }
+  if(o._kd){ document.removeEventListener('keydown',o._kd); o._kd=null; }
 };

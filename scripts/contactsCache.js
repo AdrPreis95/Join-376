@@ -8,8 +8,13 @@
     '#E17055','#55EFC4','#FDCB6E','#A29BFE','#74B9FF'
   ];
 
+  /**Cached contacts list; null until fetched*/
   let contactsCache = null;
+
+  /**Epoch ms when contacts were last loaded (0 = never)*/
   let contactsLoadedAt = 0;
+
+  /**Time-to-live for the contacts cache in milliseconds*/
   const CONTACTS_TTL_MS = 5 * 60 * 1000;
 
   /** Returns true if s is a valid 6-digit hex color (with/without '#'). */

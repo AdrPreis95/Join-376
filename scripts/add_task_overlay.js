@@ -1,3 +1,4 @@
+/**Currently registered matchMedia change listener; null until initialized*/
 let mediaQueryListener = null;
 
 /** Monitors media query and redirects when overlay is active on wide screens. */
@@ -52,15 +53,16 @@ function isOverlayModeActive() {
 };
 
 /** Opens the overlay, styles it, hides chrome, injects close, loads iframe css. */
-function openTaskOverlay() {
+function openTaskOverlay(){
   showOverlay();
-  setOverlayStyles();
-  hideUnnecessaryElementsInIframe();
-  const iframe = document.getElementById("overlayContent");
-  if (!iframe) return;
-  injectCloseButtonIntoIframe(iframe);
-  iframe.addEventListener("load", () => injectCloseButtonIntoIframe(iframe), { once: true });
-  loadIframeStyles();
+  setOverlayStyles?.();
+  enableBackdropClose?.();
+  const iframe=document.getElementById('overlayContent');
+  _ensureIframeFreshLoad(iframe,()=>{
+    hideUnnecessaryElementsInIframe?.(); injectCloseButtonIntoIframe?.(iframe); loadIframeStyles?.();
+    const d=iframe.contentDocument||iframe.contentWindow.document;
+    if(d&&d.body){ d.body.id='overlay-mode'; d.body.classList.add('overlay-mode'); d.body.style.position||='relative'; }
+  });
 };
 
 /** Injects a close button inside the iframe that calls parent close. */
@@ -222,4 +224,15 @@ function markIframeAsOverlay(d) {
   if (!b.classList.contains("overlay-mode")) b.classList.add("overlay-mode");
   if (b.id !== "overlay-mode") b.id = "overlay-mode";
   if (!b.style.position) b.style.position = "relative";
+};
+
+/** Forces a fresh iframe load, then runs cb(), and prevents FOUC (flash of unstyled content). */
+function _ensureIframeFreshLoad(iframe, cb){
+  if(!iframe) return;
+  iframe.style.visibility = 'hidden';
+  const onload = () => { try { cb?.(); } finally { iframe.style.visibility = 'visible'; } };
+  const base = iframe.src ? iframe.src.split('#')[0].split('?')[0] : iframe.getAttribute('src') || '';
+  const url  = base + (base.includes('?') ? '&' : '?') + '_=' + Date.now();
+  iframe.addEventListener('load', onload, { once:true });
+  iframe.src = url; 
 };

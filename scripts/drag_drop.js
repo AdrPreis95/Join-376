@@ -1,4 +1,4 @@
-/* Drag state */
+/** Drag & drop + edge-scroll globals: gesture flags, pointer metrics, timers, helper DOM nodes*/
 let moving=null,timer=null,dragActive=false,armedForDrag=false;
 let pressedCard=null,dragStarted=false,downX=0,downY=0;
 let edgeRAF=0,edgeVY=0,lastY=0,lastTS=0,edgeEnterTS=0,scrollSpacerEl=null;
