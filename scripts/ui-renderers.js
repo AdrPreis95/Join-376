@@ -1,4 +1,4 @@
-/** Resolve a stable display color (hex) for a user or fallback. */
+/** Resolve a stable display color (hex) for a user or fallback.. */
 function __colBy(name, email, id, color) {
   if (typeof color === 'string' && /^#?[0-9A-F]{6}$/i.test(color))
     return color[0] === '#' ? color : '#' + color;
